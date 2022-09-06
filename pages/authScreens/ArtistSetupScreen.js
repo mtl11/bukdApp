@@ -14,6 +14,7 @@ import * as ImagePicker from "expo-image-picker";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
+import styles from "../../styles/auth/artistSetupScreen";
 
 const ArtistSetupScreen = (props) => {
   const [image, setImage] = useState(null);
@@ -23,7 +24,6 @@ const ArtistSetupScreen = (props) => {
     { label: "Rapper", value: "2" },
   ];
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -113,85 +113,5 @@ const ArtistSetupScreen = (props) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#095D6A",
-    height: "100%",
-  },
-  imageContainer: {
-    borderRadius: 100,
-    borderWidth: 2,
-    width: 150,
-    height: 150,
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-    backgroundColor: "#FBBC58",
-    borderColor: "#FBBC58",
-    marginTop: 40,
-  },
-  imageText: {
-    marginTop: 10,
-    alignSelf: "center",
-  },
-  iconContainer: { marginHorizontal: "5%" },
-  textContainer: {
-    alignSelf: "center",
-  },
-  image: {
-    alignSelf: "center",
-    marginTop: "5%",
-    resizeMode: "contain",
-    height: 120,
-    width: 120,
-  },
-  buttonContainer: {
-    marginTop: "50%",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginHorizontal: "10%",
-    paddingVertical: 20,
-    backgroundColor: "#F57B51",
-    borderRadius: 4,
-  },
-  titleText: {
-    color: "#FDF6F0",
-    fontSize: 16,
-  },
-  iconContainer: { marginHorizontal: "5%" },
-  input: {
-    paddingVertical: 15,
-    paddingHorizontal: 18,
-    backgroundColor: "rgba(253, 246, 240, 0.6)",
-    marginHorizontal: "10%",
-    borderRadius: 4,
-    fontSize: 14,
-    fontFamily: "Rubik-Regular",
-    marginTop: 25,
-    color: "#FDF6F0",
-  },
-  dropdown: {
-    paddingVertical: 5,
-    paddingHorizontal: 18,
-    backgroundColor: "rgba(253, 246, 240, 0.6)",
-    marginHorizontal: "10%",
-    borderRadius: 4,
-    fontSize: 14,
-    marginTop: 25,
-    color: "#FDF6F0",
-  },
-  placeholderStyle: {
-    fontSize: 14,
-    fontFamily: "Rubik-Regular",
-    color: "rgba(9, 93, 106, .6)",
-  },
-  selectedTextStyle: {
-    fontSize: 14,
-    fontFamily: "Rubik-Regular",
-    color: "#FDF6F0",
-  },
-});
 
 export default ArtistSetupScreen;

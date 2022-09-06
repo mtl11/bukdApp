@@ -9,7 +9,7 @@ import {
   Image,
   TextInput,
 } from "react-native";
-
+import styles from "../../styles/auth/setupScreen";
 import { FontAwesome5 } from "@expo/vector-icons";
 const Setupscreen = (props) => {
   return (
@@ -23,7 +23,7 @@ const Setupscreen = (props) => {
         <FontAwesome5 name="arrow-left" size={28} color="white" />
       </TouchableOpacity>
       <Image
-        source={require("../assets/logo.png")}
+        source={require("../../assets/logo.png")}
         style={styles.image}
       ></Image>
       <TouchableOpacity
@@ -52,36 +52,5 @@ const Setupscreen = (props) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#095D6A",
-    height: "100%",
-  },
-  iconContainer: { marginHorizontal: "5%" },
-  image: {
-    alignSelf: "center",
-    marginTop: "5%",
-    resizeMode: "contain",
-  },
-  buttonContainer: {
-    marginTop: "60%",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginHorizontal: "10%",
-    paddingVertical: 20,
-    backgroundColor: "#FBBC58",
-    borderRadius: 4,
-  },
-  buttonContainerSkip: {
-    marginTop: "60%",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginHorizontal: "10%",
-    paddingVertical: 20,
-    backgroundColor: "#FBBC58",
-    borderRadius: 4,
-  },
-});
 
 export default Setupscreen;

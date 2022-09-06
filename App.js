@@ -1,10 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import StartScreen from "./pages/StartScreen";
+import StartScreen from "./pages/authScreens/StartScreen";
 import { useFonts } from "expo-font";
-import SignupScreen from "./pages/SignupScreen";
-import SetupScreen from "./pages/SetupScreen";
-import ArtistSetupScreen from "./pages/ArtistSetupScreen";
+import SignupScreen from "./pages/authScreens/SignupScreen";
+import SetupScreen from "./pages/authScreens/SetupScreen";
+import ArtistSetupScreen from "./pages/authScreens/ArtistSetupScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
