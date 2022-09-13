@@ -7,9 +7,10 @@ import SetupScreen from "./pages/authScreens/SetupScreen";
 import ArtistSetupScreen from "./pages/authScreens/ArtistSetupScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import ArtistsocialsScreen from "./pages/authScreens/ArtistsocialsScreen";
+import TabNav from "./components/TabNav";
 
 const Stack = createNativeStackNavigator();
-
 export default function App() {
   let [fontsLoaded] = useFonts({
     "Rubik-Regular": require("./assets/fonts/Rubik-Regular.ttf"),
@@ -19,6 +20,7 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Start">
@@ -40,6 +42,16 @@ export default function App() {
         <Stack.Screen
           name="ArtistSetup"
           component={ArtistSetupScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ArtistSocial"
+          component={ArtistsocialsScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TabNav"
+          component={TabNav}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

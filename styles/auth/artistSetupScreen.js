@@ -32,7 +32,7 @@ export default {
         width: 120,
       },
       buttonContainer: {
-        marginTop: "50%",
+        marginTop: "30%",
         flexDirection: "row",
         justifyContent: "center",
         marginHorizontal: "10%",
@@ -55,6 +55,7 @@ export default {
         fontFamily: "Rubik-Regular",
         marginTop: 25,
         color: "#FDF6F0",
+        
       },
       dropdown: {
         paddingVertical: 5,

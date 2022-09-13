@@ -42,7 +42,7 @@ const Setupscreen = (props) => {
           { marginTop: 30, backgroundColor: "#F57B51" },
         ]}
         onPress={() => {
-          //   props.navigation.navigate("Setup");
+            props.navigation.navigate("TabNav");
         }}
       >
         <Text style={[styles.buttonText, { color: "#FDF6F0" }]}>

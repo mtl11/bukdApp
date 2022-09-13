@@ -1,4 +1,4 @@
-import react from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,10 +11,12 @@ import {
   Button,
 } from "react-native";
 
-const ArtistphotosScreen = (props) => {
+const CalenderScreen = (props) => {
   return (
     <SafeAreaView>
       <View></View>
     </SafeAreaView>
   );
 };
+
+export default CalenderScreen;

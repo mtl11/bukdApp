@@ -31,7 +31,12 @@ const StartScreen = (props) => {
       <View style={styles.forgotPasswordContainer}>
         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
       </View>
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => {
+          props.navigation.navigate("TabNav");
+        }}
+      >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <View style={styles.orContainer}>

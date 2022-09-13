@@ -71,7 +71,7 @@ const ArtistSetupScreen = (props) => {
             color: "#FDF6F0",
           }}
         >
-          {"Change Profile Pic"}
+          {"Edit Profile Pic"}
           
         </Text>
       </TouchableOpacity>
@@ -97,15 +97,16 @@ const ArtistSetupScreen = (props) => {
         />
       </View>
       <TextInput
-        style={[styles.input,{paddingTop:15}]}
+        style={[styles.input,{paddingTop:15,height: "20%",}]}
         placeholder="Bio"
         placeholderTextColor={"rgba(9, 93, 106, .6)"}
         multiline={true}
+        
       />
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
-          props.navigation.navigate("Setup");
+          props.navigation.navigate("ArtistSocial");
         }}
       >
         <Text style={styles.titleText}>Next</Text>
