@@ -15,6 +15,8 @@ export default function App() {
   let [fontsLoaded] = useFonts({
     "Rubik-Regular": require("./assets/fonts/Rubik-Regular.ttf"),
     "Rubik-Light": require("./assets/fonts/Rubik-Light.ttf"),
+    "Rubik-SemiBold": require("./assets/fonts/Rubik-SemiBold.ttf"),
+    "Rubik-Medium": require("./assets/fonts/Rubik-Medium.ttf")
   });
 
   if (!fontsLoaded) {

@@ -16,7 +16,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
 import styles from "../../styles/auth/artistSetupScreen";
 
-const ArtistSetupScreen = (props) => {
+const VenueSetupScreen = (props) => {
   const [image, setImage] = useState(null);
   const [value, setValue] = useState(null);
   const data = [
@@ -115,4 +115,4 @@ const ArtistSetupScreen = (props) => {
   );
 };
 
-export default ArtistSetupScreen;
+export default VenueSetupScreen;

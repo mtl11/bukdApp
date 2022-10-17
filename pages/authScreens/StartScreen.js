@@ -9,28 +9,36 @@ import {
   Image,
 } from "react-native";
 import styles from "../../styles/auth/startScreen";
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const StartScreen = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <Image
-        source={require("../../assets/logo.png")}
-        style={styles.image}
+        source={require("../../assets/biglogo.png")}
+        style={styles.logoImage}
       ></Image>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        placeholderTextColor={"rgba(9, 93, 106, .6)"}
-      />
-      <TextInput
-        style={styles.input}
-        secureTextEntry={true}
-        placeholder="Password"
-        placeholderTextColor={"rgba(9, 93, 106, .6)"}
-      />
-      <View style={styles.forgotPasswordContainer}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+      <View style={styles.welcomeContainer}>
+        <Text style={styles.welcomeText}>Welcome Back</Text>
       </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor={"#C4C4C4"}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          secureTextEntry={true}
+          placeholder="Password"
+          placeholderTextColor={"#C4C4C4"}
+        />
+      </View>
+      <TouchableOpacity style={styles.forgotPasswordContainer}>
+        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+      </TouchableOpacity>
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
@@ -38,18 +46,21 @@ const StartScreen = (props) => {
         }}
       >
         <Text style={styles.buttonText}>Login</Text>
+        <FontAwesome5 name="chevron-right" size={20} color="white" />
       </TouchableOpacity>
-      <View style={styles.orContainer}>
-        <Text style={styles.forgotPasswordText}>OR</Text>
-      </View>
+      <View style={styles.newAccountContainer}>
+        <Text style={styles.newAccountText}>
+          Don't have an account?
+        </Text>
       <TouchableOpacity
         style={styles.buttonContainerSignUp}
         onPress={() => {
           props.navigation.navigate("Signup");
         }}
       >
-        <Text style={styles.buttonTextSignUp}>Sign Up</Text>
+        <Text style={styles.buttonTextSignUp}> Sign Up</Text>
       </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

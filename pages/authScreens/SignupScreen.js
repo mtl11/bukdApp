@@ -16,9 +16,10 @@ import styles from "../../styles/auth/signupScreen";
 const SignupScreen = (props) => {
   const [value, setValue] = useState("Artist/Performer");
   const data = [
-    { label: "Artist/Performer", value: "1" },
+    { label: "Performer", value: "1" },
     { label: "Venue", value: "2" },
   ];
+  const [profileType, setProfileType] = useState("");
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
@@ -68,6 +69,7 @@ const SignupScreen = (props) => {
           value={value}
           onChange={(item) => {
             setValue(item.value);
+            setProfileType(item.label);
           }}
         />
       </View>
@@ -79,7 +81,7 @@ const SignupScreen = (props) => {
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
-          props.navigation.navigate("Setup");
+          props.navigation.navigate("Setup",{profileType:profileType});
         }}
       >
         <Text style={styles.buttonText}>Get Started</Text>

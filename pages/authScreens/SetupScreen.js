@@ -12,6 +12,7 @@ import {
 import styles from "../../styles/auth/setupScreen";
 import { FontAwesome5 } from "@expo/vector-icons";
 const Setupscreen = (props) => {
+  const profileType = props.route.params.profileType;
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
@@ -29,7 +30,11 @@ const Setupscreen = (props) => {
       <TouchableOpacity
         style={[styles.buttonContainer, { backgroundColor: "#FDF6F0" }]}
         onPress={() => {
-            props.navigation.navigate("ArtistSetup");
+          {
+            profileType == "Performer"
+              ? props.navigation.navigate("ArtistSetup")
+              : console.log("Venue");
+          }
         }}
       >
         <Text style={[styles.buttonText, { color: "#F57B51" }]}>
@@ -42,7 +47,7 @@ const Setupscreen = (props) => {
           { marginTop: 30, backgroundColor: "#F57B51" },
         ]}
         onPress={() => {
-            props.navigation.navigate("TabNav");
+          props.navigation.navigate("TabNav");
         }}
       >
         <Text style={[styles.buttonText, { color: "#FDF6F0" }]}>
