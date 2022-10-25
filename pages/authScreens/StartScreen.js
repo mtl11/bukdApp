@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import styles from "../../styles/auth/startScreen";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const StartScreen = (props) => {
   return (
@@ -36,7 +36,12 @@ const StartScreen = (props) => {
           placeholderTextColor={"#C4C4C4"}
         />
       </View>
-      <TouchableOpacity style={styles.forgotPasswordContainer}>
+      <TouchableOpacity
+        style={styles.forgotPasswordContainer}
+        onPress={() => {
+          props.navigation.navigate("ForgetPass");
+        }}
+      >
         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -49,17 +54,15 @@ const StartScreen = (props) => {
         <FontAwesome5 name="chevron-right" size={20} color="white" />
       </TouchableOpacity>
       <View style={styles.newAccountContainer}>
-        <Text style={styles.newAccountText}>
-          Don't have an account?
-        </Text>
-      <TouchableOpacity
-        style={styles.buttonContainerSignUp}
-        onPress={() => {
-          props.navigation.navigate("Signup");
-        }}
-      >
-        <Text style={styles.buttonTextSignUp}> Sign Up</Text>
-      </TouchableOpacity>
+        <Text style={styles.newAccountText}>Don't have an account?</Text>
+        <TouchableOpacity
+          style={styles.buttonContainerSignUp}
+          onPress={() => {
+            props.navigation.navigate("Signup");
+          }}
+        >
+          <Text style={styles.buttonTextSignUp}> Sign Up</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

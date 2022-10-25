@@ -16,8 +16,9 @@ import styles from "../../styles/auth/signupScreen";
 const SignupScreen = (props) => {
   const [value, setValue] = useState("Artist/Performer");
   const data = [
-    { label: "Performer", value: "1" },
-    { label: "Venue", value: "2" },
+    { label: "Live Music Fan", value: "0" },
+    { label: "Artist/Performer", value: "1" },
+    { label: "Venue/Business", value: "2" },
   ];
   const [profileType, setProfileType] = useState("");
   return (
@@ -28,34 +29,34 @@ const SignupScreen = (props) => {
           props.navigation.navigate("Start");
         }}
       >
-        <FontAwesome5 name="arrow-left" size={28} color="white" />
+        <FontAwesome5 name="chevron-left" size={32} color="#2A51DB" />
       </TouchableOpacity>
-      <Image
-        source={require("../../assets/logo.png")}
-        style={styles.image}
-      ></Image>
-      <TextInput
-        style={styles.input}
-        placeholder="Full Name"
-        placeholderTextColor={"rgba(9, 93, 106, .6)"}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email Address"
-        placeholderTextColor={"rgba(9, 93, 106, .6)"}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Create Password"
-        secureTextEntry={true}
-        placeholderTextColor={"rgba(9, 93, 106, .6)"}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        secureTextEntry={true}
-        placeholderTextColor={"rgba(9, 93, 106, .6)"}
-      />
+      <View>
+        <Text style={styles.bigText}>
+          Create Account
+        </Text>
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          placeholderTextColor={"#C4C4C4"}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor={"#C4C4C4"}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor={"#C4C4C4"}
+        />
+      </View>
       <View>
         <Dropdown
           style={styles.dropdown}
@@ -65,7 +66,7 @@ const SignupScreen = (props) => {
           data={data}
           labelField="label"
           valueField="value"
-          placeholder="Who are you?"
+          placeholder="Account Type"
           value={value}
           onChange={(item) => {
             setValue(item.value);
@@ -73,15 +74,15 @@ const SignupScreen = (props) => {
           }}
         />
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Primary Location"
-        placeholderTextColor={"rgba(9, 93, 106, .6)"}
-      />
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
-          props.navigation.navigate("Setup",{profileType:profileType});
+          if(profileType == "Artist/Performer"){
+            props.navigation.navigate("ArtistSetup",{profileType:profileType});
+          }
+          if(profileType == "Venue/Business"){
+            props.navigation.navigate("VenueSetup",{profileType:profileType});
+          }
         }}
       >
         <Text style={styles.buttonText}>Get Started</Text>

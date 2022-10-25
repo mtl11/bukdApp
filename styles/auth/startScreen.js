@@ -8,7 +8,7 @@ export default {
     fontFamily: "Rubik-SemiBold",
   },
   welcomeContainer: {
-    paddingHorizontal: 54,
+    paddingHorizontal: 40,
     marginBottom: "10%",
   },
   stripedImage: {
@@ -27,12 +27,12 @@ export default {
   },
   forgotPasswordContainer: {
     alignSelf: "flex-end",
-    marginHorizontal: 54,
+    marginHorizontal: 40,
     marginTop: 3,
     marginBottom: 25,
   },
   container: {
-    // backgroundColor: "#095D6A",
+    backgroundColor: "#FFFFFF",
     height: "100%",
   },
   forgotPasswordText: {
@@ -49,14 +49,14 @@ export default {
   },
   inputContainer: {
     borderBottomWidth: 2,
-    marginHorizontal: 54,
+    marginHorizontal: 40,
     borderColor: "#C4C4C4"
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 16,
-    marginHorizontal: 50,
+    marginHorizontal: 40,
     backgroundColor: "#2A51DB",
     borderRadius: 12,
     marginTop: "7%"

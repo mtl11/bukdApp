@@ -9,7 +9,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ArtistsocialsScreen from "./pages/authScreens/ArtistsocialsScreen";
 import TabNav from "./components/TabNav";
-
+import ForgetPasswordScreen from "./pages/authScreens/ForgetPasswordScreen";
+import VenueSetupScreen from "./pages/authScreens/VenueSetupScreen";
 const Stack = createNativeStackNavigator();
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -29,6 +30,16 @@ export default function App() {
         <Stack.Screen
           name="Start"
           component={StartScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ForgetPass"
+          component={ForgetPasswordScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="VenueSetup"
+          component={VenueSetupScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
