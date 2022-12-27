@@ -30,7 +30,7 @@ export default {
     marginHorizontal: 40,
     backgroundColor: "#2A51DB",
     borderRadius: 12,
-    marginTop: "18%"
+    marginTop: "30%"
   },
   buttonText: {
     fontFamily: "Rubik-Medium",

@@ -1,5 +1,6 @@
 import react from "react";
 import {
+  Keyboard,
   View,
   Text,
   SafeAreaView,
@@ -11,6 +12,7 @@ import {
   Button,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 const ArtistsocialsScreen = (props) => {
   const getLogo = (logo) => {
@@ -43,7 +45,7 @@ const ArtistsocialsScreen = (props) => {
           </View>
         </View>
         <View style={styles.arrowContainer}>
-          <AntDesign name="arrowright" size={18} color="white" />
+          <MaterialCommunityIcons name="link-variant" size={18} color="black" />
         </View>
       </TouchableOpacity>
     );
@@ -51,22 +53,24 @@ const ArtistsocialsScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.iconContainer}
         onPress={() => {
           props.navigation.navigate("ArtistSetup");
         }}
       >
         <FontAwesome5 name="arrow-left" size={28} color="white" />
-      </TouchableOpacity>
-      <Image
+      </TouchableOpacity> */}
+      {/* <Image
         source={require("../../assets/logo.png")}
         style={styles.image}
-      ></Image>
+      ></Image> */}
+      <View style={styles.largeTextContainer}>
+        <Text style={styles.largeText}>Link your Social Media</Text>
+      </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>
-          Link your social media to give venues a better understanding of who
-          you are and what you do.
+          This will help other users explore more about you.
         </Text>
       </View>
       <View style={{ marginTop: 30 }}>
@@ -75,7 +79,7 @@ const ArtistsocialsScreen = (props) => {
         {createSocial("TikTok", "tiktok")}
         {createSocial("Instagram", "insta")}
         {createSocial("YouTube", "youtube")}
-        {createSocial("Facebook", "facebook")}
+        {/* {createSocial("Facebook", "facebook")} */}
       </View>
       <TouchableOpacity
         style={styles.buttonContainer}
@@ -90,6 +94,14 @@ const ArtistsocialsScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
+  largeText: {
+    fontFamily: "Rubik-Medium",
+    fontSize: 24,
+  },
+  largeTextContainer: {
+    marginHorizontal: 50,
+    marginTop: "5%",
+  },
   arrowContainer: {
     justifyContent: "center",
   },
@@ -97,30 +109,33 @@ const styles = StyleSheet.create({
     marginTop: "13%",
     flexDirection: "row",
     justifyContent: "center",
-    marginHorizontal: "10%",
-    paddingVertical: 20,
-    backgroundColor: "#F57B51",
-    borderRadius: 4,
+    marginHorizontal: 40,
+    padding: 16,
+    backgroundColor: "#2A51DB",
+    borderRadius: 12,
   },
   titleText: {
-    color: "#FDF6F0",
-    fontSize: 16,
+    fontFamily: "Rubik-Medium",
+    color: "white",
+    fontSize: 20,
   },
   individualSocialContainer: {
-    borderBottomWidth: 0.5,
-    borderColor: "#FBBC58",
+    borderRadius: 10,
+    backgroundColor: "#ECECEC",
     alignItems: "center",
     flexDirection: "row",
     padding: "3%",
     paddingHorizontal: "5%",
     justifyContent: "space-between",
+    margin: 15,
+    marginHorizontal: 30,
   },
   socialLogo: {
     height: 40,
     width: 40,
   },
   socialText: {
-    color: "#FDF6F0",
+    // color: "#FDF6F0",
     fontFamily: "Rubik-Regular",
     fontSize: 16,
   },
@@ -134,15 +149,15 @@ const styles = StyleSheet.create({
   iconContainer: { marginHorizontal: "5%" },
   infoContainer: {
     alignSelf: "center",
-    width: "60%",
+    marginHorizontal: 40,
+    marginTop: 15,
   },
   infoText: {
-    color: "#FDF6F0",
     fontFamily: "Rubik-Regular",
-    textAlign: "center",
   },
   container: {
-    backgroundColor: "#095D6A",
+    // backgroundColor: "#095D6A",
+    backgroundColor: "white",
     height: "100%",
   },
 });

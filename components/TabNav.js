@@ -5,6 +5,7 @@ import CalenderScreen from "../pages/calenderScreens/CalenderScreen";
 import SearchScreen from "../pages/searchScreens/SearchScreen";
 import * as React from "react";
 import { FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,21 +14,19 @@ export default TabNav = (props) => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          
           let iconName;
-          if (route.name === "Messages") {
-            iconName = focused ? "comments" : "comments";
-          } else if (route.name === "Calender") {
+          if (route.name === "Calender") {
             iconName = focused ? "calendar" : "calendar";
           } else if (route.name === "Search") {
             iconName = focused ? "search" : "search";
+            return <AntDesign name="search1" size={size} color={color} />
           } else if (route.name === "Profile") {
-            iconName = focused ? "user-circle" : "user-circle";
+            return <FontAwesome5 name="user" size={size} color={color} />
           }
           return <FontAwesome5 name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#095D6A",
-        tabBarInactiveTintColor: "gray",
+        tabBarActiveTintColor: "#2A51DB",
+        tabBarInactiveTintColor: "#BFBFBF",
       })}
     >
       <Tab.Screen
@@ -40,11 +39,11 @@ export default TabNav = (props) => {
         component={SearchScreen}
         options={{ headerShown: false }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Messages"
         component={MessageScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
