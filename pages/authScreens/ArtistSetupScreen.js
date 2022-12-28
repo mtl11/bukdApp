@@ -106,7 +106,6 @@ const ArtistSetupScreen = (props) => {
           placeholderTextColor={"#BDBDBD"}
           multiline={true}
         />
-        
         <TouchableOpacity
           style={[styles.buttonContainer,{marginTop:"18%"}]}
           onPress={() => {
