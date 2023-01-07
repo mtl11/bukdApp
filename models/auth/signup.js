@@ -1,1 +1,1 @@
- 
+export const currentMode = NULL;
