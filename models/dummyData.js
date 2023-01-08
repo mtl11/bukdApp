@@ -9,7 +9,7 @@ export const modes = {
       username: "M-OKAY",
       genre: "DJ",
       subgenre: "House",
-      bio: "Tucson local attending UA'23 specializing in bringing a different energy to bars and clubs in the area.",
+      bio: "Tucson local attending UA'23 specializing in bringing a different energy to bars and clubs in the area."
     },
   },
 };

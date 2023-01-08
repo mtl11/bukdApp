@@ -23,10 +23,10 @@ const Setupscreen = (props) => {
       >
         <FontAwesome5 name="arrow-left" size={28} color="white" />
       </TouchableOpacity>
-      <Image
+      {/* <Image
         source={require("../../assets/logo.png")}
         style={styles.image}
-      ></Image>
+      ></Image> */}
       <TouchableOpacity
         style={[styles.buttonContainer, { backgroundColor: "#FDF6F0" }]}
         onPress={() => {

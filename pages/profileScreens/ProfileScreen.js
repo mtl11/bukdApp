@@ -9,10 +9,13 @@ import {
   Image,
   TextInput,
   Button,
+  TouchableHighlight,
 } from "react-native";
 import profileInformation from "../../models/profile/profile";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import EditModal from "../../components/EditProfileArtist.js"
 
 const ProfileScreen = (props) => {
   const dummyProfile = new profileInformation(
@@ -22,10 +25,19 @@ const ProfileScreen = (props) => {
     "House",
     "Tucson local attending UA'23 specializing in bringing a different energy to bars and clubs in the area."
   );
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity style={styles.topIconContainer}>
+        <Ionicons name="ios-settings" size={28} color="#2A51DB" />
+      </TouchableOpacity>
       <View style={styles.profilePicContainer}>
-        <Image />
+        <Image
+          source={require("../../assets/ok-profile.jpeg")}
+          style={styles.profilePic}
+          resizeMode="contain"
+        />
       </View>
       <View style={styles.usernameContainer}>
         <Text style={styles.usernameText}>{dummyProfile.username}</Text>
@@ -38,38 +50,156 @@ const ProfileScreen = (props) => {
       <View style={styles.bioContainer}>
         <Text style={styles.bioText}>{dummyProfile.bio}</Text>
       </View>
+      <View
+        style={{
+          alignContent: "center",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          width: "80%",
+          alignSelf: "center",
+          marginTop: 10,
+        }}
+      >
+        <TouchableOpacity>
+          <Image
+            source={require("../../assets/spotify.png")}
+            style={styles.socialLogo}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require("../../assets/tiktok.png")}
+            style={styles.socialLogo}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require("../../assets/insta.png")}
+            style={styles.socialLogo}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.middleButtonsContainer}>
+        <TouchableOpacity style={styles.editProfileContainer} 
+        onPress={()=>setModalVisible(true)}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: "Rubik-SemiBold",
+              color: "#2A51DB",
+              
+            }}
+          >
+            Edit Profile
+          </Text>
+        </TouchableOpacity>
+        {/* <TouchableOpacity style={styles.socialContainer}>
+          <FontAwesome name="caret-down" size={18} color="#2A51DB" />
+        </TouchableOpacity> */}
+      </View>
       <TouchableOpacity style={styles.buttonContainer}>
         <View>
-          <Text style={[styles.buttontext,{fontSize: 16, fontFamily: "Rubik-Regular"}]}>Book Now</Text>
+          <Text
+            style={[
+              styles.buttontext,
+              { fontSize: 16, fontFamily: "Rubik-Regular" },
+            ]}
+          >
+            Book Now
+          </Text>
           <Text style={styles.buttontext}>6pm October 20th</Text>
         </View>
         <View style={styles.iconContainer}>
           <FontAwesome5 name="chevron-right" size={24} color={"white"} />
         </View>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.buttonContainer}>
+        <View>
+          <Text
+            style={[
+              styles.buttontext,
+              { fontSize: 16, fontFamily: "Rubik-Regular" },
+            ]}
+          >
+            Reviews
+          </Text>
+          <View style={styles.starIcons}>
+            <FontAwesome name="star" size={22} color="white" />
+            <FontAwesome name="star" size={22} color="white" />
+            <FontAwesome name="star" size={22} color="white" />
+            <FontAwesome name="star" size={22} color="white" />
+            <FontAwesome name="star" size={22} color="white" />
+          </View>
+        </View>
+        <View style={styles.iconContainer}>
+          <FontAwesome5 name="chevron-right" size={24} color={"white"} />
+        </View>
+      </TouchableOpacity>
+      <EditModal visible={modalVisible} setModalVisible={setModalVisible}/>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
-    
+  // middleButtonsContainer:{
+
+  // },
+  socialLogo: {
+    height: 30,
+    width: 30,
+  },
+  // socialContainer:{
+  //   borderWidth: 1,
+  //   alignSelf: "center",
+  //   borderRadius: 3,
+  //   marginTop: 10,
+  //   justifyContent: "center",
+  //   borderColor: "#2A51DB",
+  //   padding: 10,
+  //   width: "12%",
+  //   alignItems: "center",
+  // },
+  editProfileContainer: {
+    borderWidth: 1,
+    alignSelf: "center",
+    borderRadius: 3,
+    marginTop: 10,
+    justifyContent: "center",
+    borderColor: "#2A51DB",
+    padding: 10,
+    width: "40%",
+    alignItems: "center",
+  },
+  profilePic: {
+    width: 157,
+    height: 157,
+    borderRadius: 11,
+  },
+  starIcons: {
+    flexDirection: "row",
+  },
+  topIconContainer: {
+    alignSelf: "flex-end",
+    marginRight: 30,
+  },
+  container: {
+    backgroundColor: "#FFFFFF",
+    height: "100%",
   },
   buttontext: {
     color: "white",
     fontFamily: "Rubik-SemiBold",
-    fontSize: 20
+    fontSize: 20,
   },
   iconContainer: {
-    justifyContent:"center"
+    justifyContent: "center",
   },
   profilePicContainer: {
     borderWidth: 1,
-    width: 157,
-    height: 157,
     alignSelf: "center",
     borderRadius: 11,
-    marginTop: 60
+    marginTop: 40,
+    justifyContent: "center",
   },
   buttonContainer: {
     flexDirection: "row",
