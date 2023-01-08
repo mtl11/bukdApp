@@ -15,7 +15,7 @@ import profileInformation from "../../models/profile/profile";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import EditModal from "../../components/EditProfileArtist.js"
+import EditModal from "../../components/EditProfileArtist.js";
 
 const ProfileScreen = (props) => {
   const dummyProfile = new profileInformation(
@@ -29,7 +29,12 @@ const ProfileScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.topIconContainer}>
+      <TouchableOpacity
+        style={styles.topIconContainer}
+        onPress={() => {
+          props.navigation.navigate("ProfileSettingsScreen");
+        }}
+      >
         <Ionicons name="ios-settings" size={28} color="#2A51DB" />
       </TouchableOpacity>
       <View style={styles.profilePicContainer}>
@@ -80,14 +85,15 @@ const ProfileScreen = (props) => {
         </TouchableOpacity>
       </View>
       <View style={styles.middleButtonsContainer}>
-        <TouchableOpacity style={styles.editProfileContainer} 
-        onPress={()=>setModalVisible(true)}>
+        <TouchableOpacity
+          style={styles.editProfileContainer}
+          onPress={() => setModalVisible(true)}
+        >
           <Text
             style={{
               fontSize: 16,
               fontFamily: "Rubik-SemiBold",
               color: "#2A51DB",
-              
             }}
           >
             Edit Profile
@@ -135,35 +141,22 @@ const ProfileScreen = (props) => {
           <FontAwesome5 name="chevron-right" size={24} color={"white"} />
         </View>
       </TouchableOpacity>
-      <EditModal visible={modalVisible} setModalVisible={setModalVisible}/>
+      <EditModal visible={modalVisible} setModalVisible={setModalVisible} />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  // middleButtonsContainer:{
-
-  // },
   socialLogo: {
     height: 30,
     width: 30,
   },
-  // socialContainer:{
-  //   borderWidth: 1,
-  //   alignSelf: "center",
-  //   borderRadius: 3,
-  //   marginTop: 10,
-  //   justifyContent: "center",
-  //   borderColor: "#2A51DB",
-  //   padding: 10,
-  //   width: "12%",
-  //   alignItems: "center",
-  // },
   editProfileContainer: {
     borderWidth: 1,
     alignSelf: "center",
     borderRadius: 3,
     marginTop: 10,
+    marginBottom: 30,
     justifyContent: "center",
     borderColor: "#2A51DB",
     padding: 10,
@@ -173,7 +166,7 @@ const styles = StyleSheet.create({
   profilePic: {
     width: 157,
     height: 157,
-    borderRadius: 11,
+    borderRadius: 100,
   },
   starIcons: {
     flexDirection: "row",
@@ -195,10 +188,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   profilePicContainer: {
-    borderWidth: 1,
+    borderWidth: 1.5,
     alignSelf: "center",
-    borderRadius: 11,
-    marginTop: 40,
+    borderRadius: 100,
+    marginTop: 20,
     justifyContent: "center",
   },
   buttonContainer: {

@@ -44,7 +44,11 @@ const EditProfileArtist = (props) => {
             </Text>
           </TouchableOpacity>
           {/* <Text style={{fontSize: 17, fontFamily: "Rubik-Regular"}}>Edit Profile</Text> */}
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              props.setModalVisible(false);
+            }}
+          >
             <Text
               style={{
                 color: "#2A51DB",

@@ -4,6 +4,7 @@ import StartScreen from "./pages/authScreens/StartScreen";
 import { useFonts } from "expo-font";
 import SignupScreen from "./pages/authScreens/SignupScreen";
 import SetupScreen from "./pages/authScreens/SetupScreen";
+import ProfileSettingsScreen from "./pages/profileScreens/ProfileSettingsScreen";
 import ArtistSetupScreen from "./pages/authScreens/ArtistSetupScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -17,7 +18,7 @@ export default function App() {
     "Rubik-Regular": require("./assets/fonts/Rubik-Regular.ttf"),
     "Rubik-Light": require("./assets/fonts/Rubik-Light.ttf"),
     "Rubik-SemiBold": require("./assets/fonts/Rubik-SemiBold.ttf"),
-    "Rubik-Medium": require("./assets/fonts/Rubik-Medium.ttf")
+    "Rubik-Medium": require("./assets/fonts/Rubik-Medium.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -63,9 +64,18 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="ProfileSettingsScreen"
+          component={ProfileSettingsScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="TabNav"
           component={TabNav}
-          options={{ headerShown: false,animation:"none" }}
+          options={{
+            headerShown: false,
+            animation: "none",
+            gestureEnabled: false,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
