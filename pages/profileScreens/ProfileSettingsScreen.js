@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   topIconContainer: {
     marginLeft: 35,
-    marginTop: 10,
+    // marginTop: 10,
   },
   labelText: {
     fontFamily: "Rubik-Regular",
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   mainTextContainer: {
     marginLeft: 35,
-    marginTop: 50,
+    marginTop: 30,
   },
   headerText: {
     fontFamily: "Rubik-SemiBold",

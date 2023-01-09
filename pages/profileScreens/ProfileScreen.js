@@ -14,6 +14,7 @@ import {
 import profileInformation from "../../models/profile/profile";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import EditModal from "../../components/EditProfileArtist.js";
 
@@ -29,14 +30,31 @@ const ProfileScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        style={styles.topIconContainer}
-        onPress={() => {
-          props.navigation.navigate("ProfileSettingsScreen");
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
         }}
       >
-        <Ionicons name="ios-settings" size={28} color="#2A51DB" />
-      </TouchableOpacity>
+        <View style={{ justifyContent: "center" }}>
+          <TouchableOpacity
+            style={[styles.topIconContainer]}
+            onPress={() => setModalVisible(true)}
+          >
+            <Entypo name="edit" size={28} color="#2A51DB" />
+          </TouchableOpacity>
+        </View>
+        <View style={{ justifyContent: "center" }}>
+          <TouchableOpacity
+            style={styles.topIconContainer}
+            onPress={() => {
+              props.navigation.navigate("ProfileSettingsScreen");
+            }}
+          >
+            <Ionicons name="ios-settings" size={28} color="#2A51DB" />
+          </TouchableOpacity>
+        </View>
+      </View>
       <View style={styles.profilePicContainer}>
         <Image
           source={require("../../assets/ok-profile.jpeg")}
@@ -62,7 +80,8 @@ const ProfileScreen = (props) => {
           justifyContent: "space-evenly",
           width: "80%",
           alignSelf: "center",
-          marginTop: 10,
+          marginTop: 40,
+          marginBottom: 40,
         }}
       >
         <TouchableOpacity>
@@ -83,25 +102,6 @@ const ProfileScreen = (props) => {
             style={styles.socialLogo}
           />
         </TouchableOpacity>
-      </View>
-      <View style={styles.middleButtonsContainer}>
-        <TouchableOpacity
-          style={styles.editProfileContainer}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text
-            style={{
-              fontSize: 16,
-              fontFamily: "Rubik-SemiBold",
-              color: "#2A51DB",
-            }}
-          >
-            Edit Profile
-          </Text>
-        </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.socialContainer}>
-          <FontAwesome name="caret-down" size={18} color="#2A51DB" />
-        </TouchableOpacity> */}
       </View>
       <TouchableOpacity style={styles.buttonContainer}>
         <View>
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   topIconContainer: {
     alignSelf: "flex-end",
-    marginRight: 30,
+    marginHorizontal: 30,
   },
   container: {
     backgroundColor: "#FFFFFF",
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     alignSelf: "center",
     borderRadius: 100,
-    marginTop: 20,
+    marginTop: 30,
     justifyContent: "center",
   },
   buttonContainer: {
@@ -221,9 +221,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   bioContainer: {
-    paddingHorizontal: 50,
+    paddingHorizontal: 40,
     textAlign: "center",
-    marginTop: 15,
+    marginTop: 20,
   },
   bioText: {
     fontFamily: "Rubik-Regular",
