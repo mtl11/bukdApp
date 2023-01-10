@@ -32,11 +32,11 @@ export default TabNav = (props) => {
         tabBarInactiveTintColor: "#BFBFBF",
       })}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Calender"
         component={CalenderScreen}
         options={{ headerShown: false,gestureEnabled: false }}
-      />
+      /> */}
       <Tab.Screen
         name="Search"
         component={SearchScreen}

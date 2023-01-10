@@ -32,7 +32,10 @@ const ProfileSettingsScreen = (props) => {
   return (
     <SafeAreaView>
       <View style={styles.topIconContainer}>
+        <TouchableOpacity onPress={()=>{props.navigation.pop()}}>
         <FontAwesome5 name="chevron-left" size={32} color={"#2A51DB"} />
+        </TouchableOpacity>
+       
       </View>
       <View style={styles.mainTextContainer}>
         <Text style={styles.headerText}>Hello, M-OKAY.</Text>
