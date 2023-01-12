@@ -43,7 +43,9 @@ const EditProfileArtist = (props) => {
               Cancel
             </Text>
           </TouchableOpacity>
-          <Text style={{fontSize: 20, fontFamily: "Rubik-Regular"}}>Edit Profile</Text>
+          <Text style={{ fontSize: 20, fontFamily: "Rubik-Regular" }}>
+            Edit Profile
+          </Text>
           <TouchableOpacity
             onPress={() => {
               props.setModalVisible(false);
@@ -63,7 +65,7 @@ const EditProfileArtist = (props) => {
         <View
           style={{
             borderBottomWidth: 1,
-            margin: 10,
+            marginHorizontal: 10,
             paddingLeft: 30,
             paddingBottom: 10,
             marginTop: 30,
@@ -82,10 +84,7 @@ const EditProfileArtist = (props) => {
             Profile
           </Text>
         </View>
-        <ScrollView
-          style={{ marginTop: 10, marginBottom: 20 }}
-          showsVerticalScrollIndicator={false}
-        >
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.inputContainer, { marginTop: 10 }]}>
             <Text style={styles.inputHeader}>Profile Name</Text>
             <TextInput style={styles.input} />
@@ -195,6 +194,7 @@ const styles = StyleSheet.create({
   },
   inputHeader: {
     color: "#757575",
+    fontFamily: "Rubik-Regular",
   },
 });
 export default EditProfileArtist;

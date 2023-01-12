@@ -35,7 +35,6 @@ const ProfileSettingsScreen = (props) => {
         <TouchableOpacity onPress={()=>{props.navigation.pop()}}>
         <FontAwesome5 name="chevron-left" size={32} color={"#2A51DB"} />
         </TouchableOpacity>
-       
       </View>
       <View style={styles.mainTextContainer}>
         <Text style={styles.headerText}>Hello, M-OKAY.</Text>
@@ -47,15 +46,15 @@ const ProfileSettingsScreen = (props) => {
         <FontAwesome5 name="user" size={22} color={"#2A51DB"} />
         <Text style={styles.sectionHeaderText}>Account</Text>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>{props.navigation.navigate("PersonalInfoScreen")}}>
         <View style={styles.labelContainer}>
           <Text style={styles.labelText}>Personal Info</Text>
           <FontAwesome5 name="chevron-right" size={22} color={"#757575"} />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>{props.navigation.navigate("PersonalSecurityScreen")}}> 
         <View style={styles.labelContainer}>
-          <Text style={styles.labelText}>Password and Security</Text>
+          <Text style={styles.labelText}>Reset Password</Text>
           <FontAwesome5 name="chevron-right" size={22} color={"#757575"} />
         </View>
       </TouchableOpacity>
@@ -159,7 +158,6 @@ const styles = StyleSheet.create({
   sectionHeaderContainer: {
     borderBottomWidth: 1,
     margin: 10,
-    // marginBottom: 20,
     paddingLeft: 30,
     paddingBottom: 10,
     marginTop: 40,

@@ -4,21 +4,15 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  Icon,
   TouchableOpacity,
   Image,
-  TextInput,
-  Button,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
 } from "react-native";
 import profileInformation from "../../models/profile/profile";
-import { FontAwesome } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import EditModal from "../../components/EditProfileArtist.js";
 import SocialTab from "../../components/SocialProfileTabArtist.js";
+import AvailabilityProfileArtist from "../../components/AvailabilityProfileArtist";
+
 const ProfileScreen = (props) => {
   const dummyProfile = new profileInformation(
     123,
@@ -38,14 +32,6 @@ const ProfileScreen = (props) => {
           justifyContent: "flex-end",
         }}
       >
-        {/* <View style={{ justifyContent: "center" }}>
-          <TouchableOpacity
-            style={[styles.topIconContainer]}
-            onPress={() => setModalVisible(true)}
-          >
-            <Entypo name="edit" size={28} color="#2A51DB" />
-          </TouchableOpacity>
-        </View> */}
         <View style={{ justifyContent: "center" }}>
           <TouchableOpacity
             style={styles.topIconContainer}
@@ -119,23 +105,6 @@ const ProfileScreen = (props) => {
         <TouchableOpacity
           style={styles.tabContainer}
           onPress={() => {
-            setSocialShow(true);
-          }}
-        >
-          <View style={{ flexDirection: "column" }}>
-            <View style={styles.tabTextContainer}>
-              <Text style={styles.tabText}>Socials</Text>
-            </View>
-            {socialShow ? (
-              <View style={styles.tabBottomBar}></View>
-            ) : (
-              <View></View>
-            )}
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabContainer}
-          onPress={() => {
             setSocialShow(false);
           }}
         >
@@ -150,8 +119,26 @@ const ProfileScreen = (props) => {
             )}
           </View>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.tabContainer}
+          onPress={() => {
+            setSocialShow(true);
+          }}
+        >
+          <View style={{ flexDirection: "column" }}>
+            <View style={styles.tabTextContainer}>
+              <Text style={styles.tabText}>Socials</Text>
+            </View>
+            {socialShow ? (
+              <View style={styles.tabBottomBar}></View>
+            ) : (
+              <View></View>
+            )}
+          </View>
+        </TouchableOpacity>
+        
       </View>
-      {socialShow ? <SocialTab /> : <View></View>}
+      {socialShow ? <SocialTab /> : <AvailabilityProfileArtist/>}
       <EditModal visible={modalVisible} setModalVisible={setModalVisible} />
     </SafeAreaView>
   );
@@ -253,7 +240,8 @@ const styles = StyleSheet.create({
   bioContainer: {
     paddingHorizontal: 40,
     textAlign: "center",
-    marginTop: 10,
+    marginTop: 20,
+    marginBottom: 20
   },
   bioText: {
     fontFamily: "Rubik-Regular",
