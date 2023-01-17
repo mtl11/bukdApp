@@ -14,6 +14,8 @@ import ForgetPasswordScreen from "./pages/authScreens/ForgetPasswordScreen";
 import VenueSetupScreen from "./pages/authScreens/VenueSetupScreen";
 import PersonalInfoScreen from "./pages/profileScreens/PersonalInfoScreen";
 import PersonalSecurityScreen from "./pages/profileScreens/PasswordSecurityScreen";
+import SearchArtistProfile from "./pages/searchScreens/SearchArtistProfile";
+
 const Stack = createNativeStackNavigator();
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -78,6 +80,11 @@ export default function App() {
         <Stack.Screen
           name="PersonalSecurityScreen"
           component={PersonalSecurityScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SearchArtistProfile"
+          component={SearchArtistProfile}
           options={{ headerShown: false }}
         />
         <Stack.Screen

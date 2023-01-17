@@ -30,6 +30,10 @@ export default TabNav = (props) => {
         },
         tabBarActiveTintColor: "#2A51DB",
         tabBarInactiveTintColor: "#BFBFBF",
+        tabBarStyle:{
+          borderTopWidth:.5,
+          borderTopColor: "gray"
+        }
       })}
     >
       {/* <Tab.Screen
