@@ -15,25 +15,32 @@ const ProfileSettingsScreen = (props) => {
   const signOutAlert = () => {
     Alert.alert("Are you sure you want to sign out?", "", [
       {
-        text: "Sign Out",
+        text: "Cancel",
         onPress: () => console.log("Cancel Pressed"),
+        style: "destructive",
+      },
+      {
+        text: "Sign Out",
+        onPress: () => console.log("Signout Pressed"),
         style: "destructive",
       },
     ]);
   };
-
   const [newShowRequests, setNewShowRequests] = useState(false);
   const newShowToggle = () =>
     setNewShowRequests((previousState) => !previousState);
-
   const [newMessages, setNewMessages] = useState(false);
   const newMessageToggle = () =>
     setNewMessages((previousState) => !previousState);
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View style={styles.topIconContainer}>
-        <TouchableOpacity onPress={()=>{props.navigation.pop()}}>
-        <FontAwesome5 name="chevron-left" size={32} color={"#2A51DB"} />
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.pop();
+          }}
+        >
+          <FontAwesome5 name="chevron-left" size={32} color={"#2A51DB"} />
         </TouchableOpacity>
       </View>
       <View style={styles.mainTextContainer}>
@@ -46,13 +53,21 @@ const ProfileSettingsScreen = (props) => {
         <FontAwesome5 name="user" size={22} color={"#2A51DB"} />
         <Text style={styles.sectionHeaderText}>Account</Text>
       </View>
-      <TouchableOpacity onPress={()=>{props.navigation.navigate("PersonalInfoScreen")}}>
+      <TouchableOpacity
+        onPress={() => {
+          props.navigation.navigate("PersonalInfoScreen");
+        }}
+      >
         <View style={styles.labelContainer}>
           <Text style={styles.labelText}>Personal Info</Text>
           <FontAwesome5 name="chevron-right" size={22} color={"#757575"} />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={()=>{props.navigation.navigate("PersonalSecurityScreen")}}> 
+      <TouchableOpacity
+        onPress={() => {
+          props.navigation.navigate("PersonalSecurityScreen");
+        }}
+      >
         <View style={styles.labelContainer}>
           <Text style={styles.labelText}>Reset Password</Text>
           <FontAwesome5 name="chevron-right" size={22} color={"#757575"} />
@@ -104,6 +119,10 @@ const ProfileSettingsScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex:1,
+    backgroundColor:"white"
+  },
   copyrightContainer: {
     flexDirection: "row",
     alignItems: "center",

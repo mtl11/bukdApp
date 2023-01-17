@@ -37,137 +37,134 @@ const ProfileScreen = (props) => {
     }
   }
   return (
-    // <View style={{ backgroundColor: "#2A51DB"}}>
-      <SafeAreaView style={styles.container}>
-        <View>
-          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-            <View style={{ justifyContent: "center" }}>
-              <TouchableOpacity
-                style={styles.topIconContainer}
-                onPress={() => {
-                  props.navigation.navigate("ProfileSettingsScreen");
-                }}
-              >
-                <Ionicons name="ios-settings" size={28} color="#2A51DB" />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View>
-            <View style={styles.profilePicContainer}>
-              <Image
-                source={require("../../assets/ok-profile.jpeg")}
-                style={styles.profilePic}
-                resizeMode="contain"
-              />
-            </View>
-          </View>
-        </View>
-        <View style={{ justifyContent: "center"}}>
-          <View style={styles.usernameContainer}>
-            <Text style={styles.usernameText}>{dummyProfile.username}</Text>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          style={{
-            alignSelf: "center",
-            borderWidth: 1,
-            borderRadius: 12,
-            borderColor: "#2A51DB",
-            width: "80%",
-            marginVertical: "5%",
-          }}
-          onPress={() => setModalVisible(true)}
-        >
-          <View style={{ alignSelf: "center", padding: 10 }}>
-            <Text
-              style={{
-                color: "#2A51DB",
-                fontFamily: "Rubik-SemiBold",
-                fontSize: 16,
+    <SafeAreaView style={styles.container}>
+      <View>
+        <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+          <View style={{ justifyContent: "center" }}>
+            <TouchableOpacity
+              style={styles.topIconContainer}
+              onPress={() => {
+                props.navigation.navigate("ProfileSettingsScreen");
               }}
             >
-              Edit Profile
-            </Text>
+              <Ionicons name="ios-settings" size={28} color="#2A51DB" />
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-        <View
-          style={{
-            borderBottomWidth: 1,
-            marginTop: 20,
-            alignItems: "center",
-          }}
-        >
-          <View
+        </View>
+        <View>
+          <View style={styles.profilePicContainer}>
+            <Image
+              source={require("../../assets/ok-profile.jpeg")}
+              style={styles.profilePic}
+              resizeMode="contain"
+            />
+          </View>
+        </View>
+      </View>
+      <View style={{ justifyContent: "center" }}>
+        <View style={styles.usernameContainer}>
+          <Text style={styles.usernameText}>{dummyProfile.username}</Text>
+        </View>
+      </View>
+      <TouchableOpacity
+        style={{
+          alignSelf: "center",
+          borderWidth: 1,
+          borderRadius: 12,
+          borderColor: "#2A51DB",
+          width: "80%",
+          marginVertical: "5%",
+        }}
+        onPress={() => setModalVisible(true)}
+      >
+        <View style={{ alignSelf: "center", padding: 10 }}>
+          <Text
             style={{
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              width: "90%",
+              color: "#2A51DB",
+              fontFamily: "Rubik-SemiBold",
+              fontSize: 16,
             }}
           >
-            <TouchableOpacity
-              style={styles.tabContainer}
-              onPress={() => {
-                setAboutShow(true);
-                setAvailShow(false);
-                setSocialShow(false);
-              }}
-            >
-              <View style={{ flexDirection: "column" }}>
-                <View style={styles.tabTextContainer}>
-                  <Text style={styles.tabText}>About</Text>
-                </View>
-                {aboutShow ? (
-                  <View style={styles.tabBottomBar}></View>
-                ) : (
-                  <View></View>
-                )}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.tabContainer}
-              onPress={() => {
-                setAvailShow(true);
-                setAboutShow(false);
-                setSocialShow(false);
-              }}
-            >
-              <View style={{ flexDirection: "column" }}>
-                <View style={styles.tabTextContainer}>
-                  <Text style={styles.tabText}>Availability</Text>
-                </View>
-                {availShow ? (
-                  <View style={styles.tabBottomBar}></View>
-                ) : (
-                  <View></View>
-                )}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.tabContainer}
-              onPress={() => {
-                setSocialShow(true);
-                setAvailShow(false);
-                setAboutShow(false);
-              }}
-            >
-              <View style={{ flexDirection: "column" }}>
-                <View style={styles.tabTextContainer}>
-                  <Text style={styles.tabText}>Socials</Text>
-                </View>
-                {socialShow ? (
-                  <View style={styles.tabBottomBar}></View>
-                ) : (
-                  <View></View>
-                )}
-              </View>
-            </TouchableOpacity>
-          </View>
+            Edit Profile
+          </Text>
         </View>
-        {getScreenTab()}
-        <EditModal visible={modalVisible} setModalVisible={setModalVisible} />
-      </SafeAreaView>
-    // </View>
+      </TouchableOpacity>
+      <View
+        style={{
+          borderBottomWidth: 1,
+          marginTop: 20,
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            width: "90%",
+          }}
+        >
+          <TouchableOpacity
+            style={styles.tabContainer}
+            onPress={() => {
+              setAboutShow(true);
+              setAvailShow(false);
+              setSocialShow(false);
+            }}
+          >
+            <View style={{ flexDirection: "column" }}>
+              <View style={styles.tabTextContainer}>
+                <Text style={styles.tabText}>About</Text>
+              </View>
+              {aboutShow ? (
+                <View style={styles.tabBottomBar}></View>
+              ) : (
+                <View></View>
+              )}
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.tabContainer}
+            onPress={() => {
+              setAvailShow(true);
+              setAboutShow(false);
+              setSocialShow(false);
+            }}
+          >
+            <View style={{ flexDirection: "column" }}>
+              <View style={styles.tabTextContainer}>
+                <Text style={styles.tabText}>Availability</Text>
+              </View>
+              {availShow ? (
+                <View style={styles.tabBottomBar}></View>
+              ) : (
+                <View></View>
+              )}
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.tabContainer}
+            onPress={() => {
+              setSocialShow(true);
+              setAvailShow(false);
+              setAboutShow(false);
+            }}
+          >
+            <View style={{ flexDirection: "column" }}>
+              <View style={styles.tabTextContainer}>
+                <Text style={styles.tabText}>Socials</Text>
+              </View>
+              {socialShow ? (
+                <View style={styles.tabBottomBar}></View>
+              ) : (
+                <View></View>
+              )}
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+      {getScreenTab()}
+      <EditModal visible={modalVisible} setModalVisible={setModalVisible} />
+    </SafeAreaView>
   );
 };
 
