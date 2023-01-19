@@ -1,10 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ProfileScreen from "../pages/profileScreens/ProfileScreen";
 import MessageScreen from "../pages/messageScreens/MessageScreen";
-import CalenderScreen from "../pages/calenderScreens/CalenderScreen";
 import SearchScreen from "../pages/searchScreens/SearchScreen";
-import ProfileSettingsScreen from "../pages/profileScreens/ProfileSettingsScreen";
 import * as React from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -36,11 +33,6 @@ export default TabNav = (props) => {
         }
       })}
     >
-      {/* <Tab.Screen
-        name="Calender"
-        component={CalenderScreen}
-        options={{ headerShown: false,gestureEnabled: false }}
-      /> */}
       <Tab.Screen
         name="Search"
         component={SearchScreen}
