@@ -41,7 +41,8 @@ const styles = StyleSheet.create({
   infoContainerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: "4%"
+    marginVertical: "4%",
+    marginRight:"2.5%"
   },
   infoText: { fontFamily: "Rubik-Regular", fontSize: 16, padding: "3%" },
 });

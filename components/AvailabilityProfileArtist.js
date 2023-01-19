@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   bigText: {
     fontFamily: "Rubik-SemiBold",
     fontSize: 20,
-    color: "#2A51DB",
+    // color: "#2A51DB",
   },
 });
 export default AvailabilityProfileArtist;

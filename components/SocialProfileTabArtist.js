@@ -12,9 +12,9 @@ const SocialProfileTabArtist = (props) => {
   return (
     <ScrollView
       contentContainerStyle={styles.list}
-      showsVerticalScrollIndicator={false}
+      showsVerticalScrollIndicator={true}
     >
-      <TouchableOpacity style={styles.socialContainer}>
+      <TouchableOpacity style={[styles.socialContainer,{marginTop:0}]}>
         <View style={{ marginRight: "0%" }}>
           <Text style={styles.socialText}>Spotify</Text>
         </View>
@@ -75,7 +75,8 @@ const SocialProfileTabArtist = (props) => {
 const styles = StyleSheet.create({
   list: {
     alignItems: "center",
-    height: "160%",
+    // height: "160%",
+    paddingVertical: 30
   },
   socialContainer: {
     flexDirection: "row",

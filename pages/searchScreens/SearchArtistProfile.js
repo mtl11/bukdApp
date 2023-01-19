@@ -8,12 +8,11 @@ import {
   Image,
 } from "react-native";
 import profileInformation from "../../models/profile/profile";
-import { Ionicons } from "@expo/vector-icons";
-import EditModal from "../../components/EditProfileArtist.js";
+import { FontAwesome5 } from "@expo/vector-icons";
 import SocialTab from "../../components/SocialProfileTabArtist.js";
 import AvailabilityProfileArtist from "../../components/AvailabilityProfileArtist";
-
-const SearchArtistProfile = (props) => {
+import AboutTabArtist from "../../components/AboutTabArtist";
+const ProfileScreen = (props) => {
   const dummyProfile = new profileInformation(
     123,
     "M-OKAY",
@@ -23,64 +22,56 @@ const SearchArtistProfile = (props) => {
   );
   const [modalVisible, setModalVisible] = useState(false);
   const [socialShow, setSocialShow] = useState(false);
-
+  const [aboutShow, setAboutShow] = useState(true);
+  const [availShow, setAvailShow] = useState(false);
+  function getScreenTab() {
+    if (socialShow == true) {
+      return <SocialTab />;
+    }
+    if (aboutShow == true) {
+      return <AboutTabArtist />;
+    }
+    if (availShow == true) {
+      return <AvailabilityProfileArtist />;
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-end",
-        }}
-      >
-        <View style={{ justifyContent: "center" }}>
-          <TouchableOpacity
-            style={styles.topIconContainer}
-            onPress={() => {
-              props.navigation.navigate("ProfileSettingsScreen");
-            }}
-          >
-            <Ionicons name="ios-settings" size={28} color="#2A51DB" />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{ flexDirection: "row", marginHorizontal: 30 }}>
-        <View style={styles.profilePicContainer}>
-          <Image
-            source={require("../../assets/ok-profile.jpeg")}
-            style={styles.profilePic}
-            resizeMode="contain"
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "column",
-            justifyContent: "center",
-            marginLeft: 20,
-          }}
-        >
-          <View style={styles.usernameContainer}>
-            <Text style={styles.usernameText}>{dummyProfile.username}</Text>
+      <View>
+          <View style={{marginHorizontal:"8%"}}>
+            <TouchableOpacity
+              style={styles.topIconContainer}
+              onPress={() => {
+                props.navigation.pop();
+              }}
+            >
+              <FontAwesome5 name="chevron-left" size={32} color={"#2A51DB"} />
+            </TouchableOpacity>
           </View>
-          <View style={styles.genreContainer}>
-            <Text style={styles.genreText}>
-              {dummyProfile.genre} | {dummyProfile.subgenre}
-            </Text>
+        <View>
+          <View style={styles.profilePicContainer}>
+            <Image
+              source={require("../../assets/nochos.jpeg")}
+              style={styles.profilePic}
+              resizeMode="cover"
+            />
           </View>
         </View>
       </View>
-      <View style={styles.bioContainer}>
-        <Text style={styles.bioText}>{dummyProfile.bio}</Text>
+      <View style={{ justifyContent: "center" }}>
+        <View style={styles.usernameContainer}>
+          <Text style={styles.usernameText}>No Anchovies</Text>
+        </View>
       </View>
       <TouchableOpacity
         style={{
           alignSelf: "center",
           borderWidth: 1,
-          borderRadius: 6,
+          borderRadius: 12,
           borderColor: "#2A51DB",
-          width: "70%",
-          marginTop: 10,
+          width: "80%",
+          marginVertical: "5%",
         }}
-        onPress={() => setModalVisible(true)}
       >
         <View style={{ alignSelf: "center", padding: 10 }}>
           <Text
@@ -90,56 +81,84 @@ const SearchArtistProfile = (props) => {
               fontSize: 16,
             }}
           >
-            Edit Profile
+            Message
           </Text>
         </View>
       </TouchableOpacity>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-evenly",
           borderBottomWidth: 1,
           marginTop: 20,
+          alignItems: "center",
         }}
       >
-        <TouchableOpacity
-          style={styles.tabContainer}
-          onPress={() => {
-            setSocialShow(false);
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            width: "90%",
           }}
         >
-          <View style={{ flexDirection: "column" }}>
-            <View style={styles.tabTextContainer}>
-              <Text style={styles.tabText}>Availability</Text>
+          <TouchableOpacity
+            style={styles.tabContainer}
+            onPress={() => {
+              setAboutShow(true);
+              setAvailShow(false);
+              setSocialShow(false);
+            }}
+          >
+            <View style={{ flexDirection: "column" }}>
+              <View style={styles.tabTextContainer}>
+                <Text style={styles.tabText}>About</Text>
+              </View>
+              {aboutShow ? (
+                <View style={styles.tabBottomBar}></View>
+              ) : (
+                <View></View>
+              )}
             </View>
-            {socialShow ? (
-              <View></View>
-            ) : (
-              <View style={styles.tabBottomBar}></View>
-            )}
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabContainer}
-          onPress={() => {
-            setSocialShow(true);
-          }}
-        >
-          <View style={{ flexDirection: "column" }}>
-            <View style={styles.tabTextContainer}>
-              <Text style={styles.tabText}>Socials</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.tabContainer}
+            onPress={() => {
+              setAvailShow(true);
+              setAboutShow(false);
+              setSocialShow(false);
+            }}
+          >
+            <View style={{ flexDirection: "column" }}>
+              <View style={styles.tabTextContainer}>
+                <Text style={styles.tabText}>Availability</Text>
+              </View>
+              {availShow ? (
+                <View style={styles.tabBottomBar}></View>
+              ) : (
+                <View></View>
+              )}
             </View>
-            {socialShow ? (
-              <View style={styles.tabBottomBar}></View>
-            ) : (
-              <View></View>
-            )}
-          </View>
-        </TouchableOpacity>
-        
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.tabContainer}
+            onPress={() => {
+              setSocialShow(true);
+              setAvailShow(false);
+              setAboutShow(false);
+            }}
+          >
+            <View style={{ flexDirection: "column" }}>
+              <View style={styles.tabTextContainer}>
+                <Text style={styles.tabText}>Socials</Text>
+              </View>
+              {socialShow ? (
+                <View style={styles.tabBottomBar}></View>
+              ) : (
+                <View></View>
+              )}
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
-      {socialShow ? <SocialTab /> : <AvailabilityProfileArtist/>}
-      <EditModal visible={modalVisible} setModalVisible={setModalVisible} />
+      {getScreenTab()}
     </SafeAreaView>
   );
 };
@@ -148,7 +167,7 @@ const styles = StyleSheet.create({
   tabTextContainer: {
     paddingHorizontal: 15,
     borderRadius: 10,
-    paddingBottom: 5,
+    paddingBottom: 10,
   },
   tabContainer: {
     width: "50%",
@@ -185,15 +204,11 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 100,
   },
-  starIcons: {
-    flexDirection: "row",
-  },
   topIconContainer: {
-    alignSelf: "flex-end",
-    marginHorizontal: 30,
+   
   },
   container: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "white",
     height: "100%",
   },
   buttontext: {
@@ -205,11 +220,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   profilePicContainer: {
-    borderWidth: 1.5,
     alignSelf: "center",
     borderRadius: 100,
-    marginTop: 10,
+    marginTop: "3%",
     justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.41,
+    shadowRadius: 4,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -228,26 +246,5 @@ const styles = StyleSheet.create({
     fontFamily: "Rubik-SemiBold",
     fontSize: 24,
   },
-  genreText: {
-    fontFamily: "Rubik-SemiBold",
-    fontSize: 20,
-    color: "#2A51DB",
-  },
-  genreContainer: {
-    alignSelf: "center",
-    marginTop: 8,
-  },
-  bioContainer: {
-    paddingHorizontal: 40,
-    textAlign: "center",
-    marginTop: 20,
-    marginBottom: 20
-  },
-  bioText: {
-    fontFamily: "Rubik-Regular",
-    fontSize: 16,
-    color: "#757575",
-    textAlign: "left",
-  },
 });
-export default SearchArtistProfile;
+export default ProfileScreen;

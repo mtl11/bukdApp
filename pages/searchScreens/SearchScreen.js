@@ -1,87 +1,106 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  Icon,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Button,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import VenueList from "../../components/VenueList";
+import { Ionicons } from "@expo/vector-icons";
+const data = [
+  { label: "Tuscon, AZ", value: "1" },
+  { label: "Los Angeles, CA", value: "2" },
+  { label: "Miami, FL", value: "3" },
+  { label: "Denver, CO", value: "4" },
+  { label: "Las Vegas, NV", value: "5" },
+  { label: "San Francsico, CA", value: "6" },
+  { label: "Seattle, WA", value: "7" }
+];
+
 const SearchScreen = (props) => {
   const [value, setValue] = useState(null);
-  const data = [{ label: "Tucson", value: "1" }];
+  const [isFocus, setIsFocus] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
-        <Ionicons name="ios-location-outline" size={28} color="black" />
         <Dropdown
-          style={styles.dropdown}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
+          statusBarIsTranslucent={true}
+          style={[styles.dropdown, isFocus && { borderColor: "black" }]}
+          placeholderStyle={[styles.placeholderStyle, isFocus && { color: "black" }]}
+          selectedTextStyle={[
+            styles.selectedTextStyle,
+            isFocus && { color: "black" },
+          ]}
+          inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
-          itemTextStyle={styles.itemTextStyle}
-          itemContainerStyle={styles.itemContainerStyle}
-          iconColor="black"
+          renderLeftIcon={() => {
+            return (
+              <Ionicons
+                name="ios-location-outline"
+                size={28}
+                color={isFocus ? "black" : "#9E9E9E"}
+              />
+            );
+          }}
           data={data}
+          search
+          fontFamily="Rubik-Regular"
+          maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder="Select Location"
+          placeholder={"Select Location"}
+          searchPlaceholder="Search..."
           value={value}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
           onChange={(item) => {
             setValue(item.value);
+            setIsFocus(false);
           }}
         />
       </View>
       <View>
-          <VenueList/>
+        <VenueList props ={props}/>
       </View>
     </SafeAreaView>
   );
 };
 
+export default SearchScreen;
+
 const styles = StyleSheet.create({
-  itemContainerStyle: {
-    borderWidth: 1,
-    borderRadius: 10,
-  },
-  itemTextStyle: {
-    fontSize: 20,
-  },
-  iconStyle: {},
   topContainer: {
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    borderBottomWidth: 1,
-  },
-  dropdown: {
-    paddingVertical: 5,
-    paddingHorizontal: 18,
-    borderRadius: 12,
-    fontSize: 20,
-    color: "#FDF6F0",
-    width: "80%",
-    marginHorizontal: 10,
-  },
-  placeholderStyle: {
-    fontSize: 20,
-    fontFamily: "Rubik-Regular",
-  },
-  selectedTextStyle: {
-    fontSize: 20,
-    fontFamily: "Rubik-Regular",
-    color: "black",
   },
   container: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "white",
     height: "100%",
   },
+  dropdown: {
+    height: 50,
+    width: "90%",
+    borderColor: "#9E9E9E",
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 8
+  },
+  icon: {
+    marginRight: 5,
+  },
+  placeholderStyle: {
+    fontSize: 18,
+    color: "#9E9E9E"
+  },
+  selectedTextStyle: {
+    fontSize: 18,
+    color: "#9E9E9E",
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
 });
-export default SearchScreen;

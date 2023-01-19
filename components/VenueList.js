@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Image,
   ImageBackground,
 } from "react-native";
 const image = { uri: "https://reactjs.org/logo-og.png" };
@@ -30,7 +29,7 @@ const VenueList = (props) => {
           </ImageBackground>
         </TouchableOpacity>
         <TouchableOpacity style={styles.individualContainer}
-            onPress={()=>{()=>props.navigation.navigation("SearchArtistProfile")}}
+            onPress={()=>{props.props.navigation.navigate("SearchArtistProfile")}}
         >
           <ImageBackground
             source={image}
@@ -80,12 +79,15 @@ const styles = StyleSheet.create({
   },
   list: {
     height: "100%",
-    marginHorizontal: 35,
+    marginHorizontal: "5%",
     marginTop: 10,
   },
   individualContainer: {
-    width: 167,
-    height: 167,
+    // flex:1,
+    width: 160,
+    height: 160,
+    // width: "40%",
+    // height: "100%",
     borderRadius: 12,
   },
 });
