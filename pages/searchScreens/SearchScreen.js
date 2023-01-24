@@ -39,6 +39,7 @@ const SearchScreen = (props) => {
               />
             );
           }}
+          autoScroll={false}
           data={data}
           search
           fontFamily="Rubik-Regular"
