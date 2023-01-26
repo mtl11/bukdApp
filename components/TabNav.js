@@ -6,6 +6,8 @@ import * as React from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import global from "../styles/global";
 const Tab = createBottomTabNavigator();
 export default TabNav = (props) => {
   return (
@@ -13,30 +15,42 @@ export default TabNav = (props) => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === "Calender") {
-            iconName = focused ? "calendar" : "calendar";
-          } else if (route.name === "Search") {
-            iconName = focused ? "search" : "search";
-            return <AntDesign name="search1" size={size} color={color} />;
+          if (route.name === "Search") {
+            iconName = focused ? "ios-search" : "ios-search-outline";
+            return <Ionicons name={iconName} size={38} color={color} />;
           } else if (route.name === "Profile") {
-            return <FontAwesome5 name="user" size={size} color={color} />;
+            iconName = focused ? "person" : "person-outline";
+            return <Ionicons name={iconName} size={32} color={color} />;
           } else if (route.name === "Messages") {
-            return <Feather name="message-circle" size={size} color={color} />;
+            iconName = focused ? "chatbubble" : "chatbubble-outline";
+            return <Ionicons name={iconName} size={32} color={color} />;
           }
           return <FontAwesome5 name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#2A51DB",
-        tabBarInactiveTintColor: "#BFBFBF",
-        tabBarStyle:{
-          borderTopWidth:.5,
-          borderTopColor: "gray"
-        }
+        tabBarActiveTintColor: global.color.primaryColors.main,
+        tabBarInactiveTintColor: "#C4C4C4",
+        tabBarStyle: {
+          backgroundColor: "#303046",
+          alignItems: "center",
+          justifyContent: "center",
+          borderWidth:1
+       },
+       tabBarBadgeStyle:{
+        // margin: 10,
+        // borderWidth:1,
+        // width: 50,
+        // height:50
+      },tabBarItemStyle:{
+        height: 60
+      },
+      tabBarShowLabel:false
+
       })}
     >
       <Tab.Screen
         name="Search"
         component={SearchScreen}
-        options={{ headerShown: false,gestureEnabled: false }}
+        options={{ headerShown: false, gestureEnabled: false }}
       />
       <Tab.Screen
         name="Messages"

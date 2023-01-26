@@ -8,60 +8,101 @@ import {
   TextInput,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import colors from "../../styles/global";
 
 const PersonalInfoScreen = (props) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View style={styles.topIconContainer}>
         <TouchableOpacity
           onPress={() => {
             props.navigation.pop();
           }}
         >
-          <FontAwesome5 name="chevron-left" size={32} color={"#2A51DB"} />
+          <FontAwesome5
+            name="chevron-left"
+            size={32}
+            color={colors.color.primaryColors.buttonAccent}
+          />
         </TouchableOpacity>
+        <View style={styles.largeContainer}>
+          <Text style={styles.largeText}>Personal Information</Text>
+        </View>
       </View>
-      <View style={styles.sectionHeaderContainer}>
-        <FontAwesome5 name="user-alt" size={22} />
-        <Text style={styles.sectionHeaderText}>Personal Info</Text>
-      </View>
-      <View style={[styles.inputContainer, { marginTop: 10 }]}>
-        <Text style={styles.inputHeader}>First Name</Text>
-        <TextInput style={styles.input} />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputHeader}>Last Name</Text>
-        <TextInput style={styles.input} />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputHeader}>Email Address</Text>
-        <TextInput style={styles.input} />
+      <View style={styles.textInputsContanier}>
+        <View style={[styles.inputContainer, { marginTop: 10 }]}>
+          <TextInput
+            style={styles.input}
+            placeholder={"Email"}
+            placeholderTextColor={colors.color.primaryColors.main}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder={"First Name"}
+            placeholderTextColor={colors.color.primaryColors.main}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder={"Last Name"}
+            placeholderTextColor={colors.color.primaryColors.main}
+          />
+        </View>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => {}}
+        >
+          <Text style={styles.buttonText}>Save Changes</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  textInputsContanier: {
+    marginVertical: "10%",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: colors.color.primaryColors.background,
+  },
+  largeText: {
+    fontSize: 24,
+    fontFamily: "Rubik-SemiBold",
+    color: colors.color.primaryColors.text,
+  },
+  largeContainer: {
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   inputHeader: {
-    color: "#757575",
+    color: colors.color.primaryColors.headerText,
     fontFamily: "Rubik-Regular",
+  },
+  inputHeaderContainer: {
+    marginHorizontal: "8%",
   },
   input: {
-    borderWidth: 1,
-    borderRadius: 12,
+    paddingVertical: "5%",
+    marginHorizontal: "5%",
     fontSize: 16,
     fontFamily: "Rubik-Regular",
-    padding: 10,
-    borderColor: "#757575",
-    marginTop: 5,
+    color: colors.color.primaryColors.text,
   },
   inputContainer: {
-    marginHorizontal: 35,
-    marginTop: 25,
+    borderRadius: 12,
+    marginHorizontal: "8%",
+    marginTop: "5%",
+    backgroundColor: colors.color.primaryColors.adjacent,
   },
   topIconContainer: {
-    marginLeft: 35,
-    // marginTop: 10,
+    marginHorizontal: "8%",
+    flexDirection: "row",
   },
   headerText: {
     fontFamily: "Rubik-SemiBold",
@@ -87,6 +128,20 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Rubik-SemiBold",
     marginHorizontal: 15,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 16,
+    marginHorizontal: "8%",
+    backgroundColor: colors.color.primaryColors.main,
+    borderRadius: 12,
+    marginTop: "20%",
+  },
+  buttonText: {
+    fontFamily: "Rubik-Medium",
+    color: "white",
+    fontSize: 18,
   },
 });
 export default PersonalInfoScreen;

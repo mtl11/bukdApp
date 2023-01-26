@@ -2,24 +2,39 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import colors from "../styles/global";
+
 const AvailabilityProfileArtist = () => {
   return (
     <View style={styles.container}>
       <View style={styles.singleContainer}>
         <View style={styles.headerContainer}>
-          <Ionicons name="time-outline" size={24} color="#757575" />
+          <Ionicons
+            name="ios-alarm-outline"
+            size={24}
+            color={colors.color.primaryColors.main}
+          />
           <Text style={styles.headerText}>Preferred Time</Text>
         </View>
         <View style={[styles.boxContainer, styles.timeContainer]}>
           <Text style={styles.bigText}>Evening</Text>
-          <Text style={[styles.bigText, { color: "#757575" }]}>
+          <Text
+            style={[
+              styles.bigText,
+              { color: colors.color.primaryColors.text },
+            ]}
+          >
             10 PM - 1 AM
           </Text>
         </View>
       </View>
       <View style={styles.singleContainer}>
         <View style={styles.headerContainer}>
-          <FontAwesome5 name="calendar" size={22} color="#757575" />
+          <Ionicons
+            name="ios-calendar-outline"
+            size={24}
+            color={colors.color.primaryColors.main}
+          />
           <Text style={styles.headerText}>Preferred Days</Text>
         </View>
         <View style={styles.boxContainer}>
@@ -54,7 +69,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
     padding: "5%",
-    borderColor: "#2A51DB",
+    borderColor: colors.color.primaryColors.adjacent,
   },
   container: {
     flex: 1,
@@ -63,13 +78,13 @@ const styles = StyleSheet.create({
   headerText: {
     fontFamily: "Rubik-Regular",
     fontSize: 16,
-    color: "#757575",
-    marginLeft: "2%",
+    color: colors.color.primaryColors.main,
+    marginLeft: 10,
   },
   bigText: {
     fontFamily: "Rubik-SemiBold",
     fontSize: 20,
-    // color: "#2A51DB",
+    color: colors.color.primaryColors.text,
   },
 });
 export default AvailabilityProfileArtist;

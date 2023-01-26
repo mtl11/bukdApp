@@ -13,6 +13,7 @@ import EditModal from "../../components/EditProfileArtist.js";
 import SocialTab from "../../components/SocialProfileTabArtist.js";
 import AvailabilityProfileArtist from "../../components/AvailabilityProfileArtist";
 import AboutTabArtist from "../../components/AboutTabArtist";
+import global from "../../styles/global";
 const ProfileScreen = (props) => {
   const dummyProfile = new profileInformation(
     123,
@@ -47,7 +48,7 @@ const ProfileScreen = (props) => {
                 props.navigation.navigate("ProfileSettingsScreen");
               }}
             >
-              <Ionicons name="ios-settings" size={28} color="#2A51DB" />
+              <Ionicons name="ios-settings" size={28} color={global.color.primaryColors.text} />
             </TouchableOpacity>
           </View>
         </View>
@@ -69,20 +70,21 @@ const ProfileScreen = (props) => {
       <TouchableOpacity
         style={{
           alignSelf: "center",
-          borderWidth: 1,
+          // borderWidth: 1,
           borderRadius: 12,
           borderColor: "#2A51DB",
           width: "80%",
           marginVertical: "5%",
+          backgroundColor: global.color.primaryColors.adjacent 
         }}
         onPress={() => setModalVisible(true)}
       >
-        <View style={{ alignSelf: "center", padding: 10 }}>
+        <View style={{ alignSelf: "center", padding: 10}}>
           <Text
             style={{
               color: "#2A51DB",
-              fontFamily: "Rubik-SemiBold",
-              fontSize: 16,
+              fontFamily: "Rubik-Medium",
+              fontSize: 18,
             }}
           >
             Edit Profile
@@ -94,6 +96,7 @@ const ProfileScreen = (props) => {
           borderBottomWidth: 1,
           marginTop: 20,
           alignItems: "center",
+          borderColor: global.color.primaryColors.adjacent
         }}
       >
         <View
@@ -172,37 +175,26 @@ const styles = StyleSheet.create({
   tabTextContainer: {
     paddingHorizontal: 15,
     borderRadius: 10,
-    paddingBottom: 10,
+    paddingBottom: 10
   },
   tabContainer: {
     width: "50%",
     alignItems: "center",
   },
   tabBottomBar: {
-    borderWidth: 3,
-    borderRadius: 10,
-    borderColor: "#2A51DB",
+    borderWidth: 2.5,
+    borderRadius: 12,
+    borderColor: global.color.primaryColors.main,
+    backgroundColor: global.color.primaryColors.main 
   },
   tabText: {
-    color: "black",
+    color: global.color.primaryColors.text,
     fontFamily: "Rubik-Regular",
     fontSize: 16,
   },
   socialLogo: {
     height: 30,
     width: 30,
-  },
-  editProfileContainer: {
-    borderWidth: 1,
-    alignSelf: "center",
-    borderRadius: 3,
-    marginTop: 10,
-    marginBottom: 30,
-    justifyContent: "center",
-    borderColor: "#2A51DB",
-    padding: 10,
-    width: "40%",
-    alignItems: "center",
   },
   profilePic: {
     width: 120,
@@ -214,13 +206,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   container: {
-    backgroundColor: "white",
+    backgroundColor: global.color.primaryColors.background,
     height: "100%",
-  },
-  buttontext: {
-    color: "white",
-    fontFamily: "Rubik-SemiBold",
-    fontSize: 20,
   },
   iconContainer: {
     justifyContent: "center",
@@ -230,19 +217,12 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginTop: "3%",
     justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.41,
-    shadowRadius: 4,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 16,
-    marginHorizontal: 30,
-    backgroundColor: "#2A51DB",
-    borderRadius: 12,
-    marginTop: 20,
+    borderWidth: 4,
+    borderColor: global.color.primaryColors.adjacent
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 0 },
+    // shadowOpacity: 0.41,
+    // shadowRadius: 4,
   },
   usernameContainer: {
     alignSelf: "center",
@@ -251,6 +231,7 @@ const styles = StyleSheet.create({
   usernameText: {
     fontFamily: "Rubik-SemiBold",
     fontSize: 24,
+    color: global.color.primaryColors.text
   },
 });
 export default ProfileScreen;

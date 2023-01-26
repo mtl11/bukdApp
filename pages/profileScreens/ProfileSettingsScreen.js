@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-
+import colors from "../../styles/global";
 const ProfileSettingsScreen = (props) => {
   const signOutAlert = () => {
-    Alert.alert("Are you sure you want to sign out?", "", [
+    Alert.alert("Are you sure you want to Sign Out?", "", [
       {
         text: "Cancel",
         onPress: () => console.log("Cancel Pressed"),
@@ -40,17 +40,28 @@ const ProfileSettingsScreen = (props) => {
             props.navigation.pop();
           }}
         >
-          <FontAwesome5 name="chevron-left" size={32} color={"#2A51DB"} />
+          <FontAwesome5
+            name="chevron-left"
+            size={32}
+            color={colors.color.primaryColors.buttonAccent}
+          />
         </TouchableOpacity>
+        <View style={styles.largeContainer}>
+          <Text style={styles.largeText}>Settings</Text>
+        </View>
       </View>
       <View style={styles.mainTextContainer}>
-        <Text style={styles.headerText}>Hello, M-OKAY.</Text>
+        <Text style={styles.headerText}>Hello, User.</Text>
         <Text style={styles.smallerText}>
           Manage your Account and Settings here.
         </Text>
       </View>
       <View style={styles.sectionHeaderContainer}>
-        <FontAwesome5 name="user" size={22} color={"#2A51DB"} />
+        <FontAwesome5
+          name="user"
+          size={22}
+          color={colors.color.primaryColors.main}
+        />
         <Text style={styles.sectionHeaderText}>Account</Text>
       </View>
       <TouchableOpacity
@@ -60,7 +71,11 @@ const ProfileSettingsScreen = (props) => {
       >
         <View style={styles.labelContainer}>
           <Text style={styles.labelText}>Personal Info</Text>
-          <FontAwesome5 name="chevron-right" size={22} color={"#757575"} />
+          <FontAwesome5
+            name="chevron-right"
+            size={22}
+            color={colors.color.primaryColors.text}
+          />
         </View>
       </TouchableOpacity>
       <TouchableOpacity
@@ -70,19 +85,30 @@ const ProfileSettingsScreen = (props) => {
       >
         <View style={styles.labelContainer}>
           <Text style={styles.labelText}>Reset Password</Text>
-          <FontAwesome5 name="chevron-right" size={22} color={"#757575"} />
+          <FontAwesome5
+            name="chevron-right"
+            size={22}
+            color={colors.color.primaryColors.text}
+          />
         </View>
       </TouchableOpacity>
       <View style={styles.sectionHeaderContainer}>
-        <FontAwesome5 name="bell" size={22} color={"#2A51DB"} />
+        <FontAwesome5
+          name="bell"
+          size={22}
+          color={colors.color.primaryColors.main}
+        />
         <Text style={styles.sectionHeaderText}>Notifications</Text>
       </View>
       <View style={styles.labelContainer}>
         <Text style={styles.labelText}>New show requests</Text>
         <Switch
-          trackColor={{ false: "#757575", true: "#2A51DB" }}
+          trackColor={{
+            false: "#757575",
+            true: colors.color.primaryColors.main,
+          }}
           thumbColor={newShowRequests ? "white" : "white"}
-          ios_backgroundColor="#757575"
+          ios_backgroundColor={colors.color.primaryColors.adjacent}
           onValueChange={newShowToggle}
           value={newShowRequests}
         />
@@ -90,23 +116,30 @@ const ProfileSettingsScreen = (props) => {
       <View style={styles.labelContainer}>
         <Text style={styles.labelText}>New messages</Text>
         <Switch
-          trackColor={{ false: "#757575", true: "#2A51DB" }}
+          trackColor={{
+            false: colors.color.primaryColors.text,
+            true: colors.color.primaryColors.main,
+          }}
           thumbColor={newMessages ? "white" : "white"}
-          ios_backgroundColor="#757575"
+          ios_backgroundColor={colors.color.primaryColors.adjacent}
           onValueChange={newMessageToggle}
           value={newMessages}
         />
       </View>
-      <TouchableOpacity onPress={signOutAlert}>
-        <View style={styles.signOutContainer}>
+      <TouchableOpacity style={styles.signOutContainer} onPress={signOutAlert}>
+        <View style={{ marginHorizontal: 7.5 }}>
           <Text style={styles.signOutText}>Sign Out</Text>
-          <MaterialIcons name="exit-to-app" size={24} color="red" />
         </View>
+        <MaterialIcons name="exit-to-app" size={24} color="red" />
       </TouchableOpacity>
       <View style={styles.infoContainer}>
         <Text style={styles.smallerText}>Bukd v0.0</Text>
         <View style={styles.copyrightContainer}>
-          <FontAwesome5 name="copyright" size={16} color="#757575" />
+          <FontAwesome5
+            name="copyright"
+            size={16}
+            color={colors.color.primaryColors.text}
+          />
           <Text
             style={[styles.smallerText, { paddingBottom: 10, paddingLeft: 5 }]}
           >
@@ -120,8 +153,8 @@ const ProfileSettingsScreen = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    backgroundColor:"white"
+    flex: 1,
+    backgroundColor: colors.color.primaryColors.background,
   },
   copyrightContainer: {
     flexDirection: "row",
@@ -131,62 +164,75 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     alignItems: "center",
-    marginTop: 60,
+    //   marginTop: 60,
   },
   signOutText: {
     fontFamily: "Rubik-Regular",
     color: "red",
     fontSize: 20,
+    marginHorizontal: 7.5,
+  },
+  largeText: {
+    fontSize: 24,
+    fontFamily: "Rubik-SemiBold",
+    color: colors.color.primaryColors.text,
+  },
+  largeContainer: {
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   signOutContainer: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 50,
+    marginVertical: "15%",
   },
   topIconContainer: {
-    marginLeft: 35,
+    marginHorizontal: "8%",
+    flexDirection: "row",
   },
   labelText: {
     fontFamily: "Rubik-Regular",
     fontSize: 20,
-    color: "#757575",
+    color: colors.color.primaryColors.text,
   },
   labelContainer: {
-    marginHorizontal: 35,
+    marginHorizontal: "8%",
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "space-between",
-    marginTop: 30,
+    marginTop: "8%",
   },
   mainTextContainer: {
-    marginLeft: 35,
-    marginTop: 30,
+    marginLeft: "8%",
+    marginTop: "10%",
   },
   headerText: {
     fontFamily: "Rubik-SemiBold",
     fontSize: 24,
+    color: colors.color.primaryColors.main,
   },
   smallerText: {
     fontFamily: "Rubik-Regular",
     fontSize: 16,
-    color: "#757575",
-    marginTop: 10,
+    color: colors.color.primaryColors.text,
+    marginTop: "2%",
   },
   sectionHeaderContainer: {
     borderBottomWidth: 1,
     margin: 10,
     paddingLeft: 30,
     paddingBottom: 10,
-    marginTop: 40,
+    marginTop: "10%",
     flexDirection: "row",
-    borderColor: "#757575",
+    borderColor: colors.color.primaryColors.adjacent,
   },
   sectionHeaderText: {
     fontSize: 20,
     fontFamily: "Rubik-SemiBold",
     marginHorizontal: 15,
-    color: "#2A51DB",
+    color: colors.color.primaryColors.main,
   },
 });
 export default ProfileSettingsScreen;

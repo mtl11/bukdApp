@@ -6,7 +6,8 @@ export default {
             adjacent: "#303046",
             text: "#FFFFFF",
             buttonAccent: "#FFFFFF",
-            placeHolderTextColor: "#226DCE"
+            placeHolderTextColor: "#226DCE",
+            headerText: "#226DCE"
         }
     }
 }

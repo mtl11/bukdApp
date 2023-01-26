@@ -12,7 +12,6 @@ export default {
     width: 120,
     height: 120,
   },
-  // iconContainer: { marginHorizontal: "8%"},
   input: {
     paddingVertical: "5%",
     marginHorizontal: "5%",

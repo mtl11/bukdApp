@@ -1,115 +1,128 @@
 import React from "react";
 import {
-  SafeAreaView,
   View,
-  StyleSheet,
   Text,
+  SafeAreaView,
+  StyleSheet,
   TouchableOpacity,
   TextInput,
+  Image,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import colors from "../../styles/global";
 
-const PersonalSecurityScreen = (props) => {
+const PasswordSecurityScreen = (props) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{
+        flex:1,
+        backgroundColor: colors.color.primaryColors.background,
+      }}
+    >
       <View style={styles.topIconContainer}>
         <TouchableOpacity
           onPress={() => {
             props.navigation.pop();
           }}
         >
-          <FontAwesome5 name="chevron-left" size={32} color={"#2A51DB"} />
+          <FontAwesome5
+            name="chevron-left"
+            size={32}
+            color={colors.color.primaryColors.buttonAccent}
+          />
         </TouchableOpacity>
+        <View style={styles.largeContainer}>
+          <Text style={styles.largeText}>Reset Password</Text>
+        </View>
       </View>
-      <View style={styles.sectionHeaderContainer}>
-        <FontAwesome5 name="user-alt" size={22} />
-        <Text style={styles.sectionHeaderText}>Personal Info</Text>
-      </View>
-      <View style={[styles.inputContainer, { marginTop: 10 }]}>
-        <Text style={styles.inputHeader}>Current Password</Text>
-        <TextInput style={styles.input} />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputHeader}>New Password</Text>
-        <TextInput style={styles.input} textContentType="newPassword"secureTextEntry={true}/>
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputHeader}>Confirm New Password</Text>
-        <TextInput style={styles.input} textContentType="newPassword"secureTextEntry={true}/>
-      </View>
-      <TouchableOpacity
+      <View style={styles.textInputsContanier}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Current Password"
+            placeholderTextColor={
+              colors.color.primaryColors.placeHolderTextColor
+            }
+            secureTextEntry={true}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="New Password"
+            placeholderTextColor={
+              colors.color.primaryColors.placeHolderTextColor
+            }
+            secureTextEntry={true}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Renter New Password"
+            placeholderTextColor={
+              colors.color.primaryColors.placeHolderTextColor
+            }
+            secureTextEntry={true}
+          />
+        </View>
+        <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
-          props.navigation.pop();
+          props.navigation.navigate("TabNav");
         }}
       >
-        <Text style={styles.buttonText}>Reset Password</Text>
-        <FontAwesome5 name="chevron-right" size={20} color="white" />
+        <Text style={styles.buttonText}>Reset</Text>
       </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
-    buttonContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        padding: 16,
-        marginHorizontal: 35,
-        backgroundColor: "#2A51DB",
-        borderRadius: 12,
-        margin: "10%"
-      },
-      buttonText: {
-        fontFamily: "Rubik-Medium",
-        color: "white",
-        fontSize: 20,
-      },
-  inputHeader: {
-    color: "#757575",
-    fontFamily: "Rubik-Regular",
+  textInputsContanier: {
+    marginVertical: "10%",
   },
-  input: {
-    borderWidth: 1,
-    borderRadius: 12,
-    fontSize: 16,
-    fontFamily: "Rubik-Regular",
-    padding: 10,
-    borderColor: "#757575",
-    marginTop: 5,
+  largeText: {
+    fontSize: 24,
+    fontFamily: "Rubik-SemiBold",
+    color: colors.color.primaryColors.text,
   },
-  inputContainer: {
-    marginHorizontal: 35,
-    marginTop: 25,
+  largeContainer: {
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   topIconContainer: {
-    marginLeft: 35,
-    // marginTop: 10,
-  },
-  headerText: {
-    fontFamily: "Rubik-SemiBold",
-    fontSize: 24,
-  },
-  smallerText: {
-    fontFamily: "Rubik-Regular",
-    fontSize: 16,
-    color: "#757575",
-    marginTop: 10,
-  },
-  sectionHeaderContainer: {
-    borderBottomWidth: 1,
-    margin: 10,
-    // marginBottom: 20,
-    paddingLeft: 30,
-    paddingBottom: 10,
-    marginTop: 40,
+    marginHorizontal: "8%",
     flexDirection: "row",
-    borderColor: "#757575",
   },
-  sectionHeaderText: {
-    fontSize: 20,
-    fontFamily: "Rubik-SemiBold",
-    marginHorizontal: 15,
+  input: {
+    paddingVertical: "5%",
+    marginHorizontal: "5%",
+    fontSize: 16,
+    fontFamily: "Rubik-Regular",
+    color: colors.color.primaryColors.text,
+  },
+  inputContainer: {
+    borderRadius: 12,
+    marginHorizontal: "8%",
+    marginTop: "5%",
+    backgroundColor: colors.color.primaryColors.adjacent,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 16,
+    marginHorizontal: "8%",
+    backgroundColor: colors.color.primaryColors.main,
+    borderRadius: 12,
+    marginTop: "20%",
+  },
+  buttonText: {
+    fontFamily: "Rubik-Medium",
+    color: "white",
+    fontSize: 18,
   },
 });
-export default PersonalSecurityScreen;
+
+export default PasswordSecurityScreen;

@@ -7,12 +7,11 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-
+import global from "../styles/global";
 const SocialProfileTabArtist = (props) => {
   return (
     <ScrollView
       contentContainerStyle={styles.list}
-      showsVerticalScrollIndicator={true}
     >
       <TouchableOpacity style={[styles.socialContainer,{marginTop:0}]}>
         <View style={{ marginRight: "0%" }}>
@@ -75,18 +74,18 @@ const SocialProfileTabArtist = (props) => {
 const styles = StyleSheet.create({
   list: {
     alignItems: "center",
-    // height: "160%",
-    paddingVertical: 30
+    paddingVertical: "10%"
   },
   socialContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderRadius: 100,
+    borderRadius: 12,
     width: "80%",
-    marginTop: 30,
+    marginTop: "5%",
     padding: 10,
-    backgroundColor: "#ECECEC",
+    paddingHorizontal: "5%",
+    backgroundColor: global.color.primaryColors.adjacent,
   },
   socialLogo: {
     height: 40,
@@ -94,7 +93,8 @@ const styles = StyleSheet.create({
   },
   socialText: {
     fontFamily: "Rubik-Regular",
-    fontSize: 20,
+    fontSize: 18,
+    color: global.color.primaryColors.text
   },
 });
 export default SocialProfileTabArtist;
