@@ -1,13 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  View,
   Text,
   SafeAreaView,
-  StyleSheet,
-  Icon,
   TouchableOpacity,
-  Image,
-  TextInput,
 } from "react-native";
 import styles from "../../styles/auth/setupScreen";
 import { FontAwesome5 } from "@expo/vector-icons";

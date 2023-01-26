@@ -9,28 +9,64 @@ import {
   Image,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import global from "../../styles/global";
 const ForgetPasswordScreen = (props) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{
+        height: "100%",
+        backgroundColor: global.color.primaryColors.background,
+      }}
+    >
       <TouchableOpacity
         style={styles.backButtonContainer}
         onPress={() => {
-          props.navigation.navigate("Start");
+          props.navigation.pop();
         }}
       >
-        <FontAwesome5 name="chevron-left" size={32} color={"#2A51DB"} />
+        <FontAwesome5
+          name="chevron-left"
+          size={32}
+          color={global.color.primaryColors.main}
+        />
       </TouchableOpacity>
-      <View>
-        <Text style={styles.bigText}>Forgot Password</Text>
+      <View style={{ marginVertical: "10%"}}>
         <Text style={styles.smallText}>
-          Enter the email address associated with your account.
+          First enter your current password. 
+        </Text>
+        <Text style={styles.smallText}>
+        Then confirm the new password.
         </Text>
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Email"
-          placeholderTextColor={"#C4C4C4"}
+          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Current Password"
+          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+          secureTextEntry={true}
+        />
+      </View>
+      <View style={[styles.inputContainer,{marginTop: "10%"}]}>
+        <TextInput
+          style={styles.input}
+          placeholder="New Password"
+          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+          secureTextEntry={true}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Renter New Password"
+          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+          secureTextEntry={true}
         />
       </View>
       <TouchableOpacity
@@ -40,7 +76,6 @@ const ForgetPasswordScreen = (props) => {
         }}
       >
         <Text style={styles.buttonText}>Reset Password</Text>
-        <FontAwesome5 name="chevron-right" size={20} color="white" />
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -61,35 +96,36 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 40,
     marginRight: 40,
-    marginTop: "14%",
+   alignSelf: "center",
     fontFamily: "Rubik-SemiBold",
-    color: "#C4C4C4",
+    color: global.color.primaryColors.main,
   },
   input: {
-    paddingVertical: 15,
-    marginHorizontal: 8,
-    fontSize: 20,
+    paddingVertical: "5%",
+    marginHorizontal: "5%",
+    fontSize: 16,
     fontFamily: "Rubik-Regular",
-    marginTop: 37,
+    color: global.color.primaryColors.text,
   },
   inputContainer: {
-    borderBottomWidth: 2,
-    marginHorizontal: 40,
-    borderColor: "#C4C4C4",
+    borderRadius: 12,
+    marginHorizontal: "8%",
+    marginTop: "5%",
+    backgroundColor: global.color.primaryColors.adjacent,
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     padding: 16,
-    marginHorizontal: 40,
-    backgroundColor: "#2A51DB",
+    marginHorizontal: "8%",
+    backgroundColor: global.color.primaryColors.main,
     borderRadius: 12,
-    marginTop: "18%"
+    marginTop: "25%",
   },
   buttonText: {
     fontFamily: "Rubik-Medium",
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
   },
 });
 

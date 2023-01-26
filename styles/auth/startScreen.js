@@ -1,75 +1,88 @@
+import global from "../global";
+
 export default {
   imageContainer: {
     flexDirection: "row",
     justifyContent: "center",
   },
   welcomeText: {
-    fontSize: 49,
-    fontFamily: "Rubik-SemiBold",
+    fontSize: 20,
+    fontFamily: "Rubik-Medium",
+    color: global.color.primaryColors.main
   },
   welcomeContainer: {
-    paddingHorizontal: 40,
+    alignSelf: "center",
     marginBottom: "10%",
+    marginTop: "10%"
   },
   stripedImage: {
     alignSelf: "center",
     width: 50,
     height: 26,
     resizeMode: "contain",
+    
   },
   logoImage: {
-    alignSelf: "center",
-    marginTop: "5%",
-    marginBottom: "10%",
-    width: 100,
-    height: 50,
+    // alignSelf: "center",
+    // marginTop: "30%",
+    width: 60,
+    height: 45,
     resizeMode: "contain",
+    marginHorizontal: "1%"
+  },
+  image: {
+    // alignSelf: "center",
+    // marginTop: "30%",
+    width: 125,
+    height: 45,
+    resizeMode: "contain",
+    marginHorizontal: "1%"
   },
   forgotPasswordContainer: {
     alignSelf: "flex-end",
-    marginHorizontal: 40,
-    marginTop: 3,
-    marginBottom: 25,
+    marginHorizontal: "8%",
+    marginTop: 10,
+    marginBottom: 20,
   },
   container: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: global.color.primaryColors.background,
     height: "100%",
   },
   forgotPasswordText: {
-    fontFamily: "Rubik-Regular",
-    color: "#2A51DB",
-    fontSize: 15,
+    fontFamily: "Rubik-Medium",
+    color: global.color.primaryColors.main,
+    fontSize: 16,
   },
   input: {
-    paddingVertical: 15,
-    marginHorizontal: 8,
-    fontSize: 20,
+    paddingVertical: "5%",
+    marginHorizontal: "5%",
+    fontSize: 16,
     fontFamily: "Rubik-Regular",
-    marginTop: 25,
+    color: global.color.primaryColors.text
   },
   inputContainer: {
-    borderBottomWidth: 2,
-    marginHorizontal: 40,
-    borderColor: "#C4C4C4"
+    borderRadius:12,
+    marginHorizontal: "8%",
+    marginTop: "5%",
+    backgroundColor: global.color.primaryColors.adjacent,
   },
   buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
-    marginHorizontal: 40,
-    backgroundColor: "#2A51DB",
+    marginHorizontal: "8%",
+    backgroundColor: global.color.primaryColors.main,
     borderRadius: 12,
     marginTop: "7%"
   },
   buttonTextSignUp: {
     fontFamily: "Rubik-Medium",
     fontSize: 18,
-    color: "#2A51DB",
+    color: global.color.primaryColors.main,
   },
   buttonText: {
     fontFamily: "Rubik-Medium",
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
   },
   newAccountContainer:{
     flexDirection: "row",
@@ -78,6 +91,7 @@ export default {
   },
   newAccountText:{
     fontFamily: "Rubik-Regular",
-    fontSize: 18
+    fontSize: 18,
+    color: global.color.primaryColors.buttonAccent
   }
 };

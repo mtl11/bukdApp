@@ -1,6 +1,8 @@
+import global from "../global";
+
 export default {
   container: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: global.color.primaryColors.background,
     height: "100%",
   },
   image: {
@@ -10,48 +12,51 @@ export default {
     width: 120,
     height: 120,
   },
-  iconContainer: { marginLeft: 40, marginTop: "7%" },
+  // iconContainer: { marginHorizontal: "8%"},
   input: {
-    paddingVertical: 15,
-    marginHorizontal: 8,
-    fontSize: 20,
+    paddingVertical: "5%",
+    marginHorizontal: "5%",
+    fontSize: 16,
     fontFamily: "Rubik-Regular",
-    marginTop: 25,
+    color: global.color.primaryColors.text,
   },
   inputContainer: {
-    borderBottomWidth: 2,
-    marginHorizontal: 40,
-    borderColor: "#C4C4C4",
+    borderRadius: 12,
+    marginHorizontal: "8%",
+    marginTop: "5%",
+    backgroundColor: global.color.primaryColors.adjacent,
+  },
+  inputContainer2:{
+    marginHorizontal: "8%",
+    backgroundColor: global.color.primaryColors.adjacent,
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     padding: 16,
-    marginHorizontal: 40,
-    backgroundColor: "#2A51DB",
+    marginHorizontal: "8%",
+    backgroundColor: global.color.primaryColors.main,
     borderRadius: 12,
-    marginTop: "30%"
+    marginTop: "25%",
   },
   buttonText: {
     fontFamily: "Rubik-Medium",
     color: "white",
-    fontSize: 20
+    fontSize: 18,
   },
   dropdown: {
-    borderBottomWidth: 2,
-    marginHorizontal: 40,
-    borderColor: "#C4C4C4",
-    marginHorizontal: "10%",
-    borderRadius: 4,
-    fontSize: 14,
-    marginTop: 40,
+    paddingVertical: "2.5%",
+    paddingHorizontal: "5%",
+    alignContent: "center",
+    borderRadius: 12,
+    marginHorizontal: "8%",
+    marginTop: "5%",
+    backgroundColor: global.color.primaryColors.adjacent,
   },
   placeholderStyle: {
-    marginBottom: 15,
-    marginHorizontal: 8,
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: "Rubik-Regular",
-    color: "#C4C4C4",
+    color: global.color.primaryColors.placeHolderTextColor,
   },
   selectedTextStyle: {
     fontSize: 20,
@@ -60,10 +65,26 @@ export default {
     marginHorizontal: 8,
   },
   bigText: {
-    fontSize: 49,
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: "14%",
+    fontSize: 20,
+    marginHorizontal: "8%",
     fontFamily: "Rubik-SemiBold",
+    color: global.color.primaryColors.main,
+    alignSelf: "center"
+  },
+  itemContainerStyle: {
+    backgroundColor: global.color.primaryColors.main,
+    width: 1,
+  },
+  topContainer: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    marginHorizontal: "8%",
+    marginTop: "5%",
+    alignItems:"center"
+  },
+  profileText: {
+    fontSize: 24,
+    fontFamily: "Rubik-Medium",
+    color: "white"
   },
 };

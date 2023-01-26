@@ -1,7 +1,8 @@
+import global from "../global";
 export default {
   container: {
     height: "100%",
-    backgroundColor: "white",
+    backgroundColor: global.color.primaryColors.background,
   },
   imageContainer: {
     borderRadius: 100,
@@ -12,8 +13,8 @@ export default {
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
-    backgroundColor: "#ECECEC",
-    borderColor: "#ECECEC",
+    backgroundColor: global.color.primaryColors.adjacent,
+    borderColor: global.color.primaryColors.adjacent,
     marginTop: 40,
   },
   imageText: {
@@ -55,15 +56,10 @@ export default {
     fontSize: 20
   },
   input: {
-    paddingVertical: 15,
-    paddingHorizontal: 18,
-    backgroundColor: "#ECECEC",
-    marginHorizontal: "10%",
     borderRadius: 12,
-    fontSize: 16,
-    fontFamily: "Rubik-Regular",
-    marginTop: 25,
-    // color: "#FDF6F0",
+    marginHorizontal: "8%",
+    marginTop: "5%",
+    backgroundColor: global.color.primaryColors.adjacent,
   },
   dropdown: {
     paddingVertical: 5,

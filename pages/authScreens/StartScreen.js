@@ -12,6 +12,7 @@ import {
 import styles from "../../styles/auth/startScreen";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { modes } from "../../models/dummyData.js";
+import global from "../../styles/global";
 const StartScreen = (props) => {
   const [matchedCreds, setMatchedCreds] = useState(false);
   const [passwordDontMatch, setPasswordDontMatch] = useState(false);
@@ -23,7 +24,7 @@ const StartScreen = (props) => {
       password == modes.artist.auth.password
     ) {
       props.navigation.navigate("TabNav");
-    }else{
+    } else {
       startShake();
       setPasswordDontMatch(true);
     }
@@ -56,19 +57,25 @@ const StartScreen = (props) => {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <Image
-        source={require("../../assets/biglogo.png")}
-        style={styles.logoImage}
-      ></Image>
+      <View style={{ flexDirection: "row", justifyContent: "center", marginTop: "30%"}}>
+        <Image
+          source={require("../../assets/Logo.png")}
+          style={styles.logoImage}
+        />
+        <Image
+          source={require("../../assets/Vector.png")}
+          style={styles.image}
+        />
+      </View>
       <View style={styles.welcomeContainer}>
-        <Text style={styles.welcomeText}>Welcome Back</Text>
+        <Text style={styles.welcomeText}>Your local live music hub</Text>
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           autoCapitalize={false}
           style={styles.input}
           placeholder="Email"
-          placeholderTextColor={"#C4C4C4"}
+          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
           onChangeText={setEmail}
           autoCorrect={false}
         />
@@ -78,7 +85,7 @@ const StartScreen = (props) => {
           style={styles.input}
           secureTextEntry={true}
           placeholder="Password"
-          placeholderTextColor={"#C4C4C4"}
+          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
           onChangeText={setPassword}
         />
       </View>
@@ -90,26 +97,24 @@ const StartScreen = (props) => {
       >
         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
       </TouchableOpacity>
-      {passwordDontMatch ? <View style={{alignSelf:"center"}}>
-        <Text style={{color:"red", fontFamily: "Rubik-Regular"}}>
+      {passwordDontMatch ? (
+        <View style={{ alignSelf: "center" }}>
+          {/* <Text style={{color:"red", fontFamily: "Rubik-Regular"}}>
          The Email and Password you entered do not match.
-        </Text>
-      </View> : <View></View>}
+        </Text> */}
+        </View>
+      ) : (
+        <View></View>
+      )}
       <Animated.View style={{ transform: [{ translateX: shakeAnimation }] }}>
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => {
             checkCreds();
-            // if (matchedCreds == true) {
-            //   props.navigation.navigate("TabNav");
-            // } else {
-            
-            // }
           }}
         >
           <Text style={styles.buttonText}>Login</Text>
-
-          <FontAwesome5 name="chevron-right" size={20} color="white" />
+          {/* <FontAwesome5 name="chevron-right" size={20} color="white" /> */}
         </TouchableOpacity>
       </Animated.View>
       <View style={styles.newAccountContainer}>
