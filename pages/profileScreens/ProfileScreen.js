@@ -70,7 +70,6 @@ const ProfileScreen = (props) => {
       <TouchableOpacity
         style={{
           alignSelf: "center",
-          // borderWidth: 1,
           borderRadius: 12,
           borderColor: "#2A51DB",
           width: "80%",
