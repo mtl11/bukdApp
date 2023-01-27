@@ -5,7 +5,9 @@ import {
   StyleSheet,
   ScrollView,
   TouchableHighlight,
+  Image,
 } from "react-native";
+import global from "../styles/global";
 
 const MessageList = () => {
   const data = [
@@ -19,12 +21,18 @@ const MessageList = () => {
   const listItems = data.map((singleMessage) => {
     return (
       <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#DDDDDD"
+        activeOpacity={0.2}
+        underlayColor={global.color.primaryColors.background}
         onPress={() => {}}
       >
         <View style={styles.messageContainer}>
-          <View style={styles.imageContainer}></View>
+          <View style={styles.imageContainer}>
+            <Image
+              source={require("../assets/nochos.jpeg")}
+              style={styles.profilePic}
+              resizeMode="cover"
+            />
+          </View>
           <View style={styles.nameAndTextContainer}>
             <Text style={styles.nameText}>{singleMessage.name}</Text>
             <Text style={styles.lastText}>{singleMessage.lastText}</Text>
@@ -40,23 +48,37 @@ const MessageList = () => {
 const styles = StyleSheet.create({
   lastText: {
     color: "#9E9E9E",
+    paddingTop: "1%",
+    fontFamily: "Rubik-Regular",
+    fontSize: 16,
   },
   nameAndTextContainer: {
-    marginLeft: 20,
+    paddingLeft: "10%",
+    flexGrow: 1,
+    borderColor: global.color.primaryColors.adjacent,
   },
   messageContainer: {
-    margin: 20,
+    padding: "5%",
     flexDirection: "row",
     alignItems: "center",
+    borderBottomWidth: 2,
+    borderColor: global.color.primaryColors.adjacent,
   },
   nameText: {
     fontFamily: "Rubik-Regular",
     fontSize: 18,
+    color: global.color.primaryColors.text,
+    paddingBottom: "1%",
   },
   imageContainer: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     borderWidth: 1.5,
+    borderRadius: 100,
+  },
+  profilePic: {
+    width: 60,
+    height: 60,
     borderRadius: 100,
   },
 });

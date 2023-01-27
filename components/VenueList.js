@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   list: {
     height: "100%",
-    marginHorizontal: "5%",
+    marginHorizontal: "8%",
     marginTop: 10,
   },
   individualContainer: {

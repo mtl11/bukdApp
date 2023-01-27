@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
   SafeAreaView,
   StyleSheet,
-  Icon,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Button,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import MessageList from "../../components/MessageList";
+import global from "../../styles/global";
 
 const MessageScreen = (props) => {
   const data = true;
@@ -37,21 +33,23 @@ const MessageScreen = (props) => {
 const styles = StyleSheet.create({
   headerText:{
     fontSize: 20,
-    fontFamily: "Rubik-Regular"
+    fontFamily: "Rubik-Regular",
+    color: global.color.primaryColors.text
   },
   headerContainer:{
     alignItems: "center",
-    marginTop: "2%",
     padding: 10,
+    paddingTop: 0,
     borderBottomWidth: 1,
-    width: "100%" 
+    width: "100%" ,
+    borderColor: global.color.primaryColors.adjacent
   },
   errorContainer: {
     alignItems: "center",
     marginTop: "50%",
   },
   container: {
-    backgroundColor: "white",
+    backgroundColor: global.color.primaryColors.background,
     height: "100%",
   },
   errorText: {
