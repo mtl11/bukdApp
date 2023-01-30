@@ -23,6 +23,7 @@ const ArtistSetupScreen = (props) => {
   const data = [
     { label: "DJ", value: "1" },
     { label: "Rapper", value: "2" },
+    {egg}
   ];
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

@@ -11,10 +11,41 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import global from "../styles/global";
+import * as ImagePicker from "expo-image-picker";
 
 const EditProfileArtist = (props) => {
+  const [image, setImage] = useState(null);
+  const [about, setAbout] = useState(false);
+  const [social, setSocial] = useState(false);
+  const [avail, setAvail] = useState(false);
+  const [mon, setMon] = useState(false);
+  const [tue, setTue] = useState(false);
+  const [wed, setWed] = useState(false);
+  const [thu, setThu] = useState(false);
+  const [fri, setFri] = useState(false);
+  const [sat, setSat] = useState(false);
+  const [sun, setSun] = useState(false);
+
+  const [morn, setMorn] = useState(false);
+  const [after, setAfter] = useState(false);
+  const [evening, setEvening] = useState(false);
+  const [night, setNight] = useState(false);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
   return (
     <Modal
       visible={props.visible}
@@ -33,6 +64,8 @@ const EditProfileArtist = (props) => {
             justifyContent: "space-between",
             flexDirection: "row",
             marginHorizontal: "8%",
+            alignItems: "center",
+            marginTop: 10,
           }}
         >
           <TouchableOpacity
@@ -52,8 +85,8 @@ const EditProfileArtist = (props) => {
           </TouchableOpacity>
           <Text
             style={{
-              fontSize: 20,
-              fontFamily: "Rubik-Regular",
+              fontSize: 18,
+              fontFamily: "Rubik-Medium",
               color: global.color.primaryColors.text,
             }}
           >
@@ -76,6 +109,23 @@ const EditProfileArtist = (props) => {
           </TouchableOpacity>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
+          <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
+            {image ? (
+              <Image
+                source={{ uri: image }}
+                style={{
+                  width: 148,
+                  height: 148,
+                  borderRadius: 100,
+                  overflow: "hidden",
+                }}
+              />
+            ) : (
+              <View>
+                <FontAwesome name="camera" size={30} color="#BDBDBD" />
+              </View>
+            )}
+          </TouchableOpacity>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
@@ -83,136 +133,294 @@ const EditProfileArtist = (props) => {
               placeholderTextColor={global.color.primaryColors.main}
             />
           </View>
-          <View style={styles.headerContainer}>
+          <TouchableOpacity
+            style={[styles.headerContainer, !about && { marginBottom: 0 }]}
+            onPress={() => {
+              setAbout(!about);
+            }}
+          >
             <Text style={styles.headerText}>About</Text>
-          </View>
-          <View style={[styles.inputContainer, { marginTop: 0 }]}>
-            <TextInput
-              style={styles.input}
-              placeholder={"Location"}
-              placeholderTextColor={global.color.primaryColors.main}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder={"Category"}
-              placeholderTextColor={global.color.primaryColors.main}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder={"Genre"}
-              placeholderTextColor={global.color.primaryColors.main}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={[styles.input, { marginTop: 10 }]}
-              multiline={true}
-              placeholder={"Bio"}
-              placeholderTextColor={global.color.primaryColors.main}
-              maxLength={10}
-            />
-          </View>
-          <View>
-            <View style={styles.headerContainer}>
-              <Text style={styles.headerText}>Availability</Text>
-            </View>
-            <View style={styles.timeRow}>
-              <View style={styles.timeContainer}>
-                <Text style={styles.timeText}>Morning</Text>
-              </View>
-              <View style={styles.timeContainer}>
-                <Text style={styles.timeText}>Afternoon</Text>
-              </View>
-            </View>
-            <View style={[styles.timeRow, { marginTop: "5%" }]}>
-              <View style={styles.timeContainer}>
-                <Text style={styles.timeText}>Evening</Text>
-              </View>
-              <View style={styles.timeContainer}>
-                <Text style={styles.timeText}>Late Night</Text>
-              </View>
-            </View>
-          </View>
-          <View>
-            <View style={[styles.dayRow, { marginTop: "10%" }]}>
-              <View style={styles.dayContainer}>
-                <Text style={styles.timeText}>Mon</Text>
-              </View>
-              <View style={styles.dayContainer}>
-                <Text style={styles.timeText}>Tue</Text>
-              </View>
-              <View style={styles.dayContainer}>
-                <Text style={styles.timeText}>Wed</Text>
-              </View>
-            </View>
-            <View style={[styles.dayRow, { marginTop: "5%" }]}>
-              <View style={styles.dayContainer}>
-                <Text style={styles.timeText}>Thu</Text>
-              </View>
-              <View style={styles.dayContainer}>
-                <Text style={styles.timeText}>Fri</Text>
-              </View>
-              <View style={styles.dayContainer}>
-                <Text style={styles.timeText}>Sat</Text>
-              </View>
-            </View>
-            <View style={[styles.dayRow, { marginTop: "5%" }]}>
-              <View style={styles.dayContainer}>
-                <Text style={styles.timeText}>Sun</Text>
-              </View>
-            </View>
-          </View>
-          <View>
-            <View style={styles.headerContainer}>
-              <Text style={styles.headerText}>Social Media Links</Text>
-            </View>
-            <View style={[styles.inputContainerSocial, { marginTop: 0 }]}>
-              <Image
-                source={require("../assets/soundcloud.png")}
-                style={{ width: 32, height: 32 }}
+            {about ? (
+              <Ionicons
+                name="chevron-up"
+                size={28}
+                color={global.color.primaryColors.buttonAccent}
               />
-              <TextInput style={styles.inputSocial} />
-            </View>
-            <View style={styles.inputContainerSocial}>
-              <Image
-                source={require("../assets/tiktok.png")}
-                style={{ width: 32, height: 32 }}
+            ) : (
+              <Ionicons
+                name="chevron-down"
+                size={28}
+                color={global.color.primaryColors.buttonAccent}
               />
-              <TextInput style={styles.inputSocial} />
+            )}
+          </TouchableOpacity>
+          {about ? (
+            <View>
+              <View style={[styles.inputContainer, { marginTop: 0 }]}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={"Location"}
+                  placeholderTextColor={global.color.primaryColors.main}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={"Category"}
+                  placeholderTextColor={global.color.primaryColors.main}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={"Genre"}
+                  placeholderTextColor={global.color.primaryColors.main}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={[styles.input, { marginTop: 10 }]}
+                  multiline={true}
+                  placeholder={"Bio"}
+                  placeholderTextColor={global.color.primaryColors.main}
+                  maxLength={10}
+                />
+              </View>
             </View>
-            <View style={styles.inputContainerSocial}>
-              <Image
-                source={require("../assets/insta.png")}
-                style={{ width: 32, height: 32 }}
+          ) : (
+            <View></View>
+          )}
+          <TouchableOpacity
+            style={[styles.headerContainer, !avail && { marginBottom: 0 }]}
+            onPress={() => {
+              setAvail(!avail);
+            }}
+          >
+            <Text style={styles.headerText}>Availability</Text>
+            {avail ? (
+              <Ionicons
+                name="chevron-up"
+                size={28}
+                color={global.color.primaryColors.buttonAccent}
               />
-              <TextInput style={styles.inputSocial} />
-            </View>
-            <View style={styles.inputContainerSocial}>
-              <Image
-                source={require("../assets/youtube.png")}
-                style={{ width: 32, height: 32 }}
+            ) : (
+              <Ionicons
+                name="chevron-down"
+                size={28}
+                color={global.color.primaryColors.buttonAccent}
               />
-              <TextInput style={styles.inputSocial} />
+            )}
+          </TouchableOpacity>
+          {avail ? (
+            <View>
+              <View>
+                <View style={styles.timeRow}>
+                  <TouchableOpacity
+                    style={[
+                      styles.timeContainer,
+                      morn && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setMorn(!morn);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Morning</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.timeContainer,
+                      after && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setAfter(!after);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Afternoon</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={[styles.timeRow, { marginTop: "5%" }]}>
+                  <TouchableOpacity
+                    style={[
+                      styles.timeContainer,
+                      evening && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setEvening(!evening);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Evening</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.timeContainer,
+                      night && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setNight(!night);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Late Night</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View>
+                <View style={[styles.dayRow, { marginTop: "10%" }]}>
+                  <TouchableOpacity
+                    style={[
+                      styles.dayContainer,
+                      mon && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setMon(!mon);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Mon</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.dayContainer,
+                      tue && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setTue(!tue);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Tue</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.dayContainer,
+                      wed && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setWed(!wed);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Wed</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={[styles.dayRow, { marginTop: "5%" }]}>
+                  <TouchableOpacity
+                    style={[
+                      styles.dayContainer,
+                      thu && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setThu(!thu);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Thu</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.dayContainer,
+                      fri && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setFri(!fri);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Fri</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.dayContainer,
+                      sat && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setSat(!sat);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Sat</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={[styles.dayRow, { marginTop: "5%" }]}>
+                  <TouchableOpacity
+                    style={[
+                      styles.dayContainer,
+                      sun && { borderColor: "white" },
+                    ]}
+                    onPress={() => {
+                      setSun(!sun);
+                    }}
+                  >
+                    <Text style={styles.timeText}>Sun</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-            <View style={styles.inputContainerSocial}>
-              <Image
-                source={require("../assets/spotify.png")}
-                style={{ width: 32, height: 32 }}
+          ) : (
+            <View></View>
+          )}
+          <TouchableOpacity
+            style={styles.headerContainer}
+            onPress={() => {
+              setSocial(!social);
+            }}
+          >
+            <Text style={styles.headerText}>Social Media Links</Text>
+            {social ? (
+              <Ionicons
+                name="chevron-up"
+                size={28}
+                color={global.color.primaryColors.buttonAccent}
               />
-              <TextInput style={styles.inputSocial} />
-            </View>
-            <View style={styles.inputContainerSocial}>
-              <Image
-                source={require("../assets/facebook.png")}
-                style={{ width: 32, height: 32 }}
+            ) : (
+              <Ionicons
+                name="chevron-down"
+                size={28}
+                color={global.color.primaryColors.buttonAccent}
               />
-              <TextInput style={styles.inputSocial} />
+            )}
+          </TouchableOpacity>
+          {social ? (
+            <View>
+              <View style={[styles.inputContainerSocial, { marginTop: 0 }]}>
+                <Image
+                  source={require("../assets/soundcloud.png")}
+                  style={{ width: 32, height: 32 }}
+                />
+                <TextInput style={styles.inputSocial} />
+              </View>
+              <View style={styles.inputContainerSocial}>
+                <Image
+                  source={require("../assets/tiktok.png")}
+                  style={{ width: 32, height: 32 }}
+                />
+                <TextInput style={styles.inputSocial} />
+              </View>
+              <View style={styles.inputContainerSocial}>
+                <Image
+                  source={require("../assets/insta.png")}
+                  style={{ width: 32, height: 32 }}
+                />
+                <TextInput style={styles.inputSocial} />
+              </View>
+              <View style={styles.inputContainerSocial}>
+                <Image
+                  source={require("../assets/youtube.png")}
+                  style={{ width: 32, height: 32 }}
+                />
+                <TextInput style={styles.inputSocial} />
+              </View>
+              <View style={styles.inputContainerSocial}>
+                <Image
+                  source={require("../assets/spotify.png")}
+                  style={{ width: 32, height: 32 }}
+                />
+                <TextInput style={styles.inputSocial} />
+              </View>
+              <View style={styles.inputContainerSocial}>
+                <Image
+                  source={require("../assets/facebook.png")}
+                  style={{ width: 32, height: 32 }}
+                />
+                <TextInput style={styles.inputSocial} />
+              </View>
             </View>
-          </View>
+          ) : (
+            <View></View>
+          )}
         </ScrollView>
       </SafeAreaView>
     </Modal>
@@ -220,11 +428,33 @@ const EditProfileArtist = (props) => {
 };
 
 const styles = StyleSheet.create({
+  image: {
+    alignSelf: "center",
+    marginTop: "5%",
+    resizeMode: "contain",
+    height: 120,
+    width: 120,
+  },
+  imageContainer: {
+    borderRadius: 100,
+    borderWidth: 2,
+    width: 150,
+    height: 150,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+    backgroundColor: global.color.primaryColors.adjacent,
+    borderColor: global.color.primaryColors.adjacent,
+    marginTop: "5%",
+  },
   dayContainer: {
     width: "29%",
     borderColor: global.color.primaryColors.main,
     alignItems: "center",
     padding: "5%",
+    borderWidth: 1,
+    borderColor: global.color.primaryColors.adjacent,
     borderRadius: 12,
     backgroundColor: global.color.primaryColors.adjacent,
   },
@@ -246,6 +476,8 @@ const styles = StyleSheet.create({
     padding: "5%",
     borderRadius: 12,
     backgroundColor: global.color.primaryColors.adjacent,
+    borderWidth: 1,
+    borderColor: global.color.primaryColors.adjacent,
   },
   timeRow: {
     flexDirection: "row",
@@ -255,11 +487,14 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontFamily: "Rubik-Regular",
-    fontSize: 20,
+    fontSize: 18,
     color: global.color.primaryColors.text,
   },
   headerContainer: {
     margin: "8%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   input: {
     paddingVertical: "5%",

@@ -14,10 +14,16 @@ const data = [
   { label: "San Francsico, CA", value: "6" },
   { label: "Seattle, WA", value: "7" },
 ];
+const categories = [
+  { label: "DJ", value: "1" },
+  { label: "Singer", value: "2" },
+];
 
 const SearchScreen = (props) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const [valueType, setValueType] = useState(null);
+  const [isFocusType, setIsFocusType] = useState(false);
   const renderItem = (item) => {
     return (
       <View style={styles.item}>
@@ -47,7 +53,7 @@ const SearchScreen = (props) => {
             return (
               <Ionicons
                 name="ios-location-outline"
-                size={28}
+                size={22}
                 color={
                   isFocus ? "black" : global.color.primaryColors.buttonAccent
                 }
@@ -58,7 +64,7 @@ const SearchScreen = (props) => {
             return (
               <Ionicons
                 name="chevron-down"
-                size={28}
+                size={22}
                 color={
                   isFocus ? "black" : global.color.primaryColors.buttonAccent
                 }
@@ -82,6 +88,60 @@ const SearchScreen = (props) => {
           onChange={(item) => {
             setValue(item.value);
             setIsFocus(false);
+          }}
+        />
+        <Dropdown
+          statusBarIsTranslucent={true}
+          style={[styles.dropdown, {marginTop: "2%"},isFocus && { borderColor: "black"}]}
+          placeholderStyle={[
+            styles.placeholderStyle,
+            isFocus && { color: "black" },
+          ]}
+          activeColor={global.color.primaryColors.adjacent}
+          selectedTextStyle={[
+            styles.selectedTextStyle,
+            isFocus && { color: "black" },
+          ]}
+          renderItem={renderItem}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          renderLeftIcon={() => {
+            return (
+              <Ionicons
+                name="musical-notes-outline"
+                size={22}
+                color={
+                  isFocus ? "black" : global.color.primaryColors.buttonAccent
+                }
+              />
+            );
+          }}
+          renderRightIcon={() => {
+            return (
+              <Ionicons
+                name="chevron-down"
+                size={22}
+                color={
+                  isFocus ? "black" : global.color.primaryColors.buttonAccent
+                }
+              />
+            );
+          }}
+          autoScroll={false}
+          data={categories}
+          search
+          fontFamily="Rubik-Regular"
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={"Select Category"}
+          searchPlaceholder="Search..."
+          value={valueType}
+          containerStyle={styles.dropContainer}
+          onBlur={() => setIsFocusType(false)}
+          onChange={(item) => {
+            setValueType(item.value);
+            setIsFocusType(false);
           }}
         />
       </View>
@@ -112,37 +172,38 @@ const styles = StyleSheet.create({
     fontFamily: "Rubik-Regular",
   },
   topContainer: {
-    flexDirection: "row",
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 10
   },
   container: {
     backgroundColor: global.color.primaryColors.background,
     height: "100%",
   },
   dropdown: {
-    height: 50,
+    height: 40,
     width: "84%",
     borderColor: global.color.primaryColors.buttonAccent,
-    // borderWidth: 1,
+    borderWidth: 1,
     borderRadius: 12,
-    paddingHorizontal: 8,
+    padding: 8,
+  
   },
   icon: {
     marginRight: 5,
   },
   placeholderStyle: {
-    fontSize: 18,
+    fontSize: 16,
     color: global.color.primaryColors.buttonAccent,
   },
   selectedTextStyle: {
-    fontSize: 18,
+    fontSize: 16,
     color: global.color.primaryColors.buttonAccent,
   },
   iconStyle: {
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
   },
   inputSearchStyle: {
     fontSize: 16,

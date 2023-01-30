@@ -17,13 +17,13 @@ export default TabNav = (props) => {
           let iconName;
           if (route.name === "Search") {
             iconName = focused ? "ios-search" : "ios-search-outline";
-            return <Ionicons name={iconName} size={38} color={color} />;
+            return <Ionicons name={iconName} size={34} color={color} />;
           } else if (route.name === "Profile") {
             iconName = focused ? "person" : "person-outline";
-            return <Ionicons name={iconName} size={32} color={color} />;
+            return <Ionicons name={iconName} size={28} color={color} />;
           } else if (route.name === "Messages") {
             iconName = focused ? "chatbubble" : "chatbubble-outline";
-            return <Ionicons name={iconName} size={32} color={color} />;
+            return <Ionicons name={iconName} size={28} color={color} />;
           }
           return <FontAwesome5 name={iconName} size={size} color={color} />;
         },
@@ -33,7 +33,8 @@ export default TabNav = (props) => {
           backgroundColor: "#303046",
           alignItems: "center",
           justifyContent: "center",
-          borderWidth:1
+          borderTopWidth:.5,
+          borderColor: "#C4C4C4"
        },
        tabBarBadgeStyle:{
         // margin: 10,
@@ -41,7 +42,7 @@ export default TabNav = (props) => {
         // width: 50,
         // height:50
       },tabBarItemStyle:{
-        height: 60
+        // height: 40
       },
       tabBarShowLabel:false
 

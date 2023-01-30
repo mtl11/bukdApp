@@ -92,15 +92,15 @@ const ProfileSettingsScreen = (props) => {
           />
         </View>
       </TouchableOpacity>
-      <View style={styles.sectionHeaderContainer}>
+      {/* <View style={styles.sectionHeaderContainer}>
         <FontAwesome5
           name="bell"
           size={22}
           color={colors.color.primaryColors.main}
         />
         <Text style={styles.sectionHeaderText}>Notifications</Text>
-      </View>
-      <View style={styles.labelContainer}>
+      </View> */}
+      {/* <View style={styles.labelContainer}>
         <Text style={styles.labelText}>New show requests</Text>
         <Switch
           trackColor={{
@@ -112,8 +112,8 @@ const ProfileSettingsScreen = (props) => {
           onValueChange={newShowToggle}
           value={newShowRequests}
         />
-      </View>
-      <View style={styles.labelContainer}>
+      </View> */}
+      {/* <View style={styles.labelContainer}>
         <Text style={styles.labelText}>New messages</Text>
         <Switch
           trackColor={{
@@ -125,12 +125,16 @@ const ProfileSettingsScreen = (props) => {
           onValueChange={newMessageToggle}
           value={newMessages}
         />
-      </View>
+      </View> */}
       <TouchableOpacity style={styles.signOutContainer} onPress={signOutAlert}>
         <View style={{ marginHorizontal: 7.5 }}>
           <Text style={styles.signOutText}>Sign Out</Text>
         </View>
-        <MaterialIcons name="exit-to-app" size={24} color="red" />
+        <MaterialIcons
+          name="exit-to-app"
+          size={24}
+          color={colors.color.primaryColors.main}
+        />
       </TouchableOpacity>
       <View style={styles.infoContainer}>
         <Text style={styles.smallerText}>Bukd v0.0</Text>
@@ -168,12 +172,12 @@ const styles = StyleSheet.create({
   },
   signOutText: {
     fontFamily: "Rubik-Regular",
-    color: "red",
+    color: colors.color.primaryColors.main,
     fontSize: 20,
     marginHorizontal: 7.5,
   },
   largeText: {
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: "Rubik-SemiBold",
     color: colors.color.primaryColors.text,
   },
@@ -186,6 +190,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
+    marginTop: "50%",
     marginVertical: "15%",
   },
   topIconContainer: {

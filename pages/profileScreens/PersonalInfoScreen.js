@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.color.primaryColors.background,
   },
   largeText: {
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: "Rubik-SemiBold",
     color: colors.color.primaryColors.text,
   },
@@ -103,10 +103,11 @@ const styles = StyleSheet.create({
   topIconContainer: {
     marginHorizontal: "8%",
     flexDirection: "row",
+    // marginTop: "5%"
   },
   headerText: {
     fontFamily: "Rubik-SemiBold",
-    fontSize: 24,
+    fontSize: 18,
   },
   smallerText: {
     fontFamily: "Rubik-Regular",
@@ -124,11 +125,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderColor: "#757575",
   },
-  sectionHeaderText: {
-    fontSize: 20,
-    fontFamily: "Rubik-SemiBold",
-    marginHorizontal: 15,
-  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "center",
@@ -136,7 +132,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "8%",
     backgroundColor: colors.color.primaryColors.main,
     borderRadius: 12,
-    marginTop: "20%",
+    marginTop: "80%",
   },
   buttonText: {
     fontFamily: "Rubik-Medium",

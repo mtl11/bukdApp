@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     marginVertical: "10%",
   },
   largeText: {
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: "Rubik-SemiBold",
     color: colors.color.primaryColors.text,
   },
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "8%",
     backgroundColor: colors.color.primaryColors.main,
     borderRadius: 12,
-    marginTop: "20%",
+    marginTop: "80%",
   },
   buttonText: {
     fontFamily: "Rubik-Medium",

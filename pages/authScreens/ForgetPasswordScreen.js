@@ -30,49 +30,26 @@ const ForgetPasswordScreen = (props) => {
           color={global.color.primaryColors.main}
         />
       </TouchableOpacity>
-      <View style={{ marginVertical: "10%"}}>
+      <View style={{ marginVertical: "8%"}}>
         <Text style={styles.smallText}>
-          First enter your current password. 
-        </Text>
-        <Text style={styles.smallText}>
-        Then confirm the new password.
+          Enter email associated with your account 
+          and we will send you insturctions to recover password.
         </Text>
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
+          autoCapitalize={false}
+          keyboardType="email-address"
           placeholder="Email"
           placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
         />
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Current Password"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
-          secureTextEntry={true}
-        />
-      </View>
-      <View style={[styles.inputContainer,{marginTop: "10%"}]}>
-        <TextInput
-          style={styles.input}
-          placeholder="New Password"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
-          secureTextEntry={true}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Renter New Password"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
-          secureTextEntry={true}
-        />
-      </View>
+      
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
-          props.navigation.navigate("TabNav");
+          props.navigation.pop();
         }}
       >
         <Text style={styles.buttonText}>Reset Password</Text>
@@ -82,18 +59,11 @@ const ForgetPasswordScreen = (props) => {
 };
 const styles = StyleSheet.create({
   backButtonContainer: {
-    marginLeft: 40,
+    marginLeft: "5%",
     marginTop: "7%",
   },
-  bigText: {
-    fontSize: 49,
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: "14%",
-    fontFamily: "Rubik-SemiBold",
-  },
   smallText: {
-    fontSize: 20,
+    fontSize: 18,
     marginLeft: 40,
     marginRight: 40,
    alignSelf: "center",
@@ -120,7 +90,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "8%",
     backgroundColor: global.color.primaryColors.main,
     borderRadius: 12,
-    marginTop: "25%",
+    marginTop: "80%",
   },
   buttonText: {
     fontFamily: "Rubik-Medium",
