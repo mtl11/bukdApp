@@ -8,26 +8,28 @@ import {
   TextInput,
   Image,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import styles from "../../styles/auth/startScreen";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { modes } from "../../models/dummyData.js";
 import global from "../../styles/global";
+import { authenticateUser } from "../../util/auth";
+
 const StartScreen = (props) => {
-  const [matchedCreds, setMatchedCreds] = useState(false);
   const [passwordDontMatch, setPasswordDontMatch] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  function checkCreds() {
-    if (
-      email == modes.artist.auth.email &&
-      password == modes.artist.auth.password
-    ) {
-      props.navigation.navigate("TabNav");
-    } else {
-      startShake();
-      setPasswordDontMatch(true);
+  const [isAuth, setIsAuth] = useState(false);
+
+  async function authenticateHandler() {
+    
+    try {
+      await authenticateUser(email, password);
+    } catch (error) {
+      
     }
+    setIsAuth(false);
   }
   const shakeAnimation = new Animated.Value(0);
 
@@ -57,7 +59,13 @@ const StartScreen = (props) => {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flexDirection: "row", justifyContent: "center", marginTop: "30%"}}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          marginTop: "30%",
+        }}
+      >
         <Image
           source={require("../../assets/Logo.png")}
           style={styles.logoImage}
@@ -110,17 +118,20 @@ const StartScreen = (props) => {
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => {
-            checkCreds();
+            setIsAuth(true);
+            authenticateHandler();
           }}
         >
-          <Text style={styles.buttonText}>Login</Text>
-          {/* <FontAwesome5 name="chevron-right" size={20} color="white" /> */}
+          {!isAuth ? (
+            <Text style={styles.buttonText}>Login</Text>
+          ) : (
+            <ActivityIndicator size={22} />
+          )}
         </TouchableOpacity>
       </Animated.View>
       <View style={styles.newAccountContainer}>
         <Text style={styles.newAccountText}>Don't have an account?</Text>
         <TouchableOpacity
-          // style={styles.buttonContainerSignUp}
           onPress={() => {
             props.navigation.navigate("Signup");
           }}

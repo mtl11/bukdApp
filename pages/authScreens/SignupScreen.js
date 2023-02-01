@@ -3,23 +3,39 @@ import {
   View,
   Text,
   SafeAreaView,
-  StyleSheet,
   Icon,
   TouchableOpacity,
   Image,
   TextInput,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Dropdown } from "react-native-element-dropdown";
 import styles from "../../styles/auth/signupScreen";
 import global from "../../styles/global";
+import { createUser } from "../../util/auth";
+
 const SignupScreen = (props) => {
-  const [value, setValue] = useState("User Type");
-  const [placeholder, setPlaceHolder] = useState(true);
-  const [profileType, setProfileType] = useState("");
-  const [focus, setFocus] = useState(true);
+  const [profileName, setProfileName] = useState("");
+  const [email, setEmail] = useState("");
+  //password needs to be at least 6 in length
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isAuth, setIsAuth] = useState(false);
+  // const height = useHeaderHeight();
+
+  async function signUpHandler() {
+    setIsAuth(true);
+    await createUser(email, password);
+    setIsAuth(false);
+  }
+
   return (
+    // <KeyboardAwareScrollView>
     <SafeAreaView style={styles.container}>
+      {/* <KeyboardAvoidingView  behavior="padding" keyboardVerticalOffset={height + 47} enabled> */}
       <View style={styles.topContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -42,34 +58,15 @@ const SignupScreen = (props) => {
         <Text style={styles.bigText}>We are so happy you are here.</Text>
         <Text style={styles.bigText}>Let’s get you set up!</Text>
       </View>
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, { marginTop: 0 }]}>
         <TextInput
           style={styles.input}
-          placeholder="First Name"
+          placeholder="Profile Name"
           placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
           autoCorrect={false}
           autoCapitalize={false}
           returnKeyType={"done"}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Last Name"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
-          autoCorrect={false}
-          autoCapitalize={false}
-          returnKeyType={"done"}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
-          autoCorrect={false}
-          autoCapitalize={false}
-          returnKeyType={"done"}
+          onChangeText={setProfileName}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -81,9 +78,15 @@ const SignupScreen = (props) => {
           autoCapitalize={false}
           inputMode={"email"}
           returnKeyType={"done"}
+          onChangeText={setEmail}
         />
       </View>
-      <View style={styles.inputContainer}>
+      <View style={styles.passwordInfoContainer}>
+        <Text style={styles.passwordInfoText}>
+          Password must be at least 10 characters
+        </Text>
+      </View>
+      <View style={[styles.inputContainer, {marginTop: "2%"}]}>
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -92,9 +95,15 @@ const SignupScreen = (props) => {
           textContentType={"oneTimeCode"}
           autoCapitalize={false}
           returnKeyType={"done"}
+          onChangeText={setPassword}
         />
       </View>
-      <View style={styles.inputContainer}>
+      <View style={styles.passwordInfoContainer}>
+        <Text style={styles.passwordInfoText}>
+          Passwords must match
+        </Text>
+      </View>
+      <View style={[styles.inputContainer,{marginTop: "2%"}]}>
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
@@ -103,98 +112,23 @@ const SignupScreen = (props) => {
           autoCapitalize={false}
           returnKeyType={"done"}
           textContentType={"oneTimeCode"}
+          onChangeText={setConfirmPassword}
         />
       </View>
-      {/* <View>
-        <TouchableOpacity
-          style={[
-            styles.inputContainer,
-            !focus && {
-              borderBottomLeftRadius: 0,
-              borderBottomRightRadius: 0,
-              borderWidth: 2,
-              borderColor: global.color.primaryColors.main,
-            },
-          ]}
-          onPress={() => {
-            setFocus(!focus);
-          }}
-        >
-          <Text
-            style={[
-              styles.input,
-              placeholder && {
-                color: global.color.primaryColors.placeHolderTextColor,
-              },
-            ]}
-          >
-            {value}
-          </Text>
-        </TouchableOpacity>
-        {focus ? (
-          <View></View>
-        ) : (
-          <View>
-            <TouchableOpacity
-              style={[
-                styles.inputContainer2,
-                {
-                  borderLeftWidth: 2,
-                  borderRightWidth: 2,
-                  borderColor: "white",
-                  borderColor: global.color.primaryColors.main,
-                },
-              ]}
-              onPress={() => {
-                setValue("Performer");
-                setProfileType("Performer");
-                setFocus(!focus);
-                setPlaceHolder(false);
-              }}
-            >
-              <Text style={styles.input}>Performer</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.inputContainer2,
-                {
-                  borderBottomLeftRadius: 12,
-                  borderBottomRightRadius: 12,
-                  borderWidth: 2,
-                  borderColor: global.color.primaryColors.main,
-                },
-              ]}
-              onPress={() => {
-                setValue("Live Music Fan");
-                setFocus(!focus);
-                setPlaceHolder(false);
-              }}
-            >
-              <Text style={styles.input}>Live Music Fan</Text>
-            </TouchableOpacity>
-          </View> 
-        )}
-      </View>*/}
       <TouchableOpacity
-        style={[styles.buttonContainer, {marginTop:"20%"}]}
+        style={[styles.buttonContainer, { marginTop: "40%" }]}
         onPress={() => {
-          props.navigation.navigate("TabNav");
-          // if (profileType == "Performer") {
-            // props.navigation.navigate("ArtistSetup", {
-            //   profileType: profileType,
-            // });
-          // }
-          // if (profileType == "Venue/Business") {
-          //   props.navigation.navigate("VenueSetup", {
-          //     profileType: profileType,
-          //   });
-          // }
+          // signUpHandler();
         }}
-        
       >
-        <Text style={styles.buttonText}>Create Account</Text>
+        {!isAuth ? (
+          <Text style={styles.buttonText}>Create Account</Text>
+        ) : (
+          <ActivityIndicator size={22} />
+        )}
       </TouchableOpacity>
     </SafeAreaView>
+    // </KeyboardAwareScrollView>
   );
 };
 

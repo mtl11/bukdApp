@@ -1,9 +1,18 @@
 import global from "../global";
 
 export default {
+  passwordInfoContainer:{
+    marginHorizontal: "8%",
+    marginTop: "5%",
+  },
+  passwordInfoText:{
+    fontFamily: "Rubik-Regular",
+    fontSize:14,
+    color: global.color.primaryColors.adjacent
+  },
   container: {
     backgroundColor: global.color.primaryColors.background,
-    height: "100%",
+    flex:1
   },
   image: {
     alignSelf: "center",
