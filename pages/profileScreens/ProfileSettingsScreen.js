@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -11,7 +11,13 @@ import {
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../styles/global";
+import { AuthContext } from "../../store/authContext";
+
+
 const ProfileSettingsScreen = (props) => {
+  const authCTX = useContext(AuthContext);
+
+
   const signOutAlert = () => {
     Alert.alert("Are you sure you want to Sign Out?", "", [
       {
@@ -21,7 +27,7 @@ const ProfileSettingsScreen = (props) => {
       },
       {
         text: "Sign Out",
-        onPress: () => console.log("Signout Pressed"),
+        onPress: ()=>{authCTX.logout()},
         style: "destructive",
       },
     ]);

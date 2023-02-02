@@ -3,15 +3,10 @@ import {
   View,
   Text,
   SafeAreaView,
-  Icon,
   TouchableOpacity,
-  Image,
   TextInput,
   ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FontAwesome5 } from "@expo/vector-icons";
 import styles from "../../styles/auth/signupScreen";
 import global from "../../styles/global";
@@ -33,9 +28,7 @@ const SignupScreen = (props) => {
   }
 
   return (
-    // <KeyboardAwareScrollView>
     <SafeAreaView style={styles.container}>
-      {/* <KeyboardAvoidingView  behavior="padding" keyboardVerticalOffset={height + 47} enabled> */}
       <View style={styles.topContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -86,7 +79,7 @@ const SignupScreen = (props) => {
           Password must be at least 10 characters
         </Text>
       </View>
-      <View style={[styles.inputContainer, {marginTop: "2%"}]}>
+      <View style={[styles.inputContainer, { marginTop: "2%" }]}>
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -99,11 +92,9 @@ const SignupScreen = (props) => {
         />
       </View>
       <View style={styles.passwordInfoContainer}>
-        <Text style={styles.passwordInfoText}>
-          Passwords must match
-        </Text>
+        <Text style={styles.passwordInfoText}>Passwords must match</Text>
       </View>
-      <View style={[styles.inputContainer,{marginTop: "2%"}]}>
+      <View style={[styles.inputContainer, { marginTop: "2%" }]}>
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
@@ -118,7 +109,7 @@ const SignupScreen = (props) => {
       <TouchableOpacity
         style={[styles.buttonContainer, { marginTop: "40%" }]}
         onPress={() => {
-          // signUpHandler();
+          signUpHandler();
         }}
       >
         {!isAuth ? (
@@ -128,7 +119,6 @@ const SignupScreen = (props) => {
         )}
       </TouchableOpacity>
     </SafeAreaView>
-    // </KeyboardAwareScrollView>
   );
 };
 
