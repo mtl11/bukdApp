@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -10,21 +10,78 @@ import {
 import { FontAwesome5 } from "@expo/vector-icons";
 import styles from "../../styles/auth/signupScreen";
 import global from "../../styles/global";
-import { createUser } from "../../util/auth";
+import { createUser, addAccountFB, authenticateUser } from "../../util/auth";
+import {AuthContext} from "../../store/authContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignupScreen = (props) => {
+  const authCTX = useContext(AuthContext);
+
   const [profileName, setProfileName] = useState("");
   const [email, setEmail] = useState("");
   //password needs to be at least 6 in length
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isAuth, setIsAuth] = useState(false);
-  // const height = useHeaderHeight();
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  const validatePasswordsLength = () => {
+    if (password.length >= 10 && confirmPassword.length >= 10) {
+      return true;
+    }
+    return false;
+  };
+
+  const validatePasswords = () => {
+    if (password == confirmPassword) {
+      return true;
+    }
+    return false;
+  };
 
   async function signUpHandler() {
     setIsAuth(true);
-    await createUser(email, password);
-    setIsAuth(false);
+    const response = await createUser(email, password);
+    
+    if (response) {
+      setEmailErrorMessage("Error: email already in use");
+      setIsAuth(false);
+    } else {
+      setEmailErrorMessage("");
+      const response = await addAccountFB(email, profileName);
+      setIsAuth(false);
+      const token = await authenticateUser(email, password);
+      authCTX.authenticate(token);
+    }
+  }
+
+  function checkInputs() {
+    if (profileName.alphanumeric) {
+      setEmailErrorMessage("Error: Invalid Profile Name");
+      return; 
+    }
+    if (validateEmail(email) == null) {
+      setEmailErrorMessage("Error: Invalid Email");
+      return;
+    }
+    if (!validatePasswordsLength()) {
+      setEmailErrorMessage("Error: Passwords must be at least 10 charaters");
+      return;
+    }
+    if (!validatePasswords()) {
+      setEmailErrorMessage("Error: Passwords must match");
+      return;
+    }
+    setEmailErrorMessage("");
+    signUpHandler();
   }
 
   return (
@@ -53,24 +110,27 @@ const SignupScreen = (props) => {
       </View>
       <View style={[styles.inputContainer, { marginTop: 0 }]}>
         <TextInput
+          inputMode={"text"}
+          keyboardType={"ascii-capable"}
           style={styles.input}
           placeholder="Profile Name"
           placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
           autoCorrect={false}
           autoCapitalize={false}
-          returnKeyType={"done"}
+          returnKeyType={"next"}
           onChangeText={setProfileName}
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
+          keyboardType={"ascii-capable"}
           style={styles.input}
           placeholder="Email"
           placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
           autoCorrect={false}
           autoCapitalize={false}
           inputMode={"email"}
-          returnKeyType={"done"}
+          returnKeyType={"next"}
           onChangeText={setEmail}
         />
       </View>
@@ -87,7 +147,7 @@ const SignupScreen = (props) => {
           secureTextEntry={true}
           textContentType={"oneTimeCode"}
           autoCapitalize={false}
-          returnKeyType={"done"}
+          returnKeyType={"next"}
           onChangeText={setPassword}
         />
       </View>
@@ -101,15 +161,18 @@ const SignupScreen = (props) => {
           placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
           secureTextEntry={true}
           autoCapitalize={false}
-          returnKeyType={"done"}
+          returnKeyType={"next"}
           textContentType={"oneTimeCode"}
           onChangeText={setConfirmPassword}
         />
       </View>
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{emailErrorMessage}</Text>
+      </View>
       <TouchableOpacity
-        style={[styles.buttonContainer, { marginTop: "40%" }]}
+        style={[styles.buttonContainer, { marginTop: "30%" }]}
         onPress={() => {
-          signUpHandler();
+          checkInputs();
         }}
       >
         {!isAuth ? (

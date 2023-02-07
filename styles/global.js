@@ -7,7 +7,8 @@ export default {
             text: "#FFFFFF",
             buttonAccent: "#FFFFFF",
             placeHolderTextColor: "#226DCE",
-            headerText: "#226DCE"
+            headerText: "#226DCE",
+            errorText: "#DC3545"
         }
     }
 }

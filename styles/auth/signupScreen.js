@@ -1,6 +1,15 @@
 import global from "../global";
 
 export default {
+  errorContainer:{
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 16,
+    marginHorizontal: "5%",
+  },
+  errorText:{
+    color: global.color.primaryColors.errorText
+  },
   passwordInfoContainer:{
     marginHorizontal: "8%",
     marginTop: "5%",

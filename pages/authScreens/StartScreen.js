@@ -3,11 +3,9 @@ import {
   View,
   Text,
   SafeAreaView,
-  StyleSheet,
   TouchableOpacity,
   TextInput,
   Image,
-  Animated,
   ActivityIndicator,
 } from "react-native";
 import styles from "../../styles/auth/startScreen";
@@ -24,48 +22,18 @@ const StartScreen = (props) => {
   const [isAuth, setIsAuth] = useState(false);
 
   async function authenticateHandler() {
-    console.log(email);
-    console.log(password);
     try {
       const token = await authenticateUser(email, password);
       console.log(token);
       setPasswordDontMatch(false);
       authCTX.authenticate(token);
-      // props.navigation.navigate("TabNav")
     } catch (error) {
       setPasswordDontMatch(true);
       setIsAuth(false);
       console.log(error);
     }
-    
-
   }
-  const shakeAnimation = new Animated.Value(0);
 
-  function startShake() {
-    Animated.sequence([
-      Animated.timing(shakeAnimation, {
-        toValue: 10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(shakeAnimation, {
-        toValue: -10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(shakeAnimation, {
-        toValue: 10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(shakeAnimation, {
-        toValue: 0,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -116,14 +84,13 @@ const StartScreen = (props) => {
       </TouchableOpacity>
       {passwordDontMatch ? (
         <View style={{ alignSelf: "center" }}>
-          <Text style={{ color: "red", fontFamily: "Rubik-Regular" }}>
-            The Email and Password you entered do not match.
+          <Text style={{ color: global.color.primaryColors.errorText, fontFamily: "Rubik-Regular" }}>
+            The email and password you entered do not match.
           </Text>
         </View>
       ) : (
         <View></View>
       )}
-      <Animated.View style={{ transform: [{ translateX: shakeAnimation }] }}>
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => {
@@ -137,7 +104,6 @@ const StartScreen = (props) => {
             <ActivityIndicator size={22} />
           )}
         </TouchableOpacity>
-      </Animated.View>
       <View style={styles.newAccountContainer}>
         <Text style={styles.newAccountText}>Don't have an account?</Text>
         <TouchableOpacity
