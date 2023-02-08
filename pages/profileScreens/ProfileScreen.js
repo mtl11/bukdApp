@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,21 +7,20 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import profileInformation from "../../models/profile/profile";
 import { Ionicons } from "@expo/vector-icons";
 import EditModal from "../../components/EditProfileArtist.js";
 import SocialTab from "../../components/SocialProfileTabArtist.js";
 import AvailabilityProfileArtist from "../../components/AvailabilityProfileArtist";
 import AboutTabArtist from "../../components/AboutTabArtist";
 import global from "../../styles/global";
+import { getProfileInfo } from "../../util/profile";
+
 const ProfileScreen = (props) => {
-  const dummyProfile = new profileInformation(
-    123,
-    "M-OKAY",
-    "DJ",
-    "House",
-    "Tucson local attending UA'23 specializing in bringing a different energy to bars and clubs in the area."
-  );
+  const [fetchedProfile, getFetchedProfile] = useState({});
+  async function getProfile() {
+    const basicInfo = await getProfileInfo();
+    getFetchedProfile(basicInfo);
+  }
   const [modalVisible, setModalVisible] = useState(false);
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
@@ -37,6 +36,10 @@ const ProfileScreen = (props) => {
       return <AvailabilityProfileArtist />;
     }
   }
+  
+  useEffect(()=>{
+    getProfile();
+  },[]);
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -64,7 +67,7 @@ const ProfileScreen = (props) => {
       </View>
       <View style={{ justifyContent: "center" }}>
         <View style={styles.usernameContainer}>
-          <Text style={styles.usernameText}>{dummyProfile.username}</Text>
+          <Text style={styles.usernameText}>{fetchedProfile.profileName}</Text>
         </View>
       </View>
       <TouchableOpacity

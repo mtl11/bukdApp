@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import profileInformation from "../../models/profile/profile";
+import profileInformation from "../../models/profile";
 import { FontAwesome5 } from "@expo/vector-icons";
 import SocialTab from "../../components/SocialProfileTabArtist.js";
 import AvailabilityProfileArtist from "../../components/AvailabilityProfileArtist";

@@ -12,7 +12,7 @@ import styles from "../../styles/auth/startScreen";
 import global from "../../styles/global";
 import { authenticateUser } from "../../util/auth";
 import {AuthContext} from "../../store/authContext";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const StartScreen = (props) => {
   const authCTX = useContext(AuthContext);
 
@@ -24,9 +24,9 @@ const StartScreen = (props) => {
   async function authenticateHandler() {
     try {
       const token = await authenticateUser(email, password);
-      console.log(token);
       setPasswordDontMatch(false);
       authCTX.authenticate(token);
+      AsyncStorage.setItem("email",JSON.stringify(email));
     } catch (error) {
       setPasswordDontMatch(true);
       setIsAuth(false);

@@ -12,7 +12,6 @@ import styles from "../../styles/auth/signupScreen";
 import global from "../../styles/global";
 import { createUser, addAccountFB, authenticateUser } from "../../util/auth";
 import {AuthContext} from "../../store/authContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignupScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -50,7 +49,6 @@ const SignupScreen = (props) => {
   async function signUpHandler() {
     setIsAuth(true);
     const response = await createUser(email, password);
-    
     if (response) {
       setEmailErrorMessage("Error: email already in use");
       setIsAuth(false);
@@ -59,6 +57,7 @@ const SignupScreen = (props) => {
       const response = await addAccountFB(email, profileName);
       setIsAuth(false);
       const token = await authenticateUser(email, password);
+      AsyncStorage.setItem("email",JSON.stringify(email));
       authCTX.authenticate(token);
     }
   }
