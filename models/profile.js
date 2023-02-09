@@ -6,8 +6,10 @@ export class profileInfo {
 }
 
 export class aboutInfo {
-    constructor(profileImgURL, profileName){
-        this.profileImgURL = profileImgURL;
-        this.profileName = profileName;
+    constructor(bio, category, genre, location){
+        this.bio = bio;
+        this.category = category;
+        this.genre = genre;
+        this.location = location;
     }
 }

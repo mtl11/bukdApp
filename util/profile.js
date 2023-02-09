@@ -20,9 +20,8 @@ export async function getProfileInfo(){
     const email = await AsyncStorage.getItem("email");
     const extrated = JSON.parse(email);
     const hash = extrated.hashCode();
-
     const response = await firebaseUtil.get("/users/" + hash + "/basicinfo.json");
-    const values = Object.values(response.data)[0];
+    const values = response.data;
     return new profileInfo(null,values.profileName);
 }
 
@@ -31,7 +30,41 @@ export async function setAboutInfo(location, category, genre, bio){
     const extrated = JSON.parse(email);
     const hash = extrated.hashCode();
 
-    const response = await firebaseUtil.post("/user/"+ hash + "/basicinfo.json",{
-
+    const response = await firebaseUtil.put("/users/"+hash+"/about.json",{
+        location: location,
+        category: category,
+        genre: genre,
+        bio: bio
     })
+}
+
+export async function setAvailabilityInfo(times, dow ){
+    const email = await AsyncStorage.getItem("email");
+    const extrated = JSON.parse(email);
+    const hash = extrated.hashCode();
+
+    const response = await firebaseUtil.put("/users/"+hash+"/availability.json",{
+        times: times,
+        dow: dow
+    })
+}
+
+export async function setProfileName(name){
+    const email = await AsyncStorage.getItem("email");
+    const extrated = JSON.parse(email);
+    const hash = extrated.hashCode();
+
+    const response = await firebaseUtil.put("/users/"+hash+"/basicinfo.json",{
+        email, email,
+        profileName: name
+    })
+}
+
+export async function getProfileStart(){
+    const email = await AsyncStorage.getItem("email");
+    const extrated = JSON.parse(email);
+    const hash = extrated.hashCode();
+    const response = await firebaseUtil.get("/users/" + hash + ".json");
+    const values = response.data;
+    return values;
 }

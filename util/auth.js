@@ -35,7 +35,6 @@ export async function createUser(email, password) {
   if (sameEmail) {
     return sameEmail;
   } else {
-    // AsyncStorage.setItem("token", response.data.idToken);
     return false;
   }
 }
@@ -58,7 +57,7 @@ export async function authenticateUser(email, password) {
 export async function addAccountFB(email, profileName) {
   const hash = email.hashCode();
   const response = await firebaseUtil
-    .post("/users/" + hash + "/basicinfo.json", {
+    .put("/users/" + hash + "/basicinfo.json", {
       email: email,
       profileName: profileName,
     })

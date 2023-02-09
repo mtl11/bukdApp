@@ -1,18 +1,17 @@
 import StartScreen from "./pages/authScreens/StartScreen";
 import { useFonts } from "expo-font";
 import SignupScreen from "./pages/authScreens/SignupScreen";
-import ProfileSettingsScreen from "./pages/profileScreens/ProfileSettingsScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNav from "./components/TabNav";
 import ForgetPasswordScreen from "./pages/authScreens/ForgetPasswordScreen";
-import PersonalInfoScreen from "./pages/profileScreens/PersonalInfoScreen";
-import PersonalSecurityScreen from "./pages/profileScreens/PasswordSecurityScreen";
+
 import SearchArtistProfile from "./pages/searchScreens/SearchArtistProfile";
 import AuthContextProvider, { AuthContext } from "./store/authContext";
 import { useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SplashScreen from 'expo-splash-screen';
+import * as SplashScreen from "expo-splash-screen";
+import ProfileContextProvider from "./store/profileContext";
 
 const Stack = createNativeStackNavigator();
 // SplashScreen.preventAutoHideAsync();
@@ -20,7 +19,7 @@ const Stack = createNativeStackNavigator();
 function AuthenticatedStack() {
   return (
     <Stack.Navigator initialRouteName="TabNav">
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ProfileSettingsScreen"
         component={ProfileSettingsScreen}
         options={{ headerShown: false }}
@@ -34,7 +33,7 @@ function AuthenticatedStack() {
         name="PersonalSecurityScreen"
         component={PersonalSecurityScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
       <Stack.Screen
         name="SearchArtistProfile"
         component={SearchArtistProfile}
@@ -86,18 +85,16 @@ function Navigation() {
   );
 }
 
-function Root(){
-const [isTryingToLogin, setIsTryingToLogin] = useState(true);
+function Root() {
+  const [isTryingToLogin, setIsTryingToLogin] = useState(true);
 
   const authCTX = useContext(AuthContext);
 
   useEffect(() => {
     async function fetchToken() {
       const storedToken = await AsyncStorage.getItem("token");
-
       if (storedToken) {
         authCTX.authenticate(storedToken);
-
       }
       setIsTryingToLogin(false);
     }
@@ -105,22 +102,11 @@ const [isTryingToLogin, setIsTryingToLogin] = useState(true);
     fetchToken();
   }, []);
 
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (appIsReady) {
-  //     // This tells the splash screen to hide immediately! If we call this after
-  //     // `setAppIsReady`, then we may see a blank screen while the app is
-  //     // loading its initial state and rendering its first pixels. So instead,
-  //     // we hide the splash screen once we know the root view has already
-  //     // performed layout.
-  //     await SplashScreen.hideAsync();
-  //   }
-  // }, [appIsReady]);
-
-  if (isTryingToLogin){
+  if (isTryingToLogin) {
     return null;
   }
-  
-  return <Navigation/>;
+
+  return <Navigation />;
 }
 
 export default function App() {
@@ -135,11 +121,9 @@ export default function App() {
     return null;
   }
 
-  
-
   return (
     <AuthContextProvider>
-      <Root/>
+      <Root />
     </AuthContextProvider>
   );
 }

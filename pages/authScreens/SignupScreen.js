@@ -12,6 +12,7 @@ import styles from "../../styles/auth/signupScreen";
 import global from "../../styles/global";
 import { createUser, addAccountFB, authenticateUser } from "../../util/auth";
 import {AuthContext} from "../../store/authContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignupScreen = (props) => {
   const authCTX = useContext(AuthContext);

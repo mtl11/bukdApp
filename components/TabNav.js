@@ -2,13 +2,47 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "../pages/profileScreens/ProfileScreen";
 import MessageScreen from "../pages/messageScreens/MessageScreen";
 import SearchScreen from "../pages/searchScreens/SearchScreen";
+import PersonalInfoScreen from "../pages/profileScreens/PersonalInfoScreen";
+import PersonalSecurityScreen from "../pages/profileScreens/PasswordSecurityScreen";
+import ProfileSettingsScreen from "../pages/profileScreens/ProfileSettingsScreen";
 import * as React from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import global from "../styles/global";
+import ProfileContextProvider from "../store/profileContext";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+const Stack = createNativeStackNavigator();
+
 const Tab = createBottomTabNavigator();
+function ProfileScreens() {
+  return (
+    <ProfileContextProvider>
+      <Stack.Navigator initialRouteName="ProfileScreen">
+        <Stack.Screen
+          name="ProfileScreen"
+          component={ProfileScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProfileSettingsScreen"
+          component={ProfileSettingsScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PersonalInfoScreen"
+          component={PersonalInfoScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PersonalSecurityScreen"
+          component={PersonalSecurityScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </ProfileContextProvider>
+  );
+}
+
 export default TabNav = (props) => {
   return (
     <Tab.Navigator
@@ -33,19 +67,12 @@ export default TabNav = (props) => {
           backgroundColor: "#303046",
           alignItems: "center",
           justifyContent: "center",
-          borderTopWidth:.5,
-          borderColor: "#C4C4C4"
-       },
-       tabBarBadgeStyle:{
-        // margin: 10,
-        // borderWidth:1,
-        // width: 50,
-        // height:50
-      },tabBarItemStyle:{
-        // height: 40
-      },
-      tabBarShowLabel:false
-
+          borderTopWidth: 0.5,
+          borderColor: "#C4C4C4",
+        },
+        tabBarBadgeStyle: {},
+        tabBarItemStyle: {},
+        tabBarShowLabel: false,
       })}
     >
       <Tab.Screen
@@ -58,9 +85,10 @@ export default TabNav = (props) => {
         component={MessageScreen}
         options={{ headerShown: false }}
       />
+
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileScreens}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>

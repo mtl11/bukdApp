@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,13 +13,26 @@ import SocialTab from "../../components/SocialProfileTabArtist.js";
 import AvailabilityProfileArtist from "../../components/AvailabilityProfileArtist";
 import AboutTabArtist from "../../components/AboutTabArtist";
 import global from "../../styles/global";
-import { getProfileInfo } from "../../util/profile";
-
+import { getProfileInfo, getProfileStart } from "../../util/profile";
+import { ProfileContext } from "../../store/profileContext.js";
+import { aboutInfo } from "../../models/profile.js";
 const ProfileScreen = (props) => {
-  const [fetchedProfile, getFetchedProfile] = useState({});
+  const profileCTX = useContext(ProfileContext);
+
   async function getProfile() {
     const basicInfo = await getProfileInfo();
-    getFetchedProfile(basicInfo);
+    const otherInfo = await getProfileStart();
+    console.log(otherInfo.about);
+    profileCTX.updateBasic(basicInfo);
+
+    profileCTX.updateAbout(
+      new aboutInfo(
+        otherInfo.about.bio,
+        otherInfo.about.category,
+        otherInfo.about.genre,
+        otherInfo.about.location
+      )
+    );
   }
   const [modalVisible, setModalVisible] = useState(false);
   const [socialShow, setSocialShow] = useState(false);
@@ -36,10 +49,10 @@ const ProfileScreen = (props) => {
       return <AvailabilityProfileArtist />;
     }
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     getProfile();
-  },[]);
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -51,7 +64,11 @@ const ProfileScreen = (props) => {
                 props.navigation.navigate("ProfileSettingsScreen");
               }}
             >
-              <Ionicons name="ios-settings" size={28} color={global.color.primaryColors.text} />
+              <Ionicons
+                name="ios-settings"
+                size={28}
+                color={global.color.primaryColors.text}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -67,7 +84,9 @@ const ProfileScreen = (props) => {
       </View>
       <View style={{ justifyContent: "center" }}>
         <View style={styles.usernameContainer}>
-          <Text style={styles.usernameText}>{fetchedProfile.profileName}</Text>
+          <Text style={styles.usernameText}>
+            {profileCTX.basicInfo.profileName}
+          </Text>
         </View>
       </View>
       <TouchableOpacity
@@ -77,11 +96,11 @@ const ProfileScreen = (props) => {
           borderColor: "#2A51DB",
           width: "80%",
           marginVertical: "5%",
-          backgroundColor: global.color.primaryColors.adjacent 
+          backgroundColor: global.color.primaryColors.adjacent,
         }}
         onPress={() => setModalVisible(true)}
       >
-        <View style={{ alignSelf: "center", padding: 10}}>
+        <View style={{ alignSelf: "center", padding: 10 }}>
           <Text
             style={{
               color: "#2A51DB",
@@ -98,7 +117,7 @@ const ProfileScreen = (props) => {
           borderBottomWidth: 1,
           marginTop: 20,
           alignItems: "center",
-          borderColor: global.color.primaryColors.adjacent
+          borderColor: global.color.primaryColors.adjacent,
         }}
       >
         <View
@@ -168,7 +187,7 @@ const ProfileScreen = (props) => {
         </View>
       </View>
       {getScreenTab()}
-      <EditModal visible={modalVisible} setModalVisible={setModalVisible} />
+      <EditModal visible={modalVisible} setModalVisible={setModalVisible} about={profileCTX.about}/>
     </SafeAreaView>
   );
 };
@@ -177,7 +196,7 @@ const styles = StyleSheet.create({
   tabTextContainer: {
     paddingHorizontal: 15,
     borderRadius: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   tabContainer: {
     width: "50%",
@@ -187,7 +206,7 @@ const styles = StyleSheet.create({
     borderWidth: 2.5,
     borderRadius: 12,
     borderColor: global.color.primaryColors.main,
-    backgroundColor: global.color.primaryColors.main 
+    backgroundColor: global.color.primaryColors.main,
   },
   tabText: {
     color: global.color.primaryColors.text,
@@ -220,7 +239,7 @@ const styles = StyleSheet.create({
     marginTop: "3%",
     justifyContent: "center",
     borderWidth: 4,
-    borderColor: global.color.primaryColors.adjacent
+    borderColor: global.color.primaryColors.adjacent,
     // shadowColor: "#000",
     // shadowOffset: { width: 0, height: 0 },
     // shadowOpacity: 0.41,
@@ -233,7 +252,7 @@ const styles = StyleSheet.create({
   usernameText: {
     fontFamily: "Rubik-SemiBold",
     fontSize: 24,
-    color: global.color.primaryColors.text
+    color: global.color.primaryColors.text,
   },
 });
 export default ProfileScreen;

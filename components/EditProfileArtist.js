@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   Modal,
@@ -14,8 +14,36 @@ import {
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import global from "../styles/global";
 import * as ImagePicker from "expo-image-picker";
+import {
+  setAboutInfo,
+  setAvailabilityInfo,
+  setProfileName,
+} from "../util/profile";
+import { ProfileContext } from "../store/profileContext.js";
+import { aboutInfo, profileInfo } from "../models/profile";
 
 const EditProfileArtist = (props) => {
+  const profileCTX = useContext(ProfileContext);
+
+  async function update() {
+    await setProfileName(profilename);
+    await setAboutInfo(location, category, genre, bio);
+    const dow = getDow();
+    const time = getTime();
+    await setAvailabilityInfo(time, dow);
+
+    profileCTX.updateBasic(new profileInfo(null, profilename));
+    profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
+  }
+
+  const [profilename, setProfilename] = useState(
+    profileCTX.basicInfo.profileName
+  );
+  const [location, setLocation] = useState(props.about.location);
+  const [category, setCategory] = useState("");
+  const [genre, setGenre] = useState("");
+  const [bio, setBio] = useState("");
+
   const [image, setImage] = useState(null);
   const [about, setAbout] = useState(false);
   const [social, setSocial] = useState(false);
@@ -33,6 +61,26 @@ const EditProfileArtist = (props) => {
   const [evening, setEvening] = useState(false);
   const [night, setNight] = useState(false);
 
+  const getDow = () => {
+    const dow = {};
+    if (mon) dow.mon = true;
+    if (tue) dow.tue = true;
+    if (wed) dow.wed = true;
+    if (thu) dow.thu = true;
+    if (fri) dow.fri = true;
+    if (sat) dow.sat = true;
+    if (sun) dow.sun = true;
+    return dow;
+  };
+
+  const getTime = () => {
+    const time = {};
+    if (morn) time.morn = true;
+    if (after) time.after = true;
+    if (evening) time.evening = true;
+    if (night) time.night = true;
+    return time;
+  };
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -45,7 +93,21 @@ const EditProfileArtist = (props) => {
       setImage(result.uri);
     }
   };
-
+  // function action (){
+    
+  // }
+  // async function setStart() {
+  //   setLocation(profileCTX.about.location);
+  //   setBio(profileCTX.about.bio);
+  //   setCategory(profileCTX.about.category);
+  //   setGenre(profileCTX.about.genre);
+  //   setProfilename(profileCTX.basicInfo.profileName);
+  //   console.log("hi")
+  // }
+  useEffect(() => {
+    console.log(props.about.location)
+  }, []);
+  
   return (
     <Modal
       visible={props.visible}
@@ -94,6 +156,7 @@ const EditProfileArtist = (props) => {
           </Text>
           <TouchableOpacity
             onPress={() => {
+              update();
               props.setModalVisible(false);
             }}
           >
@@ -131,6 +194,8 @@ const EditProfileArtist = (props) => {
               style={styles.input}
               placeholder={"Profile Name"}
               placeholderTextColor={global.color.primaryColors.main}
+              value={profilename}
+              onChangeText={setProfilename}
             />
           </View>
           <TouchableOpacity
@@ -161,6 +226,8 @@ const EditProfileArtist = (props) => {
                   style={styles.input}
                   placeholder={"Location"}
                   placeholderTextColor={global.color.primaryColors.main}
+                  onChangeText={setLocation}
+                  value={location}
                 />
               </View>
               <View style={styles.inputContainer}>
@@ -168,6 +235,8 @@ const EditProfileArtist = (props) => {
                   style={styles.input}
                   placeholder={"Category"}
                   placeholderTextColor={global.color.primaryColors.main}
+                  onChangeText={setCategory}
+                  value={category}
                 />
               </View>
               <View style={styles.inputContainer}>
@@ -175,6 +244,8 @@ const EditProfileArtist = (props) => {
                   style={styles.input}
                   placeholder={"Genre"}
                   placeholderTextColor={global.color.primaryColors.main}
+                  onChangeText={setGenre}
+                  value={genre}
                 />
               </View>
               <View style={styles.inputContainer}>
@@ -182,8 +253,10 @@ const EditProfileArtist = (props) => {
                   style={[styles.input, { marginTop: 10 }]}
                   multiline={true}
                   placeholder={"Bio"}
+                  onChangeText={setBio}
+                  value={bio}
                   placeholderTextColor={global.color.primaryColors.main}
-                  maxLength={10}
+                  maxLength={160}
                 />
               </View>
             </View>

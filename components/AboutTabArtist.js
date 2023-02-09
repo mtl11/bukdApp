@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -10,8 +10,10 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import global from "../styles/global.js";
+import { ProfileContext } from "../store/profileContext.js";
 
 const AboutTabArtist = () => {
+  const profileCTX = useContext(ProfileContext);
   return (
     <View style={styles.container}>
       <View style={[styles.infoContainerRow, { marginTop: "0%" }]}>
@@ -20,7 +22,7 @@ const AboutTabArtist = () => {
           size={24}
           color={global.color.primaryColors.main}
         />
-        <Text style={styles.infoText}>Tucson, AZ</Text>
+        <Text style={styles.infoText}>{profileCTX.about.location}</Text>
       </View>
       <View style={styles.infoContainerRow}>
         <Ionicons
@@ -28,7 +30,7 @@ const AboutTabArtist = () => {
           size={24}
           color={global.color.primaryColors.main}
         />
-        <Text style={styles.infoText}>DJ | House</Text>
+        <Text style={styles.infoText}>{profileCTX.about.category} | {profileCTX.about.genre}</Text>
       </View>
       <View style={styles.infoContainerRow}>
         <FontAwesome
@@ -37,8 +39,7 @@ const AboutTabArtist = () => {
           color={global.color.primaryColors.main}
         />
         <Text style={styles.infoText}>
-          Tucson local attending UA'23 specializing in bringing a different
-          energy to bars and clubs in the area.
+          {profileCTX.about.bio}
         </Text>
       </View>
     </View>
