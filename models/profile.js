@@ -13,3 +13,10 @@ export class aboutInfo {
         this.location = location;
     }
 }
+
+export class availabilityInfo {
+    constructor(dow, times){
+        this.dow = dow;
+        this.times = times;
+    }
+}

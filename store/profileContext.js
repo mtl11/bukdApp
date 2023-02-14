@@ -24,8 +24,8 @@ function ProfileContextProvider({ children }) {
     function updateAbout(aboutInfo) {
      setAbout(aboutInfo);
     }
-    function updateAvailability() {
-     
+    function updateAvailability(availabilityInfo) {
+        setAvailability(availabilityInfo);
     }
     function updateSocial() {
      

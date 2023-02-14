@@ -5,6 +5,7 @@ import SearchScreen from "../pages/searchScreens/SearchScreen";
 import PersonalInfoScreen from "../pages/profileScreens/PersonalInfoScreen";
 import PersonalSecurityScreen from "../pages/profileScreens/PasswordSecurityScreen";
 import ProfileSettingsScreen from "../pages/profileScreens/ProfileSettingsScreen";
+import EditProfileArtistScreen from "../pages/profileScreens/EditProfileArtistScreen";
 import * as React from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -21,6 +22,11 @@ function ProfileScreens() {
         <Stack.Screen
           name="ProfileScreen"
           component={ProfileScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EditProfileArtistScreen"
+          component={EditProfileArtistScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

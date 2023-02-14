@@ -93,21 +93,10 @@ const EditProfileArtist = (props) => {
       setImage(result.uri);
     }
   };
-  // function action (){
-    
-  // }
-  // async function setStart() {
-  //   setLocation(profileCTX.about.location);
-  //   setBio(profileCTX.about.bio);
-  //   setCategory(profileCTX.about.category);
-  //   setGenre(profileCTX.about.genre);
-  //   setProfilename(profileCTX.basicInfo.profileName);
-  //   console.log("hi")
-  // }
-  useEffect(() => {
-    console.log(props.about.location)
-  }, []);
-  
+  // useEffect(() => {
+  //   // console.log(props.about.location)
+  // }, []);
+
   return (
     <Modal
       visible={props.visible}

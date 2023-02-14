@@ -15,16 +15,15 @@ import AboutTabArtist from "../../components/AboutTabArtist";
 import global from "../../styles/global";
 import { getProfileInfo, getProfileStart } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
-import { aboutInfo } from "../../models/profile.js";
+import { aboutInfo, availabilityInfo } from "../../models/profile.js";
 const ProfileScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
 
   async function getProfile() {
     const basicInfo = await getProfileInfo();
     const otherInfo = await getProfileStart();
-    console.log(otherInfo.about);
+    console.log(otherInfo.availability);
     profileCTX.updateBasic(basicInfo);
-
     profileCTX.updateAbout(
       new aboutInfo(
         otherInfo.about.bio,
@@ -33,7 +32,14 @@ const ProfileScreen = (props) => {
         otherInfo.about.location
       )
     );
+    profileCTX.updateAvailability(
+      new availabilityInfo(
+        otherInfo.availability.dow,
+        otherInfo.availability.times
+      )
+    );
   }
+
   const [modalVisible, setModalVisible] = useState(false);
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
@@ -98,7 +104,9 @@ const ProfileScreen = (props) => {
           marginVertical: "5%",
           backgroundColor: global.color.primaryColors.adjacent,
         }}
-        onPress={() => setModalVisible(true)}
+        onPress={() => {
+          props.navigation.navigate("EditProfileArtistScreen");
+        }}
       >
         <View style={{ alignSelf: "center", padding: 10 }}>
           <Text
@@ -187,7 +195,7 @@ const ProfileScreen = (props) => {
         </View>
       </View>
       {getScreenTab()}
-      <EditModal visible={modalVisible} setModalVisible={setModalVisible} about={profileCTX.about}/>
+      {/* <EditModal visible={modalVisible} setModalVisible={setModalVisible} about={profileCTX.about}/> */}
     </SafeAreaView>
   );
 };
