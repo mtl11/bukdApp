@@ -6,9 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import EditModal from "../../components/EditProfileArtist.js";
 import SocialTab from "../../components/SocialProfileTabArtist.js";
 import AvailabilityProfileArtist from "../../components/AvailabilityProfileArtist";
 import AboutTabArtist from "../../components/AboutTabArtist";
@@ -16,13 +16,15 @@ import global from "../../styles/global";
 import { getProfileInfo, getProfileStart } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, availabilityInfo } from "../../models/profile.js";
+
 const ProfileScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
-
+  const [gettingInfo, setGettingInfo] = useState(true);
   async function getProfile() {
+    setGettingInfo(true);
     const basicInfo = await getProfileInfo();
     const otherInfo = await getProfileStart();
-    console.log(otherInfo.availability);
+    // console.log(otherInfo.availability);
     profileCTX.updateBasic(basicInfo);
     profileCTX.updateAbout(
       new aboutInfo(
@@ -32,12 +34,23 @@ const ProfileScreen = (props) => {
         otherInfo.about.location
       )
     );
-    profileCTX.updateAvailability(
-      new availabilityInfo(
-        otherInfo.availability.dow,
-        otherInfo.availability.times
-      )
-    );
+    console.log(otherInfo);
+    if (otherInfo.hasOwnProperty("availability")) {
+      profileCTX.updateAvailability(
+        new availabilityInfo(
+          otherInfo.availability.dow,
+          otherInfo.availability.times
+        )
+      );
+    }else{
+      profileCTX.updateAvailability(
+        new availabilityInfo(
+          {},
+          {}
+        )
+      );
+    }
+    setGettingInfo(false);
   }
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -55,147 +68,151 @@ const ProfileScreen = (props) => {
       return <AvailabilityProfileArtist />;
     }
   }
-
   useEffect(() => {
     getProfile();
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+      {gettingInfo ? (
+        <ActivityIndicator size={"large"} />
+      ) : (
+        <View style={styles.container}>
+          <View>
+            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+              <View style={{ justifyContent: "center" }}>
+                <TouchableOpacity
+                  style={styles.topIconContainer}
+                  onPress={() => {
+                    props.navigation.navigate("ProfileSettingsScreen");
+                  }}
+                >
+                  <Ionicons
+                    name="ios-settings"
+                    size={28}
+                    color={global.color.primaryColors.text}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View>
+              <View style={styles.profilePicContainer}>
+                <Image
+                  source={require("../../assets/ok-profile.jpeg")}
+                  style={styles.profilePic}
+                  resizeMode="contain"
+                />
+              </View>
+            </View>
+          </View>
           <View style={{ justifyContent: "center" }}>
-            <TouchableOpacity
-              style={styles.topIconContainer}
-              onPress={() => {
-                props.navigation.navigate("ProfileSettingsScreen");
+            <View style={styles.usernameContainer}>
+              <Text style={styles.usernameText}>
+                {profileCTX.basicInfo.profileName}
+              </Text>
+            </View>
+          </View>
+          <TouchableOpacity
+            style={{
+              alignSelf: "center",
+              borderRadius: 12,
+              borderColor: "#2A51DB",
+              width: "80%",
+              marginVertical: "5%",
+              backgroundColor: global.color.primaryColors.adjacent,
+            }}
+            onPress={() => {
+              props.navigation.navigate("EditProfileArtistScreen");
+            }}
+          >
+            <View style={{ alignSelf: "center", padding: 10 }}>
+              <Text
+                style={{
+                  color: "#2A51DB",
+                  fontFamily: "Rubik-Medium",
+                  fontSize: 18,
+                }}
+              >
+                Edit Profile
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              marginTop: 20,
+              alignItems: "center",
+              borderColor: global.color.primaryColors.adjacent,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                width: "90%",
               }}
             >
-              <Ionicons
-                name="ios-settings"
-                size={28}
-                color={global.color.primaryColors.text}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.tabContainer}
+                onPress={() => {
+                  setAboutShow(true);
+                  setAvailShow(false);
+                  setSocialShow(false);
+                }}
+              >
+                <View style={{ flexDirection: "column" }}>
+                  <View style={styles.tabTextContainer}>
+                    <Text style={styles.tabText}>About</Text>
+                  </View>
+                  {aboutShow ? (
+                    <View style={styles.tabBottomBar}></View>
+                  ) : (
+                    <View></View>
+                  )}
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.tabContainer}
+                onPress={() => {
+                  setAvailShow(true);
+                  setAboutShow(false);
+                  setSocialShow(false);
+                }}
+              >
+                <View style={{ flexDirection: "column" }}>
+                  <View style={styles.tabTextContainer}>
+                    <Text style={styles.tabText}>Availability</Text>
+                  </View>
+                  {availShow ? (
+                    <View style={styles.tabBottomBar}></View>
+                  ) : (
+                    <View></View>
+                  )}
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.tabContainer}
+                onPress={() => {
+                  setSocialShow(true);
+                  setAvailShow(false);
+                  setAboutShow(false);
+                }}
+              >
+                <View style={{ flexDirection: "column" }}>
+                  <View style={styles.tabTextContainer}>
+                    <Text style={styles.tabText}>Socials</Text>
+                  </View>
+                  {socialShow ? (
+                    <View style={styles.tabBottomBar}></View>
+                  ) : (
+                    <View></View>
+                  )}
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
+          {getScreenTab()}
         </View>
-        <View>
-          <View style={styles.profilePicContainer}>
-            <Image
-              source={require("../../assets/ok-profile.jpeg")}
-              style={styles.profilePic}
-              resizeMode="contain"
-            />
-          </View>
-        </View>
-      </View>
-      <View style={{ justifyContent: "center" }}>
-        <View style={styles.usernameContainer}>
-          <Text style={styles.usernameText}>
-            {profileCTX.basicInfo.profileName}
-          </Text>
-        </View>
-      </View>
-      <TouchableOpacity
-        style={{
-          alignSelf: "center",
-          borderRadius: 12,
-          borderColor: "#2A51DB",
-          width: "80%",
-          marginVertical: "5%",
-          backgroundColor: global.color.primaryColors.adjacent,
-        }}
-        onPress={() => {
-          props.navigation.navigate("EditProfileArtistScreen");
-        }}
-      >
-        <View style={{ alignSelf: "center", padding: 10 }}>
-          <Text
-            style={{
-              color: "#2A51DB",
-              fontFamily: "Rubik-Medium",
-              fontSize: 18,
-            }}
-          >
-            Edit Profile
-          </Text>
-        </View>
-      </TouchableOpacity>
-      <View
-        style={{
-          borderBottomWidth: 1,
-          marginTop: 20,
-          alignItems: "center",
-          borderColor: global.color.primaryColors.adjacent,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            width: "90%",
-          }}
-        >
-          <TouchableOpacity
-            style={styles.tabContainer}
-            onPress={() => {
-              setAboutShow(true);
-              setAvailShow(false);
-              setSocialShow(false);
-            }}
-          >
-            <View style={{ flexDirection: "column" }}>
-              <View style={styles.tabTextContainer}>
-                <Text style={styles.tabText}>About</Text>
-              </View>
-              {aboutShow ? (
-                <View style={styles.tabBottomBar}></View>
-              ) : (
-                <View></View>
-              )}
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.tabContainer}
-            onPress={() => {
-              setAvailShow(true);
-              setAboutShow(false);
-              setSocialShow(false);
-            }}
-          >
-            <View style={{ flexDirection: "column" }}>
-              <View style={styles.tabTextContainer}>
-                <Text style={styles.tabText}>Availability</Text>
-              </View>
-              {availShow ? (
-                <View style={styles.tabBottomBar}></View>
-              ) : (
-                <View></View>
-              )}
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.tabContainer}
-            onPress={() => {
-              setSocialShow(true);
-              setAvailShow(false);
-              setAboutShow(false);
-            }}
-          >
-            <View style={{ flexDirection: "column" }}>
-              <View style={styles.tabTextContainer}>
-                <Text style={styles.tabText}>Socials</Text>
-              </View>
-              {socialShow ? (
-                <View style={styles.tabBottomBar}></View>
-              ) : (
-                <View></View>
-              )}
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-      {getScreenTab()}
-      {/* <EditModal visible={modalVisible} setModalVisible={setModalVisible} about={profileCTX.about}/> */}
+      )}
     </SafeAreaView>
   );
 };

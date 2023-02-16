@@ -40,17 +40,35 @@ export async function createUser(email, password) {
 }
 
 export async function authenticateUser(email, password) {
-  const response = await axios.post(
-    "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
-      APIKey,
-    {
-      email: email,
-      password: password,
-      returnSecureToken: true,
-    }
-  );
-  const token = response.data.idToken;
-
+  console.log(email);
+  let token = "";
+  const response = await axios
+    .post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
+        APIKey,
+      {
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      }
+    )
+    .then((res) => {
+      token = res.data.idToken;
+    })
+    .catch((error) => {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log("Error", error.message);
+      }
+    });
+  // console.log(response.data);
+  // const token = response.data.idToken;
+  // console.log(token);
   return token;
 }
 
@@ -60,6 +78,24 @@ export async function addAccountFB(email, profileName) {
     .put("/users/" + hash + "/basicinfo.json", {
       email: email,
       profileName: profileName,
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+  await firebaseUtil
+    .put("/users/" + hash + "/about.json", {
+      about: "",
+      bio: "",
+      category: "",
+      genre: "",
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+  await firebaseUtil
+    .put("/users/" + hash + "/availability.json", {
+      dow: {},
+      times: {},
     })
     .catch((error) => {
       console.log(error.response);

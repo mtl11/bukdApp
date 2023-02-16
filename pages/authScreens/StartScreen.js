@@ -24,6 +24,7 @@ const StartScreen = (props) => {
   async function authenticateHandler() {
     try {
       const token = await authenticateUser(email, password);
+      console.log("test");
       setPasswordDontMatch(false);
       authCTX.authenticate(token);
       AsyncStorage.setItem("email",JSON.stringify(email));

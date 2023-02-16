@@ -1,12 +1,102 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 import colors from "../styles/global";
+import { ProfileContext } from "../store/profileContext.js";
 
 const AvailabilityProfileArtist = () => {
+  const [dowData, setDowData] = useState();
+  const profileCTX = useContext(ProfileContext);
+  const getTime = (time) => {
+    if (time == "after") {
+      return "10 PM - 1 AM";
+    }
+    if (time == "morn") {
+      return "11 PM - 1 PM";
+    }
+    if (time == "evening") {
+      return "6 PM - 5 PM";
+    }
+    if (time == "night") {
+      return "1 PM - 9 PM";
+    }
+  };
+  
+  const getHour = (time) => {
+    if (time == "after") {
+      return "Afternoon";
+    }
+    if (time == "morn") {
+      return "Morning";
+    }
+    if (time == "evening") {
+      return "Evening";
+    }
+    if (time == "night") {
+      return "Night";
+    }
+  };
+
+  const getDow = (time) => {
+    if (time == "mon") {
+      return "Monday";
+    }
+    if (time == "tue") {
+      return "Tuesday";
+    }
+    if (time == "wed") {
+      return "Wednesday";
+    }
+    if (time == "thu") {
+      return "Thursday";
+    }
+    if (time == "fri") {
+      return "Friday";
+    }
+    if (time == "sat") {
+      return "Saturday";
+    }
+    if (time == "sun") {
+      return "Sunday";
+    }
+  };
+  const time = () => {
+    const array = [];
+    for (const x in profileCTX.availabilty.times) {
+      const item = (
+        <View key={x} style={styles.timeContainer}>
+          <Text style={styles.bigText}>{getHour(x)}</Text>
+          <Text
+            style={[styles.bigText, { color: colors.color.primaryColors.text }]}
+          >
+            {getTime(x)}
+          </Text>
+        </View>
+      );
+      array.push(item);
+    }
+    return array;
+  };
+
+  const dow = () => {
+    const array = [];
+    for (const x in profileCTX.availabilty.dow) {
+      const item = (
+        <View key={x}>
+          <Text style={[styles.bigText, { marginTop: "5%" }]}>{getDow(x)}</Text>
+        </View>
+      );
+      array.push(item);
+    }
+    return array;
+  };
+  useEffect(()=>{
+    // console.log(profileCTX.availabilty);
+    setDowData(dow)
+},[])
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.singleContainer}>
         <View style={styles.headerContainer}>
           <Ionicons
@@ -16,19 +106,9 @@ const AvailabilityProfileArtist = () => {
           />
           <Text style={styles.headerText}>Preferred Time</Text>
         </View>
-        <View style={[styles.boxContainer, styles.timeContainer]}>
-          <Text style={styles.bigText}>Evening</Text>
-          <Text
-            style={[
-              styles.bigText,
-              { color: colors.color.primaryColors.text },
-            ]}
-          >
-            10 PM - 1 AM
-          </Text>
-        </View>
+        <View style={styles.boxContainer}>{time()}</View>
       </View>
-      <View style={styles.singleContainer}>
+      <View style={[styles.singleContainer, { marginBottom: "8%" }]}>
         <View style={styles.headerContainer}>
           <Ionicons
             name="ios-calendar-outline"
@@ -37,15 +117,9 @@ const AvailabilityProfileArtist = () => {
           />
           <Text style={styles.headerText}>Preferred Days</Text>
         </View>
-        <View style={styles.boxContainer}>
-          <Text style={styles.bigText}>Tuesdays</Text>
-          <Text style={[styles.bigText, { marginTop: "5%" }]}>Thursdays</Text>
-          <Text style={[styles.bigText, { marginVertical: "5%" }]}>
-            Saturdays
-          </Text>
-        </View>
+        <View style={styles.boxContainer}>{dowData}</View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -62,18 +136,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: "5%",
   },
   boxContainer: {
     borderTopWidth: 0,
     borderWidth: 1,
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
-    padding: "5%",
+    paddingHorizontal: "5%",
+    paddingBottom: "5%",
     borderColor: colors.color.primaryColors.adjacent,
   },
   container: {
-    flex: 1,
     marginHorizontal: "8%",
+    // flex:1
   },
   headerText: {
     fontFamily: "Rubik-Regular",

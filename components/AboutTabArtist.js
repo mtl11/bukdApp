@@ -49,7 +49,6 @@ const AboutTabArtist = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    flex: 1,
     margin: "10%",
   },
   infoContainerRow: {

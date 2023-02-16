@@ -34,6 +34,7 @@ const EditProfileArtistScreen = (props) => {
 
     profileCTX.updateBasic(new profileInfo(null, profilename));
     profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
+    profileCTX.updateAvailability({dow:dow, times:time});
   }
 
   const [profilename, setProfilename] = useState(
