@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
   sectionHeaderContainer: {
     borderBottomWidth: 1,
     margin: 10,
-    // marginBottom: 20,
     paddingLeft: 30,
     paddingBottom: 10,
     marginTop: 40,

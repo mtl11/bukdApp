@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,14 +6,22 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  Linking,
 } from "react-native";
 import global from "../styles/global";
+import * as WebBrowser from "expo-web-browser";
+import { InAppBrowser } from "react-native-inappbrowser-reborn";
+
 const SocialProfileTabArtist = (props) => {
+  const [opened, setOpened] = useState(false);
+  async function openWebPage(uri) {
+    if (uri) {
+      await WebBrowser.openBrowserAsync(uri);
+    }
+  }
   return (
-    <ScrollView
-      contentContainerStyle={styles.list}
-    >
-      <TouchableOpacity style={[styles.socialContainer,{marginTop:0}]}>
+    <ScrollView contentContainerStyle={styles.list}>
+      <TouchableOpacity style={[styles.socialContainer, { marginTop: 0 }]}>
         <View style={{ marginRight: "0%" }}>
           <Text style={styles.socialText}>Spotify</Text>
         </View>
@@ -22,7 +30,12 @@ const SocialProfileTabArtist = (props) => {
           style={styles.socialLogo}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.socialContainer}>
+      <TouchableOpacity
+        style={styles.socialContainer}
+        onPress={() => {
+          openWebPage("https://www.facebook.com/apple");
+        }}
+      >
         <View style={{ marginRight: "0%" }}>
           <Text style={styles.socialText}>Facebook</Text>
         </View>
@@ -31,7 +44,12 @@ const SocialProfileTabArtist = (props) => {
           style={styles.socialLogo}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.socialContainer}>
+      <TouchableOpacity
+        style={styles.socialContainer}
+        onPress={() => {
+          openWebPage("https://www.instagram.com/apple");
+        }}
+      >
         <View style={{ marginRight: "0%" }}>
           <Text style={styles.socialText}>Instagram</Text>
         </View>
@@ -40,7 +58,12 @@ const SocialProfileTabArtist = (props) => {
           style={styles.socialLogo}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.socialContainer}>
+      <TouchableOpacity
+        style={styles.socialContainer}
+        onPress={() => {
+          openWebPage("https://soundcloud.com/liluzivert");
+        }}
+      >
         <View style={{ marginRight: "0%" }}>
           <Text style={styles.socialText}>Soundcloud</Text>
         </View>
@@ -74,7 +97,7 @@ const SocialProfileTabArtist = (props) => {
 const styles = StyleSheet.create({
   list: {
     alignItems: "center",
-    paddingVertical: "10%"
+    paddingVertical: "10%",
   },
   socialContainer: {
     flexDirection: "row",
@@ -94,7 +117,7 @@ const styles = StyleSheet.create({
   socialText: {
     fontFamily: "Rubik-Regular",
     fontSize: 18,
-    color: global.color.primaryColors.text
+    color: global.color.primaryColors.text,
   },
 });
 export default SocialProfileTabArtist;

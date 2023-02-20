@@ -57,6 +57,7 @@ const ForgetPasswordScreen = (props) => {
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   backButtonContainer: {
     marginLeft: "5%",

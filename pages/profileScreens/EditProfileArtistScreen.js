@@ -1,10 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import {
   View,
-  Modal,
   Text,
   SafeAreaView,
-  Touchable,
   TouchableOpacity,
   StyleSheet,
   TextInput,
@@ -21,6 +19,8 @@ import {
 } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, profileInfo } from "../../models/profile";
+import { SocialLinks, TYPE_MOBILE } from "social-links";
+import AddLinkModal from "../../components/AddLinkModal";
 
 const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
@@ -34,7 +34,7 @@ const EditProfileArtistScreen = (props) => {
 
     profileCTX.updateBasic(new profileInfo(null, profilename));
     profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
-    profileCTX.updateAvailability({dow:dow, times:time});
+    profileCTX.updateAvailability({ dow: dow, times: time });
   }
 
   const [profilename, setProfilename] = useState(
@@ -62,6 +62,9 @@ const EditProfileArtistScreen = (props) => {
   const [evening, setEvening] = useState(profileCTX.availabilty.times.evening);
   const [night, setNight] = useState(profileCTX.availabilty.times.night);
 
+  // const [insta, setInsta] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [name, setName] = useState(false);
   const getDow = () => {
     const dow = {};
     if (mon) dow.mon = true;
@@ -419,6 +422,29 @@ const EditProfileArtistScreen = (props) => {
               />
               <TextInput style={styles.inputSocial} />
             </View>
+            <TouchableOpacity
+              style={styles.inputContainerSocial}
+              onPress={() => {
+                setName("Instagram");
+                setVisible(true);
+              }}
+            >
+              <Image
+                source={require("../../assets/insta.png")}
+                style={{ width: 32, height: 32 }}
+              />
+              {/* <TextInput
+                style={styles.inputSocial}
+                autoCapitalize="none"
+                spellCheck={false}
+                placeholder="Username"
+                placeholderTextColor={global.color.primaryColors.main}
+                autoCorrect={false}
+                clearButtonMode="always"
+                keyboardType="ascii-capable"
+                onChangeText={setInsta}
+              /> */}
+            </TouchableOpacity>
             <View style={styles.inputContainerSocial}>
               <Image
                 source={require("../../assets/tiktok.png")}
@@ -426,13 +452,7 @@ const EditProfileArtistScreen = (props) => {
               />
               <TextInput style={styles.inputSocial} />
             </View>
-            <View style={styles.inputContainerSocial}>
-              <Image
-                source={require("../../assets/insta.png")}
-                style={{ width: 32, height: 32 }}
-              />
-              <TextInput style={styles.inputSocial} />
-            </View>
+
             <View style={styles.inputContainerSocial}>
               <Image
                 source={require("../../assets/youtube.png")}
@@ -459,6 +479,7 @@ const EditProfileArtistScreen = (props) => {
           <View></View>
         )}
       </ScrollView>
+      <AddLinkModal visible={visible} setVisible={setVisible} name={name} />
     </SafeAreaView>
   );
 };
@@ -555,6 +576,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginHorizontal: "8%",
     backgroundColor: global.color.primaryColors.adjacent,
+    color: global.color.primaryColors.text,
   },
   inputContainer: {
     borderRadius: 12,
