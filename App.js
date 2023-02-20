@@ -6,6 +6,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNav from "./components/TabNav";
 import ForgetPasswordScreen from "./pages/authScreens/ForgetPasswordScreen";
 
+import PersonalInfoScreen from "./pages/profileScreens/PersonalInfoScreen";
+import PersonalSecurityScreen from "./pages/profileScreens/PasswordSecurityScreen";
+import ProfileSettingsScreen from "./pages/profileScreens/ProfileSettingsScreen";
+import EditProfileArtistScreen from "./pages/profileScreens/EditProfileArtistScreen";
 import SearchArtistProfile from "./pages/searchScreens/SearchArtistProfile";
 import AuthContextProvider, { AuthContext } from "./store/authContext";
 import { useContext, useEffect, useState } from "react";
@@ -18,12 +22,18 @@ const Stack = createNativeStackNavigator();
 
 function AuthenticatedStack() {
   return (
+    <ProfileContextProvider>
     <Stack.Navigator initialRouteName="TabNav">
-      {/* <Stack.Screen
+      <Stack.Screen
         name="ProfileSettingsScreen"
         component={ProfileSettingsScreen}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+          name="EditProfileArtistScreen"
+          component={EditProfileArtistScreen}
+          options={{ headerShown: false }}
+        />
       <Stack.Screen
         name="PersonalInfoScreen"
         component={PersonalInfoScreen}
@@ -33,7 +43,7 @@ function AuthenticatedStack() {
         name="PersonalSecurityScreen"
         component={PersonalSecurityScreen}
         options={{ headerShown: false }}
-      /> */}
+      />
       <Stack.Screen
         name="SearchArtistProfile"
         component={SearchArtistProfile}
@@ -49,6 +59,7 @@ function AuthenticatedStack() {
         }}
       />
     </Stack.Navigator>
+    </ProfileContextProvider>
   );
 }
 

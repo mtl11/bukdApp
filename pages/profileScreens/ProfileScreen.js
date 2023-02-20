@@ -19,6 +19,7 @@ import { aboutInfo, availabilityInfo } from "../../models/profile.js";
 
 const ProfileScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
+  // props.navigation.setOptions({ tabBarVisible: false })
   const [gettingInfo, setGettingInfo] = useState(true);
   async function getProfile() {
     setGettingInfo(true);

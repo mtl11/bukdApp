@@ -24,7 +24,7 @@ import AddLinkModal from "../../components/AddLinkModal";
 
 const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
-
+  
   async function update() {
     await setProfileName(profilename);
     await setAboutInfo(location, category, genre, bio);
