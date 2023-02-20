@@ -35,6 +35,9 @@ const ProfileScreen = (props) => {
       )
     );
     console.log(otherInfo);
+    if (otherInfo.hasOwnProperty("socials")) {
+      profileCTX.updateSocial(otherInfo.socials);
+    }
     if (otherInfo.hasOwnProperty("availability")) {
       profileCTX.updateAvailability(
         new availabilityInfo(

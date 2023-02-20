@@ -62,9 +62,11 @@ const EditProfileArtistScreen = (props) => {
   const [evening, setEvening] = useState(profileCTX.availabilty.times.evening);
   const [night, setNight] = useState(profileCTX.availabilty.times.night);
 
-  // const [insta, setInsta] = useState("");
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState(false);
+  const [profileType, setProifleType] = useState(false);
+  const [url, setUrl] = useState(false);
+
   const getDow = () => {
     const dow = {};
     if (mon) dow.mon = true;
@@ -97,9 +99,6 @@ const EditProfileArtistScreen = (props) => {
       setImage(result.uri);
     }
   };
-  // useEffect(() => {
-  //   // console.log(props.about.location)
-  // }, []);
 
   return (
     <SafeAreaView
@@ -415,76 +414,111 @@ const EditProfileArtistScreen = (props) => {
         </TouchableOpacity>
         {social ? (
           <View>
-            <View style={[styles.inputContainerSocial, { marginTop: 0 }]}>
-              <Image
-                source={require("../../assets/soundcloud.png")}
-                style={{ width: 32, height: 32 }}
-              />
-              <TextInput style={styles.inputSocial} />
+            <View style={styles.socialRow}>
+              <TouchableOpacity
+                style={[styles.inputContainerSocial, { marginTop: 0 }]}
+                onPress={() => {
+                  setName("Soundcloud");
+                  setUrl("https://soundcloud.com/");
+                  setProifleType("soundcloud");
+                  setVisible(true);
+                }}
+              >
+                <Image
+                  source={require("../../assets/soundcloud.png")}
+                  style={{ width: 40, height: 40 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.inputContainerSocial}
+                onPress={() => {
+                  setName("Instagram");
+                  setUrl("https://instagram.com/");
+                  setProifleType("instagram");
+                  setVisible(true);
+                }}
+              >
+                <Image
+                  source={require("../../assets/insta.png")}
+                  style={{ width: 40, height: 40 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.inputContainerSocial}
+                onPress={() => {
+                  setName("TikTok");
+                  setUrl("https://tiktok.com/@");
+                  setProifleType("tiktok");
+                  setVisible(true);
+                }}
+              >
+                <Image
+                  source={require("../../assets/tiktok.png")}
+                  style={{ width: 40, height: 40 }}
+                />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={styles.inputContainerSocial}
-              onPress={() => {
-                setName("Instagram");
-                setVisible(true);
-              }}
-            >
-              <Image
-                source={require("../../assets/insta.png")}
-                style={{ width: 32, height: 32 }}
-              />
-              {/* <TextInput
-                style={styles.inputSocial}
-                autoCapitalize="none"
-                spellCheck={false}
-                placeholder="Username"
-                placeholderTextColor={global.color.primaryColors.main}
-                autoCorrect={false}
-                clearButtonMode="always"
-                keyboardType="ascii-capable"
-                onChangeText={setInsta}
-              /> */}
-            </TouchableOpacity>
-            <View style={styles.inputContainerSocial}>
-              <Image
-                source={require("../../assets/tiktok.png")}
-                style={{ width: 32, height: 32 }}
-              />
-              <TextInput style={styles.inputSocial} />
-            </View>
-
-            <View style={styles.inputContainerSocial}>
-              <Image
-                source={require("../../assets/youtube.png")}
-                style={{ width: 32, height: 32 }}
-              />
-              <TextInput style={styles.inputSocial} />
-            </View>
-            <View style={styles.inputContainerSocial}>
-              <Image
-                source={require("../../assets/spotify.png")}
-                style={{ width: 32, height: 32 }}
-              />
-              <TextInput style={styles.inputSocial} />
-            </View>
-            <View style={styles.inputContainerSocial}>
-              <Image
-                source={require("../../assets/facebook.png")}
-                style={{ width: 32, height: 32 }}
-              />
-              <TextInput style={styles.inputSocial} />
+            <View style={styles.socialRow}>
+              <TouchableOpacity
+                style={styles.inputContainerSocial}
+                onPress={() => {
+                  setName("YouTube");
+                  setUrl("https://youtube.com/@");
+                  setProifleType("youtube");
+                  setVisible(true);
+                }}
+              >
+                <Image
+                  source={require("../../assets/youtube.png")}
+                  style={{ width: 40, height: 40 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.inputContainerSocial}
+                onPress={() => {
+                  setName("Spotify");
+                  setUrl("https://open.spotify.com/artist/");
+                  setProifleType("spotify");
+                  setVisible(true);
+                }}
+              >
+                <Image
+                  source={require("../../assets/spotify.png")}
+                  style={{ width: 40, height: 40 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.inputContainerSocial}
+                onPress={() => {
+                  setName("Twitter");
+                  setUrl("https://twitter.com/");
+                  setProifleType("twitter");
+                  setVisible(true);
+                }}
+              >
+                <Image
+                  source={require("../../assets/facebook.png")}
+                  style={{ width: 40, height: 40 }}
+                />
+              </TouchableOpacity>
             </View>
           </View>
         ) : (
           <View></View>
         )}
       </ScrollView>
-      <AddLinkModal visible={visible} setVisible={setVisible} name={name} />
+      <AddLinkModal visible={visible} setVisible={setVisible} name={name} profileType={profileType} url={url}/>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  socialRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginHorizontal: "5%",
+    marginBottom: "8%",
+  },
   image: {
     alignSelf: "center",
     marginTop: "5%",
@@ -561,11 +595,13 @@ const styles = StyleSheet.create({
     color: global.color.primaryColors.text,
   },
   inputContainerSocial: {
-    marginHorizontal: "8%",
-    marginTop: "5%",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    backgroundColor: global.color.primaryColors.adjacent,
+    alignSelf: "center",
+    justifyContent: "center",
     alignItems: "center",
+    width: 90,
+    height: 90,
+    borderRadius: 100,
   },
   inputSocial: {
     fontSize: 16,

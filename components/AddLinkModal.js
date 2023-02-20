@@ -8,20 +8,32 @@ import {
   SafeAreaView,
   Text,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import colors from "../styles/global";
 import { SocialLinks, TYPE_MOBILE } from "social-links";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { setSocial } from "../util/profile";
+
 const AddLinkModal = (props) => {
+  const [isAuth, setIsAuth] = useState(false);
   const socialLinks = new SocialLinks();
   const [username, setUsername] = useState("");
   const [valid, setValid] = useState(false);
+  async function updateSocial() {
+    setIsAuth(true);
+    const header = props.profileType;
+    const usernameURL = props.url + username;
+    await setSocial(header, usernameURL);
+    setIsAuth(false);
+  }
   return (
     <Modal visible={props.visible}>
       <SafeAreaView style={styles.container}>
         <View style={styles.topIconContainer}>
           <TouchableOpacity
             onPress={() => {
+              setValid(false);
               props.setVisible(false);
             }}
           >
@@ -67,13 +79,20 @@ const AddLinkModal = (props) => {
           style={styles.buttonContainer}
           onPress={() => {
             const val = socialLinks.isValid(
-              "instagram",
-              "http://instagram.com/" + username
+              props.profileType,
+              props.url + username
             );
             setValid(!val);
+            if (val) {
+              updateSocial();
+            }
           }}
         >
-          <Text style={styles.buttonText}>Add</Text>
+          {!isAuth ? (
+            <Text style={styles.buttonText}>Add</Text>
+          ) : (
+            <ActivityIndicator size={22} />
+          )}
         </TouchableOpacity>
       </SafeAreaView>
     </Modal>

@@ -27,8 +27,8 @@ function ProfileContextProvider({ children }) {
     function updateAvailability(availabilityInfo) {
         setAvailability(availabilityInfo);
     }
-    function updateSocial() {
-     
+    function updateSocial(socialInfo) {
+        setSocial(socialInfo);
     }
     
     const value = {
@@ -40,7 +40,6 @@ function ProfileContextProvider({ children }) {
         updateAbout: updateAbout,
         updateAvailability: updateAvailability,
         updateSocial: updateSocial,
-
     };
   
     return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;

@@ -49,6 +49,7 @@ export async function setAvailabilityInfo(times, dow ){
     })
 }
 
+
 export async function setProfileName(name){
     const email = await AsyncStorage.getItem("email");
     const extrated = JSON.parse(email);
@@ -67,4 +68,14 @@ export async function getProfileStart(){
     const response = await firebaseUtil.get("/users/" + hash + ".json");
     const values = response.data;
     return values;
+}
+
+export async function setSocial(type, url ){
+    const email = await AsyncStorage.getItem("email");
+    const extrated = JSON.parse(email);
+    const hash = extrated.hashCode();
+
+    const response = await firebaseUtil.put("/users/"+hash+"/socials/"+type+".json",{
+        url: url
+    })
 }

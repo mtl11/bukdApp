@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useStat, useContext } from "react";
 import {
   View,
   Text,
@@ -10,87 +10,47 @@ import {
 } from "react-native";
 import global from "../styles/global";
 import * as WebBrowser from "expo-web-browser";
-import { InAppBrowser } from "react-native-inappbrowser-reborn";
-
+import { ProfileContext } from "../store/profileContext";
 const SocialProfileTabArtist = (props) => {
-  const [opened, setOpened] = useState(false);
+  const profileCTX = useContext(ProfileContext);
+  function getImageLink(x) {
+    if (x == "soundcloud") return require("../assets/soundcloud.png");
+    if (x == "tiktok") return require("../assets/tiktok.png");
+    if (x == "youtube") return require("../assets/youtube.png");
+    if (x == "instagram") return require("../assets/insta.png");
+    if (x == "spotify") return require("../assets/spotify.png");
+    if (x == "facebook") return require("../assets/facebook.png");
+  }
+  function dataList() {
+    const array = [];
+    for (const x in profileCTX.social) {
+      console.log(profileCTX.social[x]);
+      const imageLink = getImageLink(x);
+      const item = (
+        <TouchableOpacity
+          key={x}
+          style={styles.socialContainer}
+          onPress={() => {
+            openWebPage(profileCTX.social[x].url);
+          }}
+        >
+          <View style={{ marginRight: "0%" }}>
+            <Text style={styles.socialText}>{x}</Text>
+          </View>
+          <Image source={imageLink} style={styles.socialLogo} />
+        </TouchableOpacity>
+      );
+      array.push(item);
+    }
+    return array;
+  }
   async function openWebPage(uri) {
     if (uri) {
       await WebBrowser.openBrowserAsync(uri);
     }
   }
   return (
-    <ScrollView contentContainerStyle={styles.list}>
-      <TouchableOpacity style={[styles.socialContainer, { marginTop: 0 }]}>
-        <View style={{ marginRight: "0%" }}>
-          <Text style={styles.socialText}>Spotify</Text>
-        </View>
-        <Image
-          source={require("../assets/spotify.png")}
-          style={styles.socialLogo}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.socialContainer}
-        onPress={() => {
-          openWebPage("https://www.facebook.com/apple");
-        }}
-      >
-        <View style={{ marginRight: "0%" }}>
-          <Text style={styles.socialText}>Facebook</Text>
-        </View>
-        <Image
-          source={require("../assets/facebook.png")}
-          style={styles.socialLogo}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.socialContainer}
-        onPress={() => {
-          openWebPage("https://www.instagram.com/apple");
-        }}
-      >
-        <View style={{ marginRight: "0%" }}>
-          <Text style={styles.socialText}>Instagram</Text>
-        </View>
-        <Image
-          source={require("../assets/insta.png")}
-          style={styles.socialLogo}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.socialContainer}
-        onPress={() => {
-          openWebPage("https://soundcloud.com/liluzivert");
-        }}
-      >
-        <View style={{ marginRight: "0%" }}>
-          <Text style={styles.socialText}>Soundcloud</Text>
-        </View>
-        <Image
-          source={require("../assets/soundcloud.png")}
-          style={styles.socialLogo}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.socialContainer}>
-        <View style={{ marginRight: "0%" }}>
-          <Text style={styles.socialText}>TikTok</Text>
-        </View>
-        <Image
-          source={require("../assets/tiktok.png")}
-          style={styles.socialLogo}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.socialContainer}>
-        <View style={{ marginRight: "0%" }}>
-          <Text style={styles.socialText}>YouTube</Text>
-        </View>
-        <Image
-          source={require("../assets/youtube.png")}
-          style={styles.socialLogo}
-        />
-      </TouchableOpacity>
-    </ScrollView>
+    <ScrollView contentContainerStyle={styles.list}>{dataList()}</ScrollView>
   );
 };
 
@@ -105,7 +65,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 12,
     width: "80%",
-    marginTop: "5%",
+    marginBottom: "5%",
     padding: 10,
     paddingHorizontal: "5%",
     backgroundColor: global.color.primaryColors.adjacent,
@@ -120,4 +80,5 @@ const styles = StyleSheet.create({
     color: global.color.primaryColors.text,
   },
 });
+
 export default SocialProfileTabArtist;
