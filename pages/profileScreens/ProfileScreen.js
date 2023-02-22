@@ -13,7 +13,11 @@ import SocialTab from "../../components/SocialProfileTabArtist.js";
 import AvailabilityProfileArtist from "../../components/AvailabilityProfileArtist";
 import AboutTabArtist from "../../components/AboutTabArtist";
 import global from "../../styles/global";
-import { getProfileInfo, getProfileStart } from "../../util/profile";
+import {
+  getProfileInfo,
+  getProfilePic,
+  getProfileStart,
+} from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, availabilityInfo } from "../../models/profile.js";
 
@@ -21,6 +25,7 @@ const ProfileScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
   // props.navigation.setOptions({ tabBarVisible: false })
   const [gettingInfo, setGettingInfo] = useState(true);
+  const [profileURI, setProfileURI] = useState("");
   async function getProfile() {
     setGettingInfo(true);
     const basicInfo = await getProfileInfo();
@@ -35,7 +40,7 @@ const ProfileScreen = (props) => {
         otherInfo.about.location
       )
     );
-    console.log(otherInfo);
+    // console.log(otherInfo);
     if (otherInfo.hasOwnProperty("socials")) {
       profileCTX.updateSocial(otherInfo.socials);
     }
@@ -46,14 +51,11 @@ const ProfileScreen = (props) => {
           otherInfo.availability.times
         )
       );
-    }else{
-      profileCTX.updateAvailability(
-        new availabilityInfo(
-          {},
-          {}
-        )
-      );
+    } else {
+      profileCTX.updateAvailability(new availabilityInfo({}, {}));
     }
+    const profileuri = await getProfilePic();
+    profileCTX.updateProfilePic(profileuri);
     setGettingInfo(false);
   }
 
@@ -101,7 +103,7 @@ const ProfileScreen = (props) => {
             <View>
               <View style={styles.profilePicContainer}>
                 <Image
-                  source={require("../../assets/ok-profile.jpeg")}
+                  source={{ uri: profileCTX.profilePic }}
                   style={styles.profilePic}
                   resizeMode="contain"
                 />

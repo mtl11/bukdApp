@@ -16,25 +16,28 @@ import {
   setAboutInfo,
   setAvailabilityInfo,
   setProfileName,
+  setProfilePic,
 } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, profileInfo } from "../../models/profile";
-import { SocialLinks, TYPE_MOBILE } from "social-links";
 import AddLinkModal from "../../components/AddLinkModal";
 
 const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
-  
+
   async function update() {
     await setProfileName(profilename);
     await setAboutInfo(location, category, genre, bio);
     const dow = getDow();
     const time = getTime();
     await setAvailabilityInfo(time, dow);
-
+    if (image) {
+      await setProfilePic(image);
+    }
     profileCTX.updateBasic(new profileInfo(null, profilename));
     profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
     profileCTX.updateAvailability({ dow: dow, times: time });
+    profileCTX.updateProfilePic(image);
   }
 
   const [profilename, setProfilename] = useState(
@@ -88,17 +91,16 @@ const EditProfileArtistScreen = (props) => {
     return time;
   };
   const pickImage = async () => {
-    let result =await ImagePicker.launchImageLibraryAsync({
+    let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    // console.log(result);
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.uri);
+    console.log(result.assets);
+    const uri = result.assets[0].uri;
+    if (!result.canceled) {
+      setImage(uri);
     }
   };
 
@@ -509,7 +511,13 @@ const EditProfileArtistScreen = (props) => {
           <View></View>
         )}
       </ScrollView>
-      <AddLinkModal visible={visible} setVisible={setVisible} name={name} profileType={profileType} url={url}/>
+      <AddLinkModal
+        visible={visible}
+        setVisible={setVisible}
+        name={name}
+        profileType={profileType}
+        url={url}
+      />
     </SafeAreaView>
   );
 };

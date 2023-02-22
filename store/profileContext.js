@@ -6,10 +6,12 @@ export const ProfileContext = createContext({
     about: {},
     availabilty: {},
     social:{},
+    profilePic: profilePic,
     updateBasic: (basicInfo) => {},
     updateAbout: () => {},
     updateAvailability: () => {},
     updateSocial: () => {},
+    updateProfilePic:()=>{}
 });
 
 function ProfileContextProvider({ children }) {
@@ -17,6 +19,7 @@ function ProfileContextProvider({ children }) {
     const [about, setAbout] = useState({});
     const [availability, setAvailability] = useState({});
     const [social, setSocial] = useState({});
+    const [profilePic,setProfilePic] = useState();
 
     function updateBasic(basicInfo) {
      setBasic(basicInfo);
@@ -30,16 +33,20 @@ function ProfileContextProvider({ children }) {
     function updateSocial(socialInfo) {
         setSocial(socialInfo);
     }
-    
+    function updateProfilePic(profilePic){
+        setProfilePic(profilePic)
+    }
     const value = {
         basicInfo: basic,
         about: about,
         availabilty: availability,
         social: social,
+        profilePic: profilePic,
         updateBasic: updateBasic,
         updateAbout: updateAbout,
         updateAvailability: updateAvailability,
         updateSocial: updateSocial,
+        updateProfilePic: updateProfilePic
     };
   
     return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;
