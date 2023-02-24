@@ -1,7 +1,7 @@
 import axios from "axios";
 import firebaseUtil from "./firebaseUtil";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { app } from "./firebaseStorage";
 const APIKey = "AIzaSyCttFPH3tkX_cN5XObiFHCc9ZXtc8FJWOM";
 
 String.prototype.hashCode = function () {
@@ -100,4 +100,20 @@ export async function addAccountFB(email, profileName) {
     .catch((error) => {
       console.log(error.response);
     });
+}
+
+export async function forgotPassword(idToken, password){
+
+  // const response = await axios
+  //   .post(
+  //     "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" + APIKey,
+  //     {
+  //       idToken: email,
+  //       password: password,
+  //       returnSecureToken: true,
+  //     }
+  //   )
+  //   .catch((error) => {
+  //     sameEmail = true;
+  //   });
 }

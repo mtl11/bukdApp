@@ -6,7 +6,7 @@ export const ProfileContext = createContext({
     about: {},
     availabilty: {},
     social:{},
-    profilePic: profilePic,
+    profilePic: "",
     updateBasic: (basicInfo) => {},
     updateAbout: () => {},
     updateAvailability: () => {},

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -6,16 +6,35 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Image,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import colors from "../../styles/global";
 
+import { ProfileContext } from "../../store/profileContext.js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { forgotPassword } from "../../util/auth";
+
 const PasswordSecurityScreen = (props) => {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState(false)
+  
+  async function checkEmail() {
+    const curr = await AsyncStorage.getItem("email");
+    const idToken = await AsyncStorage.getItem("token");
+    const extrated = JSON.stringify(JSON.parse(curr));
+
+    if (extrated === JSON.stringify(email)){
+      console.log(idToken);
+      // await forgotPassword(email);
+      setError(false);
+    }else{
+      setError(true);
+    }
+  };
   return (
     <SafeAreaView
       style={{
-        flex:1,
+        flex: 1,
         backgroundColor: colors.color.primaryColors.background,
       }}
     >
@@ -35,45 +54,48 @@ const PasswordSecurityScreen = (props) => {
           <Text style={styles.largeText}>Reset Password</Text>
         </View>
       </View>
+      <View style={{ marginVertical: "8%"}}>
+        <Text style={styles.smallText}>
+          Enter email associated with your account 
+          and we will send you insturctions to reset password.
+        </Text>
+      </View>
       <View style={styles.textInputsContanier}>
         <View style={styles.inputContainer}>
           <TextInput
+            autoCapitalize={false}
+            onChangeText={setEmail}
             style={styles.input}
-            placeholder="Current Password"
+            placeholder="Current Email"
             placeholderTextColor={
               colors.color.primaryColors.placeHolderTextColor
             }
-            secureTextEntry={true}
+            inputMode="email"
+            keyboardType="email-address"
           />
         </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="New Password"
-            placeholderTextColor={
-              colors.color.primaryColors.placeHolderTextColor
-            }
-            secureTextEntry={true}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Renter New Password"
-            placeholderTextColor={
-              colors.color.primaryColors.placeHolderTextColor
-            }
-            secureTextEntry={true}
-          />
-        </View>
+        {error ? (
+          <View style={{ alignSelf: "center" }}>
+            <Text
+              style={{
+                color: colors.color.primaryColors.errorText,
+                fontFamily: "Rubik-Regular",
+              }}
+            >
+              Email is not associated with account
+            </Text>
+          </View>
+        ) : (
+          <View></View>
+        )}
         <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={() => {
-          props.navigation.navigate("TabNav");
-        }}
-      >
-        <Text style={styles.buttonText}>Reset</Text>
-      </TouchableOpacity>
+          style={styles.buttonContainer}
+          onPress={() => {
+            checkEmail();
+          }}
+        >
+          <Text style={styles.buttonText}>Reset</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -106,7 +128,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     borderRadius: 12,
     marginHorizontal: "8%",
-    marginTop: "5%",
     backgroundColor: colors.color.primaryColors.adjacent,
   },
   buttonContainer: {
@@ -116,13 +137,20 @@ const styles = StyleSheet.create({
     marginHorizontal: "8%",
     backgroundColor: colors.color.primaryColors.main,
     borderRadius: 12,
-    marginTop: "80%",
+    marginTop: "100%",
   },
   buttonText: {
     fontFamily: "Rubik-Medium",
     color: "white",
     fontSize: 18,
   },
+  smallText: {
+    fontSize: 18,
+    marginHorizontal: "8%",
+   alignSelf: "center",
+    fontFamily: "Rubik-SemiBold",
+    color: colors.color.primaryColors.main,
+  }
 });
 
 export default PasswordSecurityScreen;

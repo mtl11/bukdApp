@@ -26,6 +26,7 @@ const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
 
   async function update() {
+    
     await setProfileName(profilename);
     await setAboutInfo(location, category, genre, bio);
     const dow = getDow();
@@ -38,6 +39,7 @@ const EditProfileArtistScreen = (props) => {
     profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
     profileCTX.updateAvailability({ dow: dow, times: time });
     profileCTX.updateProfilePic(image);
+    // setTimeout(1000);
   }
 
   const [profilename, setProfilename] = useState(
@@ -48,7 +50,7 @@ const EditProfileArtistScreen = (props) => {
   const [genre, setGenre] = useState(profileCTX.about.genre);
   const [bio, setBio] = useState(profileCTX.about.bio);
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(profileCTX.profilePic);
   const [about, setAbout] = useState(false);
   const [social, setSocial] = useState(false);
   const [avail, setAvail] = useState(false);
