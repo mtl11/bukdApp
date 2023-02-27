@@ -16,54 +16,42 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authenticateUser, forgotPassword } from "../../util/auth";
 import { getID, resetPassword } from "../../util/profile";
 
-const PasswordSecurityScreen = (props) => {
-  const [currPass, setCurrPass] = useState("");
+const ConfirmPasswordReset = (props) => {
   const [confirmPass, setConfirmPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [error, setError] = useState(false);
 
   async function checkPassword() {
-    const email = await AsyncStorage.getItem("email");
-    const response = await authenticateUser(JSON.parse(email), currPass);
-    AsyncStorage.setItem("token",response);
-    if (response == ""){
+    const idToken = await AsyncStorage.getItem("token");
+    if (newPass == "" || confirmPass == "") {
       setError(true);
-    }else{
-      props.navigation.navigate("ConfirmPasswordReset");
-    };
-    // const idToken = await AsyncStorage.getItem("token");
-    // // const IDtoken = await getID(idToken);
-    // // console.log(IDtoken);
-    // // console.log(idToken);
-    // if (currPass == "" || confirmPass == "") {
-    //   setError(true);
-    // } else if (!(currPass === confirmPass)) {
-    //   setError(true);
-    // } else {
-    //   Alert.alert(
-    //     "Are you sure you want to change your password?",
-    //     "This can not be undone.",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => {},
-    //         style: "destructive",
-    //       },
-    //       { text: "Reset", onPress: () => { reset(confirmPass, idToken) }}
-    //     ]
-    //   );
-
-    //   setError(false);
-    // }
+    } else if (!(newPass === confirmPass)) {
+      setError(true);
+    } else {
+      Alert.alert(
+        "Are you sure you want to change your password?",
+        "This can not be undone.",
+        [
+          {
+            text: "Cancel",
+            onPress: () => {},
+            style: "destructive",
+          },
+          { text: "Reset", onPress: () => { reset(confirmPass, idToken) }}
+        ]
+      );
+      setError(false);
+    }
   }
 
-  // async function reset(password, token){
-  //   // const IDtoken = await getID(token);
-  //   // console.log(IDtoken);
-  //   const email = await AsyncStorage.getItem("email");
-  //   const response = await authenticateUser(email, password); 
-  //   // await resetPassword(password, token);
-  // }
+  async function reset(password, token){
+    // // const IDtoken = await getID(token);
+    // // console.log(IDtoken);
+    // const email = await AsyncStorage.getItem("email");
+    // const response = await authenticateUser(email, password);
+    const response = await resetPassword(password, token);
+    console.log(response);
+  }
   return (
     <SafeAreaView
       style={{
@@ -74,7 +62,7 @@ const PasswordSecurityScreen = (props) => {
       <View style={styles.topIconContainer}>
         <TouchableOpacity
           onPress={() => {
-            props.navigation.pop();
+            props.navigation.navigate("ProfileSettingsScreen");
           }}
         >
           <FontAwesome5
@@ -84,21 +72,35 @@ const PasswordSecurityScreen = (props) => {
           />
         </TouchableOpacity>
         <View style={styles.largeContainer}>
-          <Text style={styles.largeText}>Reset Password</Text>
+          <Text style={styles.largeText}>Create New Password</Text>
         </View>
       </View>
       <View style={{ marginVertical: "10%" }}>
         <Text style={styles.smallText}>
-          Enter your current password.
+          {/* Enter and confirm current password, then enter new password to 
+          reset. */}
+          Enter and confirm your new password.
         </Text>
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          autoCapitalize={false}
+          onChangeText={setNewPass}
+          style={styles.input}
+          placeholder="New Password"
+          placeholderTextColor={colors.color.primaryColors.placeHolderTextColor}
+          inputMode="email"
+          keyboardType="ascii-capable"
+          secureTextEntry={true}
+        />
       </View>
       <View>
         <View style={styles.inputContainer}>
           <TextInput
             autoCapitalize={false}
-            onChangeText={setCurrPass}
+            onChangeText={setConfirmPass}
             style={styles.input}
-            placeholder="Current Password"
+            placeholder="Confirm New Password"
             placeholderTextColor={
               colors.color.primaryColors.placeHolderTextColor
             }
@@ -115,7 +117,7 @@ const PasswordSecurityScreen = (props) => {
                 fontFamily: "Rubik-Regular",
               }}
             >
-              Wrong password
+              New Password is invalid
             </Text>
           </View>
         ) : (
@@ -127,7 +129,7 @@ const PasswordSecurityScreen = (props) => {
             checkPassword();
           }}
         >
-          <Text style={styles.buttonText}>Next</Text>
+          <Text style={styles.buttonText}>Reset</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -168,7 +170,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "8%",
     backgroundColor: colors.color.primaryColors.main,
     borderRadius: 12,
-    marginTop: "90%",
+    marginTop: "80%",
   },
   buttonText: {
     fontFamily: "Rubik-Medium",
@@ -184,4 +186,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PasswordSecurityScreen;
+export default ConfirmPasswordReset;

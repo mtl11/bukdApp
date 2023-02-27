@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNav from "./components/TabNav";
 import ForgetPasswordScreen from "./pages/authScreens/ForgetPasswordScreen";
-
+import ConfirmPasswordReset from "./pages/profileScreens/ConfirmPasswordReset";
 import PersonalInfoScreen from "./pages/profileScreens/PersonalInfoScreen";
 import PersonalSecurityScreen from "./pages/profileScreens/PasswordSecurityScreen";
 import ProfileSettingsScreen from "./pages/profileScreens/ProfileSettingsScreen";
@@ -32,6 +32,11 @@ function AuthenticatedStack() {
       <Stack.Screen
           name="EditProfileArtistScreen"
           component={EditProfileArtistScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ConfirmPasswordReset"
+          component={ConfirmPasswordReset}
           options={{ headerShown: false }}
         />
       <Stack.Screen

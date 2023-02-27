@@ -5,6 +5,7 @@ import { profileInfo } from "../models/profile";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { app } from "../util/firebaseStorage";
 import { useState } from "react";
+const APIKey = "AIzaSyCttFPH3tkX_cN5XObiFHCc9ZXtc8FJWOM";
 
 String.prototype.hashCode = function () {
   var hash = 0,
@@ -127,4 +128,50 @@ export async function getProfilePic() {
     .catch((error) => {
       console.log(error);
     });
+}
+
+// export async function getID(idToken){
+//   console.log(idToken);
+//   const response = await axios
+//     .post(
+//       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=" + APIKey,
+//       {
+//         grant_type: "refresh_token",
+//         refresh_token: idToken,
+//       }
+//     )
+//     .catch((error) => {
+//       if (error.response) {
+//         console.log(error.response.data);
+//       } else if (error.request) {
+//         console.log(error.request);
+//       } else {
+//         console.log("Error", error.message);
+//       }
+//     });
+//     return response;
+// }
+
+export async function resetPassword(password,idToken){
+  console.log(idToken);
+  console.log(password);
+  const response = await axios
+    .post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" + APIKey,
+      {
+        idToken: idToken,
+        password: password,
+        returnSecureToken: true,
+      }
+    )
+    .catch((error) => {
+      if (error.response) {
+        console.log(error.response.data);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log("Error", error.message);
+      }
+    });
+  return response;
 }
