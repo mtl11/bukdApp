@@ -21,12 +21,13 @@ import {
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, profileInfo } from "../../models/profile";
 import AddLinkModal from "../../components/AddLinkModal";
+import ProfileDropDown from "../../components/ProfileDropDown";
+import { locations, profileCategoriesArtist, subCategories } from "../../models/dropdownData";
 
 const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
 
   async function update() {
-    
     await setProfileName(profilename);
     await setAboutInfo(location, category, genre, bio);
     const dow = getDow();
@@ -214,33 +215,23 @@ const EditProfileArtistScreen = (props) => {
         </TouchableOpacity>
         {about ? (
           <View>
-            <View style={[styles.inputContainer, { marginTop: 0 }]}>
-              <TextInput
-                style={styles.input}
-                placeholder={"Location"}
-                placeholderTextColor={global.color.primaryColors.main}
-                onChangeText={setLocation}
-                value={location}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder={"Category"}
-                placeholderTextColor={global.color.primaryColors.main}
-                onChangeText={setCategory}
-                value={category}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder={"Genre"}
-                placeholderTextColor={global.color.primaryColors.main}
-                onChangeText={setGenre}
-                value={genre}
-              />
-            </View>
+            <ProfileDropDown
+              data = {locations}
+              setValue={setLocation}
+              value={profileCTX.about.location}
+            />
+            <ProfileDropDown
+              data={profileCategoriesArtist}
+              setValue={setCategory}
+              value={profileCTX.about.category}
+              margin={"5%"}
+            />
+            <ProfileDropDown
+              data={subCategories}
+              setValue={setGenre}
+              value={profileCTX.about.genre}
+              margin={"5%"}
+            />
             <View style={styles.inputContainer}>
               <TextInput
                 style={[styles.input, { marginTop: 10 }]}

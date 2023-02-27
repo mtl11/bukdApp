@@ -90,6 +90,7 @@ const SearchScreen = (props) => {
             setIsFocus(false);
           }}
         />
+        
         <Dropdown
           statusBarIsTranslucent={true}
           style={[styles.dropdown, {marginTop: "2%"},isFocus && { borderColor: "black"}]}
