@@ -17,6 +17,7 @@ import {
   getProfileInfo,
   getProfilePic,
   getProfileStart,
+  getPersonalInfo
 } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, availabilityInfo } from "../../models/profile.js";
@@ -53,6 +54,11 @@ const ProfileScreen = (props) => {
       );
     } else {
       profileCTX.updateAvailability(new availabilityInfo({}, {}));
+    }
+    const personalInfo = await getPersonalInfo();
+    if (personalInfo != null) {
+      profileCTX.updatePersonalInfo(personalInfo);
+      
     }
     const profileuri = await getProfilePic();
     profileCTX.updateProfilePic(profileuri);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   SafeAreaView,
   View,
@@ -6,11 +6,29 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { ProfileContext } from "../../store/profileContext.js";
 import colors from "../../styles/global";
+import { getPersonalInfo, setPersonalInfo } from "../../util/profile";
 
 const PersonalInfoScreen = (props) => {
+  const profileCTX = useContext(ProfileContext);
+  const [firstName, setFirstName] = useState(profileCTX.personalInfo.firstName);
+  const [lastName, setLastName] = useState(profileCTX.personalInfo.lastName);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  async function update() {
+    setLoading(true);
+    if (firstName != (null || "") && lastName != (null|| "")) {
+      const response = await setPersonalInfo(firstName, lastName);
+      setError(false);
+    } else {
+      setError(true);
+    }
+    setLoading(false);
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topIconContainer}>
@@ -33,15 +51,10 @@ const PersonalInfoScreen = (props) => {
         <View style={[styles.inputContainer, { marginTop: 10 }]}>
           <TextInput
             style={styles.input}
-            placeholder={"Email"}
-            placeholderTextColor={colors.color.primaryColors.main}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
             placeholder={"First Name"}
             placeholderTextColor={colors.color.primaryColors.main}
+            onChangeText={setFirstName}
+            value={firstName}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -49,13 +62,35 @@ const PersonalInfoScreen = (props) => {
             style={styles.input}
             placeholder={"Last Name"}
             placeholderTextColor={colors.color.primaryColors.main}
+            onChangeText={setLastName}
+            value={lastName}
           />
         </View>
+        {error ? (
+          <View style={{ alignSelf: "center" }}>
+            <Text
+              style={{
+                color: colors.color.primaryColors.errorText,
+                fontFamily: "Rubik-Regular",
+              }}
+            >
+              Please fill in all spaces
+            </Text>
+          </View>
+        ) : (
+          <View></View>
+        )}
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => {}}
+          onPress={() => {
+            update();
+          }}
         >
-          <Text style={styles.buttonText}>Save Changes</Text>
+          {!loading ? (
+            <Text style={styles.buttonText}>Save Changes</Text>
+          ) : (
+            <ActivityIndicator size={22}></ActivityIndicator>
+          )}
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -131,7 +166,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "8%",
     backgroundColor: colors.color.primaryColors.main,
     borderRadius: 12,
-    marginTop: "80%",
+    marginTop: "90%",
   },
   buttonText: {
     fontFamily: "Rubik-Medium",

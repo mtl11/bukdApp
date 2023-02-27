@@ -64,8 +64,7 @@ export async function setProfileName(name) {
   const response = await firebaseUtil.put(
     "/users/" + hash + "/basicinfo.json",
     {
-      email,
-      email,
+      email: email,
       profileName: name,
     }
   );
@@ -130,27 +129,27 @@ export async function getProfilePic() {
     });
 }
 
-// export async function getID(idToken){
-//   console.log(idToken);
-//   const response = await axios
-//     .post(
-//       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=" + APIKey,
-//       {
-//         grant_type: "refresh_token",
-//         refresh_token: idToken,
-//       }
-//     )
-//     .catch((error) => {
-//       if (error.response) {
-//         console.log(error.response.data);
-//       } else if (error.request) {
-//         console.log(error.request);
-//       } else {
-//         console.log("Error", error.message);
-//       }
-//     });
-//     return response;
-// }
+export async function setPersonalInfo(firstName, lastName) {
+  const email = await AsyncStorage.getItem("email");
+  const extrated = JSON.parse(email);
+  const hash = extrated.hashCode();
+  const response = await firebaseUtil.put("/users/" + hash + "/personalInfo.json",{
+    firstName:firstName,
+    lastName: lastName
+  });
+  
+  const values = response.data;
+  console.log(values);
+  return values;
+}
+export async function getPersonalInfo() {
+  const email = await AsyncStorage.getItem("email");
+  const extrated = JSON.parse(email);
+  const hash = extrated.hashCode();
+  const response = await firebaseUtil.get("/users/" + hash + "/personalInfo.json");
+  const values = response.data;
+  return values;
+}
 
 export async function resetPassword(password,idToken){
   console.log(idToken);
