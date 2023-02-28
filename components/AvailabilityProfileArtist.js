@@ -91,7 +91,6 @@ const AvailabilityProfileArtist = () => {
     return array;
   };
   useEffect(()=>{
-    // console.log(profileCTX.availabilty);
     setDowData(dow)
 },[])
 

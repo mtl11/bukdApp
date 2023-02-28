@@ -23,7 +23,6 @@ const SearchDropDown = (props) => {
       renderItem={renderItem}
       inputSearchStyle={styles.inputSearchStyle}
       iconStyle={styles.iconStyle}
-      onBlur={()=>{props.blur()}}
       renderLeftIcon={() => {
         return (
           <Ionicons
@@ -56,6 +55,7 @@ const SearchDropDown = (props) => {
       onChange={(item) => {
         props.setValue(item.label);
         setValue(item.value);
+        props.blur(item.label);
       }}
     />
   );

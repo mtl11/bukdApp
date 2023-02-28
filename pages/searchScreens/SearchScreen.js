@@ -8,27 +8,15 @@ import global from "../../styles/global";
 import SearchDropDown from "../../components/SearchDropDown";
 import { locations, profileCategoriesVenue } from "../../models/dropdownData";
 import { getVenueList } from "../../util/search";
-const data = [
-  { label: "Tuscon, AZ", value: "1" },
-  { label: "Los Angeles, CA", value: "2" },
-  { label: "Miami, FL", value: "3" },
-  { label: "Denver, CO", value: "4" },
-  { label: "Las Vegas, NV", value: "5" },
-  { label: "San Francsico, CA", value: "6" },
-  { label: "Seattle, WA", value: "7" },
-];
-const categories = [
-  { label: "DJ", value: "1" },
-  { label: "Singer", value: "2" },
-];
 
 const SearchScreen = (props) => {
   const [location, setLocation] = useState(null);
   const [category, setCategory] = useState(null);
-
-  async function getVenues(){
+  const [venues, setVenues] = useState(null);
+  async function getVenues(location){
     const venues = await getVenueList(location);
     console.log(venues);
+    setVenues(venues);
   }
   return (
     <SafeAreaView style={styles.container}>
@@ -49,7 +37,7 @@ const SearchScreen = (props) => {
         />
       </View>
       <View>
-        <VenueList venue={location} category={category} />
+        <VenueList venues={venues} category={category} />
       </View>
     </SafeAreaView>
   );

@@ -1,21 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
-  SafeAreaView,
-  TouchableOpacity,
   StyleSheet,
-  TextInput,
-  ScrollView,
-  Image,
 } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import global from "../styles/global";
-import { Ionicons } from "@expo/vector-icons";
 
 const ProfileDropDown = (props) => {
   const [isFocus, setIsFocus] = useState(false);
-  //   const [value, setValue] = useState(false);
   const renderItem = (item) => {
     return (
       <View style={styles.item}>
@@ -47,13 +40,6 @@ const ProfileDropDown = (props) => {
         renderRightIcon={() => {
           return (
             <View></View>
-            // <Ionicons
-            //   name="chevron-down"
-            //   size={22}
-            //   color={
-            //     isFocus ? "black" : global.color.primaryColors.buttonAccent
-            //   }
-            // />
           );
         }}
         autoScroll={false}
