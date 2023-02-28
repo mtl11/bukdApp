@@ -5,6 +5,9 @@ import { Dropdown } from "react-native-element-dropdown";
 import VenueList from "../../components/VenueList";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import global from "../../styles/global";
+import SearchDropDown from "../../components/SearchDropDown";
+import { locations, profileCategoriesVenue } from "../../models/dropdownData";
+import { getVenueList } from "../../util/search";
 const data = [
   { label: "Tuscon, AZ", value: "1" },
   { label: "Los Angeles, CA", value: "2" },
@@ -20,134 +23,33 @@ const categories = [
 ];
 
 const SearchScreen = (props) => {
-  const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
-  const [valueType, setValueType] = useState(null);
-  const [isFocusType, setIsFocusType] = useState(false);
-  const renderItem = (item) => {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.textItem}>{item.label}</Text>
-      </View>
-    );
-  };
+  const [location, setLocation] = useState(null);
+  const [category, setCategory] = useState(null);
+
+  async function getVenues(){
+    const venues = await getVenueList(location);
+    console.log(venues);
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
-        <Dropdown
-          statusBarIsTranslucent={true}
-          style={[styles.dropdown, isFocus && { borderColor: "black" }]}
-          placeholderStyle={[
-            styles.placeholderStyle,
-            isFocus && { color: "black" },
-          ]}
-          activeColor={global.color.primaryColors.adjacent}
-          selectedTextStyle={[
-            styles.selectedTextStyle,
-            isFocus && { color: "black" },
-          ]}
-          renderItem={renderItem}
-          inputSearchStyle={styles.inputSearchStyle}
-          iconStyle={styles.iconStyle}
-          renderLeftIcon={() => {
-            return (
-              <Ionicons
-                name="ios-location-outline"
-                size={22}
-                color={
-                  isFocus ? "black" : global.color.primaryColors.buttonAccent
-                }
-              />
-            );
-          }}
-          renderRightIcon={() => {
-            return (
-              <Ionicons
-                name="chevron-down"
-                size={22}
-                color={
-                  isFocus ? "black" : global.color.primaryColors.buttonAccent
-                }
-              />
-            );
-          }}
-          autoScroll={false}
-          data={data}
-          search
-          fontFamily="Rubik-Regular"
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
+        <SearchDropDown
+          setValue={setLocation}
           placeholder={"Select Location"}
-          searchPlaceholder="Search..."
-          value={value}
-          containerStyle={styles.dropContainer}
-          // backgroundColor={"rgb"}
-          // onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={(item) => {
-            setValue(item.value);
-            setIsFocus(false);
-          }}
+          data={locations}
+          icon={"ios-location-outline"}
+          blur={getVenues}
         />
-        
-        <Dropdown
-          statusBarIsTranslucent={true}
-          style={[styles.dropdown, {marginTop: "2%"},isFocus && { borderColor: "black"}]}
-          placeholderStyle={[
-            styles.placeholderStyle,
-            isFocus && { color: "black" },
-          ]}
-          activeColor={global.color.primaryColors.adjacent}
-          selectedTextStyle={[
-            styles.selectedTextStyle,
-            isFocus && { color: "black" },
-          ]}
-          renderItem={renderItem}
-          inputSearchStyle={styles.inputSearchStyle}
-          iconStyle={styles.iconStyle}
-          renderLeftIcon={() => {
-            return (
-              <Ionicons
-                name="musical-notes-outline"
-                size={22}
-                color={
-                  isFocus ? "black" : global.color.primaryColors.buttonAccent
-                }
-              />
-            );
-          }}
-          renderRightIcon={() => {
-            return (
-              <Ionicons
-                name="chevron-down"
-                size={22}
-                color={
-                  isFocus ? "black" : global.color.primaryColors.buttonAccent
-                }
-              />
-            );
-          }}
-          autoScroll={false}
-          data={categories}
-          search
-          fontFamily="Rubik-Regular"
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
+        <SearchDropDown
+          setValue={setCategory}
           placeholder={"Select Category"}
-          searchPlaceholder="Search..."
-          value={valueType}
-          containerStyle={styles.dropContainer}
-          onBlur={() => setIsFocusType(false)}
-          onChange={(item) => {
-            setValueType(item.value);
-            setIsFocusType(false);
-          }}
+          data={profileCategoriesVenue}
+          icon={"business-outline"}
+          blur={()=>{}}
         />
       </View>
       <View>
-        <VenueList props={props} />
+        <VenueList venue={location} category={category} />
       </View>
     </SafeAreaView>
   );
@@ -176,7 +78,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10
+    marginTop: 10,
   },
   container: {
     backgroundColor: global.color.primaryColors.background,
@@ -185,11 +87,10 @@ const styles = StyleSheet.create({
   dropdown: {
     height: 40,
     width: "84%",
-    borderColor: global.color.primaryColors.buttonAccent,
-    borderWidth: 1,
+    backgroundColor: global.color.primaryColors.main,
+    // borderWidth: 1,
     borderRadius: 12,
-    padding: 8,
-  
+    padding: 10,
   },
   icon: {
     marginRight: 5,

@@ -10,6 +10,7 @@ import {
 const image = { uri: "https://reactjs.org/logo-og.png" };
 
 const VenueList = (props) => {
+  // console.log(props.venue);
   return (
     <ScrollView
       contentContainerStyle={styles.list}
