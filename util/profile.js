@@ -42,7 +42,7 @@ export async function setAboutInfo(location, category, genre, bio) {
   });
 }
 
-export async function setVenueAboutInfo(location, category, equipment, bio) {
+export async function setVenueAboutInfo(bio, category, location, equipment) {
   const email = await AsyncStorage.getItem("email");
   const extrated = JSON.parse(email);
   const hash = extrated.hashCode();
@@ -108,24 +108,29 @@ export async function setSocial(type, url) {
 }
 
 export async function setProfilePic(uri) {
-  // const email = await AsyncStorage.getItem("email");
-  // const extrated = JSON.parse(email);
-  // const hash = extrated.hashCode();
-  // const blob = await new Promise((resolve, reject) => {
-  //   const xhr = new XMLHttpRequest();
-  //   xhr.onload = function () {
-  //     resolve(xhr.response);
-  //   };
-  //   xhr.onerror = function (e) {
-  //     console.log(e);
-  //     reject(new TypeError("Network request failed"));
-  //   };
-  //   xhr.responseType = "blob";
-  //   xhr.open("GET", uri, true);
-  //   xhr.send(null);
+  const email = await AsyncStorage.getItem("email");
+  const extrated = JSON.parse(email);
+  const hash = extrated.hashCode();
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function (e) {
+      console.log(e);
+      reject(new TypeError("Network request failed"));
+    };
+    xhr.responseType = "blob";
+    xhr.open("GET", uri, true);
+    xhr.send(null);
+  });
+  
+  const fileRef = ref(getStorage(app), hash + "-profile-pic");
+  // console.log(fileRef);
+  fileRef.put(blob);
+  // const result = await uploadBytes(fileRef, blob).then((snapshot) => {
+  //   console.log('Uploaded a blob or file!');
   // });
-  // const fileRef = ref(getStorage(app), hash + "-profile-pic");
-  // const result = await uploadBytes(fileRef, blob);
   // blob.close();
 }
 

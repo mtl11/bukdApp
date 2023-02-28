@@ -128,21 +128,21 @@ const EditProfileArtistScreen = (props) => {
     }
   };
 
-  const locationPlaceholder = () =>{
-    if (profileCTX.about.location == (""||null)){
-      return "Location"
-    }else{
+  const locationPlaceholder = () => {
+    if (profileCTX.about.location == ("" || null)) {
+      return "Location";
+    } else {
       return profileCTX.about.location;
     }
-  }
+  };
 
-  const categoryPlaceholder = () =>{
-    if (profileCTX.about.category == (""||null)){
-      return "Category"
-    }else{
+  const categoryPlaceholder = () => {
+    if (profileCTX.about.category == ("" || null)) {
+      return "Category";
+    } else {
       return profileCTX.about.category;
     }
-  }
+  };
   return (
     <SafeAreaView
       style={{

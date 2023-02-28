@@ -17,7 +17,7 @@ import {
   getProfileInfo,
   getProfilePic,
   getProfileStart,
-  getPersonalInfo
+  getPersonalInfo,
 } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, availabilityInfo } from "../../models/profile.js";
@@ -31,16 +31,24 @@ const ProfileScreen = (props) => {
     setGettingInfo(true);
     const basicInfo = await getProfileInfo();
     const otherInfo = await getProfileStart();
-    console.log(basicInfo);
     profileCTX.updateBasic(basicInfo);
-    profileCTX.updateAbout(
-      new aboutInfo(
-        otherInfo.about.bio,
-        otherInfo.about.category,
-        otherInfo.about.genre,
-        otherInfo.about.location
-      )
-    );
+    if (basicInfo.profileType == "venue") {
+      profileCTX.updateAbout({
+        bio: otherInfo.about.bio,
+        category: otherInfo.about.category,
+        equipment: otherInfo.about.equipment,
+        location: otherInfo.about.location,
+      });
+    } else {
+      profileCTX.updateAbout(
+        new aboutInfo(
+          otherInfo.about.bio,
+          otherInfo.about.category,
+          otherInfo.about.genre,
+          otherInfo.about.location
+        )
+      );
+    }
     // console.log(otherInfo);
     if (otherInfo.hasOwnProperty("socials")) {
       profileCTX.updateSocial(otherInfo.socials);
@@ -58,7 +66,6 @@ const ProfileScreen = (props) => {
     const personalInfo = await getPersonalInfo();
     if (personalInfo != null) {
       profileCTX.updatePersonalInfo(personalInfo);
-      
     }
     const profileuri = await getProfilePic();
     profileCTX.updateProfilePic(profileuri);
@@ -86,10 +93,9 @@ const ProfileScreen = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       {gettingInfo ? (
-        <View style={{ height: "100%", justifyContent: "center"}}>
+        <View style={{ height: "100%", justifyContent: "center" }}>
           <ActivityIndicator size={"large"} />
         </View>
-        
       ) : (
         <View style={styles.container}>
           <View>
