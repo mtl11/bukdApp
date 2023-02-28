@@ -121,9 +121,8 @@ const EditProfileArtistScreen = (props) => {
       aspect: [4, 3],
       quality: 1,
     });
-    console.log(result.assets);
-    const uri = result.assets[0].uri;
     if (!result.canceled) {
+      const uri = result.assets[0].uri;
       setImage(uri);
     }
   };
@@ -135,12 +134,18 @@ const EditProfileArtistScreen = (props) => {
       return profileCTX.about.location;
     }
   };
-
   const categoryPlaceholder = () => {
     if (profileCTX.about.category == ("" || null)) {
       return "Category";
     } else {
       return profileCTX.about.category;
+    }
+  };
+  const genrePlaceholder = () => {
+    if (profileCTX.about.genre == ("" || null)) {
+      return "Genre";
+    } else {
+      return profileCTX.about.genre;
     }
   };
   return (
@@ -257,7 +262,7 @@ const EditProfileArtistScreen = (props) => {
               value={profileCTX.about.location}
               placeholder={locationPlaceholder()}
             />
-            {profileCTX.about.profileType == "performer" ? (
+            {profileCTX.basicInfo.profileType == "performer" ? (
               <ProfileDropDown
                 data={profileCategoriesArtist}
                 setValue={setCategory}
@@ -274,12 +279,12 @@ const EditProfileArtistScreen = (props) => {
                 margin={"5%"}
               />
             )}
-            {profileCTX.about.profileType == "performer" ? (
+            {profileCTX.basicInfo.profileType == "performer" ? (
               <ProfileDropDown
                 data={subCategories}
                 setValue={setGenre}
                 value={profileCTX.about.genre}
-                placeholder={"Genre"}
+                placeholder={genrePlaceholder()}
                 margin={"5%"}
               />
             ) : (

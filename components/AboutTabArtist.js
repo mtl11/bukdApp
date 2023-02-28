@@ -25,7 +25,7 @@ const AboutTabArtist = () => {
         />
         <Text style={styles.infoText}>{profileCTX.about.location}</Text>
       </View>
-      {profileCTX.about.profileType == "performer" ? (
+      {profileCTX.basicInfo.profileType == "performer" ? (
         <View style={styles.infoContainerRow}>
           <Ionicons
             name="musical-notes-outline"
@@ -54,7 +54,7 @@ const AboutTabArtist = () => {
         />
         <Text style={styles.infoText}>{profileCTX.about.bio}</Text>
       </View>
-      {profileCTX.about.profileType == "performer" ? (
+      {profileCTX.basicInfo.profileType == "performer" ? (
         <View></View>
       ) : (
         <View style={styles.infoContainerRow}>

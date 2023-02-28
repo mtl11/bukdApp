@@ -31,6 +31,7 @@ const ProfileScreen = (props) => {
     setGettingInfo(true);
     const basicInfo = await getProfileInfo();
     const otherInfo = await getProfileStart();
+    
     profileCTX.updateBasic(basicInfo);
     if (basicInfo.profileType == "venue") {
       profileCTX.updateAbout({
@@ -69,6 +70,7 @@ const ProfileScreen = (props) => {
     }
     const profileuri = await getProfilePic();
     profileCTX.updateProfilePic(profileuri);
+    console.log(profileCTX.about);
     setGettingInfo(false);
   }
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import firebaseUtil from "./firebaseUtil";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { profileInfo } from "../models/profile";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { app } from "../util/firebaseStorage";
 import { useState } from "react";
 const APIKey = "AIzaSyCttFPH3tkX_cN5XObiFHCc9ZXtc8FJWOM";
@@ -111,27 +111,13 @@ export async function setProfilePic(uri) {
   const email = await AsyncStorage.getItem("email");
   const extrated = JSON.parse(email);
   const hash = extrated.hashCode();
-  const blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      resolve(xhr.response);
-    };
-    xhr.onerror = function (e) {
-      console.log(e);
-      reject(new TypeError("Network request failed"));
-    };
-    xhr.responseType = "blob";
-    xhr.open("GET", uri, true);
-    xhr.send(null);
-  });
-  
+  const response = await fetch(uri);
+  const blob = await response.blob();
   const fileRef = ref(getStorage(app), hash + "-profile-pic");
-  // console.log(fileRef);
-  fileRef.put(blob);
-  // const result = await uploadBytes(fileRef, blob).then((snapshot) => {
-  //   console.log('Uploaded a blob or file!');
-  // });
-  // blob.close();
+  const result = await uploadBytes(fileRef, blob).then((snapshot) => {
+    console.log('Uploaded a blob or file!');
+  });
+  blob.close();
 }
 
 export async function getProfilePic() {
