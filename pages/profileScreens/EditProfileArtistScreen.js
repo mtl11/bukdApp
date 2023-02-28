@@ -48,7 +48,7 @@ const EditProfileArtistScreen = (props) => {
         profilename
       )
     );
-    if (profileCTX.about.profileType == "performer") {
+    if (profileCTX.basicInfo.profileType == "performer") {
       await setAboutInfo(location, category, genre, bio);
       profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
     } else {
