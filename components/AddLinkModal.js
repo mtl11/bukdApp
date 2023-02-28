@@ -26,6 +26,7 @@ const AddLinkModal = (props) => {
     const usernameURL = props.url + username;
     await setSocial(header, usernameURL);
     setIsAuth(false);
+    props.setVisible(false);
   }
   return (
     <Modal visible={props.visible}>

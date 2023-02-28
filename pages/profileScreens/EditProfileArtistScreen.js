@@ -17,30 +17,51 @@ import {
   setAvailabilityInfo,
   setProfileName,
   setProfilePic,
+  setVenueAboutInfo,
 } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, profileInfo } from "../../models/profile";
 import AddLinkModal from "../../components/AddLinkModal";
 import ProfileDropDown from "../../components/ProfileDropDown";
-import { locations, profileCategoriesArtist, subCategories } from "../../models/dropdownData";
+import {
+  locations,
+  profileCategoriesArtist,
+  subCategories,
+  profileCategoriesVenue,
+} from "../../models/dropdownData";
 
 const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
-
   async function update() {
-    await setProfileName(profilename);
-    await setAboutInfo(location, category, genre, bio);
+    await setProfileName(profileCTX.basicInfo.profileType, profilename);
+
     const dow = getDow();
     const time = getTime();
     await setAvailabilityInfo(time, dow);
     if (image) {
       await setProfilePic(image);
     }
-    profileCTX.updateBasic(new profileInfo(null, profilename));
-    profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
+    profileCTX.updateBasic(
+      new profileInfo(
+        profileCTX.basicInfo.email,
+        profileCTX.basicInfo.profileType,
+        profilename
+      )
+    );
+    if (profileCTX.about.profileType == "performer") {
+      await setAboutInfo(location, category, genre, bio);
+      profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
+    } else {
+      await setVenueAboutInfo(bio, category, location, equipment);
+      profileCTX.updateAbout({
+        bio: bio,
+        category: category,
+        location: location,
+        equipment: equipment,
+      });
+    }
     profileCTX.updateAvailability({ dow: dow, times: time });
     profileCTX.updateProfilePic(image);
-    // setTimeout(1000);
   }
 
   const [profilename, setProfilename] = useState(
@@ -50,7 +71,7 @@ const EditProfileArtistScreen = (props) => {
   const [category, setCategory] = useState(profileCTX.about.category);
   const [genre, setGenre] = useState(profileCTX.about.genre);
   const [bio, setBio] = useState(profileCTX.about.bio);
-
+  const [equipment, setEquipment] = useState(profileCTX.about.equipment);
   const [image, setImage] = useState(profileCTX.profilePic);
   const [about, setAbout] = useState(false);
   const [social, setSocial] = useState(false);
@@ -107,6 +128,21 @@ const EditProfileArtistScreen = (props) => {
     }
   };
 
+  const locationPlaceholder = () =>{
+    if (profileCTX.about.location == (""||null)){
+      return "Location"
+    }else{
+      return profileCTX.about.location;
+    }
+  }
+
+  const categoryPlaceholder = () =>{
+    if (profileCTX.about.category == (""||null)){
+      return "Category"
+    }else{
+      return profileCTX.about.category;
+    }
+  }
   return (
     <SafeAreaView
       style={{
@@ -216,22 +252,48 @@ const EditProfileArtistScreen = (props) => {
         {about ? (
           <View>
             <ProfileDropDown
-              data = {locations}
+              data={locations}
               setValue={setLocation}
               value={profileCTX.about.location}
+              placeholder={locationPlaceholder()}
             />
-            <ProfileDropDown
-              data={profileCategoriesArtist}
-              setValue={setCategory}
-              value={profileCTX.about.category}
-              margin={"5%"}
-            />
-            <ProfileDropDown
-              data={subCategories}
-              setValue={setGenre}
-              value={profileCTX.about.genre}
-              margin={"5%"}
-            />
+            {profileCTX.about.profileType == "performer" ? (
+              <ProfileDropDown
+                data={profileCategoriesArtist}
+                setValue={setCategory}
+                value={profileCTX.about.category}
+                placeholder={categoryPlaceholder()}
+                margin={"5%"}
+              />
+            ) : (
+              <ProfileDropDown
+                data={profileCategoriesVenue}
+                setValue={setCategory}
+                value={profileCTX.about.category}
+                placeholder={categoryPlaceholder()}
+                margin={"5%"}
+              />
+            )}
+            {profileCTX.about.profileType == "performer" ? (
+              <ProfileDropDown
+                data={subCategories}
+                setValue={setGenre}
+                value={profileCTX.about.genre}
+                placeholder={"Genre"}
+                margin={"5%"}
+              />
+            ) : (
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={"List available equipment"}
+                  onChangeText={setEquipment}
+                  value={equipment}
+                  placeholderTextColor={global.color.primaryColors.main}
+                  maxLength={160}
+                />
+              </View>
+            )}
             <View style={styles.inputContainer}>
               <TextInput
                 style={[styles.input, { marginTop: 10 }]}
@@ -241,6 +303,7 @@ const EditProfileArtistScreen = (props) => {
                 value={bio}
                 placeholderTextColor={global.color.primaryColors.main}
                 maxLength={160}
+                maxHeight={100}
               />
             </View>
           </View>

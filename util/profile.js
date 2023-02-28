@@ -26,7 +26,7 @@ export async function getProfileInfo() {
   const hash = extrated.hashCode();
   const response = await firebaseUtil.get("/users/" + hash + "/basicinfo.json");
   const values = response.data;
-  return new profileInfo(null, values.profileName);
+  return values;
 }
 
 export async function setAboutInfo(location, category, genre, bio) {
@@ -39,6 +39,19 @@ export async function setAboutInfo(location, category, genre, bio) {
     category: category,
     genre: genre,
     bio: bio,
+  });
+}
+
+export async function setVenueAboutInfo(location, category, equipment, bio) {
+  const email = await AsyncStorage.getItem("email");
+  const extrated = JSON.parse(email);
+  const hash = extrated.hashCode();
+
+  const response = await firebaseUtil.put("/users/" + hash + "/about.json", {
+    bio: bio,
+    category: category,
+    location: location,
+    equipment: equipment,
   });
 }
 
@@ -56,15 +69,17 @@ export async function setAvailabilityInfo(times, dow) {
   );
 }
 
-export async function setProfileName(name) {
+export async function setProfileName(profileType, name) {
   const email = await AsyncStorage.getItem("email");
   const extrated = JSON.parse(email);
   const hash = extrated.hashCode();
+  // const perfomerType = await AsyncStorage.getItem("performerType");
 
   const response = await firebaseUtil.put(
     "/users/" + hash + "/basicinfo.json",
     {
       email: email,
+      profileType: profileType,
       profileName: name,
     }
   );
@@ -93,26 +108,25 @@ export async function setSocial(type, url) {
 }
 
 export async function setProfilePic(uri) {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
-
-  const blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      resolve(xhr.response);
-    };
-    xhr.onerror = function (e) {
-      console.log(e);
-      reject(new TypeError("Network request failed"));
-    };
-    xhr.responseType = "blob";
-    xhr.open("GET", uri, true);
-    xhr.send(null);
-  });
-  const fileRef = ref(getStorage(app), hash + "-profile-pic");
-  const result = await uploadBytes(fileRef, blob);
-  blob.close();
+  // const email = await AsyncStorage.getItem("email");
+  // const extrated = JSON.parse(email);
+  // const hash = extrated.hashCode();
+  // const blob = await new Promise((resolve, reject) => {
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.onload = function () {
+  //     resolve(xhr.response);
+  //   };
+  //   xhr.onerror = function (e) {
+  //     console.log(e);
+  //     reject(new TypeError("Network request failed"));
+  //   };
+  //   xhr.responseType = "blob";
+  //   xhr.open("GET", uri, true);
+  //   xhr.send(null);
+  // });
+  // const fileRef = ref(getStorage(app), hash + "-profile-pic");
+  // const result = await uploadBytes(fileRef, blob);
+  // blob.close();
 }
 
 export async function getProfilePic() {
@@ -133,11 +147,14 @@ export async function setPersonalInfo(firstName, lastName) {
   const email = await AsyncStorage.getItem("email");
   const extrated = JSON.parse(email);
   const hash = extrated.hashCode();
-  const response = await firebaseUtil.put("/users/" + hash + "/personalInfo.json",{
-    firstName:firstName,
-    lastName: lastName
-  });
-  
+  const response = await firebaseUtil.put(
+    "/users/" + hash + "/personalInfo.json",
+    {
+      firstName: firstName,
+      lastName: lastName,
+    }
+  );
+
   const values = response.data;
   console.log(values);
   return values;
@@ -146,12 +163,14 @@ export async function getPersonalInfo() {
   const email = await AsyncStorage.getItem("email");
   const extrated = JSON.parse(email);
   const hash = extrated.hashCode();
-  const response = await firebaseUtil.get("/users/" + hash + "/personalInfo.json");
+  const response = await firebaseUtil.get(
+    "/users/" + hash + "/personalInfo.json"
+  );
   const values = response.data;
   return values;
 }
 
-export async function resetPassword(password,idToken){
+export async function resetPassword(password, idToken) {
   console.log(idToken);
   console.log(password);
   const response = await axios

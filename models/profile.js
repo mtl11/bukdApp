@@ -1,6 +1,7 @@
 export class profileInfo {
-  constructor(profileImgURL, profileName) {
-    this.profileImgURL = profileImgURL;
+  constructor(email, profileType, profileName) {
+    this.email = email;
+    this.profileType = profileType;
     this.profileName = profileName;
   }
 }

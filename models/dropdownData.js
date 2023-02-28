@@ -3,6 +3,12 @@ export const profileCategoriesArtist = [
   { label: "Singer", value: "2" },
 ];
 
+export const profileCategoriesVenue = [
+  { label: "Bar", value: "1" },
+  { label: "Club", value: "2" },
+  { label: "Night Club", value: "3" },
+];
+
 export const locations = [
   { label: "Tuscon, AZ", value: "1" },
   { label: "Los Angeles, CA", value: "2" },

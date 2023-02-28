@@ -34,7 +34,7 @@ const ProfileDropDown = (props) => {
         ]}
         placeholderStyle={[
           styles.placeholderStyle,
-          isFocus && { color: "black" },
+          props.value && { color: "white" },
         ]}
         activeColor={global.color.primaryColors.adjacent}
         selectedTextStyle={[
@@ -63,7 +63,7 @@ const ProfileDropDown = (props) => {
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={props.value}
+        placeholder={props.placeholder}
         searchPlaceholder="Search..."
         value={props.value}
         containerStyle={styles.dropContainer}
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     borderColor: global.color.primaryColors.buttonAccent,
     borderRadius: 12,
     marginHorizontal: "8%",
-
     backgroundColor: global.color.primaryColors.adjacent,
   },
 
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 16,
-    color: global.color.primaryColors.buttonAccent,
+    color: global.color.primaryColors.main,
   },
   selectedTextStyle: {
     fontSize: 16,

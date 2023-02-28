@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import global from "../styles/global.js";
 import { ProfileContext } from "../store/profileContext.js";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const AboutTabArtist = () => {
   const profileCTX = useContext(ProfileContext);
@@ -24,24 +25,47 @@ const AboutTabArtist = () => {
         />
         <Text style={styles.infoText}>{profileCTX.about.location}</Text>
       </View>
-      <View style={styles.infoContainerRow}>
-        <Ionicons
-          name="musical-notes-outline"
-          size={24}
-          color={global.color.primaryColors.main}
-        />
-        <Text style={styles.infoText}>{profileCTX.about.category} | {profileCTX.about.genre}</Text>
-      </View>
+      {profileCTX.about.profileType == "performer" ? (
+        <View style={styles.infoContainerRow}>
+          <Ionicons
+            name="musical-notes-outline"
+            size={24}
+            color={global.color.primaryColors.main}
+          />
+          <Text style={styles.infoText}>
+            {profileCTX.about.category} | {profileCTX.about.genre}
+          </Text>
+        </View>
+      ) : (
+        <View style={styles.infoContainerRow}>
+          <FontAwesome5
+            name="building"
+            size={24}
+            color={global.color.primaryColors.main}
+          />
+          <Text style={styles.infoText}>{profileCTX.about.category}</Text>
+        </View>
+      )}
       <View style={styles.infoContainerRow}>
         <FontAwesome
           name="comment-o"
           size={24}
           color={global.color.primaryColors.main}
         />
-        <Text style={styles.infoText}>
-          {profileCTX.about.bio}
-        </Text>
+        <Text style={styles.infoText}>{profileCTX.about.bio}</Text>
       </View>
+      {profileCTX.about.profileType == "performer" ? (
+        <View></View>
+      ) : (
+        <View style={styles.infoContainerRow}>
+          <FontAwesome5
+            name="plug"
+            size={24}
+            color={global.color.primaryColors.main}
+          />
+          <Text style={styles.infoText}>{profileCTX.about.equipment}</Text>
+        </View>
+      )}
     </View>
   );
 };

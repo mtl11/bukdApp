@@ -31,7 +31,7 @@ const ProfileScreen = (props) => {
     setGettingInfo(true);
     const basicInfo = await getProfileInfo();
     const otherInfo = await getProfileStart();
-    // console.log(otherInfo.availability);
+    console.log(basicInfo);
     profileCTX.updateBasic(basicInfo);
     profileCTX.updateAbout(
       new aboutInfo(
@@ -86,7 +86,10 @@ const ProfileScreen = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       {gettingInfo ? (
-        <ActivityIndicator size={"large"} />
+        <View style={{ height: "100%", justifyContent: "center"}}>
+          <ActivityIndicator size={"large"} />
+        </View>
+        
       ) : (
         <View style={styles.container}>
           <View>
@@ -130,7 +133,7 @@ const ProfileScreen = (props) => {
               borderColor: "#2A51DB",
               width: "80%",
               marginVertical: "5%",
-              backgroundColor: global.color.primaryColors.adjacent,
+              backgroundColor: global.color.primaryColors.main,
             }}
             onPress={() => {
               props.navigation.navigate("EditProfileArtistScreen");
@@ -139,7 +142,7 @@ const ProfileScreen = (props) => {
             <View style={{ alignSelf: "center", padding: 10 }}>
               <Text
                 style={{
-                  color: "#2A51DB",
+                  color: global.color.primaryColors.buttonAccent,
                   fontFamily: "Rubik-Medium",
                   fontSize: 18,
                 }}

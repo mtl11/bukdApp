@@ -27,7 +27,7 @@ const StartScreen = (props) => {
       console.log("test");
       setPasswordDontMatch(false);
       authCTX.authenticate(token);
-      AsyncStorage.setItem("email",JSON.stringify(email));
+      AsyncStorage.setItem("email",email);
     } catch (error) {
       setPasswordDontMatch(true);
       setIsAuth(false);
