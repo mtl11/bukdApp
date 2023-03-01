@@ -23,13 +23,13 @@ const Stack = createNativeStackNavigator();
 function AuthenticatedStack() {
   return (
     <ProfileContextProvider>
-    <Stack.Navigator initialRouteName="TabNav">
-      <Stack.Screen
-        name="ProfileSettingsScreen"
-        component={ProfileSettingsScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
+      <Stack.Navigator initialRouteName="TabNav">
+        <Stack.Screen
+          name="ProfileSettingsScreen"
+          component={ProfileSettingsScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="EditProfileArtistScreen"
           component={EditProfileArtistScreen}
           options={{ headerShown: false }}
@@ -39,31 +39,31 @@ function AuthenticatedStack() {
           component={ConfirmPasswordReset}
           options={{ headerShown: false }}
         />
-      <Stack.Screen
-        name="PersonalInfoScreen"
-        component={PersonalInfoScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="PersonalSecurityScreen"
-        component={PersonalSecurityScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="SearchArtistProfile"
-        component={SearchArtistProfile}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="TabNav"
-        component={TabNav}
-        options={{
-          headerShown: false,
-          animation: "none",
-          gestureEnabled: false,
-        }}
-      />
-    </Stack.Navigator>
+        <Stack.Screen
+          name="PersonalInfoScreen"
+          component={PersonalInfoScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PersonalSecurityScreen"
+          component={PersonalSecurityScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SearchArtistProfile"
+          component={SearchArtistProfile}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TabNav"
+          component={TabNav}
+          options={{
+            headerShown: false,
+            animation: "none",
+            gestureEnabled: false,
+          }}
+        />
+      </Stack.Navigator>
     </ProfileContextProvider>
   );
 }

@@ -12,6 +12,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { ProfileContext } from "../../store/profileContext.js";
 import colors from "../../styles/global";
 import { getPersonalInfo, setPersonalInfo } from "../../util/profile";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PersonalInfoScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
@@ -21,8 +22,9 @@ const PersonalInfoScreen = (props) => {
   const [loading, setLoading] = useState(false);
   async function update() {
     setLoading(true);
+    const localId = await AsyncStorage.getItem("localId");
     if (firstName != (null || "") && lastName != (null|| "")) {
-      const response = await setPersonalInfo(firstName, lastName);
+      const response = await setPersonalInfo(firstName, lastName, localId);
       setError(false);
     } else {
       setError(true);

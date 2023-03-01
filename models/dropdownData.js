@@ -4,7 +4,7 @@ export const profileCategoriesArtist = [
 ];
 
 export const profileCategoriesVenue = [
-  {label:"All Categories", value:"0"},
+  { label: "All Categories", value: "0" },
   { label: "Bar", value: "1" },
   { label: "Club", value: "2" },
   { label: "Night Club", value: "3" },
@@ -20,4 +20,4 @@ export const locations = [
   { label: "Seattle, WA", value: "7" },
 ];
 
-export const subCategories = [{label: "House", value: "1"}]
+export const subCategories = [{ label: "House", value: "1" }];

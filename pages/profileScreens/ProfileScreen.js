@@ -21,6 +21,7 @@ import {
 } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, availabilityInfo } from "../../models/profile.js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
@@ -29,9 +30,12 @@ const ProfileScreen = (props) => {
   const [profileURI, setProfileURI] = useState("");
   async function getProfile() {
     setGettingInfo(true);
-    const basicInfo = await getProfileInfo();
-    const otherInfo = await getProfileStart();
-    
+
+    const localId = await AsyncStorage.getItem("localId");
+    // console.log(localId);
+    const basicInfo = await getProfileInfo(localId);
+    const otherInfo = await getProfileStart(localId);
+
     profileCTX.updateBasic(basicInfo);
     if (basicInfo.profileType == "venue") {
       profileCTX.updateAbout({
@@ -50,7 +54,6 @@ const ProfileScreen = (props) => {
         )
       );
     }
-    // console.log(otherInfo);
     if (otherInfo.hasOwnProperty("socials")) {
       profileCTX.updateSocial(otherInfo.socials);
     }
@@ -64,13 +67,13 @@ const ProfileScreen = (props) => {
     } else {
       profileCTX.updateAvailability(new availabilityInfo({}, {}));
     }
-    const personalInfo = await getPersonalInfo();
+    const personalInfo = await getPersonalInfo(localId);
     if (personalInfo != null) {
       profileCTX.updatePersonalInfo(personalInfo);
     }
-    const profileuri = await getProfilePic();
+    const profileuri = await getProfilePic(localId);
     profileCTX.updateProfilePic(profileuri);
-    console.log(profileCTX.about);
+    // console.log(profileCTX.about);
     setGettingInfo(false);
   }
 

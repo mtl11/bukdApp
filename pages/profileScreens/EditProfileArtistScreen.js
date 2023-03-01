@@ -29,17 +29,19 @@ import {
   subCategories,
   profileCategoriesVenue,
 } from "../../models/dropdownData";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
   async function update() {
-    await setProfileName(profileCTX.basicInfo.profileType, profilename);
+    const localId = await AsyncStorage.getItem("localId");
+    await setProfileName(profileCTX.basicInfo.profileType, profilename, localId);
 
     const dow = getDow();
     const time = getTime();
-    await setAvailabilityInfo(time, dow);
+    await setAvailabilityInfo(time, dow, localId);
     if (image) {
-      await setProfilePic(image);
+      await setProfilePic(image, localId);
     }
     profileCTX.updateBasic(
       new profileInfo(
@@ -49,10 +51,10 @@ const EditProfileArtistScreen = (props) => {
       )
     );
     if (profileCTX.basicInfo.profileType == "performer") {
-      await setAboutInfo(location, category, genre, bio);
+      await setAboutInfo(location, category, genre, bio, localId);
       profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
     } else {
-      await setVenueAboutInfo(bio, category, location, equipment);
+      await setVenueAboutInfo(bio, category, location, equipment,localId);
       profileCTX.updateAbout({
         bio: bio,
         category: category,

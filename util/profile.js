@@ -7,34 +7,13 @@ import { app } from "../util/firebaseStorage";
 import { useState } from "react";
 const APIKey = "AIzaSyCttFPH3tkX_cN5XObiFHCc9ZXtc8FJWOM";
 
-String.prototype.hashCode = function () {
-  var hash = 0,
-    i,
-    chr;
-  if (this.length === 0) return hash;
-  for (i = 0; i < this.length; i++) {
-    chr = this.charCodeAt(i);
-    hash = (hash << 5) - hash + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-};
-
-export async function getProfileInfo() {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
-  const response = await firebaseUtil.get("/users/" + hash + "/basicinfo.json");
-  const values = response.data;
-  return values;
+export async function getProfileInfo(localId) {
+  const response = await firebaseUtil.get("/users/" + localId + "/basicinfo.json");
+  return response.data;
 }
 
-export async function setAboutInfo(location, category, genre, bio) {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
-
-  const response = await firebaseUtil.put("/users/" + hash + "/about.json", {
+export async function setAboutInfo(location, category, genre, bio, localId) {
+  const response = await firebaseUtil.put("/users/" + localId + "/about.json", {
     location: location,
     category: category,
     genre: genre,
@@ -42,12 +21,8 @@ export async function setAboutInfo(location, category, genre, bio) {
   });
 }
 
-export async function setVenueAboutInfo(bio, category, location, equipment) {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
-
-  const response = await firebaseUtil.put("/users/" + hash + "/about.json", {
+export async function setVenueAboutInfo(bio, category, location, equipment, localId) {
+  const response = await firebaseUtil.put("/users/" + localId + "/about.json", {
     bio: bio,
     category: category,
     location: location,
@@ -55,13 +30,9 @@ export async function setVenueAboutInfo(bio, category, location, equipment) {
   });
 }
 
-export async function setAvailabilityInfo(times, dow) {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
-
+export async function setAvailabilityInfo(times, dow, localId) {
   const response = await firebaseUtil.put(
-    "/users/" + hash + "/availability.json",
+    "/users/" + localId + "/availability.json",
     {
       times: times,
       dow: dow,
@@ -69,14 +40,10 @@ export async function setAvailabilityInfo(times, dow) {
   );
 }
 
-export async function setProfileName(profileType, name) {
+export async function setProfileName(profileType, name, localId) {
   const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
-  // const perfomerType = await AsyncStorage.getItem("performerType");
-
   const response = await firebaseUtil.put(
-    "/users/" + hash + "/basicinfo.json",
+    "/users/" + localId + "/basicinfo.json",
     {
       email: email,
       profileType: profileType,
@@ -85,46 +52,32 @@ export async function setProfileName(profileType, name) {
   );
 }
 
-export async function getProfileStart() {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
-  const response = await firebaseUtil.get("/users/" + hash + ".json");
-  const values = response.data;
-  return values;
+export async function getProfileStart(localId) {
+  const response = await firebaseUtil.get("/users/" + localId + ".json");
+  return response.data;
 }
 
-export async function setSocial(type, url) {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
-
+export async function setSocial(type, url, localId) {
   const response = await firebaseUtil.put(
-    "/users/" + hash + "/socials/" + type + ".json",
+    "/users/" + localId + "/socials/" + type + ".json",
     {
       url: url,
     }
   );
 }
 
-export async function setProfilePic(uri) {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
+export async function setProfilePic(uri, localId) {
   const response = await fetch(uri);
   const blob = await response.blob();
-  const fileRef = ref(getStorage(app), hash + "-profile-pic");
+  const fileRef = ref(getStorage(app), localId + "-profile-pic");
   const result = await uploadBytes(fileRef, blob).then((snapshot) => {
     console.log('Uploaded a blob or file!');
   });
   blob.close();
 }
 
-export async function getProfilePic() {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
-  const fileRef = ref(getStorage(app), hash + "-profile-pic");
+export async function getProfilePic(localId) {
+  const fileRef = ref(getStorage(app), localId + "-profile-pic");
   return getDownloadURL(fileRef)
     .then((url) => {
       return url;
@@ -134,12 +87,9 @@ export async function getProfilePic() {
     });
 }
 
-export async function setPersonalInfo(firstName, lastName) {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
+export async function setPersonalInfo(firstName, lastName,localId) {
   const response = await firebaseUtil.put(
-    "/users/" + hash + "/personalInfo.json",
+    "/users/" + localId + "/personalInfo.json",
     {
       firstName: firstName,
       lastName: lastName,
@@ -147,23 +97,16 @@ export async function setPersonalInfo(firstName, lastName) {
   );
 
   const values = response.data;
-  console.log(values);
   return values;
 }
-export async function getPersonalInfo() {
-  const email = await AsyncStorage.getItem("email");
-  const extrated = JSON.parse(email);
-  const hash = extrated.hashCode();
+export async function getPersonalInfo(localId) {
   const response = await firebaseUtil.get(
-    "/users/" + hash + "/personalInfo.json"
+    "/users/" + localId + "/personalInfo.json"
   );
-  const values = response.data;
-  return values;
+  return response.data;
 }
 
 export async function resetPassword(password, idToken) {
-  console.log(idToken);
-  console.log(password);
   const response = await axios
     .post(
       "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" + APIKey,

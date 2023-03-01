@@ -4,18 +4,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { app } from "./firebaseStorage";
 const APIKey = "AIzaSyCttFPH3tkX_cN5XObiFHCc9ZXtc8FJWOM";
 
-String.prototype.hashCode = function () {
-  var hash = 0,
-    i,
-    chr;
-  if (this.length === 0) return hash;
-  for (i = 0; i < this.length; i++) {
-    chr = this.charCodeAt(i);
-    hash = (hash << 5) - hash + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-};
+// String.prototype.hashCode = function () {
+//   var hash = 0,
+//     i,
+//     chr;
+//   if (this.length === 0) return hash;
+//   for (i = 0; i < this.length; i++) {
+//     chr = this.charCodeAt(i);
+//     hash = (hash << 5) - hash + chr;
+//     hash |= 0; // Convert to 32bit integer
+//   }
+//   return hash;
+// };
 
 export async function createUser(email, password) {
   let sameEmail = false;
@@ -35,12 +35,14 @@ export async function createUser(email, password) {
   if (sameEmail) {
     return sameEmail;
   } else {
+    AsyncStorage.setItem("localId", response.data.localId);
     return false;
   }
+  
 }
 
 export async function authenticateUser(email, password) {
-  console.log(email);
+  // console.log(email);
   let token = "";
   const response = await axios
     .post(
@@ -53,6 +55,7 @@ export async function authenticateUser(email, password) {
       }
     )
     .then((res) => {
+      AsyncStorage.setItem("localId", res.data.localId);
       token = res.data.idToken;
     })
     .catch((error) => {
@@ -66,16 +69,13 @@ export async function authenticateUser(email, password) {
         console.log("Error", error.message);
       }
     });
-  // console.log(response.data);
-  // const token = response.data.idToken;
-  // console.log(token);
   return token;
 }
 
-export async function addAccountFB(email, profileName) {
-  const hash = email.hashCode();
+export async function addAccountFB(email, profileName, localId) {
+  // const hash = email.hashCode();
   const response = await firebaseUtil
-    .put("/users/" + hash + "/basicinfo.json", {
+    .put("/users/" + localId + "/basicinfo.json", {
       email: email,
       profileName: profileName,
     })
@@ -83,7 +83,7 @@ export async function addAccountFB(email, profileName) {
       console.log(error.response);
     });
   await firebaseUtil
-    .put("/users/" + hash + "/about.json", {
+    .put("/users/" + localId + "/about.json", {
       about: "",
       bio: "",
       category: "",
@@ -93,7 +93,7 @@ export async function addAccountFB(email, profileName) {
       console.log(error.response);
     });
   await firebaseUtil
-    .put("/users/" + hash + "/availability.json", {
+    .put("/users/" + localId + "/availability.json", {
       dow: {},
       times: {},
     })
@@ -104,16 +104,16 @@ export async function addAccountFB(email, profileName) {
 
 export async function forgotPassword(idToken, password){
 
-  // const response = await axios
-  //   .post(
-  //     "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" + APIKey,
-  //     {
-  //       idToken: email,
-  //       password: password,
-  //       returnSecureToken: true,
-  //     }
-  //   )
-  //   .catch((error) => {
-  //     sameEmail = true;
-  //   });
+  const response = await axios
+    .post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" + APIKey,
+      {
+        idToken: idToken,
+        password: password,
+        returnSecureToken: true,
+      }
+    )
+    .catch((error) => {
+      sameEmail = true;
+    });
 }

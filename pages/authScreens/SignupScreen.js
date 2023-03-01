@@ -54,8 +54,9 @@ const SignupScreen = (props) => {
       setEmailErrorMessage("Error: email already in use");
       setIsAuth(false);
     } else {
+      const localId = await AsyncStorage.getItem("localId");
       setEmailErrorMessage("");
-      const response = await addAccountFB(email, profileName);
+      const response = await addAccountFB(email, profileName, localId);
       setIsAuth(false);
       const token = await authenticateUser(email, password);
       AsyncStorage.setItem("email",JSON.stringify(email));

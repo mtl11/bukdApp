@@ -15,16 +15,18 @@ import { SocialLinks, TYPE_MOBILE } from "social-links";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { setSocial } from "../util/profile";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const AddLinkModal = (props) => {
   const [isAuth, setIsAuth] = useState(false);
   const socialLinks = new SocialLinks();
   const [username, setUsername] = useState("");
   const [valid, setValid] = useState(false);
   async function updateSocial() {
+    const localId = await AsyncStorage.getItem("localId");
     setIsAuth(true);
     const header = props.profileType;
     const usernameURL = props.url + username;
-    await setSocial(header, usernameURL);
+    await setSocial(header, usernameURL, localId);
     setIsAuth(false);
     props.setVisible(false);
   }
