@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -16,7 +17,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 const AboutTabArtist = () => {
   const profileCTX = useContext(ProfileContext);
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} >
       <View style={[styles.infoContainerRow, { marginTop: "0%" }]}>
         <Ionicons
           name="location-outline"
@@ -66,14 +67,19 @@ const AboutTabArtist = () => {
           <Text style={styles.infoText}>{profileCTX.about.equipment}</Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    margin: "10%",
+    // justifyContent: "space-evenly",
+    // paddingTop: "10%",
+    // paddingHorizontal: "10%",
+    // padding: "10%",
+    margin: "10%"
+    // marginBottom: "10%"
+    // marginHorizontal: "10%",
   },
   infoContainerRow: {
     flexDirection: "row",

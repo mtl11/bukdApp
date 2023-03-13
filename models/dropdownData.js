@@ -1,6 +1,9 @@
 export const profileCategoriesArtist = [
+  { label: "All Categories", value: "0" },
   { label: "DJ", value: "1" },
   { label: "Singer", value: "2" },
+  { label: "Band", value: "3" },
+  { label: "Vocalist", value: "4" },
 ];
 
 export const profileCategoriesVenue = [
@@ -20,4 +23,14 @@ export const locations = [
   { label: "Seattle, WA", value: "7" },
 ];
 
-export const subCategories = [{ label: "House", value: "1" }];
+export const subCategories = [
+  { label: "House", value: "1" },
+  { label: "Techno", value: "2" },
+  { label: "Dubstep", value: "3" },
+  { label: "Rock", value: "4" },
+  { label: "Alternative", value: "5" },
+  { label: "EDM", value: "6" },
+  { label: "Indie", value: "7" },
+  { label: "Dubstep", value: "8" },
+  { label: "Alt Rock", value: "9" }
+];

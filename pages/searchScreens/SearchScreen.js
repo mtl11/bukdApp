@@ -1,44 +1,106 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
+import React, { useState, useContext, useEffect } from "react";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import VenueList from "../../components/VenueList";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import global from "../../styles/global";
 import SearchDropDown from "../../components/SearchDropDown";
-import { locations, profileCategoriesVenue } from "../../models/dropdownData";
-import { getVenueList } from "../../util/search";
+import {
+  locations,
+  profileCategoriesVenue,
+  profileCategoriesArtist,
+} from "../../models/dropdownData";
+import { getVenueList, getPerformersList } from "../../util/search";
+import { getProfileInfo } from "../../util/profile";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SearchScreen = (props) => {
   const [location, setLocation] = useState(null);
   const [category, setCategory] = useState(null);
   const [venues, setVenues] = useState(null);
-  async function getVenues(location){
+  const [performers, setPerformers] = useState(null);
+  const [auth, setAuth] = useState(false);
+  const [pt, setPT] = useState(null);
+
+  async function getVenues(location) {
     const venues = await getVenueList(location);
-    console.log(venues);
     setVenues(venues);
   }
+
+  async function getPerformers(location) {
+    const venues = await getPerformersList(location);
+    setPerformers(venues);
+  }
+
+  async function profileType() {
+    const localId = await AsyncStorage.getItem("localId");
+    const profiletype = await getProfileInfo(localId);
+    setPT(profiletype.profileType);
+  }
+
+  useEffect(() => {
+    setAuth(false);
+    profileType();
+    setAuth(true);
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topContainer}>
-        <SearchDropDown
-          setValue={setLocation}
-          placeholder={"Select Location"}
-          data={locations}
-          icon={"ios-location-outline"}
-          blur={getVenues}
-        />
-        <SearchDropDown
-          setValue={setCategory}
-          placeholder={"Select Category"}
-          data={profileCategoriesVenue}
-          icon={"business-outline"}
-          blur={()=>{}}
-        />
-      </View>
-      <View>
-        <VenueList venues={venues} category={category} />
-      </View>
+      {auth ? (
+        <View>
+          <View style={styles.topContainer}>
+            {pt == "venue" ? (
+              <SearchDropDown
+                setValue={setLocation}
+                placeholder={"Select Location"}
+                data={locations}
+                icon={"ios-location-outline"}
+                blur={getPerformers}
+              />
+            ) : (
+              <SearchDropDown
+                setValue={setLocation}
+                placeholder={"Select Location"}
+                data={locations}
+                icon={"ios-location-outline"}
+                blur={getVenues}
+              />
+            )}
+
+            {pt == "venue" ? (
+              <SearchDropDown
+                setValue={setCategory}
+                placeholder={"Select Category"}
+                data={profileCategoriesArtist}
+                icon={"musical-notes-outline"}
+                blur={() => {}}
+              />
+            ) : (
+              <SearchDropDown
+                setValue={setCategory}
+                placeholder={"Select Category"}
+                data={profileCategoriesVenue}
+                icon={"business-outline"}
+                blur={() => {}}
+              />
+            )}
+          </View>
+          {pt == "venue" ? (
+          <View>
+            <VenueList venues={performers} category={category} />
+          </View>):(
+          <View>
+            <VenueList venues={venues} category={category} />
+          </View>)}
+        </View>
+      ) : (
+        <View style={{ height: "100%", justifyContent: "center" }}>
+          <ActivityIndicator size={"large"} />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
