@@ -35,7 +35,11 @@ const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
   async function update() {
     const localId = await AsyncStorage.getItem("localId");
-    await setProfileName(profileCTX.basicInfo.profileType, profilename, localId);
+    await setProfileName(
+      profileCTX.basicInfo.profileType,
+      profilename,
+      localId
+    );
 
     const dow = getDow();
     const time = getTime();
@@ -54,7 +58,7 @@ const EditProfileArtistScreen = (props) => {
       await setAboutInfo(location, category, genre, bio, localId);
       profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
     } else {
-      await setVenueAboutInfo(bio, category, location, equipment,localId);
+      await setVenueAboutInfo(bio, category, location, equipment, localId);
       profileCTX.updateAbout({
         bio: bio,
         category: category,

@@ -17,6 +17,7 @@ import {
 import { getVenueList, getPerformersList } from "../../util/search";
 import { getProfileInfo } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../store/authContext";
 
 const SearchScreen = (props) => {
   const [location, setLocation] = useState(null);
@@ -25,6 +26,8 @@ const SearchScreen = (props) => {
   const [performers, setPerformers] = useState(null);
   const [auth, setAuth] = useState(false);
   const [pt, setPT] = useState(null);
+
+  const authCTX = useContext(AuthContext);
 
   async function getVenues(location) {
     const venues = await getVenueList(location);
@@ -38,8 +41,12 @@ const SearchScreen = (props) => {
 
   async function profileType() {
     const localId = await AsyncStorage.getItem("localId");
-    const profiletype = await getProfileInfo(localId);
-    setPT(profiletype.profileType);
+    if (localId == null) {
+      authCTX.logout();
+    } else {
+      const profiletype = await getProfileInfo(localId);
+      setPT(profiletype.profileType);
+    }
   }
 
   useEffect(() => {
@@ -69,7 +76,6 @@ const SearchScreen = (props) => {
                 blur={getVenues}
               />
             )}
-
             {pt == "venue" ? (
               <SearchDropDown
                 setValue={setCategory}
@@ -89,12 +95,14 @@ const SearchScreen = (props) => {
             )}
           </View>
           {pt == "venue" ? (
-          <View>
-            <VenueList venues={performers} category={category} />
-          </View>):(
-          <View>
-            <VenueList venues={venues} category={category} />
-          </View>)}
+            <View>
+              <VenueList venues={performers} category={category} />
+            </View>
+          ) : (
+            <View>
+              <VenueList venues={venues} category={category} />
+            </View>
+          )}
         </View>
       ) : (
         <View style={{ height: "100%", justifyContent: "center" }}>

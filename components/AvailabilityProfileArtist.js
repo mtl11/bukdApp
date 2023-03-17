@@ -5,8 +5,9 @@ import colors from "../styles/global";
 import { ProfileContext } from "../store/profileContext.js";
 
 const AvailabilityProfileArtist = () => {
-  const [dowData, setDowData] = useState();
   const profileCTX = useContext(ProfileContext);
+  console.log(profileCTX.availabilty);
+  const [dowData, setDowData] = useState();
   const getTime = (time) => {
     if (time == "after") {
       return "10 PM - 1 AM";
@@ -21,7 +22,7 @@ const AvailabilityProfileArtist = () => {
       return "1 PM - 9 PM";
     }
   };
-  
+
   const getHour = (time) => {
     if (time == "after") {
       return "Afternoon";
@@ -60,6 +61,7 @@ const AvailabilityProfileArtist = () => {
       return "Sunday";
     }
   };
+
   const time = () => {
     const array = [];
     for (const x in profileCTX.availabilty.times) {
@@ -75,6 +77,13 @@ const AvailabilityProfileArtist = () => {
       );
       array.push(item);
     }
+    if (array.length == 0) {
+      return (
+        <View key={0} style={styles.timeContainer}>
+          <Text style={styles.bigText}>No Preferred Times</Text>
+        </View>
+      );
+    }
     return array;
   };
 
@@ -88,11 +97,18 @@ const AvailabilityProfileArtist = () => {
       );
       array.push(item);
     }
+    if (array.length == 0) {
+      return (
+        <View key={0} style={styles.timeContainer}>
+          <Text style={styles.bigText}>No Preferred Days</Text>
+        </View>
+      );
+    }
     return array;
   };
-  useEffect(()=>{
-    setDowData(dow)
-},[])
+  useEffect(() => {
+    setDowData(dow);
+  }, []);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
