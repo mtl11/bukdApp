@@ -30,6 +30,7 @@ import {
   profileCategoriesVenue,
 } from "../../models/dropdownData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
@@ -495,9 +496,10 @@ const EditProfileArtistScreen = (props) => {
                   setVisible(true);
                 }}
               >
-                <Image
-                  source={require("../../assets/soundcloud.png")}
-                  style={{ width: 40, height: 40 }}
+                <FontAwesome5
+                  name="soundcloud"
+                  size={40}
+                  color={global.color.primaryColors.main}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -509,9 +511,10 @@ const EditProfileArtistScreen = (props) => {
                   setVisible(true);
                 }}
               >
-                <Image
-                  source={require("../../assets/insta.png")}
-                  style={{ width: 40, height: 40 }}
+                <FontAwesome5
+                  name="instagram"
+                  size={40}
+                  color={global.color.primaryColors.main}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -523,9 +526,10 @@ const EditProfileArtistScreen = (props) => {
                   setVisible(true);
                 }}
               >
-                <Image
-                  source={require("../../assets/tiktok.png")}
-                  style={{ width: 40, height: 40 }}
+                <FontAwesome5
+                  name="tiktok"
+                  size={40}
+                  color={global.color.primaryColors.main}
                 />
               </TouchableOpacity>
             </View>
@@ -539,9 +543,10 @@ const EditProfileArtistScreen = (props) => {
                   setVisible(true);
                 }}
               >
-                <Image
-                  source={require("../../assets/youtube.png")}
-                  style={{ width: 40, height: 40 }}
+                <FontAwesome5
+                  name="youtube"
+                  size={40}
+                  color={global.color.primaryColors.main}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -553,9 +558,10 @@ const EditProfileArtistScreen = (props) => {
                   setVisible(true);
                 }}
               >
-                <Image
-                  source={require("../../assets/spotify.png")}
-                  style={{ width: 40, height: 40 }}
+                <FontAwesome5
+                  name="spotify"
+                  size={40}
+                  color={global.color.primaryColors.main}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -567,9 +573,10 @@ const EditProfileArtistScreen = (props) => {
                   setVisible(true);
                 }}
               >
-                <Image
-                  source={require("../../assets/facebook.png")}
-                  style={{ width: 40, height: 40 }}
+                <FontAwesome5
+                  name="facebook"
+                  size={40}
+                  color={global.color.primaryColors.main}
                 />
               </TouchableOpacity>
             </View>

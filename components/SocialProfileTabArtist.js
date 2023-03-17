@@ -11,22 +11,12 @@ import global from "../styles/global";
 import * as WebBrowser from "expo-web-browser";
 import { ProfileContext } from "../store/profileContext";
 import { Ionicons } from "@expo/vector-icons";
-
+import { FontAwesome5 } from '@expo/vector-icons'; 
 const SocialProfileTabArtist = (props) => {
   const profileCTX = useContext(ProfileContext);
-  function getImageLink(x) {
-    if (x == "soundcloud") return require("../assets/soundcloud.png");
-    if (x == "tiktok") return require("../assets/tiktok.png");
-    if (x == "youtube") return require("../assets/youtube.png");
-    if (x == "instagram") return require("../assets/insta.png");
-    if (x == "spotify") return require("../assets/spotify.png");
-    if (x == "facebook") return require("../assets/facebook.png");
-  }
   function dataList() {
     const array = [];
     for (const x in profileCTX.social) {
-      console.log(profileCTX.social[x]);
-      const imageLink = getImageLink(x);
       const item = (
         <TouchableOpacity
           key={x}
@@ -38,7 +28,7 @@ const SocialProfileTabArtist = (props) => {
           <View style={{ marginRight: "0%" }}>
             <Text style={styles.socialText}>{x}</Text>
           </View>
-          <Image source={imageLink} style={styles.socialLogo} />
+          <FontAwesome5 name={x} size={40} color={"white"} />
         </TouchableOpacity>
       );
       array.push(item);
