@@ -106,9 +106,6 @@ const AvailabilityProfileArtist = () => {
     }
     return array;
   };
-  useEffect(() => {
-    setDowData(dow);
-  }, []);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -132,7 +129,7 @@ const AvailabilityProfileArtist = () => {
           />
           <Text style={styles.headerText}>Preferred Days</Text>
         </View>
-        <View style={styles.boxContainer}>{dowData}</View>
+        <View style={styles.boxContainer}>{dow()}</View>
       </View>
     </ScrollView>
   );

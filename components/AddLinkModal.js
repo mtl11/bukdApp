@@ -1,5 +1,5 @@
 import { useLinkProps } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Modal,
   View,
@@ -14,9 +14,10 @@ import colors from "../styles/global";
 import { SocialLinks, TYPE_MOBILE } from "social-links";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { setSocial } from "../util/profile";
-
+import { ProfileContext } from "../store/profileContext.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const AddLinkModal = (props) => {
+  const profileCTX = useContext(ProfileContext);
   const [isAuth, setIsAuth] = useState(false);
   const socialLinks = new SocialLinks();
   const [username, setUsername] = useState("");
@@ -26,9 +27,15 @@ const AddLinkModal = (props) => {
     setIsAuth(true);
     const header = props.profileType;
     const usernameURL = props.url + username;
+    const newSocial = profileCTX.social;
+    const type = props.profileType;
+    newSocial[type] = { url: usernameURL };
+    // console.log(newSocial);
+    profileCTX.updateSocial(newSocial);
     await setSocial(header, usernameURL, localId);
     setIsAuth(false);
     props.setVisible(false);
+    // console.log(profileCTX.social);
   }
   return (
     <Modal visible={props.visible}>
