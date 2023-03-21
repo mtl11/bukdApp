@@ -36,7 +36,12 @@ const SearchScreen = (props) => {
 
   async function getPerformers(location) {
     const venues = await getPerformersList(location);
-    setPerformers(venues);
+    console.log(venues);
+    if (venues != null) {
+      setPerformers(Object.values(venues));
+    } else {
+      setPerformers(venues);
+    }
   }
 
   async function profileType() {
@@ -96,11 +101,11 @@ const SearchScreen = (props) => {
           </View>
           {pt == "venue" ? (
             <View>
-              <VenueList venues={performers} category={category} />
+              <VenueList venues={performers} category={category} props={props}/>
             </View>
           ) : (
             <View>
-              <VenueList venues={venues} category={category} />
+              <VenueList venues={venues} category={category} props={props}/>
             </View>
           )}
         </View>

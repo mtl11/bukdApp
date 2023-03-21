@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,18 +10,38 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import global from "../styles/global";
-
-const image = { uri: "https://reactjs.org/logo-og.png" };
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getProfilePic } from "../util/profile";
 
 const VenueList = (props) => {
-  console.log(props.category);
   const renderItem = ({ item }) => {
+    let image = "https://firebasestorage.googleapis.com/v0/b/bukd-app.appspot.com/o/VSQdC6fc1QWp4OqrjuD4lOn5lFi2-profile-pic?alt=media&token=044ae5fe-d19d-47c6-8b86-5b14044b697d";
+    async function getPPic(uuid) {
+      const pp = await getProfilePic(uuid);
+      image = pp;
+      return pp;
+    }
     if (item != null) {
-      if (item.category == props.category || props.category == null || props.category == "All Categories") {
+      if (
+        item.category == props.category ||
+        props.category == null ||
+        props.category == "All Categories"
+      ) {
+        getPPic(item.uuid).then((x) => {
+          let image = x;
+        });
+        console.log(image);
         return (
-          <TouchableOpacity style={styles.individualContainer}>
+          <TouchableOpacity
+            style={styles.individualContainer}
+            onPress={() => {
+              AsyncStorage.setItem("searchID", item.uuid);
+              props.props.navigation.navigate("SearchArtistProfile");
+            }}
+          >
             <ImageBackground
-              source={image}
+              source={{ uri: image }}
+              // source={{uri: "https://firebasestorage.googleapis.com/v0/b/bukd-app.appspot.com/o/VSQdC6fc1QWp4OqrjuD4lOn5lFi2-profile-pic?alt=media&token=044ae5fe-d19d-47c6-8b86-5b14044b697d"}}
               style={styles.imageContainer}
               imageStyle={{ borderRadius: 10 }}
             >
@@ -40,7 +60,7 @@ const VenueList = (props) => {
       {props.venues ? (
         <FlatList
           columnWrapperStyle={{ justifyContent: "space-between" }}
-          numColumns={3}
+          numColumns={2}
           style={styles.list}
           data={props.venues}
           renderItem={renderItem}
@@ -63,40 +83,6 @@ const VenueList = (props) => {
         </View>
       )}
     </View>
-
-    // <ScrollView
-    //   contentContainerStyle={styles.list}
-    //   showsVerticalScrollIndicator={false}
-    // >
-    //  <View style={styles.rowContainer}>
-    //   <TouchableOpacity style={styles.individualContainer}>
-    //     <ImageBackground
-    //       source={image}
-    //       style={styles.imageContainer}
-    //       imageStyle={{ borderRadius: 10 }}
-    //     >
-    //       <View style={styles.textContainer}>
-    //         <Text style={styles.bigText}>Gentle Bens</Text>
-    //         <Text style={styles.smallText}>Resturant</Text>
-    //       </View>
-    //     </ImageBackground>
-    //   </TouchableOpacity>
-    //   <TouchableOpacity style={styles.individualContainer}
-    //       onPress={()=>{props.props.navigation.navigate("SearchArtistProfile")}}
-    //   >
-    //     <ImageBackground
-    //       source={image}
-    //       style={styles.imageContainer}
-    //       imageStyle={{ borderRadius: 10 }}
-    //     >
-    //       <View style={styles.textContainer}>
-    //         <Text style={styles.bigText}>No Anchovies</Text>
-    //         <Text style={styles.smallText}>Resturant</Text>
-    //       </View>
-    //     </ImageBackground>
-    //   </TouchableOpacity>
-    // </View>
-    // </ScrollView>*/}
   );
 };
 
@@ -133,8 +119,8 @@ const styles = StyleSheet.create({
   list: {
     marginHorizontal: "8%",
     marginTop: 10,
-    height: "100%",
-    flexDirection: "column",
+    
+    // height: "100%",
   },
   individualContainer: {
     // flex:1,
