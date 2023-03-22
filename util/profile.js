@@ -83,7 +83,7 @@ export async function getProfilePic(localId) {
       return url;
     })
     .catch((error) => {
-      console.log(error);
+      console.log("profile pic not found");
     });
 }
 

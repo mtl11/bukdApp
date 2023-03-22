@@ -36,7 +36,6 @@ const SearchScreen = (props) => {
 
   async function getPerformers(location) {
     const venues = await getPerformersList(location);
-    console.log(venues);
     if (venues != null) {
       setPerformers(Object.values(venues));
     } else {

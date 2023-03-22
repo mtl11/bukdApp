@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,12 +14,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getProfilePic } from "../util/profile";
 
 const VenueList = (props) => {
+  // const [image, setImage] = useState();
   const renderItem = ({ item }) => {
-    let image = "https://firebasestorage.googleapis.com/v0/b/bukd-app.appspot.com/o/VSQdC6fc1QWp4OqrjuD4lOn5lFi2-profile-pic?alt=media&token=044ae5fe-d19d-47c6-8b86-5b14044b697d";
-    async function getPPic(uuid) {
-      const pp = await getProfilePic(uuid);
-      image = pp;
-      return pp;
+    // let image;
+     async function getPPic(uuid) {
+      // setImage(await getProfilePic(uuid));
+      // image = pp;
+      // console.log(image);
     }
     if (item != null) {
       if (
@@ -27,10 +28,7 @@ const VenueList = (props) => {
         props.category == null ||
         props.category == "All Categories"
       ) {
-        getPPic(item.uuid).then((x) => {
-          let image = x;
-        });
-        console.log(image);
+        getPPic(item.uuid);
         return (
           <TouchableOpacity
             style={styles.individualContainer}
@@ -40,8 +38,8 @@ const VenueList = (props) => {
             }}
           >
             <ImageBackground
-              source={{ uri: image }}
-              // source={{uri: "https://firebasestorage.googleapis.com/v0/b/bukd-app.appspot.com/o/VSQdC6fc1QWp4OqrjuD4lOn5lFi2-profile-pic?alt=media&token=044ae5fe-d19d-47c6-8b86-5b14044b697d"}}
+              // source={{ uri: image }}
+              source={{uri: "https://firebasestorage.googleapis.com/v0/b/bukd-app.appspot.com/o/VSQdC6fc1QWp4OqrjuD4lOn5lFi2-profile-pic?alt=media&token=044ae5fe-d19d-47c6-8b86-5b14044b697d"}}
               style={styles.imageContainer}
               imageStyle={{ borderRadius: 10 }}
             >
@@ -55,6 +53,7 @@ const VenueList = (props) => {
       }
     }
   };
+      
   return (
     <View>
       {props.venues ? (
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
   list: {
     marginHorizontal: "8%",
     marginTop: 10,
-    
+
     // height: "100%",
   },
   individualContainer: {
