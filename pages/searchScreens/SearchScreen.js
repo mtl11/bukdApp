@@ -35,13 +35,26 @@ const SearchScreen = (props) => {
   }
 
   async function getPerformers(location) {
+    console.log(location);
     const venues = await getPerformersList(location);
+    console.log(venues);
     if (venues != null) {
       setPerformers(Object.values(venues));
     } else {
       setPerformers(venues);
     }
+    
   }
+
+  // async function changePerformers(category){
+  //   // console.log(performers);
+  //   for (const x in performers){
+  //     // console.log(performers[x].category);
+  //     if (performers[x].category != category){
+  //     }
+  //   }
+    
+  // }
 
   async function profileType() {
     const localId = await AsyncStorage.getItem("localId");
@@ -86,7 +99,7 @@ const SearchScreen = (props) => {
                 placeholder={"Select Category"}
                 data={profileCategoriesArtist}
                 icon={"musical-notes-outline"}
-                blur={() => {}}
+                blur={()=>{}}
               />
             ) : (
               <SearchDropDown
@@ -99,13 +112,9 @@ const SearchScreen = (props) => {
             )}
           </View>
           {pt == "venue" ? (
-            <View>
               <VenueList venues={performers} category={category} props={props}/>
-            </View>
           ) : (
-            <View>
               <VenueList venues={venues} category={category} props={props}/>
-            </View>
           )}
         </View>
       ) : (
@@ -144,6 +153,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: global.color.primaryColors.background,
+    // // flex:1
     height: "100%",
   },
   dropdown: {

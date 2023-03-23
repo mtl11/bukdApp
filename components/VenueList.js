@@ -4,67 +4,59 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
   ImageBackground,
   FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import global from "../styles/global";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getProfilePic } from "../util/profile";
 
 const VenueList = (props) => {
-  // const [image, setImage] = useState();
+  // const [data, setData] = useState({});
+  console.log(props.venues)
   const renderItem = ({ item }) => {
-    // let image;
-     async function getPPic(uuid) {
-      // setImage(await getProfilePic(uuid));
-      // image = pp;
-      // console.log(image);
-    }
-    if (item != null) {
-      if (
-        item.category == props.category ||
-        props.category == null ||
-        props.category == "All Categories"
-      ) {
-        getPPic(item.uuid);
-        return (
-          <TouchableOpacity
-            style={styles.individualContainer}
-            onPress={() => {
-              AsyncStorage.setItem("searchID", item.uuid);
-              props.props.navigation.navigate("SearchArtistProfile");
-            }}
-          >
-            <ImageBackground
-              // source={{ uri: image }}
-              source={{uri: "https://firebasestorage.googleapis.com/v0/b/bukd-app.appspot.com/o/VSQdC6fc1QWp4OqrjuD4lOn5lFi2-profile-pic?alt=media&token=044ae5fe-d19d-47c6-8b86-5b14044b697d"}}
-              style={styles.imageContainer}
-              imageStyle={{ borderRadius: 10 }}
-            >
-              <View style={styles.textContainer}>
-                <Text style={styles.bigText}>{item.name}</Text>
-                <Text style={styles.smallText}>{item.category}</Text>
-              </View>
-            </ImageBackground>
-          </TouchableOpacity>
-        );
-      }
-    }
+    // if (item != null) {
+    //   if (
+    //     item.category == props.category ||
+    //     props.category == null ||
+    //     props.category == "All Categories"
+    //   ) {
+    return (
+      <TouchableOpacity
+        style={styles.individualContainer}
+        onPress={() => {
+          AsyncStorage.setItem("searchID", item.uuid);
+          props.props.navigation.navigate("SearchArtistProfile");
+        }}
+      >
+        <ImageBackground
+          source={{ uri: item.profilePicURL }}
+          style={styles.imageContainer}
+          imageStyle={{ borderRadius: 10 }}
+        >
+          <View style={[styles.textContainer, item.profilePicURL == null && { backgroundColor: "rgba(0,0,0,0)", }]}>
+            <Text style={styles.bigText}>{item.name}</Text>
+            <Text style={styles.smallText}>{item.category}</Text>
+          </View>
+        </ImageBackground>
+      </TouchableOpacity>
+    );
+    //   }
+    // }
   };
-      
+  const getFlatListData = () => {
+    if (props.venues != null) {
+      return (props.venues.filter(venue =>
+        venue.category == props.category
+        || props.category == "All Categories"
+        || props.category == null));
+    }
+  }
+
   return (
-    <View>
-      {props.venues ? (
-        <FlatList
-          columnWrapperStyle={{ justifyContent: "space-between" }}
-          numColumns={2}
-          style={styles.list}
-          data={props.venues}
-          renderItem={renderItem}
-        />
-      ) : (
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      ListEmptyComponent={
         <View style={{ alignItems: "center", marginTop: "40%" }}>
           <Ionicons
             name={"ios-search"}
@@ -80,8 +72,13 @@ const VenueList = (props) => {
             No venues in this location.
           </Text>
         </View>
-      )}
-    </View>
+      }
+      columnWrapperStyle={{ justifyContent: "space-between" }}
+      numColumns={2}
+      style={styles.list}
+      data={getFlatListData()}
+      renderItem={renderItem}
+    />
   );
 };
 
@@ -89,7 +86,7 @@ const styles = StyleSheet.create({
   textContainer: {
     backgroundColor: "rgba(0,0,0,0.6)",
     height: "100%",
-    borderRadius: 12,
+    borderRadius: 10,
     justifyContent: "center",
   },
   bigText: {
@@ -100,33 +97,24 @@ const styles = StyleSheet.create({
     color: "white",
   },
   imageContainer: {
-    flex: 1,
     justifyContent: "center",
     borderRadius: 12,
+    backgroundColor: global.color.primaryColors.adjacent
   },
   smallText: {
     alignSelf: "center",
-    //   padding: 10,
     fontFamily: "Rubik-Regular",
     fontSize: 16,
     color: "white",
   },
-  // rowContainer: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  // },
   list: {
     marginHorizontal: "8%",
     marginTop: 10,
-
-    // height: "100%",
+    marginBottom: 120
   },
   individualContainer: {
-    // flex:1,
     width: 160,
     height: 160,
-    // width: "40%",
-    // height: "100%",
     borderRadius: 12,
     marginBottom: "8%",
   },

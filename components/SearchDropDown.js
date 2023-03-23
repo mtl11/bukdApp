@@ -54,6 +54,7 @@ const SearchDropDown = (props) => {
       containerStyle={styles.dropContainer}
       onChange={(item) => {
         props.setValue(item.label);
+        // console.log(item.label);
         setValue(item.value);
         props.blur(item.label);
       }}

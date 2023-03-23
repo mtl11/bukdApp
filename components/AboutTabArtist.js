@@ -1,11 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
-  SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
-  Image,
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -73,13 +70,7 @@ const AboutTabArtist = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // justifyContent: "space-evenly",
-    // paddingTop: "10%",
-    // paddingHorizontal: "10%",
-    // padding: "10%",
     margin: "10%"
-    // marginBottom: "10%"
-    // marginHorizontal: "10%",
   },
   infoContainerRow: {
     flexDirection: "row",
