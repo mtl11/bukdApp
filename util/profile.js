@@ -70,10 +70,9 @@ export async function setProfilePic(uri, localId) {
   const response = await fetch(uri);
   const blob = await response.blob();
   const fileRef = ref(getStorage(app), localId + "-profile-pic");
-  const result = await uploadBytes(fileRef, blob).then((snapshot) => {
-    console.log('Uploaded a blob or file!');
-  });
+  const result = await uploadBytes(fileRef, blob);
   blob.close();
+  // return result.metadata;
 }
 
 export async function getProfilePic(localId) {
@@ -126,4 +125,28 @@ export async function resetPassword(password, idToken) {
       }
     });
   return response;
+}
+
+export async function setPerformerInList(location, category, name, uuid, profilePicURL){
+  const response = await firebaseUtil.put(
+    "/performers/" +location+"/"+ uuid,
+    {
+      category: category,
+      name: name,
+      uuid:uuid,
+      profilePicURL:profilePicURL
+    }
+  );
+}
+
+export async function setVenueInList(location, category, name, uuid, profilePicURL){
+  const response = await firebaseUtil.put(
+    "/venues/" +location+"/"+ uuid +".json",
+    {
+      category: category,
+      name: name,
+      uuid:uuid,
+      profilePicURL:profilePicURL
+    }
+  );
 }

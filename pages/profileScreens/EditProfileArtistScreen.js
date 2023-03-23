@@ -13,11 +13,14 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
 import {
+  getProfilePic,
   setAboutInfo,
   setAvailabilityInfo,
+  setPerformerInList,
   setProfileName,
   setProfilePic,
   setVenueAboutInfo,
+  setVenueInList,
 } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, profileInfo } from "../../models/profile";
@@ -41,7 +44,7 @@ const EditProfileArtistScreen = (props) => {
       profilename,
       localId
     );
-
+      
     const dow = getDow();
     const time = getTime();
     await setAvailabilityInfo(time, dow, localId);
@@ -69,6 +72,13 @@ const EditProfileArtistScreen = (props) => {
     }
     profileCTX.updateAvailability({ dow: dow, times: time });
     profileCTX.updateProfilePic(image);
+
+    const profilePic = await getProfilePic(localId);
+    if( profileCTX.basicInfo.profileType == "performer") {
+      await setPerformerInList(location, category , profilename, localId, profilePic);
+    } else{
+      await setVenueInList(location, category , profilename, localId, profilePic);
+    } 
   }
 
   const [profilename, setProfilename] = useState(

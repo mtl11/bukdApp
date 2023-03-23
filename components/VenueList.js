@@ -12,15 +12,8 @@ import global from "../styles/global";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const VenueList = (props) => {
-  // const [data, setData] = useState({});
   console.log(props.venues)
   const renderItem = ({ item }) => {
-    // if (item != null) {
-    //   if (
-    //     item.category == props.category ||
-    //     props.category == null ||
-    //     props.category == "All Categories"
-    //   ) {
     return (
       <TouchableOpacity
         style={styles.individualContainer}
