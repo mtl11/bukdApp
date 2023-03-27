@@ -4,19 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { app } from "./firebaseStorage";
 const APIKey = "AIzaSyCttFPH3tkX_cN5XObiFHCc9ZXtc8FJWOM";
 
-// String.prototype.hashCode = function () {
-//   var hash = 0,
-//     i,
-//     chr;
-//   if (this.length === 0) return hash;
-//   for (i = 0; i < this.length; i++) {
-//     chr = this.charCodeAt(i);
-//     hash = (hash << 5) - hash + chr;
-//     hash |= 0; // Convert to 32bit integer
-//   }
-//   return hash;
-// };
-
 export async function createUser(email, password) {
   let sameEmail = false;
   const response = await axios

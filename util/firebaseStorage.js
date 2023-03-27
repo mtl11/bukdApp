@@ -1,4 +1,6 @@
 import { initializeApp } from "firebase/app";
+
+// import { getMessaging } from "firebase/messaging";
 // import { getStorage, ref } from "firebase/storage";
 
 // TODO: Replace the following with your app's Firebase project configuration
@@ -16,6 +18,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// const messaging = getMessaging(app); 
 
 export {app}
 
