@@ -1,36 +1,28 @@
-import React, { useState, useCallback } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, StyleSheet } from "react-native";
 import global from "../../styles/global";
-import { GiftedChat, InputToolbar } from 'react-native-gifted-chat';
 import SearchBar from "../../components/messages/SearchBar";
+import MessagesLists from "../../components/messages/MessagesList";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAllMessages } from "../../util/message";
 const MessageScreen = (props) => {
-  // const [messages, setMessages] = useState([]);
-  // const onSend = useCallback((messages = []) => {
-  //   setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-  // }, [])
+  const [data, setData] = useState({});
+  async function getData(){
+    const messageData = await getAllMessages(await AsyncStorage.getItem("localId"));
+    if (messageData != null) {
+      setData(Object.values(messageData));
+    } else {
+      setData(messageData);
+    }
+  }
 
-  // const customtInputToolbar = props => {
-  //   return (
-  //     <InputToolbar
-  //       {...props}
-  //       containerStyle={{
-  //         backgroundColor: global.color.primaryColors.adjacent,
-  //       }}
-  //     />
-  //   );
-  // };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <SearchBar/>
-      {/* <GiftedChat
-        renderInputToolbar={props => customtInputToolbar(props)}
-        textInputStyle={styles.input}
-        messages={messages}
-        onSend={messages => onSend(messages)}
-        user={{
-          _id: 1,
-        }}
-      /> */}
+      <SearchBar />
+      <MessagesLists data={data} />
     </SafeAreaView>
   );
 };

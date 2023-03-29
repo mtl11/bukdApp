@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, StyleSheet } from "react-native";
-import { MaterialIcons, Ionicons } from "@expo/vector-icons";
-import MessageList from "../../components/MessageList";
+import { View, Text, StyleSheet } from "react-native";
 import global from "../../styles/global";
-import { Dropdown } from "react-native-element-dropdown";
 import { SearchBar } from 'react-native-elements';
 const SearchBarMessages = (props) => {
     const [value, setValue] = useState(null);

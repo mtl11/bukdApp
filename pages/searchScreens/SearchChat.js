@@ -13,9 +13,9 @@ import { GiftedChat, Send, InputToolbar } from "react-native-gifted-chat";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { sendMessage, checkIfChatExists, createNewChatRoom, getMessages } from "../../util/chat";
-import profileContext from "../../store/profileContext";
+import {ProfileContext} from "../../store/profileContext";
 const SearchChat = (props) => {
-    const profileCTX = useContext(profileContext);
+    const profileCTX = useContext(ProfileContext);
     const [chatRoomID, setChatRoomID] = useState();
     const [senderID, setSenderID] = useState();
     const [recieverID, setRecieverID] = useState();
@@ -63,25 +63,26 @@ const SearchChat = (props) => {
             </Send>
         )
     }
-    function renderMessages(messages){
+    function renderMessages(messages) {
         const msgs = [];
-        for (const x in messages){
+        for (const x in messages) {
             msgs.push(
                 messages[x].message
             );
         }
         return msgs.reverse();
     }
-    
+
     async function getIDs() {
         setSenderID(await AsyncStorage.getItem("localId"));
         setRecieverID(await AsyncStorage.getItem("searchID"));
     }
 
     async function checkChat() {
-        const response = await checkIfChatExists(await AsyncStorage.getItem("localId"), await AsyncStorage.getItem("searchID"));
+        const response = await checkIfChatExists(await AsyncStorage.getItem("localId"),
+            await AsyncStorage.getItem("searchID"));
         if (response == null) {
-            const newChat = await createNewChatRoom(await AsyncStorage.getItem("localId"),  await AsyncStorage.getItem("searchID"));
+            const newChat = await createNewChatRoom(await AsyncStorage.getItem("localId"), await AsyncStorage.getItem("searchID"), profileCTX.basicInfo.profileName, props.route.params.displayName);
             setChatRoomID(newChat);
         }
         if (response != null) {
@@ -97,7 +98,7 @@ const SearchChat = (props) => {
     useEffect(() => {
         getIDs();
         checkChat();
-    },[])
+    }, [])
     return (
         <SafeAreaView style={styles.container}>
             <View style={{

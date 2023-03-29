@@ -34,8 +34,6 @@ const VenueList = (props) => {
         </ImageBackground>
       </TouchableOpacity>
     );
-    //   }
-    // }
   };
   const getFlatListData = () => {
     if (props.venues != null) {

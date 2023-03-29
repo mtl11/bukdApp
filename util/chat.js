@@ -24,7 +24,7 @@ export async function checkIfChatExists(senderID, recieverID) {
     return response.data;
 }
 
-export async function createNewChatRoom(senderID, recieverID) {
+export async function createNewChatRoom(senderID, recieverID, senderName, recieverName) {
     console.log("Sender: "+senderID);
     console.log("Reciever: "+recieverID);
     const response = await firebaseUtil.post("/chatrooms/.json", {
@@ -33,11 +33,14 @@ export async function createNewChatRoom(senderID, recieverID) {
         messages: {}
     })
     const putInSenderResponse = await firebaseUtil.put("/users/" + senderID + "/chatrooms/" + recieverID + "/.json", {
-        chatRoomID: response.data.name
+        chatRoomID: response.data.name,
+        recieverName: recieverName
+
     });
 
     const putInRecieverResponse = await firebaseUtil.put("/users/" + recieverID + "/chatrooms/" + senderID + "/.json", {
-        chatRoomID: response.data.name
+        chatRoomID: response.data.name,
+        recieverName: senderName
     });
 
     return response.data.name;
