@@ -28,10 +28,11 @@ const ProfileScreen = (props) => {
   const [availability, setAvailability] = useState({});
   const [profileURI, setProfileURI] = useState({});
   const [socials, setSocials] = useState({});
-
+  const [searchID, setSearchID] = useState({});
   async function getProfile() {
     setGettingInfo(true);
     const searchID = await AsyncStorage.getItem("searchID");
+    setSearchID(searchID);
     const basicInfo = await getProfileInfo(searchID);
     const otherInfo = await getProfileStart(searchID);
 
@@ -110,7 +111,7 @@ const ProfileScreen = (props) => {
               marginVertical: "5%",
               backgroundColor: global.color.primaryColors.main,
             }}
-            onPress={() => {}}
+            onPress={() => {props.navigation.navigate("SearchChat",{displayName: basicInfo.profileName,searchID:searchID})}}
           >
             <View style={{ alignSelf: "center", padding: 10 }}>
               <Text

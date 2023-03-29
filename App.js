@@ -14,8 +14,8 @@ import SearchArtistProfile from "./pages/searchScreens/SearchArtistProfile";
 import AuthContextProvider, { AuthContext } from "./store/authContext";
 import { useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SplashScreen from "expo-splash-screen";
 import ProfileContextProvider from "./store/profileContext";
+import SearchChat from "./pages/searchScreens/SearchChat";
 
 const Stack = createNativeStackNavigator();
 // SplashScreen.preventAutoHideAsync();
@@ -52,6 +52,11 @@ function AuthenticatedStack() {
         <Stack.Screen
           name="SearchArtistProfile"
           component={SearchArtistProfile}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="SearchChat"
+          component={SearchChat}
           options={{ headerShown: false }}
         />
         <Stack.Screen
