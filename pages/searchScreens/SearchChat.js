@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 import {
     View,
     Text,
@@ -13,21 +13,22 @@ import { GiftedChat, Send, InputToolbar } from "react-native-gifted-chat";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { sendMessage, checkIfChatExists, createNewChatRoom, getMessages } from "../../util/chat";
-
+import profileContext from "../../store/profileContext";
 const SearchChat = (props) => {
+    const profileCTX = useContext(profileContext);
     const [chatRoomID, setChatRoomID] = useState();
     const [senderID, setSenderID] = useState();
     const [recieverID, setRecieverID] = useState();
     const [messages, setMessages] = useState([]);
     async function send(message) {
-        await sendMessage(chatRoomID, message);
+        console.log(chatRoomID);
+        await sendMessage(chatRoomID, message, senderID);
     }
     const onSend = useCallback((messages = []) => {
         const { _id, createdAt, text, user, } = messages[0];
-        console.log(messages[0]);
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
         send(messages[0]);
-    }, [])
+    }, [chatRoomID, senderID])
 
     const customtInputToolbar = props => {
         return (
@@ -68,7 +69,6 @@ const SearchChat = (props) => {
             msgs.push(
                 messages[x].message
             );
-            console.log(messages[x]);
         }
         return msgs.reverse();
     }
@@ -77,24 +77,26 @@ const SearchChat = (props) => {
         setSenderID(await AsyncStorage.getItem("localId"));
         setRecieverID(await AsyncStorage.getItem("searchID"));
     }
+
     async function checkChat() {
-        const response = await checkIfChatExists(senderID, await AsyncStorage.getItem("searchID"));
+        const response = await checkIfChatExists(await AsyncStorage.getItem("localId"), await AsyncStorage.getItem("searchID"));
         if (response == null) {
-            const newChat = await createNewChatRoom(senderID, recieverID);
+            const newChat = await createNewChatRoom(await AsyncStorage.getItem("localId"),  await AsyncStorage.getItem("searchID"));
             setChatRoomID(newChat);
         }
         if (response != null) {
             setChatRoomID(response.chatRoomID);
+            getPreviousMessages(response.chatRoomID);
         }
     }
-    async function getPreviousMessages() {
+    async function getPreviousMessages(chatRoomID) {
+        console.log(chatRoomID);
         const response = await getMessages(chatRoomID);
         setMessages(renderMessages(response));
     }
     useEffect(() => {
         getIDs();
         checkChat();
-        getPreviousMessages();
     },[])
     return (
         <SafeAreaView style={styles.container}>
@@ -123,13 +125,13 @@ const SearchChat = (props) => {
                 </View>
             </View>
             <GiftedChat
-                renderSend={props => renderSend(props)}
+                renderSend={props => renderSend(props, chatRoomID, senderID)}
                 renderInputToolbar={props => customtInputToolbar(props)}
                 textInputStyle={styles.input}
                 messages={messages}
                 onSend={messages => onSend(messages)}
                 user={{
-                    _id: 1,
+                    _id: senderID,
                 }}
             />
         </SafeAreaView>

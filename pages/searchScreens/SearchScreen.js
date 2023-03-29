@@ -31,19 +31,23 @@ const SearchScreen = (props) => {
 
   async function getVenues(location) {
     const venues = await getVenueList(location);
-    setVenues(venues);
+    console.log(venues);
+    // setVenues(venues);
+    if (venues != null) {
+      setVenues(Object.values(venues));
+    } else {
+      setVenues(venues);
+    }
   }
 
   async function getPerformers(location) {
-    console.log(location);
-    const venues = await getPerformersList(location);
-    console.log(venues);
-    if (venues != null) {
-      setPerformers(Object.values(venues));
+    const performers = await getPerformersList(location);
+    console.log(performers);
+    if (performers != null) {
+      setPerformers(Object.values(performers));
     } else {
-      setPerformers(venues);
+      setPerformers(performers);
     }
-    
   }
 
   // async function changePerformers(category){
