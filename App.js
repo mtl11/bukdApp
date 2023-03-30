@@ -15,6 +15,7 @@ import AuthContextProvider, { AuthContext } from "./store/authContext";
 import { useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProfileContextProvider from "./store/profileContext";
+import MessageChat from "./pages/messageScreens/MessageChat";
 import SearchChat from "./pages/searchScreens/SearchChat";
 
 const Stack = createNativeStackNavigator();
@@ -52,6 +53,11 @@ function AuthenticatedStack() {
         <Stack.Screen
           name="SearchArtistProfile"
           component={SearchArtistProfile}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MessageChat"
+          component={MessageChat}
           options={{ headerShown: false }}
         />
          <Stack.Screen

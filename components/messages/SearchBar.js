@@ -16,6 +16,7 @@ const SearchBarMessages = (props) => {
                 value={props.searchValue}
                 showCancel={true}
                 round="false"
+                placeholder="Search"
             />
         </View>
     )

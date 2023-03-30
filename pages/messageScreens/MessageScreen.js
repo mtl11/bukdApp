@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet,RefreshControl } from "react-native";
 import global from "../../styles/global";
 import SearchBar from "../../components/messages/SearchBar";
 import MessagesLists from "../../components/messages/MessagesList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getAllMessages } from "../../util/message";
 const MessageScreen = (props) => {
+  
   const [data, setData] = useState({});
   const [searchValue, setSearchValue] = useState("");
   async function getData(){
@@ -23,8 +24,10 @@ const MessageScreen = (props) => {
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <SearchBar setSearchValue={setSearchValue} searchValue={searchValue}/>
-      <MessagesLists data={data} searchValue={searchValue}/>
+      <SearchBar setSearchValue={setSearchValue} searchValue={searchValue} />
+     
+      <MessagesLists data={data} searchValue={searchValue} props={props} refreshData={getData}/>
+
     </SafeAreaView>
   );
 };

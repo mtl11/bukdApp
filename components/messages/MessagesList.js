@@ -1,18 +1,27 @@
 import React from "react";
-import { View, StyleSheet, FlatList, Text, TouchableHighlight } from "react-native";
+import { View, StyleSheet, FlatList, Text, TouchableHighlight, RefreshControl } from "react-native";
 import global from "../../styles/global";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const MessagesLists = (props) => {
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        props.refreshData();
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    }, []);
     console.log(props.data)
     const renderItem = (chatroom) => {
-        // console.log(chatroom.item);
+        // console.log(chatroom.item.chatRoomID);
         return (
             <TouchableHighlight
-                id={chatroom.item.chatroomId}
+                id={chatroom.item.chatroomID}
                 activeOpacity={0.2}
                 underlayColor={global.color.primaryColors.background}
-                onPress={() => { }}
+                onPress={() => { props.props.navigation.navigate("MessageChat", { chatID: chatroom.item.chatRoomID, displayName: chatroom.item.recieverName }) }}
             >
                 <View style={styles.messageContainer}>
                     <View style={styles.imageContainer}>
@@ -38,7 +47,12 @@ const MessagesLists = (props) => {
     }
 
     return (
-        <FlatList data={getData()} renderItem={renderItem} />
+        <FlatList data={getData()} renderItem={renderItem}
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing} onRefresh={onRefresh}
+                    tintColor={global.color.primaryColors.main} />
+            } />
     )
 }
 
