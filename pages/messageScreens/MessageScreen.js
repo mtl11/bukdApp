@@ -7,8 +7,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getAllMessages } from "../../util/message";
 const MessageScreen = (props) => {
   const [data, setData] = useState({});
+  const [searchValue, setSearchValue] = useState("");
   async function getData(){
     const messageData = await getAllMessages(await AsyncStorage.getItem("localId"));
+    // console.log(messageData);
     if (messageData != null) {
       setData(Object.values(messageData));
     } else {
@@ -21,8 +23,8 @@ const MessageScreen = (props) => {
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <SearchBar />
-      <MessagesLists data={data} />
+      <SearchBar setSearchValue={setSearchValue} searchValue={searchValue}/>
+      <MessagesLists data={data} searchValue={searchValue}/>
     </SafeAreaView>
   );
 };

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import global from "../../styles/global";
 import { SearchBar } from 'react-native-elements';
 const SearchBarMessages = (props) => {
-    const [value, setValue] = useState(null);
+   
     return (
         <View style={styles.headerContainer}>
             <Text style={styles.headerText}>All Messages</Text>
@@ -12,8 +12,8 @@ const SearchBarMessages = (props) => {
                 containerStyle={{ backgroundColor: global.color.primaryColors.background }}
                 inputContainerStyle={{ backgroundColor: global.color.primaryColors.adjacent }}
                 inputStyle={{ fontSize: 16, color: global.color.primaryColors.text, fontFamily: "Rubik-Regular" }}
-                onChangeText={setValue}
-                value={value}
+                onChangeText={props.setSearchValue}
+                value={props.searchValue}
                 showCancel={true}
                 round="false"
             />

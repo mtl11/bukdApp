@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const MessagesLists = (props) => {
     console.log(props.data)
     const renderItem = (chatroom) => {
-        console.log(chatroom.item);
+        // console.log(chatroom.item);
         return (
             <TouchableHighlight
                 id={chatroom.item.chatroomId}
@@ -25,8 +25,20 @@ const MessagesLists = (props) => {
             </TouchableHighlight>
         );
     }
+    const getData = () => {
+        if (props.data != {}) {
+            if (Array.isArray(props.data)) {
+                const data = props.data.filter(word => word.recieverName.includes(props.searchValue))
+                return data;
+            }
+        } else {
+            return [];
+        }
+
+    }
+
     return (
-        <FlatList data={props.data} renderItem={renderItem} />
+        <FlatList data={getData()} renderItem={renderItem} />
     )
 }
 
