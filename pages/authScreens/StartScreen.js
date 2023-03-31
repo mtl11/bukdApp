@@ -11,7 +11,7 @@ import {
 import styles from "../../styles/auth/startScreen";
 import global from "../../styles/global";
 import { authenticateUser } from "../../util/auth";
-import {AuthContext} from "../../store/authContext";
+import { AuthContext } from "../../store/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const StartScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -24,14 +24,12 @@ const StartScreen = (props) => {
   async function authenticateHandler() {
     try {
       const token = await authenticateUser(email, password);
-      
       setPasswordDontMatch(false);
       authCTX.authenticate(token);
-      AsyncStorage.setItem("email",email);
+      AsyncStorage.setItem("email", email);
     } catch (error) {
       setPasswordDontMatch(true);
       setIsAuth(false);
-      console.log(error);
     }
   }
 
@@ -86,25 +84,25 @@ const StartScreen = (props) => {
       {passwordDontMatch ? (
         <View style={{ alignSelf: "center" }}>
           <Text style={{ color: global.color.primaryColors.errorText, fontFamily: "Rubik-Regular" }}>
-            The email and password you entered do not match.
+            Entered email and password do not match our records.
           </Text>
         </View>
       ) : (
         <View></View>
       )}
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => {
-            setIsAuth(true);
-            authenticateHandler();
-          }}
-        >
-          {!isAuth ? (
-            <Text style={styles.buttonText}>Login</Text>
-          ) : (
-            <ActivityIndicator size={22} />
-          )}
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => {
+          setIsAuth(true);
+          authenticateHandler();
+        }}
+      >
+        {!isAuth ? (
+          <Text style={styles.buttonText}>Login</Text>
+        ) : (
+          <ActivityIndicator size={22} />
+        )}
+      </TouchableOpacity>
       <View style={styles.newAccountContainer}>
         <Text style={styles.newAccountText}>Don't have an account?</Text>
         <TouchableOpacity
