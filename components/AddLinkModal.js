@@ -62,7 +62,7 @@ const AddLinkModal = (props) => {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            autoCapitalize={false}
+            autoCapitalize={"none"}
             keyboardType="email-address"
             placeholder="Username"
             placeholderTextColor={

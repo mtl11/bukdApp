@@ -56,7 +56,7 @@ const StartScreen = (props) => {
       </View>
       <View style={styles.inputContainer}>
         <TextInput
-          autoCapitalize={false}
+          autoCapitalize={"none"}
           style={styles.input}
           placeholder="Email"
           placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
