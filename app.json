@@ -27,7 +27,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber":"6",
+      "buildNumber": "7",
       "supportsTablet": true,
       "bundleIdentifier": "com.bukdapp.bukd"
     },
@@ -38,7 +38,8 @@
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.bukdapp.bukd"
     },
     "web": {
       "favicon": "./assets/favicon.png"
