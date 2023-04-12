@@ -194,7 +194,7 @@ const EditProfileArtistScreen = (props) => {
           flexDirection: "row",
           marginHorizontal: "8%",
           alignItems: "center",
-          marginTop: 10,
+          // marginTop: 10,
         }}
       >
         <TouchableOpacity
@@ -264,6 +264,8 @@ const EditProfileArtistScreen = (props) => {
             value={profilename}
             onChangeText={setProfilename}
             maxLength={24}
+            returnKeyType="done"
+            // contextMenuHidden={true}
           />
         </View>
         <TouchableOpacity

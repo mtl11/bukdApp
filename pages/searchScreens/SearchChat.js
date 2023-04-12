@@ -22,8 +22,15 @@ const SearchChat = (props) => {
     const [messages, setMessages] = useState([]);
     async function send(message) {
         console.log(chatRoomID);
-        await sendMessage(chatRoomID, message, senderID);
+        if (chatRoomID == null){
+            const newChat = await createNewChatRoom(await AsyncStorage.getItem("localId"), await AsyncStorage.getItem("searchID"), profileCTX.basicInfo.profileName, props.route.params.displayName);
+            setChatRoomID(newChat);
+            await sendMessage(newChat, message, senderID);
+        }else{
+            await sendMessage(chatRoomID, message, senderID);
+        }
     }
+
     const onSend = useCallback((messages = []) => {
         const { _id, createdAt, text, user, } = messages[0];
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
@@ -82,8 +89,8 @@ const SearchChat = (props) => {
         const response = await checkIfChatExists(await AsyncStorage.getItem("localId"),
             await AsyncStorage.getItem("searchID"));
         if (response == null) {
-            const newChat = await createNewChatRoom(await AsyncStorage.getItem("localId"), await AsyncStorage.getItem("searchID"), profileCTX.basicInfo.profileName, props.route.params.displayName);
-            setChatRoomID(newChat);
+            
+            setChatRoomID(null);
         }
         if (response != null) {
             setChatRoomID(response.chatRoomID);

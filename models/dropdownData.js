@@ -1,8 +1,8 @@
 export const profileCategoriesArtist = [
   { label: "All Categories", value: "0" },
-  { label: "DJ", value: "1" },
-  { label: "Singer", value: "2" },
-  { label: "Band", value: "3" },
+  { label: "Band", value: "1" },
+  { label: "DJ", value: "2" },
+  { label: "Singer", value: "3" },
   { label: "Vocalist", value: "4" },
 ];
 
@@ -15,22 +15,21 @@ export const profileCategoriesVenue = [
 
 export const locations = [
   { label: "Tuscon, AZ", value: "1" },
-  { label: "Los Angeles, CA", value: "2" },
-  { label: "Miami, FL", value: "3" },
-  { label: "Denver, CO", value: "4" },
-  { label: "Las Vegas, NV", value: "5" },
+  { label: "Denver, CO", value: "2" },
+  { label: "Las Vegas, NV", value: "3" },
+  { label: "Los Angeles, CA", value: "4" },
+  { label: "Miami, FL", value: "5" },
   { label: "San Francsico, CA", value: "6" },
   { label: "Seattle, WA", value: "7" },
 ];
 
 export const subCategories = [
-  { label: "House", value: "1" },
-  { label: "Techno", value: "2" },
+  { label: "Alternative", value: "1" },
+  { label: "Alt Rock", value: "2" },
   { label: "Dubstep", value: "3" },
-  { label: "Rock", value: "4" },
-  { label: "Alternative", value: "5" },
-  { label: "EDM", value: "6" },
-  { label: "Indie", value: "7" },
-  { label: "Dubstep", value: "8" },
-  { label: "Alt Rock", value: "9" }
+  { label: "EDM", value: "4" },
+  { label: "House", value: "5" },
+  { label: "Indie", value: "6" },
+  { label: "Rock", value: "7" },
+  { label: "Techno", value: "8" },
 ];
