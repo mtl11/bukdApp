@@ -18,6 +18,13 @@ import ProfileContextProvider from "./store/profileContext";
 import MessageChat from "./pages/messageScreens/MessageChat";
 import SearchChat from "./pages/searchScreens/SearchChat";
 
+// import * as Sentry from '@sentry/react-native';
+
+// Sentry.init({ 
+//   dsn: 'https://f187626522c448e6b8fab71fc44ad9d7@o4504968974958592.ingest.sentry.io/4504968976269312', 
+// });
+
+
 const Stack = createNativeStackNavigator();
 // SplashScreen.preventAutoHideAsync();
 
@@ -154,3 +161,5 @@ export default function App() {
     </AuthContextProvider>
   );
 }
+
+// export default Sentry.wrap(App);
