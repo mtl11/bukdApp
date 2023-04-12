@@ -22,7 +22,7 @@ const ConfirmPasswordReset = (props) => {
   const [error, setError] = useState(false);
 
   async function checkPassword() {
-    const idToken = await AsyncStorage.getItem("token");
+    const idToken = await AsyncStorage.getItem("changePasswordToken");
     if (newPass == "" || confirmPass == "") {
       setError(true);
     } else if (!(newPass === confirmPass)) {
@@ -37,7 +37,7 @@ const ConfirmPasswordReset = (props) => {
             onPress: () => {},
             style: "destructive",
           },
-          { text: "Reset", onPress: () => { reset(confirmPass, idToken) }}
+          { text: "Reset", onPress: () => { reset(confirmPass, idToken) , props.navigation.navigate("ProfileSettingsScreen")}}
         ]
       );
       setError(false);

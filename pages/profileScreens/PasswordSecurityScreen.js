@@ -24,46 +24,17 @@ const PasswordSecurityScreen = (props) => {
 
   async function checkPassword() {
     const email = await AsyncStorage.getItem("email");
-    const response = await authenticateUser(JSON.parse(email), currPass);
-    AsyncStorage.setItem("token",response);
+    console.log(email);
+    const response = await authenticateUser(email, currPass);
+    console.log(response);
+    AsyncStorage.setItem("changePasswordToken",response);
     if (response == ""){
       setError(true);
     }else{
       props.navigation.navigate("ConfirmPasswordReset");
     };
-    // const idToken = await AsyncStorage.getItem("token");
-    // // const IDtoken = await getID(idToken);
-    // // console.log(IDtoken);
-    // // console.log(idToken);
-    // if (currPass == "" || confirmPass == "") {
-    //   setError(true);
-    // } else if (!(currPass === confirmPass)) {
-    //   setError(true);
-    // } else {
-    //   Alert.alert(
-    //     "Are you sure you want to change your password?",
-    //     "This can not be undone.",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => {},
-    //         style: "destructive",
-    //       },
-    //       { text: "Reset", onPress: () => { reset(confirmPass, idToken) }}
-    //     ]
-    //   );
-
-    //   setError(false);
-    // }
   }
 
-  // async function reset(password, token){
-  //   // const IDtoken = await getID(token);
-  //   // console.log(IDtoken);
-  //   const email = await AsyncStorage.getItem("email");
-  //   const response = await authenticateUser(email, password); 
-  //   // await resetPassword(password, token);
-  // }
   return (
     <SafeAreaView
       style={{
