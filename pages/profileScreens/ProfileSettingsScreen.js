@@ -56,12 +56,12 @@ const ProfileSettingsScreen = (props) => {
           <Text style={styles.largeText}>Settings</Text>
         </View>
       </View>
-      <View style={styles.mainTextContainer}>
+      {/* <View style={styles.mainTextContainer}>
         <Text style={styles.headerText}>Hello, User.</Text>
         <Text style={styles.smallerText}>
           Manage your Account and Settings here.
         </Text>
-      </View>
+      </View> */}
       <View style={styles.sectionHeaderContainer}>
         <FontAwesome5
           name="user"
@@ -98,40 +98,6 @@ const ProfileSettingsScreen = (props) => {
           />
         </View>
       </TouchableOpacity>
-      {/* <View style={styles.sectionHeaderContainer}>
-        <FontAwesome5
-          name="bell"
-          size={22}
-          color={colors.color.primaryColors.main}
-        />
-        <Text style={styles.sectionHeaderText}>Notifications</Text>
-      </View> */}
-      {/* <View style={styles.labelContainer}>
-        <Text style={styles.labelText}>New show requests</Text>
-        <Switch
-          trackColor={{
-            false: "#757575",
-            true: colors.color.primaryColors.main,
-          }}
-          thumbColor={newShowRequests ? "white" : "white"}
-          ios_backgroundColor={colors.color.primaryColors.adjacent}
-          onValueChange={newShowToggle}
-          value={newShowRequests}
-        />
-      </View> */}
-      {/* <View style={styles.labelContainer}>
-        <Text style={styles.labelText}>New messages</Text>
-        <Switch
-          trackColor={{
-            false: colors.color.primaryColors.text,
-            true: colors.color.primaryColors.main,
-          }}
-          thumbColor={newMessages ? "white" : "white"}
-          ios_backgroundColor={colors.color.primaryColors.adjacent}
-          onValueChange={newMessageToggle}
-          value={newMessages}
-        />
-      </View> */}
       <TouchableOpacity style={styles.signOutContainer} onPress={signOutAlert}>
         <View style={{ marginHorizontal: 7.5 }}>
           <Text style={styles.signOutText}>Sign Out</Text>

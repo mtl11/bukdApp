@@ -1,5 +1,4 @@
-import { useLinkProps } from "@react-navigation/native";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Modal,
   View,
@@ -10,41 +9,39 @@ import {
   TextInput,
   ActivityIndicator,
 } from "react-native";
-import colors from "../styles/global";
-import { SocialLinks, TYPE_MOBILE } from "social-links";
+import colors from "../../styles/global";
+import { SocialLinks } from "social-links";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { setSocial } from "../util/profile";
-import { ProfileContext } from "../store/profileContext.js";
+import { setSocial } from "../../util/profile";
+import { ProfileContext } from "../../store/profileContext.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const AddLinkModal = (props) => {
+const SocialModalScreen = (props) => {
+  // console.log(props.route.params);
   const profileCTX = useContext(ProfileContext);
   const [isAuth, setIsAuth] = useState(false);
   const socialLinks = new SocialLinks();
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(props.route.params.username);
   const [valid, setValid] = useState(false);
+
   async function updateSocial() {
     const localId = await AsyncStorage.getItem("localId");
     setIsAuth(true);
-    const header = props.profileType;
-    const usernameURL = props.url + username;
+    const header = props.route.params.profileType;
+    const usernameURL = props.route.params.url + username;
     const newSocial = profileCTX.social;
-    const type = props.profileType;
-    newSocial[type] = { url: usernameURL };
-    // console.log(newSocial);
+    const type = props.route.params.profileType;
+    newSocial[type] = { url: usernameURL, username: username };
     profileCTX.updateSocial(newSocial);
-    await setSocial(header, usernameURL, localId);
+    await setSocial(header, usernameURL, localId, username);
     setIsAuth(false);
-    props.setVisible(false);
-    // console.log(profileCTX.social);
+    props.navigation.pop();
   }
   return (
-    <Modal visible={props.visible}>
       <SafeAreaView style={styles.container}>
         <View style={styles.topIconContainer}>
           <TouchableOpacity
             onPress={() => {
-              setValid(false);
-              props.setVisible(false);
+              props.navigation.pop();
             }}
           >
             <FontAwesome5
@@ -56,7 +53,7 @@ const AddLinkModal = (props) => {
         </View>
         <View style={{ marginVertical: "8%" }}>
           <Text style={styles.text}>
-            Enter username for {props.name} to link on Bukd profile.
+            Enter username for {props.route.params.name} to link on Bukd profile.
           </Text>
         </View>
         <View style={styles.inputContainer}>
@@ -65,10 +62,12 @@ const AddLinkModal = (props) => {
             autoCapitalize={"none"}
             keyboardType="email-address"
             placeholder="Username"
+            maxLength={40}
             placeholderTextColor={
               colors.color.primaryColors.placeHolderTextColor
             }
             onChangeText={setUsername}
+            value={username}
           />
         </View>
         {valid ? (
@@ -88,10 +87,12 @@ const AddLinkModal = (props) => {
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => {
+            console.log("isvalid"+username);
             const val = socialLinks.isValid(
-              props.profileType,
-              props.url + username
+              props.route.params.profileType,
+              props.route.params.url + username
             );
+            console.log(val);
             setValid(!val);
             if (val) {
               updateSocial();
@@ -105,7 +106,6 @@ const AddLinkModal = (props) => {
           )}
         </TouchableOpacity>
       </SafeAreaView>
-    </Modal>
   );
 };
 
@@ -155,4 +155,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-export default AddLinkModal;
+export default SocialModalScreen;

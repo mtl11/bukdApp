@@ -57,11 +57,13 @@ export async function getProfileStart(localId) {
   return response.data;
 }
 
-export async function setSocial(type, url, localId) {
+export async function setSocial(type, url, localId, username) {
+  console.log(username);
   const response = await firebaseUtil.put(
     "/users/" + localId + "/socials/" + type + ".json",
     {
       url: url,
+      username: username
     }
   );
 }

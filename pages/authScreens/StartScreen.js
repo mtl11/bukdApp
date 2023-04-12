@@ -103,7 +103,7 @@ const StartScreen = (props) => {
           <ActivityIndicator size={22} />
         )}
       </TouchableOpacity>
-      <View style={styles.newAccountContainer}>
+      {/* <View style={styles.newAccountContainer}>
         <Text style={styles.newAccountText}>Don't have an account?</Text>
         <TouchableOpacity
           onPress={() => {
@@ -112,7 +112,7 @@ const StartScreen = (props) => {
         >
           <Text style={styles.buttonTextSignUp}> Sign Up</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };

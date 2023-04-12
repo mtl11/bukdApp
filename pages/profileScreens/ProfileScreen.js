@@ -136,7 +136,19 @@ const ProfileScreen = (props) => {
                 {profileCTX.basicInfo.profileName}
               </Text>
             </View>
+            <View style={{ alignItems: "center" }}>
+              <Text
+                style={{
+                  color: global.color.primaryColors.main,
+                  fontFamily: "Rubik-Medium",
+                  fontSize: 18,
+                }}
+              >
+                {profileCTX.basicInfo.profileType.charAt(0).toUpperCase() + profileCTX.basicInfo.profileType.slice(1)}
+              </Text>
+            </View>
           </View>
+
           <TouchableOpacity
             style={{
               alignSelf: "center",
@@ -162,6 +174,7 @@ const ProfileScreen = (props) => {
               </Text>
             </View>
           </TouchableOpacity>
+
           <View
             style={{
               borderBottomWidth: 1,

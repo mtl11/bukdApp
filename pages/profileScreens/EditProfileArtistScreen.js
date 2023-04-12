@@ -24,7 +24,6 @@ import {
 } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, profileInfo } from "../../models/profile";
-import AddLinkModal from "../../components/AddLinkModal";
 import ProfileDropDown from "../../components/ProfileDropDown";
 import {
   locations,
@@ -44,7 +43,7 @@ const EditProfileArtistScreen = (props) => {
       profilename,
       localId
     );
-      
+
     const dow = getDow();
     const time = getTime();
     await setAvailabilityInfo(time, dow, localId);
@@ -74,11 +73,11 @@ const EditProfileArtistScreen = (props) => {
     profileCTX.updateProfilePic(image);
 
     const profilePic = await getProfilePic(localId);
-    if( profileCTX.basicInfo.profileType == "performer") {
-      await setPerformerInList(location, category , profilename, localId, profilePic);
-    } else{
-      await setVenueInList(location, category , profilename, localId, profilePic);
-    } 
+    if (profileCTX.basicInfo.profileType == "performer") {
+      await setPerformerInList(location, category, profilename, localId, profilePic);
+    } else {
+      await setVenueInList(location, category, profilename, localId, profilePic);
+    }
   }
 
   const [profilename, setProfilename] = useState(
@@ -110,6 +109,7 @@ const EditProfileArtistScreen = (props) => {
   const [name, setName] = useState(false);
   const [profileType, setProifleType] = useState(false);
   const [url, setUrl] = useState(false);
+  const [socialUsername, setSocialUsername] = useState(false);
 
   const getDow = () => {
     const dow = {};
@@ -145,26 +145,41 @@ const EditProfileArtistScreen = (props) => {
   };
 
   const locationPlaceholder = () => {
-    if (profileCTX.about.location == ("" || null)) {
+    if (profileCTX.about.location == ("")) {
       return "Location";
     } else {
       return profileCTX.about.location;
     }
   };
   const categoryPlaceholder = () => {
-    if (profileCTX.about.category == ("" || null)) {
+    if (profileCTX.about.category == ("")) {
       return "Category";
     } else {
       return profileCTX.about.category;
     }
   };
   const genrePlaceholder = () => {
-    if (profileCTX.about.genre == ("" || null)) {
+    if (profileCTX.about.genre == ("")) {
       return "Genre";
     } else {
       return profileCTX.about.genre;
     }
   };
+
+  function getSocialUsername(pType) {
+    console.log(profileCTX.social[pType]);
+    if (profileCTX.social[pType] != undefined) {
+      if (profileCTX.social[pType].username != undefined) {
+        console.log(profileCTX.social[pType].username);
+        return profileCTX.social[pType].username;
+      } else {
+        return ""
+      }
+    } else {
+      return ""
+    }
+  }
+
   return (
     <SafeAreaView
       style={{
@@ -248,6 +263,7 @@ const EditProfileArtistScreen = (props) => {
             placeholderTextColor={global.color.primaryColors.main}
             value={profilename}
             onChangeText={setProfilename}
+            maxLength={24}
           />
         </View>
         <TouchableOpacity
@@ -500,10 +516,12 @@ const EditProfileArtistScreen = (props) => {
               <TouchableOpacity
                 style={[styles.inputContainerSocial, { marginTop: 0 }]}
                 onPress={() => {
-                  setName("Soundcloud");
-                  setUrl("https://soundcloud.com/");
-                  setProifleType("soundcloud");
-                  setVisible(true);
+                  const socialName = getSocialUsername("soundcloud");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "Soundcloud", url: "https://soundcloud.com/", profileType: "soundcloud",
+                      username: socialName
+                    })
                 }}
               >
                 <FontAwesome5
@@ -515,10 +533,12 @@ const EditProfileArtistScreen = (props) => {
               <TouchableOpacity
                 style={styles.inputContainerSocial}
                 onPress={() => {
-                  setName("Instagram");
-                  setUrl("https://instagram.com/");
-                  setProifleType("instagram");
-                  setVisible(true);
+                  const socialName = getSocialUsername("instagram");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "Instagram", url: "https://instagram.com/", profileType: "instagram",
+                      username: socialName
+                    })
                 }}
               >
                 <FontAwesome5
@@ -530,10 +550,12 @@ const EditProfileArtistScreen = (props) => {
               <TouchableOpacity
                 style={styles.inputContainerSocial}
                 onPress={() => {
-                  setName("TikTok");
-                  setUrl("https://tiktok.com/@");
-                  setProifleType("tiktok");
-                  setVisible(true);
+                  const socialName = getSocialUsername("tiktok");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "TikTok", url: "https://tiktok.com/@", profileType: "tiktok",
+                      username: socialName
+                    })
                 }}
               >
                 <FontAwesome5
@@ -547,10 +569,12 @@ const EditProfileArtistScreen = (props) => {
               <TouchableOpacity
                 style={styles.inputContainerSocial}
                 onPress={() => {
-                  setName("YouTube");
-                  setUrl("https://youtube.com/@");
-                  setProifleType("youtube");
-                  setVisible(true);
+                  const socialName = getSocialUsername("youtube");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "YouTube", url: "https://youtube.com/@", profileType: "youtube",
+                      username: socialName
+                    })
                 }}
               >
                 <FontAwesome5
@@ -562,10 +586,12 @@ const EditProfileArtistScreen = (props) => {
               <TouchableOpacity
                 style={styles.inputContainerSocial}
                 onPress={() => {
-                  setName("Spotify");
-                  setUrl("https://open.spotify.com/artist/");
-                  setProifleType("spotify");
-                  setVisible(true);
+                  const socialName = getSocialUsername("spotify");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "Spotify", url: "https://open.spotify.com/artist/", profileType: "spotify",
+                      username: socialName
+                    })
                 }}
               >
                 <FontAwesome5
@@ -577,10 +603,12 @@ const EditProfileArtistScreen = (props) => {
               <TouchableOpacity
                 style={styles.inputContainerSocial}
                 onPress={() => {
-                  setName("Twitter");
-                  setUrl("https://twitter.com/");
-                  setProifleType("twitter");
-                  setVisible(true);
+                  const socialName = getSocialUsername("twitter");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "Twitter", url: "https://twitter.com/", profileType: "twitter",
+                      username: socialName
+                    })
                 }}
               >
                 <FontAwesome5
@@ -595,13 +623,6 @@ const EditProfileArtistScreen = (props) => {
           <View></View>
         )}
       </ScrollView>
-      <AddLinkModal
-        visible={visible}
-        setVisible={setVisible}
-        name={name}
-        profileType={profileType}
-        url={url}
-      />
     </SafeAreaView>
   );
 };

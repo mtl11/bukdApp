@@ -10,16 +10,16 @@ const AvailabilityProfileArtist = () => {
   const [dowData, setDowData] = useState();
   const getTime = (time) => {
     if (time == "after") {
-      return "10 PM - 1 AM";
+      return "12 PM - 5 PM";
     }
     if (time == "morn") {
-      return "11 PM - 1 PM";
+      return "8 AM - 12 PM";
     }
     if (time == "evening") {
-      return "6 PM - 5 PM";
+      return "5 PM - 9 PM";
     }
     if (time == "night") {
-      return "1 PM - 9 PM";
+      return "9 PM - 2 AM";
     }
   };
 

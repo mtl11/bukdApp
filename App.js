@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProfileContextProvider from "./store/profileContext";
 import MessageChat from "./pages/messageScreens/MessageChat";
 import SearchChat from "./pages/searchScreens/SearchChat";
-
+import SocialModalScreen from "./pages/profileScreens/SocialModalScreen";
 // import * as Sentry from '@sentry/react-native';
 
 // Sentry.init({ 
@@ -50,6 +50,11 @@ function AuthenticatedStack() {
         <Stack.Screen
           name="PersonalInfoScreen"
           component={PersonalInfoScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SocialModalScreen"
+          component={SocialModalScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

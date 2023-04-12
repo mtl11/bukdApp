@@ -15,9 +15,11 @@ import { getPersonalInfo, setPersonalInfo } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PersonalInfoScreen = (props) => {
+ 
   const profileCTX = useContext(ProfileContext);
   const [firstName, setFirstName] = useState(profileCTX.personalInfo.firstName);
   const [lastName, setLastName] = useState(profileCTX.personalInfo.lastName);
+  console.log(profileCTX.personalInfo);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   async function update() {
@@ -25,11 +27,13 @@ const PersonalInfoScreen = (props) => {
     const localId = await AsyncStorage.getItem("localId");
     if (firstName != (null || "") && lastName != (null|| "")) {
       const response = await setPersonalInfo(firstName, lastName, localId);
+      profileCTX.updatePersonalInfo({firstName: firstName,lastName: lastName});
       setError(false);
     } else {
       setError(true);
     }
     setLoading(false);
+    props.navigation.pop();
   }
   return (
     <SafeAreaView style={styles.container}>
@@ -57,6 +61,7 @@ const PersonalInfoScreen = (props) => {
             placeholderTextColor={colors.color.primaryColors.main}
             onChangeText={setFirstName}
             value={firstName}
+            maxLength={35}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -66,6 +71,7 @@ const PersonalInfoScreen = (props) => {
             placeholderTextColor={colors.color.primaryColors.main}
             onChangeText={setLastName}
             value={lastName}
+            maxLength={35}
           />
         </View>
         {error ? (
