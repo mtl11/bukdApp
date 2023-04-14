@@ -85,6 +85,8 @@ const AvailabilityProfileArtist = () => {
       );
     }
     return array;
+     
+  
   };
 
   const dow = () => {

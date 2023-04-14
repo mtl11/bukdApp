@@ -7,11 +7,21 @@ import global from "../styles/global";
 const SearchDropDown = (props) => {
   const [value, setValue] = useState(null);
   const renderItem = (item) => {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.textItem}>{item.label}</Text>
-      </View>
-    );
+    // if (item.label == "Tuscon, AZ") {
+      return (
+        <View style={styles.item}>
+          <Text style={styles.textItem}>{item.label}</Text>
+        </View>
+      );
+    // } else {
+    //   return (
+    //     <View style={[styles.item, { flexDirection: "row", justifyContent: "space-between" }]}>
+    //       <Text style={[styles.textItem, { color: global.color.primaryColors.background }]}>{item.label}</Text>
+    //       <Text style={[styles.textItem, { color: global.color.primaryColors.background }]}>{"Coming Soon"}</Text>
+    //     </View>
+    //   );
+    // }
+
   };
   return (
     <Dropdown

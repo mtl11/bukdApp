@@ -131,7 +131,7 @@ export async function resetPassword(password, idToken) {
 
 export async function setPerformerInList(location, category, name, uuid, profilePicURL){
   const response = await firebaseUtil.put(
-    "/performers/" +location+"/"+ uuid,
+    "/performers/" +location+"/"+ uuid+".json",
     {
       category: category,
       name: name,

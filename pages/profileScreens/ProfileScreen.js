@@ -38,13 +38,15 @@ const ProfileScreen = (props) => {
 
     profileCTX.updateBasic(basicInfo);
     if (basicInfo.profileType == "venue") {
+      if (otherInfo.hasOwnProperty("socials")) {
       profileCTX.updateAbout({
         bio: otherInfo.about.bio,
         category: otherInfo.about.category,
         equipment: otherInfo.about.equipment,
         location: otherInfo.about.location,
-      });
+      });}
     } else {
+      if (otherInfo.hasOwnProperty("socials")) {
       profileCTX.updateAbout(
         new aboutInfo(
           otherInfo.about.bio,
@@ -52,7 +54,7 @@ const ProfileScreen = (props) => {
           otherInfo.about.genre,
           otherInfo.about.location
         )
-      );
+      );}
     }
     if (otherInfo.hasOwnProperty("socials")) {
       profileCTX.updateSocial(otherInfo.socials);

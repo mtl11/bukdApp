@@ -61,18 +61,20 @@ const AvailabilitySearch = (props) => {
 
   const time = () => {
     const array = [];
-    for (const x in props.availability.times) {
-      const item = (
-        <View key={x} style={styles.timeContainer}>
-          <Text style={styles.bigText}>{getHour(x)}</Text>
-          <Text
-            style={[styles.bigText, { color: colors.color.primaryColors.text }]}
-          >
-            {getTime(x)}
-          </Text>
-        </View>
-      );
-      array.push(item);
+    if (props.availability != null) {
+      for (const x in props.availability.times) {
+        const item = (
+          <View key={x} style={styles.timeContainer}>
+            <Text style={styles.bigText}>{getHour(x)}</Text>
+            <Text
+              style={[styles.bigText, { color: colors.color.primaryColors.text }]}
+            >
+              {getTime(x)}
+            </Text>
+          </View>
+        );
+        array.push(item);
+      }
     }
     if (array.length == 0) {
       return (
@@ -86,13 +88,15 @@ const AvailabilitySearch = (props) => {
 
   const dow = () => {
     const array = [];
-    for (const x in props.availability.dow) {
-      const item = (
-        <View key={x}>
-          <Text style={[styles.bigText, { marginTop: "5%" }]}>{getDow(x)}</Text>
-        </View>
-      );
-      array.push(item);
+    if (props.availability != null) {
+      for (const x in props.availability.dow) {
+        const item = (
+          <View key={x}>
+            <Text style={[styles.bigText, { marginTop: "5%" }]}>{getDow(x)}</Text>
+          </View>
+        );
+        array.push(item);
+      }
     }
     if (array.length == 0) {
       return (

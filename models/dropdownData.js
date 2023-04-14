@@ -15,12 +15,12 @@ export const profileCategoriesVenue = [
 
 export const locations = [
   { label: "Tuscon, AZ", value: "1" },
-  { label: "Denver, CO", value: "2" },
-  { label: "Las Vegas, NV", value: "3" },
-  { label: "Los Angeles, CA", value: "4" },
-  { label: "Miami, FL", value: "5" },
-  { label: "San Francsico, CA", value: "6" },
-  { label: "Seattle, WA", value: "7" },
+  // { label: "Denver, CO", value: "2",disabled: true },
+  // { label: "Las Vegas, NV", value: "3" },
+  // { label: "Los Angeles, CA", value: "4" },
+  // { label: "Miami, FL", value: "5" },
+  // { label: "San Francsico, CA", value: "6" },
+  // { label: "Seattle, WA", value: "7" },
 ];
 
 export const subCategories = [
