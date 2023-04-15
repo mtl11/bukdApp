@@ -39,7 +39,6 @@ const StartScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      
       <TouchableOpacity style={{ marginLeft: 30 }} onPress={() => { setVisible(true) }}>
         <Ionicons name="ios-information-circle-outline" size={32} color={global.color.primaryColors.buttonAccent} />
       </TouchableOpacity>
@@ -111,8 +110,7 @@ const StartScreen = (props) => {
           <ActivityIndicator size={22} />
         )}
       </TouchableOpacity>
-      {/* 
-      DO NOT DELETE
+      {/* DO NOT DELETE 
       <View style={styles.newAccountContainer}>
         <Text style={styles.newAccountText}>Don't have an account?</Text>
         <TouchableOpacity
@@ -122,7 +120,8 @@ const StartScreen = (props) => {
         >
           <Text style={styles.buttonTextSignUp}> Sign Up</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
+      */}
       <InfoModal visible={visible} setVisible={setVisible} />
     </SafeAreaView>
   );

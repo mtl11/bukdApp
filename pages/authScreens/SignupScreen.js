@@ -11,8 +11,9 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import styles from "../../styles/auth/signupScreen";
 import global from "../../styles/global";
 import { createUser, addAccountFB, authenticateUser } from "../../util/auth";
-import {AuthContext} from "../../store/authContext";
+import { AuthContext } from "../../store/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { color } from "react-native-elements/dist/helpers";
 
 const SignupScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -24,6 +25,7 @@ const SignupScreen = (props) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isAuth, setIsAuth] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [acccountType, setAccountType] = useState("");
 
   const validateEmail = (email) => {
     return String(email)
@@ -59,15 +61,19 @@ const SignupScreen = (props) => {
       const response = await addAccountFB(email, profileName, localId);
       setIsAuth(false);
       const token = await authenticateUser(email, password);
-      AsyncStorage.setItem("email",JSON.stringify(email));
+      AsyncStorage.setItem("email", JSON.stringify(email));
       authCTX.authenticate(token);
     }
   }
 
   function checkInputs() {
+    if (acccountType == "") {
+      setEmailErrorMessage("Error: Must select account type");
+      return;
+    }
     if (profileName.alphanumeric) {
       setEmailErrorMessage("Error: Invalid Profile Name");
-      return; 
+      return;
     }
     if (validateEmail(email) == null) {
       setEmailErrorMessage("Error: Invalid Email");
@@ -82,7 +88,7 @@ const SignupScreen = (props) => {
       return;
     }
     setEmailErrorMessage("");
-    signUpHandler();
+    // signUpHandler();
   }
 
   return (
@@ -96,25 +102,71 @@ const SignupScreen = (props) => {
           <FontAwesome5
             name="chevron-left"
             size={32}
-            color={global.color.primaryColors.main}
+            color={global.color.primaryColors.text}
           />
         </TouchableOpacity>
       </View>
       <View
         style={{
           alignSelf: "center",
-          marginVertical: "10%",
+          marginVertical: "5%",
         }}
       >
         <Text style={styles.bigText}>We are so happy you are here.</Text>
         <Text style={styles.bigText}>Let’s get you set up!</Text>
       </View>
-      <View style={[styles.inputContainer, { marginTop: 0 }]}>
+      <View style={styles.passwordInfoContainer}>
+        <Text style={styles.passwordInfoText}>Choose type of account</Text>
+      </View>
+      <View style={{ flexDirection: "row", marginHorizontal: "8%", justifyContent: "space-evenly", marginTop: "2%" }}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: global.color.primaryColors.adjacent,
+            padding: 16,
+            borderRadius: 12,
+            width: "33%",
+            borderWidth: 1,
+            borderColor: acccountType == "Performer" ? "white" : global.color.primaryColors.background
+          }}
+          onPress={() => {
+            setAccountType("Performer")
+          }}>
+          <Text style={{
+            color: acccountType == "Performer" ?
+              "white" : global.color.primaryColors.placeHolderTextColor,
+            fontFamily: "Rubik-Regular",
+            textAlign: "center",
+            fontSize: 16
+          }}>
+            Performer
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{
+          backgroundColor: global.color.primaryColors.adjacent,
+          padding: 16,
+          borderRadius: 12,
+          width: "33%",
+          borderWidth: 1,
+          borderColor: acccountType == "Venue" ? "white" : global.color.primaryColors.background
+        }}
+          onPress={() => {
+            setAccountType("Venue")
+          }}>
+          <Text style={{
+            color: acccountType == "Venue" ?
+              "white" : global.color.primaryColors.placeHolderTextColor, fontFamily: "Rubik-Regular",
+            textAlign: "center", fontSize: 16
+          }}>
+            Venue
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.inputContainer}>
         <TextInput
           inputMode={"text"}
           keyboardType={"ascii-capable"}
           style={styles.input}
-          placeholder="Profile Name"
+          placeholder="Profile Name (Optional)"
           placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
           autoCorrect={false}
           autoCapitalize={false}
@@ -171,7 +223,7 @@ const SignupScreen = (props) => {
         <Text style={styles.errorText}>{emailErrorMessage}</Text>
       </View>
       <TouchableOpacity
-        style={[styles.buttonContainer, { marginTop: "30%" }]}
+        style={[styles.buttonContainer, { marginTop: "20%" }]}
         onPress={() => {
           checkInputs();
         }}
