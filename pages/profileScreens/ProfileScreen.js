@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
-  Image,
+  Image, 
   ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -25,7 +25,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
-  // props.navigation.setOptions({ tabBarVisible: false })
   const [gettingInfo, setGettingInfo] = useState(true);
   const [profileURI, setProfileURI] = useState("");
   async function getProfile() {
@@ -79,7 +78,6 @@ const ProfileScreen = (props) => {
     setGettingInfo(false);
   }
 
-  const [modalVisible, setModalVisible] = useState(false);
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
   const [availShow, setAvailShow] = useState(false);
@@ -157,7 +155,7 @@ const ProfileScreen = (props) => {
               borderRadius: 12,
               borderColor: "#2A51DB",
               width: "80%",
-              marginVertical: "5%",
+              marginVertical: 10,
               backgroundColor: global.color.primaryColors.main,
             }}
             onPress={() => {
@@ -180,7 +178,7 @@ const ProfileScreen = (props) => {
           <View
             style={{
               borderBottomWidth: 1,
-              marginTop: 20,
+              marginTop: 5,
               alignItems: "center",
               borderColor: global.color.primaryColors.adjacent,
             }}
@@ -302,7 +300,7 @@ const styles = StyleSheet.create({
   profilePicContainer: {
     alignSelf: "center",
     borderRadius: 100,
-    marginTop: "3%",
+    // marginTop: "3%",
     justifyContent: "center",
     borderWidth: 4,
     borderColor: global.color.primaryColors.adjacent,
@@ -313,7 +311,7 @@ const styles = StyleSheet.create({
   },
   usernameContainer: {
     alignSelf: "center",
-    marginTop: 15,
+    marginTop: 5,
   },
   usernameText: {
     fontFamily: "Rubik-SemiBold",

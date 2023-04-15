@@ -23,8 +23,6 @@ export default {
     
   },
   logoImage: {
-    // alignSelf: "center",
-    // marginTop: "30%",
     width: 60,
     height: 45,
     resizeMode: "contain",

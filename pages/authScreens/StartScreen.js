@@ -7,12 +7,16 @@ import {
   TextInput,
   Image,
   ActivityIndicator,
+  Modal
 } from "react-native";
 import styles from "../../styles/auth/startScreen";
 import global from "../../styles/global";
 import { authenticateUser } from "../../util/auth";
 import { AuthContext } from "../../store/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from '@expo/vector-icons';
+import InfoModal from "../../components/auth/InfoModal";
+
 const StartScreen = (props) => {
   const authCTX = useContext(AuthContext);
 
@@ -20,7 +24,7 @@ const StartScreen = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isAuth, setIsAuth] = useState(false);
-
+  const [visible, setVisible] = useState(true);
   async function authenticateHandler() {
     try {
       const token = await authenticateUser(email, password);
@@ -35,11 +39,15 @@ const StartScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      
+      <TouchableOpacity style={{ marginLeft: 30 }} onPress={() => { setVisible(true) }}>
+        <Ionicons name="ios-information-circle-outline" size={32} color={global.color.primaryColors.buttonAccent} />
+      </TouchableOpacity>
       <View
         style={{
           flexDirection: "row",
           justifyContent: "center",
-          marginTop: "30%",
+          marginTop: "25%",
         }}
       >
         <Image
@@ -103,7 +111,9 @@ const StartScreen = (props) => {
           <ActivityIndicator size={22} />
         )}
       </TouchableOpacity>
-      {/* <View style={styles.newAccountContainer}>
+      {/* 
+      DO NOT DELETE
+      <View style={styles.newAccountContainer}>
         <Text style={styles.newAccountText}>Don't have an account?</Text>
         <TouchableOpacity
           onPress={() => {
@@ -113,6 +123,7 @@ const StartScreen = (props) => {
           <Text style={styles.buttonTextSignUp}> Sign Up</Text>
         </TouchableOpacity>
       </View> */}
+      <InfoModal visible={visible} setVisible={setVisible} />
     </SafeAreaView>
   );
 };
