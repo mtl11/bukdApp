@@ -6,11 +6,12 @@ export const AuthContext = createContext({
   isAuthenticated: false,
   authenticate: (token) => {},
   logout: () => {},
+  mode: "light"
 });
 
 function AuthContextProvider({ children }) {
   const [authToken, setAuthToken] = useState();
-
+  const [mode, setMode] = useState("light");
   function authenticate(token) {
     console.log(token);
     setAuthToken(token);
@@ -21,7 +22,16 @@ function AuthContextProvider({ children }) {
     AsyncStorage.removeItem("token");
   }
 
+  function toggleMode(){
+    if (mode == "light"){
+      setMode("dark");
+    }else if  (mode == "dark"){
+      setMode("light");
+    }
+  }
+
   const value = {
+    mode: mode,
     token: authToken,
     isAuthenticated: !!authToken,
     authenticate: authenticate,

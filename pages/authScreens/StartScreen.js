@@ -9,7 +9,8 @@ import {
   ActivityIndicator,
   Modal
 } from "react-native";
-import styles from "../../styles/auth/startScreen";
+import light from "../../styles/auth/light/startScreen";
+import dark from "../../styles/auth/dark/startScreen";
 import global from "../../styles/global";
 import { authenticateUser } from "../../util/auth";
 import { AuthContext } from "../../store/authContext";
@@ -19,6 +20,7 @@ import InfoModal from "../../components/auth/InfoModal";
 
 const StartScreen = (props) => {
   const authCTX = useContext(AuthContext);
+  const styles = authCTX.mode === "light" ? light : dark;
 
   const [passwordDontMatch, setPasswordDontMatch] = useState(false);
   const [email, setEmail] = useState("");
@@ -40,7 +42,7 @@ const StartScreen = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={{ marginLeft: 30 }} onPress={() => { setVisible(true) }}>
-        <Ionicons name="ios-information-circle-outline" size={32} color={global.color.primaryColors.buttonAccent} />
+        <Ionicons name="ios-information-circle-outline" size={32} color={styles.iconColor} />
       </TouchableOpacity>
       <View
         style={{
@@ -66,7 +68,7 @@ const StartScreen = (props) => {
           autoCapitalize={"none"}
           style={styles.input}
           placeholder="Email"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+          placeholderTextColor={styles.placeHolderTextColor}
           onChangeText={setEmail}
           autoCorrect={false}
         />
@@ -76,7 +78,7 @@ const StartScreen = (props) => {
           style={styles.input}
           secureTextEntry={true}
           placeholder="Password"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+          placeholderTextColor={styles.placeHolderTextColor}
           onChangeText={setPassword}
         />
       </View>

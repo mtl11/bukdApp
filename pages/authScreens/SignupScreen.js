@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import styles from "../../styles/auth/signupScreen";
+import styles from "../../styles/auth/light/signupScreen";
 import global from "../../styles/global";
 import { createUser, addAccountFB, authenticateUser } from "../../util/auth";
 import { AuthContext } from "../../store/authContext";

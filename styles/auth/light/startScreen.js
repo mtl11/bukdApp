@@ -1,6 +1,8 @@
-import global from "../global";
+import global from "../../global";
 
 export default {
+  iconColor: global.color.secondaryColors.buttonAccent,
+  placeHolderTextColor:global.color.secondaryColors.placeHolderTextColor,
   imageContainer: {
     flexDirection: "row",
     justifyContent: "center",
@@ -8,7 +10,7 @@ export default {
   welcomeText: {
     fontSize: 20,
     fontFamily: "Rubik-Medium",
-    color: global.color.primaryColors.main
+    color: global.color.secondaryColors.main
   },
   welcomeContainer: {
     alignSelf: "center",
@@ -43,12 +45,12 @@ export default {
     marginBottom: 20,
   },
   container: {
-    backgroundColor: global.color.primaryColors.background,
+    backgroundColor: global.color.secondaryColors.background,
     height: "100%",
   },
   forgotPasswordText: {
     fontFamily: "Rubik-Medium",
-    color: global.color.primaryColors.main,
+    color: global.color.secondaryColors.main,
     fontSize: 16,
   },
   input: {
@@ -56,26 +58,26 @@ export default {
     marginHorizontal: "5%",
     fontSize: 16,
     fontFamily: "Rubik-Regular",
-    color: global.color.primaryColors.text
+    color: global.color.secondaryColors.text
   },
   inputContainer: {
     borderRadius:12,
     marginHorizontal: "8%",
     marginTop: "5%",
-    backgroundColor: global.color.primaryColors.adjacent,
+    backgroundColor: global.color.secondaryColors.adjacent,
   },
   buttonContainer: {
     alignItems: "center",
     padding: 16,
     marginHorizontal: "8%",
-    backgroundColor: global.color.primaryColors.main,
+    backgroundColor: global.color.secondaryColors.main,
     borderRadius: 12,
     marginTop: "7%"
   },
   buttonTextSignUp: {
     fontFamily: "Rubik-Medium",
     fontSize: 18,
-    color: global.color.primaryColors.main,
+    color: global.color.secondaryColors.main,
   },
   buttonText: {
     fontFamily: "Rubik-Medium",
@@ -90,6 +92,6 @@ export default {
   newAccountText:{
     fontFamily: "Rubik-Regular",
     fontSize: 18,
-    color: global.color.primaryColors.buttonAccent
+    color: global.color.secondaryColors.buttonAccent
   }
 };
