@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -14,11 +14,40 @@ import global from "../../styles/global";
 import light from "../../styles/auth/light/forgotPassword";
 import dark from "../../styles/auth/dark/forgotPassword";
 import { AuthContext } from "../../store/authContext";
+import { resetPassword } from "../../util/auth";
 
 const ForgetPasswordScreen = (props) => {
+  const [successMessage, setSuccessMessage] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [email, setEmail] = useState("")
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
 
+  async function checkEmail() {
+    if (email == ""){
+      setEmailErrorMessage("Error: Please Enter an Email");
+      return;
+    }
+    if (validateEmail(email) == null) {
+      setEmailErrorMessage("Error: Invalid Email");
+      return;
+    }
+    
+    const errorCode = await resetPassword(email);
+    if (errorCode == "400"){
+      setEmailErrorMessage("Error: No Account Found Associated with Email")
+      return;
+    }
+    setEmailErrorMessage("");
+    setSuccessMessage("Email Sent Successfully")
+  }
   return (
     <SafeAreaView
       style={styles.container}
@@ -46,6 +75,7 @@ const ForgetPasswordScreen = (props) => {
           and we will send you insturctions to recover password.
         </Text>
       </View>
+      
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -53,13 +83,21 @@ const ForgetPasswordScreen = (props) => {
           keyboardType="email-address"
           placeholder="Email"
           placeholderTextColor={styles.placeHolderColor}
+          value={email}
+          onChangeText={setEmail}
         />
       </View>
-
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{emailErrorMessage}</Text>
+      </View>
+      <View style={styles.errorContainer}>
+        <Text style={[styles.errorText,{color:global.color.primaryColors.main}]}>{successMessage}</Text>
+      </View>
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
-          props.navigation.pop();
+          // props.navigation.pop();
+          checkEmail();
         }}
       >
         <Text style={styles.buttonText}>Reset Password</Text>

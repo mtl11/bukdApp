@@ -8,7 +8,9 @@ export default {
     marginHorizontal: "5%",
   },
   errorText:{
-    color: global.color.primaryColors.errorText
+    color: global.color.primaryColors.errorText,
+    fontFamily: "Rubik-Regular",
+        fontSize: 16
   },
   passwordInfoContainer:{
     marginHorizontal: "8%",

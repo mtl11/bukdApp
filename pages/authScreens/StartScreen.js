@@ -92,7 +92,7 @@ const StartScreen = (props) => {
       </TouchableOpacity>
       {passwordDontMatch ? (
         <View style={{ alignSelf: "center" }}>
-          <Text style={{ color: global.color.primaryColors.errorText, fontFamily: "Rubik-Regular" }}>
+          <Text style={{ color: global.color.primaryColors.errorText, fontFamily: "Rubik-Regular", fontSize: 16 }}>
             Entered email and password do not match our records.
           </Text>
         </View>

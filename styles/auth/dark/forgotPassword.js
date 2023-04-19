@@ -7,6 +7,17 @@ export default {
         height: "100%",
         backgroundColor: global.color.primaryColors.background,
     },
+    errorContainer:{
+        flexDirection: "row",
+        justifyContent: "center",
+        padding: 16,
+        marginHorizontal: "5%",
+      },
+    errorText:{
+        color: global.color.primaryColors.errorText,
+        fontFamily: "Rubik-Regular",
+        fontSize: 16
+      },
     backButtonContainer: {
         marginLeft: "8%",
         alignSelf: "flex-start"
@@ -49,7 +60,7 @@ export default {
         marginHorizontal: "8%",
         backgroundColor: global.color.primaryColors.main,
         borderRadius: 12,
-        marginTop: "80%",
+        marginTop: "70%",
     },
     buttonText: {
         fontFamily: "Rubik-Medium",

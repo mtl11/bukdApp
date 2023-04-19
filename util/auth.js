@@ -28,6 +28,24 @@ export async function createUser(email, password) {
   
 }
 
+export async function resetPassword(email){
+  let error = ""
+  const response = await axios
+  .post(
+    "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=" +
+      APIKey,
+    {
+      email: email,
+      requestType: "PASSWORD_RESET"
+    }
+  )
+  .catch((error) => {
+    return error.response.status;
+
+  });
+return response;
+}
+
 export async function authenticateUser(email, password) {
   // console.log(email);
   let token = "";
