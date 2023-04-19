@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -7,16 +7,21 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import global from "../../styles/global";
+import light from "../../styles/auth/light/forgotPassword";
+import dark from "../../styles/auth/dark/forgotPassword";
+import { AuthContext } from "../../store/authContext";
+
 const ForgetPasswordScreen = (props) => {
+  const authCTX = useContext(AuthContext);
+  const styles = authCTX.mode === "light" ? light : dark;
+
   return (
     <SafeAreaView
-      style={{
-        height: "100%",
-        backgroundColor: global.color.primaryColors.background,
-      }}
+      style={styles.container}
     >
       <TouchableOpacity
         style={styles.backButtonContainer}
@@ -27,12 +32,17 @@ const ForgetPasswordScreen = (props) => {
         <FontAwesome5
           name="chevron-left"
           size={32}
-          color={global.color.primaryColors.main}
+          color={styles.iconColor}
         />
       </TouchableOpacity>
-      <View style={{ marginVertical: "8%"}}>
+      <View style={{ marginTop: "8%" }}>
+        <Text style={styles.headerText}>
+          Reset Password
+        </Text>
+      </View>
+      <View style={{ marginBottom: "8%" }}>
         <Text style={styles.smallText}>
-          Enter email associated with your account 
+          Enter email associated with your account
           and we will send you insturctions to recover password.
         </Text>
       </View>
@@ -42,10 +52,10 @@ const ForgetPasswordScreen = (props) => {
           autoCapitalize={false}
           keyboardType="email-address"
           placeholder="Email"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+          placeholderTextColor={styles.placeHolderColor}
         />
       </View>
-      
+
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
@@ -57,47 +67,6 @@ const ForgetPasswordScreen = (props) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  backButtonContainer: {
-    marginLeft: "5%",
-    marginTop: "7%",
-  },
-  smallText: {
-    fontSize: 18,
-    marginLeft: 40,
-    marginRight: 40,
-   alignSelf: "center",
-    fontFamily: "Rubik-SemiBold",
-    color: global.color.primaryColors.main,
-  },
-  input: {
-    paddingVertical: "5%",
-    marginHorizontal: "5%",
-    fontSize: 16,
-    fontFamily: "Rubik-Regular",
-    color: global.color.primaryColors.text,
-  },
-  inputContainer: {
-    borderRadius: 12,
-    marginHorizontal: "8%",
-    marginTop: "5%",
-    backgroundColor: global.color.primaryColors.adjacent,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 16,
-    marginHorizontal: "8%",
-    backgroundColor: global.color.primaryColors.main,
-    borderRadius: 12,
-    marginTop: "80%",
-  },
-  buttonText: {
-    fontFamily: "Rubik-Medium",
-    color: "white",
-    fontSize: 18,
-  },
-});
+// const styles = StyleSheet.create();
 
 export default ForgetPasswordScreen;

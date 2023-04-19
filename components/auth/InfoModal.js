@@ -13,19 +13,23 @@ import {
 import global from "../../styles/global";
 import { Feather } from '@expo/vector-icons';
 import { Ionicons } from "@expo/vector-icons";
+import { AuthContext } from "../../store/authContext";
+import light from "../../styles/auth/light/infoModal";
+import dark from "../../styles/auth/dark/infoModal";
 
 const InfoModal = (props) => {
+    const authCTX = useContext(AuthContext);
+  const styles = authCTX.mode === "light" ? light : dark;
     return (
-        // <View style={styles.bigContainer}>
         <Modal visible={props.visible} animationType="slide" transparent={true} >
             <SafeAreaView style={styles.modalView}>
                 <TouchableOpacity style={{ marginLeft: 30 }} onPress={() => { props.setVisible(false) }}>
-                    <Feather name="x" size={32} color={global.color.primaryColors.buttonAccent} />
+                    <Feather name="x" size={32} color={styles.iconColor} />
                 </TouchableOpacity>
                 <View style={styles.textContainer}>
                 
                     <View style={{ marginTop: "5%", marginBottom: "5%", alignItems:"center" }}>
-                    <Ionicons name="ios-information-circle-outline" size={40} color={global.color.primaryColors.main} />
+                    <Ionicons name="ios-information-circle-outline" size={40} color={styles.iconColor} />
                         <Text style={styles.bigText}>
                             Welcome To Bukd
                         </Text>
@@ -34,7 +38,7 @@ const InfoModal = (props) => {
                     </Text>
                     </View>
                     <View style={styles.headerContainer}>
-                        <Ionicons name={"person"} size={24} color={"white"} />
+                        <Ionicons name={"person"} size={24} color={styles.infoIconColor} />
                         <View style={{ marginLeft: 10, marginRight: 40 }}>
                             <Text style={styles.headerText}>
                                 Profile
@@ -46,7 +50,7 @@ const InfoModal = (props) => {
                         </View>
                     </View>
                     <View style={styles.headerContainer}>
-                        <Ionicons name={"ios-search"} size={24} color={"white"} />
+                        <Ionicons name={"ios-search"} size={24} color={styles.infoIconColor} />
                         <View style={{ marginLeft: 10, marginRight: 40 }}>
                             <Text style={styles.headerText}>
                                 Search
@@ -57,7 +61,7 @@ const InfoModal = (props) => {
                         </View>
                     </View>
                     <View style={styles.headerContainer}>
-                        <Ionicons name={"chatbubble"} size={24} color={"white"} />
+                        <Ionicons name={"chatbubble"} size={24} color={styles.infoIconColor} />
                         <View style={{ marginLeft: 10, marginRight: 40 }}>
                             <Text style={styles.headerText}>
                                 Message
@@ -67,19 +71,6 @@ const InfoModal = (props) => {
                             </Text>
                         </View>
                     </View>
-                    {/* </View>
-                    <Text style={styles.smallerText}>
-                        Bukd is in all inclusive platform that connects small business to local musicians for bookings.
-                    </Text>
-                    <Text style={styles.smallerText}>
-                        - Profiles designed to show off your uniquness
-                    </Text>
-                    <Text style={styles.smallerText}>
-                        - Filtered search to find the perfect match for you next event
-                    </Text>
-                    <Text style={styles.smallerText}>
-                        - Messaging 
-                    </Text> */}
                 </View>
                 <TouchableOpacity
                     style={styles.buttonContainer}
@@ -91,61 +82,9 @@ const InfoModal = (props) => {
                 </TouchableOpacity>
             </SafeAreaView>
         </Modal>
-        // </View>
     )
 }
 
-const styles = StyleSheet.create({
-    buttonContainer: {
-        alignItems: "center",
-        padding: 16,
-        marginHorizontal: "8%",
-        backgroundColor: global.color.primaryColors.main,
-        borderRadius: 12,
-        marginTop: "20%"
-    },
-    buttonText: {
-        fontFamily: "Rubik-Medium",
-        color: "white",
-        fontSize: 18,
-    },
-    textContainer: {
-        marginHorizontal: 30
-    },
-    smallerText: {
-        fontFamily: "Rubik-Regular",
-        color: global.color.primaryColors.main,
-        fontSize: 18,
-        lineHeight: 25,
-        textAlign:"center"
-    },
-    bigText: {
-        fontFamily: "Rubik-SemiBold",
-        fontSize: 32, color: global.color.primaryColors.headerText
-    },
-    headerContainer: {
-        flexDirection: "row",
-        marginTop: "7%"
-        // alignItems: "center" 
-    },
-    headerText: {
-        fontFamily: "Rubik-SemiBold",
-        color: global.color.primaryColors.text,
-        fontSize: 18,
-        lineHeight: 25
-    },
-    regularText: {
-        fontFamily: "Rubik-Regular",
-        color: global.color.primaryColors.text,
-        fontSize: 18,
-        lineHeight: 25,
-    },
-    modalView: {
 
-        backgroundColor: global.color.primaryColors.background,
-        height: "100%",
-    },
-
-})
 
 export default InfoModal;

@@ -1,0 +1,58 @@
+import global from "../../global"
+
+export default {
+    iconColor: global.color.secondaryColors.buttonAccent,
+    placeHolderColor: global.color.secondaryColors.placeHolderTextColor,
+    container: {
+        height: "100%",
+        backgroundColor: global.color.secondaryColors.background,
+    },
+    backButtonContainer: {
+        marginLeft: "8%",
+        alignSelf: "flex-start"
+    },
+    headerText:{
+        fontSize: 32,
+        marginLeft: 40,
+        marginRight: 40,
+        alignSelf: "center",
+        fontFamily: "Rubik-SemiBold",
+    },
+    smallText: {
+        fontSize: 18,
+        marginLeft: 40,
+        marginRight: 40,
+        alignSelf: "center",
+        fontFamily: "Rubik-Regular",
+        color: global.color.secondaryColors.headerText,
+        lineHeight: 25,
+        textAlign:"center"
+    },
+    input: {
+        paddingVertical: "5%",
+        marginHorizontal: "5%",
+        fontSize: 16,
+        fontFamily: "Rubik-Regular",
+        color: global.color.secondaryColors.text,
+    },
+    inputContainer: {
+        borderRadius: 12,
+        marginHorizontal: "8%",
+        marginTop: "5%",
+        backgroundColor: global.color.secondaryColors.adjacent,
+    },
+    buttonContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        padding: 16,
+        marginHorizontal: "8%",
+        backgroundColor: global.color.secondaryColors.main,
+        borderRadius: 12,
+        marginTop: "80%",
+    },
+    buttonText: {
+        fontFamily: "Rubik-Medium",
+        color: "white",
+        fontSize: 18,
+    },
+}
