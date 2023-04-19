@@ -5,7 +5,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import global from "../styles/global";
+import global from "../../styles/global";
 
 const ProfileDropDown = (props) => {
   const [isFocus, setIsFocus] = useState(false);

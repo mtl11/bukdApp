@@ -9,9 +9,9 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import SocialTab from "../../components/SocialProfileTabArtist.js";
-import AvailabilityProfileArtist from "../../components/AvailabilityProfileArtist";
-import AboutTabArtist from "../../components/AboutTabArtist";
+import SocialTab from "../../components/profile/SocialProfileTabArtist.js";
+import AvailabilityProfileArtist from "../../components/profile/AvailabilityProfileArtist.js";
+import AboutTabArtist from "../../components/profile/AboutTabArtist.js";
 import global from "../../styles/global";
 import {
   getProfileInfo,

@@ -7,9 +7,9 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import global from "../styles/global";
+import global from "../../styles/global";
 import * as WebBrowser from "expo-web-browser";
-import { ProfileContext } from "../store/profileContext";
+import { ProfileContext } from "../../store/profileContext";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from '@expo/vector-icons'; 
 const SocialProfileTabArtist = (props) => {

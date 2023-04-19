@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,9 +8,7 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import SocialTab from "../../components/SocialProfileTabArtist.js";
-import AvailabilityProfileArtist from "../../components/search/AvailabilitySearch";
+import { FontAwesome5 } from "@expo/vector-icons";
 import AboutTabArtist from "../../components/search/AboutTabArtist";
 import global from "../../styles/global";
 import {

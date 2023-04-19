@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { Ionicons } from "@expo/vector-icons";
-import global from "../styles/global";
+import global from "../../styles/global";
 
 const SearchDropDown = (props) => {
   const [value, setValue] = useState(null);

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import colors from "../styles/global";
-import { ProfileContext } from "../store/profileContext.js";
+import colors from "../../styles/global";
+import { ProfileContext } from "../../store/profileContext.js";
 
 const AvailabilityProfileArtist = () => {
   const profileCTX = useContext(ProfileContext);

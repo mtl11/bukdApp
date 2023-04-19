@@ -26,7 +26,7 @@ import {
 } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import { aboutInfo, profileInfo } from "../../models/profile";
-import ProfileDropDown from "../../components/ProfileDropDown";
+import ProfileDropDown from "../../components/profile/ProfileDropDown";
 import {
   locations,
   profileCategoriesArtist,

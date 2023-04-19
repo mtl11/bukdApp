@@ -7,8 +7,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import global from "../styles/global.js";
-import { ProfileContext } from "../store/profileContext.js";
+import global from "../../styles/global.js";
+import { ProfileContext } from "../../store/profileContext.js";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 const AboutTabArtist = () => {

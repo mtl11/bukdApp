@@ -8,7 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import global from "../styles/global";
+import global from "../../styles/global";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const VenueList = (props) => {

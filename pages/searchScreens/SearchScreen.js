@@ -6,9 +6,9 @@ import {
   View,
   ActivityIndicator,
 } from "react-native";
-import VenueList from "../../components/VenueList";
+import VenueList from "../../components/search/VenueList";
 import global from "../../styles/global";
-import SearchDropDown from "../../components/SearchDropDown";
+import SearchDropDown from "../../components/search/SearchDropDown";
 import {
   locations,
   profileCategoriesVenue,
