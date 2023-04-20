@@ -8,7 +8,8 @@ export default {
             buttonAccent: "#FFFFFF",
             placeHolderTextColor: "#226DCE",
             headerText: "#226DCE",
-            errorText: "#DC3545"
+            errorText: "#DC3545",
+            iconColor: "white"
         }, secondaryColors:{
             background: "#FFFFFF",
             main: "#226DCE",
@@ -17,7 +18,8 @@ export default {
             buttonAccent: "#226DCE",
             placeHolderTextColor: "#BDBDBD",
             headerText: "black",
-            errorText: "#DC3545"
+            errorText: "#DC3545",
+            iconColor: "#226DCE"
         }
     }
 }

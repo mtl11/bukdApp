@@ -10,8 +10,14 @@ import { FontAwesome } from "@expo/vector-icons";
 import global from "../../styles/global.js";
 import { ProfileContext } from "../../store/profileContext.js";
 import { FontAwesome5 } from "@expo/vector-icons";
+import dark from "../../styles/profile/dark/aboutTab.js"
+import light from "../../styles/profile/light/aboutTab.js"
+import { AuthContext } from "../../store/authContext.js";
 
 const AboutTabArtist = () => {
+  const authCTX = useContext(AuthContext);
+  const styles = authCTX.mode === "light" ? light : dark;
+
   const profileCTX = useContext(ProfileContext);
   return (
     <ScrollView style={styles.container} >
@@ -19,7 +25,7 @@ const AboutTabArtist = () => {
         <Ionicons
           name="location-outline"
           size={24}
-          color={global.color.primaryColors.main}
+          color={styles.iconColor}
         />
         <Text style={styles.infoText}>{profileCTX.about.location}</Text>
       </View>
@@ -28,7 +34,7 @@ const AboutTabArtist = () => {
           <Ionicons
             name="musical-notes-outline"
             size={24}
-            color={global.color.primaryColors.main}
+            color={styles.iconColor}
           />
           <Text style={styles.infoText}>
             {profileCTX.about.category} | {profileCTX.about.genre}
@@ -39,7 +45,7 @@ const AboutTabArtist = () => {
           <FontAwesome5
             name="building"
             size={24}
-            color={global.color.primaryColors.main}
+            color={styles.iconColor}
           />
           <Text style={styles.infoText}>{profileCTX.about.category}</Text>
         </View>
@@ -48,7 +54,7 @@ const AboutTabArtist = () => {
         <FontAwesome
           name="comment-o"
           size={24}
-          color={global.color.primaryColors.main}
+          color={styles.iconColor}
         />
         <Text style={styles.infoText}>{profileCTX.about.bio}</Text>
       </View>
@@ -59,7 +65,7 @@ const AboutTabArtist = () => {
           <FontAwesome5
             name="plug"
             size={24}
-            color={global.color.primaryColors.main}
+            color={styles.iconColor}
           />
           <Text style={styles.infoText}>{profileCTX.about.equipment}</Text>
         </View>
@@ -67,23 +73,5 @@ const AboutTabArtist = () => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    margin: "10%"
-  },
-  infoContainerRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: "8%",
-    marginRight: "5%",
-  },
-  infoText: {
-    fontFamily: "Rubik-Regular",
-    fontSize: 16,
-    padding: "3%",
-    color: global.color.primaryColors.text,
-  },
-});
 
 export default AboutTabArtist;

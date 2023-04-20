@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import colors from "../../styles/global";
+import global from "../../styles/global";
+import { AuthContext } from "../../store/authContext.js";
 import { ProfileContext } from "../../store/profileContext.js";
+import dark from "../../styles/profile/dark/availabilityTab";
+import light from "../../styles/profile/light/availabilityTab";
 
 const AvailabilityProfileArtist = () => {
+  const authCTX = useContext(AuthContext);
+  const styles = authCTX.mode === "light" ? light : dark;
+
   const profileCTX = useContext(ProfileContext);
-  console.log(profileCTX.availabilty);
   const [dowData, setDowData] = useState();
   const getTime = (time) => {
     if (time == "after") {
@@ -69,7 +74,7 @@ const AvailabilityProfileArtist = () => {
         <View key={x} style={styles.timeContainer}>
           <Text style={styles.bigText}>{getHour(x)}</Text>
           <Text
-            style={[styles.bigText, { color: colors.color.primaryColors.text }]}
+            style={[styles.bigText, { color: styles.headerTextColor }]}
           >
             {getTime(x)}
           </Text>
@@ -85,8 +90,8 @@ const AvailabilityProfileArtist = () => {
       );
     }
     return array;
-     
-  
+
+
   };
 
   const dow = () => {
@@ -116,7 +121,7 @@ const AvailabilityProfileArtist = () => {
           <Ionicons
             name="ios-alarm-outline"
             size={24}
-            color={colors.color.primaryColors.main}
+            color={global.color.primaryColors.main}
           />
           <Text style={styles.headerText}>Preferred Time</Text>
         </View>
@@ -127,7 +132,7 @@ const AvailabilityProfileArtist = () => {
           <Ionicons
             name="ios-calendar-outline"
             size={24}
-            color={colors.color.primaryColors.main}
+            color={global.color.primaryColors.main}
           />
           <Text style={styles.headerText}>Preferred Days</Text>
         </View>
@@ -137,44 +142,4 @@ const AvailabilityProfileArtist = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  singleContainer: {
-    marginTop: "8%",
-  },
-  headerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    margin: "1%",
-  },
-  timeContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: "5%",
-  },
-  boxContainer: {
-    borderTopWidth: 0,
-    borderWidth: 1,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-    paddingHorizontal: "5%",
-    paddingBottom: "5%",
-    borderColor: colors.color.primaryColors.adjacent,
-  },
-  container: {
-    marginHorizontal: "8%",
-    // flex:1
-  },
-  headerText: {
-    fontFamily: "Rubik-Regular",
-    fontSize: 16,
-    color: colors.color.primaryColors.main,
-    marginLeft: 10,
-  },
-  bigText: {
-    fontFamily: "Rubik-SemiBold",
-    fontSize: 20,
-    color: colors.color.primaryColors.text,
-  },
-});
 export default AvailabilityProfileArtist;

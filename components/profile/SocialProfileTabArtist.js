@@ -10,10 +10,16 @@ import {
 import global from "../../styles/global";
 import * as WebBrowser from "expo-web-browser";
 import { ProfileContext } from "../../store/profileContext";
+import { AuthContext } from "../../store/authContext";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from '@expo/vector-icons'; 
+import light from "../../styles/profile/light/socialTab";
+import dark from "../../styles/profile/dark/socialTab";
+
 const SocialProfileTabArtist = (props) => {
   const profileCTX = useContext(ProfileContext);
+  const authCTX = useContext(AuthContext);
+  const styles = authCTX.mode === "light" ? light : dark;
   function dataList() {
     const array = [];
     for (const x in profileCTX.social) {
@@ -64,32 +70,5 @@ const SocialProfileTabArtist = (props) => {
     <ScrollView contentContainerStyle={styles.list}>{dataList()}</ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  list: {
-    alignItems: "center",
-    paddingVertical: "10%",
-  },
-  socialContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderRadius: 12,
-    width: "80%",
-    marginBottom: "5%",
-    padding: 10,
-    paddingHorizontal: "5%",
-    backgroundColor: global.color.primaryColors.adjacent,
-  },
-  socialLogo: {
-    height: 40,
-    width: 40,
-  },
-  socialText: {
-    fontFamily: "Rubik-Regular",
-    fontSize: 18,
-    color: global.color.primaryColors.text,
-  },
-});
 
 export default SocialProfileTabArtist;
