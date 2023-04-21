@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -12,11 +12,12 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../styles/global";
 import { AuthContext } from "../../store/authContext";
-
+import dark from "../../styles/profile/dark/settings";
+import light from "../../styles/profile/light/settings";
 
 const ProfileSettingsScreen = (props) => {
   const authCTX = useContext(AuthContext);
-
+  const styles = authCTX.mode === "light" ? light : dark;
 
   const signOutAlert = () => {
     Alert.alert("Are you sure you want to Sign Out?", "", [
@@ -27,17 +28,17 @@ const ProfileSettingsScreen = (props) => {
       },
       {
         text: "Sign Out",
-        onPress: ()=>{authCTX.logout()},
+        onPress: () => { authCTX.logout() },
         style: "destructive",
       },
     ]);
   };
-  const [newShowRequests, setNewShowRequests] = useState(false);
-  const newShowToggle = () =>
-    setNewShowRequests((previousState) => !previousState);
-  const [newMessages, setNewMessages] = useState(false);
-  const newMessageToggle = () =>
-    setNewMessages((previousState) => !previousState);
+  const [newShowRequests, setNewShowRequests] = useState(authCTX.darkMode);
+  const newShowToggle = () => {
+    setNewShowRequests(!newShowRequests);
+    authCTX.toggleMode();
+  };
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topIconContainer}>
@@ -49,24 +50,18 @@ const ProfileSettingsScreen = (props) => {
           <FontAwesome5
             name="chevron-left"
             size={32}
-            color={colors.color.primaryColors.buttonAccent}
+            color={styles.iconColor}
           />
         </TouchableOpacity>
         <View style={styles.largeContainer}>
           <Text style={styles.largeText}>Settings</Text>
         </View>
       </View>
-      {/* <View style={styles.mainTextContainer}>
-        <Text style={styles.headerText}>Hello, User.</Text>
-        <Text style={styles.smallerText}>
-          Manage your Account and Settings here.
-        </Text>
-      </View> */}
       <View style={styles.sectionHeaderContainer}>
         <FontAwesome5
           name="user"
           size={22}
-          color={colors.color.primaryColors.main}
+          color={styles.iconColor}
         />
         <Text style={styles.sectionHeaderText}>Account</Text>
       </View>
@@ -80,7 +75,7 @@ const ProfileSettingsScreen = (props) => {
           <FontAwesome5
             name="chevron-right"
             size={22}
-            color={colors.color.primaryColors.text}
+            color={styles.iconColor}
           />
         </View>
       </TouchableOpacity>
@@ -94,10 +89,31 @@ const ProfileSettingsScreen = (props) => {
           <FontAwesome5
             name="chevron-right"
             size={22}
-            color={colors.color.primaryColors.text}
+            color={styles.iconColor}
           />
         </View>
       </TouchableOpacity>
+      <View style={styles.sectionHeaderContainer}>
+        <FontAwesome5
+          name="bell"
+          size={22}
+          color={styles.iconColor}
+        />
+        <Text style={styles.sectionHeaderText}>Notifications</Text>
+      </View>
+      <View style={styles.labelContainer}>
+        <Text style={styles.labelText}>Dark Mode</Text>
+        <Switch
+          trackColor={{
+            false: "#757575",
+            true: colors.color.primaryColors.main,
+          }}
+          thumbColor={newShowRequests ? "white" : "white"}
+          ios_backgroundColor={colors.color.primaryColors.adjacent}
+          onValueChange={newShowToggle}
+          value={newShowRequests}
+        />
+      </View>
       <TouchableOpacity style={styles.signOutContainer} onPress={signOutAlert}>
         <View style={{ marginHorizontal: 7.5 }}>
           <Text style={styles.signOutText}>Sign Out</Text>
@@ -114,7 +130,7 @@ const ProfileSettingsScreen = (props) => {
           <FontAwesome5
             name="copyright"
             size={16}
-            color={colors.color.primaryColors.text}
+            color={styles.copyrightColor}
           />
           <Text
             style={[styles.smallerText, { paddingBottom: 10, paddingLeft: 5 }]}
@@ -127,89 +143,4 @@ const ProfileSettingsScreen = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.color.primaryColors.background,
-  },
-  copyrightContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    alignContent: "center",
-  },
-  infoContainer: {
-    alignItems: "center",
-    //   marginTop: 60,
-  },
-  signOutText: {
-    fontFamily: "Rubik-Regular",
-    color: colors.color.primaryColors.main,
-    fontSize: 20,
-    marginHorizontal: 7.5,
-  },
-  largeText: {
-    fontSize: 20,
-    fontFamily: "Rubik-SemiBold",
-    color: colors.color.primaryColors.text,
-  },
-  largeContainer: {
-    width: "90%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  signOutContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: "50%",
-    marginVertical: "15%",
-  },
-  topIconContainer: {
-    marginHorizontal: "8%",
-    flexDirection: "row",
-  },
-  labelText: {
-    fontFamily: "Rubik-Regular",
-    fontSize: 20,
-    color: colors.color.primaryColors.text,
-  },
-  labelContainer: {
-    marginHorizontal: "8%",
-    flexDirection: "row",
-    alignContent: "center",
-    justifyContent: "space-between",
-    marginTop: "8%",
-  },
-  mainTextContainer: {
-    marginLeft: "8%",
-    marginTop: "10%",
-  },
-  headerText: {
-    fontFamily: "Rubik-SemiBold",
-    fontSize: 24,
-    color: colors.color.primaryColors.main,
-  },
-  smallerText: {
-    fontFamily: "Rubik-Regular",
-    fontSize: 16,
-    color: colors.color.primaryColors.text,
-    marginTop: "2%",
-  },
-  sectionHeaderContainer: {
-    borderBottomWidth: 1,
-    margin: 10,
-    paddingLeft: 30,
-    paddingBottom: 10,
-    marginTop: "10%",
-    flexDirection: "row",
-    borderColor: colors.color.primaryColors.adjacent,
-  },
-  sectionHeaderText: {
-    fontSize: 20,
-    fontFamily: "Rubik-SemiBold",
-    marginHorizontal: 15,
-    color: colors.color.primaryColors.main,
-  },
-});
 export default ProfileSettingsScreen;

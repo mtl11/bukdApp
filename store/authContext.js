@@ -6,12 +6,15 @@ export const AuthContext = createContext({
   isAuthenticated: false,
   authenticate: (token) => {},
   logout: () => {},
-  mode: ""
+  toggleMode: ()=>{},
+  mode: "",
+  darkMode: ""
 });
 
 function AuthContextProvider({ children }) {
   const [authToken, setAuthToken] = useState();
   const [mode, setMode] = useState("light");
+  const [darkMode, setDarkMode] = useState(false);
   function authenticate(token) {
     console.log(token);
     setAuthToken(token);
@@ -24,14 +27,18 @@ function AuthContextProvider({ children }) {
 
   function toggleMode(){
     if (mode == "light"){
+      setDarkMode(true);
       setMode("dark");
     }else if  (mode == "dark"){
+      setDarkMode(false);
       setMode("light");
     }
   }
 
   const value = {
+    darkMode: darkMode,
     mode: mode,
+    toggleMode: toggleMode,
     token: authToken,
     isAuthenticated: !!authToken,
     authenticate: authenticate,

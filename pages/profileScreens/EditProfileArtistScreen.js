@@ -34,11 +34,16 @@ import {
   profileCategoriesVenue,
 } from "../../models/dropdownData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../store/authContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import light from "../../styles/profile/light/editProfile";
+import dark from "../../styles/profile/dark/editProfile";
 
 const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
+  const authCTX = useContext(AuthContext);
+  const styles = authCTX.mode === "light" ? light : dark;
   async function update() {
     const localId = await AsyncStorage.getItem("localId");
     await setProfileName(
@@ -142,7 +147,7 @@ const EditProfileArtistScreen = (props) => {
   };
 
   const locationPlaceholder = () => {
-    if (profileCTX.about.location == ("" || undefined) ) {
+    if (profileCTX.about.location == ("" || undefined)) {
       return "Location";
     } else {
       return profileCTX.about.location;
@@ -179,10 +184,7 @@ const EditProfileArtistScreen = (props) => {
 
   return (
     <SafeAreaView
-      style={{
-        backgroundColor: global.color.primaryColors.background,
-        height: "100%",
-      }}
+      style={styles.container}
     >
 
       <View
@@ -202,7 +204,7 @@ const EditProfileArtistScreen = (props) => {
         >
           <Text
             style={{
-              color: global.color.primaryColors.text,
+              color: styles.cancelColor,
               fontSize: 18,
               fontFamily: "Rubik-Regular",
             }}
@@ -214,7 +216,7 @@ const EditProfileArtistScreen = (props) => {
           style={{
             fontSize: 18,
             fontFamily: "Rubik-Medium",
-            color: global.color.primaryColors.text,
+            color: styles.cancelColor,
           }}
         >
           Edit Profile
@@ -261,12 +263,11 @@ const EditProfileArtistScreen = (props) => {
               <TextInput
                 style={styles.input}
                 placeholder={"Profile Name"}
-                placeholderTextColor={global.color.primaryColors.main}
+                placeholderTextColor={styles.placeHolderTextColor}
                 value={profilename}
                 onChangeText={setProfilename}
                 maxLength={24}
                 returnKeyType="done"
-              // contextMenuHidden={true}
               />
             </KeyboardAvoidingView>
           </View>
@@ -282,13 +283,13 @@ const EditProfileArtistScreen = (props) => {
               <Ionicons
                 name="chevron-up"
                 size={28}
-                color={global.color.primaryColors.buttonAccent}
+                color={styles.iconColor}
               />
             ) : (
               <Ionicons
                 name="chevron-down"
                 size={28}
-                color={global.color.primaryColors.buttonAccent}
+                color={styles.iconColor}
               />
             )}
           </TouchableOpacity>
@@ -332,7 +333,7 @@ const EditProfileArtistScreen = (props) => {
                     placeholder={"List available equipment"}
                     onChangeText={setEquipment}
                     value={equipment}
-                    placeholderTextColor={global.color.primaryColors.main}
+                    placeholderTextColor={styles.placeHolderTextColor}
                     maxLength={160}
                   />
                 </View>
@@ -345,7 +346,7 @@ const EditProfileArtistScreen = (props) => {
                   placeholder={"Bio"}
                   onChangeText={setBio}
                   value={bio}
-                  placeholderTextColor={global.color.primaryColors.main}
+                  placeholderTextColor={styles.placeHolderTextColor}
                   maxLength={160}
                   maxHeight={160}
                   blurOnSubmit={true}
@@ -366,13 +367,13 @@ const EditProfileArtistScreen = (props) => {
               <Ionicons
                 name="chevron-up"
                 size={28}
-                color={global.color.primaryColors.buttonAccent}
+                color={styles.iconColor}
               />
             ) : (
               <Ionicons
                 name="chevron-down"
                 size={28}
-                color={global.color.primaryColors.buttonAccent}
+                color={styles.iconColor}
               />
             )}
           </TouchableOpacity>
@@ -383,7 +384,7 @@ const EditProfileArtistScreen = (props) => {
                   <TouchableOpacity
                     style={[
                       styles.timeContainer,
-                      morn && { borderColor: "white" },
+                      morn && { borderColor: styles.borderColorDay },
                     ]}
                     onPress={() => {
                       setMorn(!morn);
@@ -394,7 +395,7 @@ const EditProfileArtistScreen = (props) => {
                   <TouchableOpacity
                     style={[
                       styles.timeContainer,
-                      after && { borderColor: "white" },
+                      after && { borderColor: styles.borderColorDay },
                     ]}
                     onPress={() => {
                       setAfter(!after);
@@ -407,7 +408,7 @@ const EditProfileArtistScreen = (props) => {
                   <TouchableOpacity
                     style={[
                       styles.timeContainer,
-                      evening && { borderColor: "white" },
+                      evening && { borderColor: styles.borderColorDay },
                     ]}
                     onPress={() => {
                       setEvening(!evening);
@@ -418,7 +419,7 @@ const EditProfileArtistScreen = (props) => {
                   <TouchableOpacity
                     style={[
                       styles.timeContainer,
-                      night && { borderColor: "white" },
+                      night && { borderColor: styles.borderColorDay },
                     ]}
                     onPress={() => {
                       setNight(!night);
@@ -431,7 +432,7 @@ const EditProfileArtistScreen = (props) => {
               <View>
                 <View style={[styles.dayRow, { marginTop: "10%" }]}>
                   <TouchableOpacity
-                    style={[styles.dayContainer, mon && { borderColor: "white" }]}
+                    style={[styles.dayContainer, mon && { borderColor: styles.borderColorDay }]}
                     onPress={() => {
                       setMon(!mon);
                     }}
@@ -439,7 +440,7 @@ const EditProfileArtistScreen = (props) => {
                     <Text style={styles.timeText}>Mon</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={[styles.dayContainer, tue && { borderColor: "white" }]}
+                    style={[styles.dayContainer, tue && { borderColor: styles.borderColorDay }]}
                     onPress={() => {
                       setTue(!tue);
                     }}
@@ -447,7 +448,7 @@ const EditProfileArtistScreen = (props) => {
                     <Text style={styles.timeText}>Tue</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={[styles.dayContainer, wed && { borderColor: "white" }]}
+                    style={[styles.dayContainer, wed && { borderColor: styles.borderColorDay }]}
                     onPress={() => {
                       setWed(!wed);
                     }}
@@ -457,7 +458,7 @@ const EditProfileArtistScreen = (props) => {
                 </View>
                 <View style={[styles.dayRow, { marginTop: "5%" }]}>
                   <TouchableOpacity
-                    style={[styles.dayContainer, thu && { borderColor: "white" }]}
+                    style={[styles.dayContainer, thu && { borderColor: styles.borderColorDay }]}
                     onPress={() => {
                       setThu(!thu);
                     }}
@@ -465,7 +466,7 @@ const EditProfileArtistScreen = (props) => {
                     <Text style={styles.timeText}>Thu</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={[styles.dayContainer, fri && { borderColor: "white" }]}
+                    style={[styles.dayContainer, fri && { borderColor: styles.borderColorDay }]}
                     onPress={() => {
                       setFri(!fri);
                     }}
@@ -473,7 +474,7 @@ const EditProfileArtistScreen = (props) => {
                     <Text style={styles.timeText}>Fri</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={[styles.dayContainer, sat && { borderColor: "white" }]}
+                    style={[styles.dayContainer, sat && { borderColor: styles.borderColorDay }]}
                     onPress={() => {
                       setSat(!sat);
                     }}
@@ -483,7 +484,7 @@ const EditProfileArtistScreen = (props) => {
                 </View>
                 <View style={[styles.dayRow, { marginTop: "5%" }]}>
                   <TouchableOpacity
-                    style={[styles.dayContainer, sun && { borderColor: "white" }]}
+                    style={[styles.dayContainer, sun && { borderColor: styles.borderColorDay }]}
                     onPress={() => {
                       setSun(!sun);
                     }}
@@ -507,13 +508,13 @@ const EditProfileArtistScreen = (props) => {
               <Ionicons
                 name="chevron-up"
                 size={28}
-                color={global.color.primaryColors.buttonAccent}
+                color={styles.iconColor}
               />
             ) : (
               <Ionicons
                 name="chevron-down"
                 size={28}
-                color={global.color.primaryColors.buttonAccent}
+                color={styles.iconColor}
               />
             )}
           </TouchableOpacity>
@@ -635,117 +636,4 @@ const EditProfileArtistScreen = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  socialRow: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginHorizontal: "5%",
-    marginBottom: "8%",
-  },
-  image: {
-    alignSelf: "center",
-    marginTop: "5%",
-    resizeMode: "contain",
-    height: 120,
-    width: 120,
-  },
-  imageContainer: {
-    borderRadius: 100,
-    borderWidth: 2,
-    width: 150,
-    height: 150,
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-    backgroundColor: global.color.primaryColors.adjacent,
-    borderColor: global.color.primaryColors.adjacent,
-    marginTop: "5%",
-  },
-  dayContainer: {
-    width: "29%",
-    borderColor: global.color.primaryColors.main,
-    alignItems: "center",
-    padding: "5%",
-    borderWidth: 1,
-    borderColor: global.color.primaryColors.adjacent,
-    borderRadius: 12,
-    backgroundColor: global.color.primaryColors.adjacent,
-  },
-  dayRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: "10%",
-    borderColor: "white",
-  },
-  timeText: {
-    fontFamily: "Rubik-Regular",
-    color: global.color.primaryColors.main,
-    fontSize: 16,
-  },
-  timeContainer: {
-    width: "47%",
-    borderColor: global.color.primaryColors.main,
-    alignItems: "center",
-    padding: "5%",
-    borderRadius: 12,
-    backgroundColor: global.color.primaryColors.adjacent,
-    borderWidth: 1,
-    borderColor: global.color.primaryColors.adjacent,
-  },
-  timeRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: "10%",
-    borderColor: "white",
-  },
-  headerText: {
-    fontFamily: "Rubik-Regular",
-    fontSize: 18,
-    color: global.color.primaryColors.text,
-  },
-  headerContainer: {
-    margin: "8%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  input: {
-    paddingVertical: "5%",
-    marginHorizontal: "5%",
-    fontSize: 16,
-    fontFamily: "Rubik-Regular",
-    color: global.color.primaryColors.text,
-  },
-  inputContainerSocial: {
-    backgroundColor: global.color.primaryColors.adjacent,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 90,
-    height: 90,
-    borderRadius: 100,
-  },
-  inputSocial: {
-    fontSize: 16,
-    fontFamily: "Rubik-Regular",
-    padding: "5%",
-    marginTop: 5,
-    width: "85%",
-    borderRadius: 12,
-    marginHorizontal: "8%",
-    backgroundColor: global.color.primaryColors.adjacent,
-    color: global.color.primaryColors.text,
-  },
-  inputContainer: {
-    borderRadius: 12,
-    marginHorizontal: "8%",
-    marginTop: "5%",
-    backgroundColor: global.color.primaryColors.adjacent,
-  },
-  inputHeader: {
-    color: "#757575",
-    fontFamily: "Rubik-Regular",
-  },
-});
 export default EditProfileArtistScreen;

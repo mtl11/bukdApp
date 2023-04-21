@@ -13,10 +13,15 @@ import { ProfileContext } from "../../store/profileContext.js";
 import colors from "../../styles/global";
 import { getPersonalInfo, setPersonalInfo } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../store/authContext.js";
+import dark from "../../styles/profile/dark/personalInfo.js";
+import light from "../../styles/profile/light/personalInfo.js";
 
 const PersonalInfoScreen = (props) => {
- 
   const profileCTX = useContext(ProfileContext);
+  const authCTX = useContext(AuthContext);
+  const styles = authCTX.mode === "light" ? light : dark;
+
   const [firstName, setFirstName] = useState(profileCTX.personalInfo.firstName);
   const [lastName, setLastName] = useState(profileCTX.personalInfo.lastName);
   console.log(profileCTX.personalInfo);
@@ -46,7 +51,7 @@ const PersonalInfoScreen = (props) => {
           <FontAwesome5
             name="chevron-left"
             size={32}
-            color={colors.color.primaryColors.buttonAccent}
+            color={styles.iconColor}
           />
         </TouchableOpacity>
         <View style={styles.largeContainer}>
@@ -105,81 +110,4 @@ const PersonalInfoScreen = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  textInputsContanier: {
-    marginVertical: "10%",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: colors.color.primaryColors.background,
-  },
-  largeText: {
-    fontSize: 20,
-    fontFamily: "Rubik-SemiBold",
-    color: colors.color.primaryColors.text,
-  },
-  largeContainer: {
-    width: "90%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputHeader: {
-    color: colors.color.primaryColors.headerText,
-    fontFamily: "Rubik-Regular",
-  },
-  inputHeaderContainer: {
-    marginHorizontal: "8%",
-  },
-  input: {
-    paddingVertical: "5%",
-    marginHorizontal: "5%",
-    fontSize: 16,
-    fontFamily: "Rubik-Regular",
-    color: colors.color.primaryColors.text,
-  },
-  inputContainer: {
-    borderRadius: 12,
-    marginHorizontal: "8%",
-    marginTop: "5%",
-    backgroundColor: colors.color.primaryColors.adjacent,
-  },
-  topIconContainer: {
-    marginHorizontal: "8%",
-    flexDirection: "row",
-    // marginTop: "5%"
-  },
-  headerText: {
-    fontFamily: "Rubik-SemiBold",
-    fontSize: 18,
-  },
-  smallerText: {
-    fontFamily: "Rubik-Regular",
-    fontSize: 16,
-    color: "#757575",
-    marginTop: 10,
-  },
-  sectionHeaderContainer: {
-    borderBottomWidth: 1,
-    margin: 10,
-    paddingLeft: 30,
-    paddingBottom: 10,
-    marginTop: 40,
-    flexDirection: "row",
-    borderColor: "#757575",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 16,
-    marginHorizontal: "8%",
-    backgroundColor: colors.color.primaryColors.main,
-    borderRadius: 12,
-    marginTop: "90%",
-  },
-  buttonText: {
-    fontFamily: "Rubik-Medium",
-    color: "white",
-    fontSize: 18,
-  },
-});
 export default PersonalInfoScreen;

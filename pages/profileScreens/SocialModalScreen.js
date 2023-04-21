@@ -15,8 +15,14 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { setSocial } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {AuthContext} from "../../store/authContext";
+import light from "../../styles/profile/light/socialModal";
+import dark from "../../styles/profile/dark/socialModal";
+
 const SocialModalScreen = (props) => {
-  // console.log(props.route.params);
+  const authCTX = useContext(AuthContext);
+  const styles = authCTX.mode === "light" ? light : dark;
+
   const profileCTX = useContext(ProfileContext);
   const [isAuth, setIsAuth] = useState(false);
   const socialLinks = new SocialLinks();
@@ -47,7 +53,7 @@ const SocialModalScreen = (props) => {
             <FontAwesome5
               name="chevron-left"
               size={32}
-              color={colors.color.primaryColors.buttonAccent}
+              color={styles.iconColor}
             />
           </TouchableOpacity>
         </View>
@@ -63,9 +69,7 @@ const SocialModalScreen = (props) => {
             keyboardType="email-address"
             placeholder="Username"
             maxLength={40}
-            placeholderTextColor={
-              colors.color.primaryColors.placeHolderTextColor
-            }
+            placeholderTextColor={styles.placeHolderTextColor}
             onChangeText={setUsername}
             value={username}
           />
@@ -109,50 +113,4 @@ const SocialModalScreen = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 18,
-    marginLeft: 40,
-    marginRight: 40,
-    alignSelf: "center",
-    fontFamily: "Rubik-SemiBold",
-    color: colors.color.primaryColors.main,
-  },
-  topIconContainer: {
-    marginHorizontal: "8%",
-    marginTop: "7%",
-    flexDirection: "row",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: colors.color.primaryColors.background,
-  },
-  input: {
-    paddingVertical: "5%",
-    marginHorizontal: "5%",
-    fontSize: 16,
-    fontFamily: "Rubik-Regular",
-    color: colors.color.primaryColors.text,
-  },
-  inputContainer: {
-    borderRadius: 12,
-    marginHorizontal: "8%",
-    marginTop: "5%",
-    backgroundColor: colors.color.primaryColors.adjacent,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 16,
-    marginHorizontal: "8%",
-    backgroundColor: colors.color.primaryColors.main,
-    borderRadius: 12,
-    marginTop: "90%",
-  },
-  buttonText: {
-    fontFamily: "Rubik-Medium",
-    color: "white",
-    fontSize: 18,
-  },
-});
 export default SocialModalScreen;
