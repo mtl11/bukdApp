@@ -133,6 +133,7 @@ const EditProfileArtistScreen = (props) => {
     if (night) time.night = true;
     return time;
   };
+  
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,

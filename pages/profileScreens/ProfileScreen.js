@@ -10,6 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import SocialTab from "../../components/profile/SocialProfileTabArtist.js";
 import AvailabilityProfileArtist from "../../components/profile/AvailabilityProfileArtist.js";
+import ShowsTab from "../../components/profile/ShowsTab.js";
 import AboutTabArtist from "../../components/profile/AboutTabArtist.js";
 import global from "../../styles/global";
 import {
@@ -30,7 +31,7 @@ const ProfileScreen = (props) => {
   const styles = authCTX.mode === "light" ? light : dark;
 
   const profileCTX = useContext(ProfileContext);
-  const [gettingInfo, setGettingInfo] = useState(true);
+  const [gettingInfo, setGettingInfo] = useState(false);
 
   async function getProfile() {
     setGettingInfo(true);
@@ -40,7 +41,7 @@ const ProfileScreen = (props) => {
 
     profileCTX.updateBasic(basicInfo);
     if (basicInfo.profileType == "venue") {
-      if (otherInfo.hasOwnProperty("socials")) {
+      if (otherInfo.hasOwnProperty("about")) {
         profileCTX.updateAbout({
           bio: otherInfo.about.bio,
           category: otherInfo.about.category,
@@ -49,7 +50,7 @@ const ProfileScreen = (props) => {
         });
       }
     } else {
-      if (otherInfo.hasOwnProperty("socials")) {
+      if (otherInfo.hasOwnProperty("about")) {
         profileCTX.updateAbout(
           new aboutInfo(
             otherInfo.about.bio,
@@ -81,7 +82,7 @@ const ProfileScreen = (props) => {
     profileCTX.updateProfilePic(profileuri);
     setGettingInfo(false);
   }
-
+  console.log(profileCTX.about);
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
   const [availShow, setAvailShow] = useState(false);
@@ -90,7 +91,7 @@ const ProfileScreen = (props) => {
       return <SocialTab />;
     }
     if (aboutShow == true) {
-      return <AboutTabArtist />;
+      return <ShowsTab />;
     }
     if (availShow == true) {
       return <AvailabilityProfileArtist />;
@@ -100,16 +101,18 @@ const ProfileScreen = (props) => {
     getProfile();
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
-      {gettingInfo ? (
-        <View style={{ height: "100%", justifyContent: "center" }}>
-          <ActivityIndicator size={"large"} />
-        </View>
-      ) : (
-        <View style={styles.container}>
-          <View>
-            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              <View style={{ justifyContent: "center" }}>
+    <View >
+      <SafeAreaView style={{ backgroundColor: global.color.primaryColors.main }} />
+      <SafeAreaView style={styles.container}>
+        {gettingInfo ? (
+          <View style={{ height: "100%", justifyContent: "center" }}>
+            <ActivityIndicator size={"large"} />
+          </View>
+        ) : (
+          <View style={styles.container}>
+            {/* <View style={{borderWidth: 1}}> */}
+            <View style={{ flexDirection: "row", justifyContent: "flex-end", backgroundColor: global.color.primaryColors.main, height: "12%" }}>
+              <View>
                 <TouchableOpacity
                   style={styles.topIconContainer}
                   onPress={() => {
@@ -124,130 +127,189 @@ const ProfileScreen = (props) => {
                 </TouchableOpacity>
               </View>
             </View>
-            <View>
-              <View style={styles.profilePicContainer}>
-                <Image
-                  source={{ uri: profileCTX.profilePic }}
-                  style={styles.profilePic}
-                  resizeMode="contain"
-                />
+            <View style={[styles.profilePicContainer, {
+              position: 'absolute',
+              top: "-1%",
+              bottom: 0,
+              width: 120,
+              height: 120,
+              marginHorizontal: 30
+            }]}>
+              <Image
+                source={{ uri: profileCTX.profilePic }}
+                style={styles.profilePic}
+                resizeMode="contain"
+              // defaultSource={}
+              />
+            </View>
+            <View style={{ marginHorizontal: 30 }}>
+              <TouchableOpacity
+                style={{
+                  // justifyContent: "flex-end",
+                  borderRadius: 12,
+                  borderWidth: 1,
+                  borderColor: "#FCFCFF",
+                  width: "50%",
+                  marginTop: 20,
+                  marginBottom: 10,
+                  backgroundColor: global.color.primaryColors.main,
+                  alignSelf: "flex-end",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.22,
+                  shadowRadius: 2.22,
+                  elevation: 3
+                }}
+                onPress={() => {
+                  props.navigation.navigate("EditProfileArtistScreen");
+                }}
+              >
+                <View style={{ alignSelf: "center", padding: 10 }}>
+                  <Text
+                    style={styles.editProfileText}
+                  >
+                    Edit Profile
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={{ marginHorizontal: 30 }}>
+              <View style={styles.usernameContainer}>
+                <Text style={styles.usernameText}>
+                  {profileCTX.basicInfo.profileName}
+                </Text>
+              </View>
+
+              {/* <View>
+                <Text
+                  style={{
+                    color: global.color.primaryColors.main,
+                    fontFamily: "Rubik-Medium",
+                    fontSize: 18,
+                  }}
+                >
+                  {profileCTX.basicInfo.profileType.charAt(0).toUpperCase() + profileCTX.basicInfo.profileType.slice(1)}
+                </Text>
+              </View> */}
+              <View style={{ marginBottom: 2.5, flexDirection: "row", alignItems: "center" }}>
+                {profileCTX.basicInfo.profileType == "performer" ? (
+                  <View>
+                    <Text style={{
+                      color: global.color.primaryColors.main,
+                      fontFamily: "Rubik-Regular",
+                      fontSize: 16,
+                    }}>
+                      {profileCTX.about.category} {" "}
+                      {profileCTX.about.genre && <Text>
+                        |{" "}{profileCTX.about.genre} </Text>}
+                    </Text></View>) : (<View><Text style={{
+                      color: global.color.primaryColors.main,
+                      fontFamily: "Rubik-Regular",
+                      fontSize: 16
+                    }}>
+                      {profileCTX.about.category}
+                    </Text></View>)}
+                <View style={{ marginLeft: profileCTX.about.genre && 10, flexDirection: "row", alignItems: "center" }}>
+                  {profileCTX.about.location != undefined ?
+                    <Ionicons
+                      name="location-outline"
+                      size={24}
+                      color={global.color.secondaryColors.placeHolderTextColor}
+                    /> : <View></View>}
+                  <Text style={{
+                    color: global.color.secondaryColors.placeHolderTextColor,
+                    fontFamily: "Rubik-Regular",
+                    fontSize: 16
+                  }}>
+                    {profileCTX.about.location}
+                  </Text>
+                </View>
+              </View>
+              <View>
+                <Text style={{
+                  color: "black",
+                  fontFamily: "Rubik-Regular",
+                  fontSize: 14,
+                }}>{profileCTX.about.bio}</Text>
               </View>
             </View>
-          </View>
-          <View style={{ justifyContent: "center" }}>
-            <View style={styles.usernameContainer}>
-              <Text style={styles.usernameText}>
-                {profileCTX.basicInfo.profileName}
-              </Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text
-                style={{
-                  color: global.color.primaryColors.main,
-                  fontFamily: "Rubik-Medium",
-                  fontSize: 18,
-                }}
-              >
-                {profileCTX.basicInfo.profileType.charAt(0).toUpperCase() + profileCTX.basicInfo.profileType.slice(1)}
-              </Text>
-            </View>
-          </View>
-
-          <TouchableOpacity
-            style={{
-              alignSelf: "center",
-              borderRadius: 12,
-              borderColor: "#2A51DB",
-              width: "80%",
-              marginVertical: 10,
-              backgroundColor: global.color.primaryColors.main,
-            }}
-            onPress={() => {
-              props.navigation.navigate("EditProfileArtistScreen");
-            }}
-          >
-            <View style={{ alignSelf: "center", padding: 10 }}>
-              <Text
-                style={styles.editProfileText}
-              >
-                Edit Profile
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <View
-            style={styles.tabView}
-          >
             <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-                width: "90%",
-              }}
+              style={styles.tabView}
             >
-              <TouchableOpacity
-                style={styles.tabContainer}
-                onPress={() => {
-                  setAboutShow(true);
-                  setAvailShow(false);
-                  setSocialShow(false);
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                  width: "90%",
                 }}
               >
-                <View style={{ flexDirection: "column" }}>
-                  <View style={styles.tabTextContainer}>
-                    <Text style={styles.tabText}>About</Text>
+                 <TouchableOpacity
+                  style={styles.tabContainer}
+                  onPress={() => {
+                    setAvailShow(true);
+                    setAboutShow(false);
+                    setSocialShow(false);
+                  }}
+                >
+                  <View style={{ flexDirection: "column" }}>
+                    <View style={styles.tabTextContainer}>
+                      <Text style={styles.tabText}>Availability</Text>
+                    </View>
+                    {availShow ? (
+                      <View style={styles.tabBottomBar}></View>
+                    ) : (
+                      <View></View>
+                    )}
                   </View>
-                  {aboutShow ? (
-                    <View style={styles.tabBottomBar}></View>
-                  ) : (
-                    <View></View>
-                  )}
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.tabContainer}
-                onPress={() => {
-                  setAvailShow(true);
-                  setAboutShow(false);
-                  setSocialShow(false);
-                }}
-              >
-                <View style={{ flexDirection: "column" }}>
-                  <View style={styles.tabTextContainer}>
-                    <Text style={styles.tabText}>Availability</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.tabContainer}
+                  onPress={() => {
+                    setAboutShow(true);
+                    setAvailShow(false);
+                    setSocialShow(false);
+                  }}
+                >
+                  <View style={{ flexDirection: "column" }}>
+                    <View style={styles.tabTextContainer}>
+                      <Text style={styles.tabText}>Shows</Text>
+                    </View>
+                    {aboutShow ? (
+                      <View style={styles.tabBottomBar}></View>
+                    ) : (
+                      <View></View>
+                    )}
                   </View>
-                  {availShow ? (
-                    <View style={styles.tabBottomBar}></View>
-                  ) : (
-                    <View></View>
-                  )}
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.tabContainer}
-                onPress={() => {
-                  setSocialShow(true);
-                  setAvailShow(false);
-                  setAboutShow(false);
-                }}
-              >
-                <View style={{ flexDirection: "column" }}>
-                  <View style={styles.tabTextContainer}>
-                    <Text style={styles.tabText}>Socials</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.tabContainer}
+                  onPress={() => {
+                    setSocialShow(true);
+                    setAvailShow(false);
+                    setAboutShow(false);
+                  }}
+                >
+                  <View style={{ flexDirection: "column" }}>
+                    <View style={styles.tabTextContainer}>
+                      <Text style={styles.tabText}>Social Media</Text>
+                    </View>
+                    {socialShow ? (
+                      <View style={styles.tabBottomBar}></View>
+                    ) : (
+                      <View></View>
+                    )}
                   </View>
-                  {socialShow ? (
-                    <View style={styles.tabBottomBar}></View>
-                  ) : (
-                    <View></View>
-                  )}
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
+              </View>
             </View>
+            {getScreenTab()}
           </View>
-          {getScreenTab()}
-        </View>
-      )}
-    </SafeAreaView>
+        )}
+      </SafeAreaView>
+    </View >
   );
 };
 

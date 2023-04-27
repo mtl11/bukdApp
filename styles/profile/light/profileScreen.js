@@ -1,6 +1,6 @@
 import global from "../../global"
 export default {
-    iconColor: global.color.secondaryColors.iconColor,
+    iconColor: "white",
     editProfileText: {
         color: "white",
         fontFamily: "Rubik-Medium",
@@ -8,7 +8,7 @@ export default {
     },
     tabView: {
         borderBottomWidth: 1,
-        marginTop: 5,
+        marginTop: 10,
         alignItems: "center",
         borderColor: global.color.secondaryColors.adjacent,
     },
@@ -40,6 +40,7 @@ export default {
         width: 120,
         height: 120,
         borderRadius: 100,
+        // overflow: 'hidden'
     },
     topIconContainer: {
         alignSelf: "flex-end",
@@ -53,24 +54,21 @@ export default {
         justifyContent: "center",
     },
     profilePicContainer: {
-        alignSelf: "center",
+        alignItems: "center",
+        overflow: 'hidden',
+        flex:1,
         borderRadius: 100,
-        // marginTop: "3%",
+        marginTop: 50,
         justifyContent: "center",
         borderWidth: 3,
-        borderColor: "black",
-        // shadowColor: "#000",
-        // shadowOffset: { width: 0, height: 0 },
-        // shadowOpacity: 0.41,
-        // shadowRadius: 4,
+        borderColor: global.color.secondaryColors.main,
     },
     usernameContainer: {
-        alignSelf: "center",
-        marginTop: 5,
+        // marginTop: 5,
     },
     usernameText: {
         fontFamily: "Rubik-SemiBold",
-        fontSize: 24,
+        fontSize: 20,
         color: global.color.secondaryColors.text,
     },
 }

@@ -38,7 +38,6 @@ const StartScreen = (props) => {
       setIsAuth(false);
     }
   }
-
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={{ marginLeft: 30 }} onPress={() => { setVisible(true) }}>
@@ -112,7 +111,7 @@ const StartScreen = (props) => {
           <ActivityIndicator size={22} />
         )}
       </TouchableOpacity>
-      {/* DO NOT DELETE 
+      {/* DO NOT DELETE  */}
       <View style={styles.newAccountContainer}>
         <Text style={styles.newAccountText}>Don't have an account?</Text>
         <TouchableOpacity
@@ -123,7 +122,7 @@ const StartScreen = (props) => {
           <Text style={styles.buttonTextSignUp}> Sign Up</Text>
         </TouchableOpacity>
       </View>
-      */}
+     
       <InfoModal visible={visible} setVisible={setVisible} />
     </SafeAreaView>
   );
