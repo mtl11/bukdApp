@@ -110,7 +110,6 @@ const ProfileScreen = (props) => {
           </View>
         ) : (
           <View style={styles.container}>
-            {/* <View style={{borderWidth: 1}}> */}
             <View style={{ flexDirection: "row", justifyContent: "flex-end", backgroundColor: global.color.primaryColors.main, height: "12%" }}>
               <View>
                 <TouchableOpacity
@@ -182,18 +181,6 @@ const ProfileScreen = (props) => {
                   {profileCTX.basicInfo.profileName}
                 </Text>
               </View>
-
-              {/* <View>
-                <Text
-                  style={{
-                    color: global.color.primaryColors.main,
-                    fontFamily: "Rubik-Medium",
-                    fontSize: 18,
-                  }}
-                >
-                  {profileCTX.basicInfo.profileType.charAt(0).toUpperCase() + profileCTX.basicInfo.profileType.slice(1)}
-                </Text>
-              </View> */}
               <View style={{ marginBottom: 2.5, flexDirection: "row", alignItems: "center" }}>
                 {profileCTX.basicInfo.profileType == "performer" ? (
                   <View>
