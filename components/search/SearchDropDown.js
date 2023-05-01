@@ -74,17 +74,16 @@ const SearchDropDown = (props) => {
 
 const styles = StyleSheet.create({
   dropContainer: {
-    backgroundColor: global.color.primaryColors.adjacent,
-    borderColor: global.color.primaryColors.adjacent,
+    backgroundColor: global.color.secondaryColors.adjacent,
+    borderColor: global.color.secondaryColors.adjacent,
     borderRadius: 12,
     paddingBottom: 10,
   },
   item: {
-    backgroundColor: global.color.primaryColors.adjacent,
-    borderRadius: 12,
+    backgroundColor: global.color.secondaryColors.adjacent,
   },
   textItem: {
-    color: global.color.primaryColors.text,
+    color: "black",
     fontSize: 16,
     padding: 20,
     fontFamily: "Rubik-Regular",
@@ -93,7 +92,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: "90%",
     backgroundColor: global.color.primaryColors.main,
-    // borderWidth: 1,
     borderRadius: 12,
     padding: 10,
     marginVertical: "2%"
@@ -116,8 +114,8 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     fontSize: 16,
     color: global.color.primaryColors.text,
-    backgroundColor: global.color.primaryColors.adjacent,
-    borderColor: global.color.primaryColors.adjacent,
+    backgroundColor: global.color.secondaryColors.adjacent,
+    borderColor: global.color.secondaryColors.adjacent,
   },
 });
 

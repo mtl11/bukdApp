@@ -30,6 +30,10 @@ export async function addNewShow(startTime, endTime, date, venueName, localId, a
   });
 }
 
+export async function deleteSomeShow(localId, item, accessToken){
+  const response = await firebaseUtil.delete("/users/" + localId + "/shows/"+item+".json?auth="+accessToken);
+}
+
 export async function setVenueAboutInfo(bio, category, location, equipment, localId, accessToken) {
   const response = await firebaseUtil.put("/users/" + localId + "/about.json?auth="+accessToken, {
     bio: bio,
@@ -74,10 +78,10 @@ export async function getProfileStart(localId) {
   return response.data;
 }
 
-export async function setSocial(type, url, localId, username) {
+export async function setSocial(type, url, localId, username,accessToken) {
   console.log(username);
   const response = await firebaseUtil.put(
-    "/users/" + localId + "/socials/" + type + ".json",
+    "/users/" + localId + "/socials/" + type + ".json?auth="+accessToken,
     {
       url: url,
       username: username

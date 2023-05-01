@@ -88,25 +88,8 @@ const SearchScreen = (props) => {
                 blur={getVenues}
               />
             )}
-            {pt == "venue" ? <CategorySelector data={profileCategoriesArtist} /> :
-              <CategorySelector data={profileCategoriesVenue} />}
-            {/* {pt == "venue" ? (
-              <SearchDropDown
-                setValue={setCategory}
-                placeholder={"Select Category"}
-                data={profileCategoriesArtist}
-                icon={"musical-notes-outline"}
-                blur={()=>{}}
-              />
-            ) : (
-              <SearchDropDown
-                setValue={setCategory}
-                placeholder={"Select Category"}
-                data={profileCategoriesVenue}
-                icon={"business-outline"}
-                blur={() => {}}
-              />
-            )} */}
+            {pt == "venue" ? <CategorySelector data={profileCategoriesArtist} setValue={setCategory}/> :
+              <CategorySelector data={profileCategoriesVenue} setValue={setCategory}/>}
           </View>
           {pt == "venue" ? (
             <VenueList venues={performers} category={category} props={props} />
@@ -146,7 +129,6 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
   },
   container: {
     backgroundColor: global.color.secondaryColors.background,

@@ -7,17 +7,20 @@ import {
     ScrollView,
     Button,
     TextInput,
-
+    FlatList,
+    TouchableWithoutFeedback,
+    Alert
 } from "react-native";
 import global from "../../styles/global";
 import Modal from "react-native-modal";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import { EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { ProfileContext } from "../../store/profileContext.js";
-import { addNewShow, getAccessToken } from "../../util/profile";
+import { addNewShow, getAccessToken, deleteSomeShow } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const ShowsTab = () => {
     const profileCTX = useContext(ProfileContext);
+    const [shows, setShows] = useState(profileCTX.shows);
     const [visible, setVisible] = useState(false);
     const [startTime, setStartTime] = useState(new Date());
     const [endTime, setEndTime] = useState(new Date());
@@ -33,21 +36,25 @@ const ShowsTab = () => {
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
     }
-    // console.log(profileCTX.shows);
-    const getShows = () => {
-        const array = [];
-        console.log(profileCTX.shows);
-        for (const show in profileCTX.shows) {
-            console.log(profileCTX.shows[show][1]);
-            const month = new Date(profileCTX.shows[show][1].date).toLocaleString('default', { month: 'long' });
-            const day = new Date(profileCTX.shows[show][1].date).getDate();
-            const start = formatAMPM(new Date(profileCTX.shows[show][1].startTime));
-            const end = formatAMPM(new Date(profileCTX.shows[show][1].endTime));
-            const venueName = profileCTX.shows[show][1].venueName;
-            console.log(day);
-            array.push(
-                <View key={show} style={styles.showContainer}>
-                    <View style={{ padding: "3%", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
+    const [selectedItem, setSelectedItem] = useState("-NU4IyBN0dDoPPvlL-f3");
+    
+    const getItem = (item, label) => {
+        console.log(label);
+        const month = new Date(item.date).toLocaleString('default', { month: 'long' });
+        const day = new Date(item.date).getDate();
+        const start = formatAMPM(new Date(item.startTime));
+        const end = formatAMPM(new Date(item.endTime));
+        const venueName = item.venueName;
+
+        return (
+            <TouchableOpacity key={label} style={styles.showContainer} onPress={() => {
+                if (label == selectedItem) {
+                    setSelectedItem(null);
+                } else
+                    setSelectedItem(label);
+            }}>
+                <View style={{ width: "90%" }}>
+                    <View style={{ padding: "3%", flexDirection: "row", justifyContent: "space-between", width: "110%" }}>
                         <View style={{ alignSelf: 'center' }}>
                             <Text style={styles.dateText}>{month} {day}</Text>
                         </View>
@@ -70,15 +77,56 @@ const ShowsTab = () => {
                             </View>
                         </View>
                     </View>
+                    {selectedItem == label &&
+                        <TouchableWithoutFeedback >
+                            <View style={{ flexDirection: "row", justifyContent: "space-evenly", width: "110%", padding: "5%" }}>
+                                <TouchableOpacity style={{ backgroundColor: "white", padding: 12, borderRadius: 12, width: "30%", alignItems: "center", borderWidth: 1, borderColor: global.color.primaryColors.main }}>
+                                    <Text style={{ color: global.color.primaryColors.main, fontSize: 14, fontFamily: "Rubik-SemiBold" }}>
+                                        Edit
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={deleteShow} style={{ backgroundColor: global.color.primaryColors.main, padding: 12, borderRadius: 12, width: "30%", alignItems: "center" }}>
+                                    <Text style={{ color: "white", fontSize: 14, fontFamily: "Rubik-SemiBold" }}>
+                                        Delete
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        </TouchableWithoutFeedback>
+                    }
                 </View>
-            )
-        }
-        return array;
+            </TouchableOpacity>
+        )
+    }
+    
+    async function deletehelper(){
+        const localId = await AsyncStorage.getItem("localId");
+        const accessToken = await getAccessToken();
+        await deleteSomeShow(localId, selectedItem, accessToken);
     }
 
+    const deleteShow = () => {
+        Alert.alert("Are you sure you want to Delete this Show?", "This action can not be undone", [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "destructive",
+          },
+          {
+            text: "Delete",
+            onPress: () => {
+                profileCTX.deleteShow(selectedItem);
+                const filteredData = shows.filter(item => item[0] != selectedItem);
+                setShows(filteredData);
+                deletehelper();
+            },
+            style: "destructive",
+          },
+        ]);
+      };
     async function addShow() {
         const accessToken = await getAccessToken();
-        const show = ["newEntry", {
+        const show = [shows.length + 1, {
             startTime: startTime,
             endTime: endTime,
             date: date,
@@ -87,30 +135,50 @@ const ShowsTab = () => {
         profileCTX.addShow(show);
         const localId = await AsyncStorage.getItem("localId");
         await addNewShow(startTime, endTime, date, venueName, localId, accessToken);
+        setShows(profileCTX.shows)
     }
     return (
-        <ScrollView  style={{
-            marginBottom: 100}}contentContainerStyle={{alignItems: "center",  paddingVertical: "5%"}}>
-            {profileCTX.shows.length != 0 ?
-                getShows()
-                :
-                <Text
-                    style={{
-                        fontSize: 22,
-                        fontFamily: "Rubik-Regular",
-                        color: global.color.primaryColors.adjacent,
-                    }}
-                >
-                    Click to Add a Show
-                </Text>}
-            <View >
-                <TouchableOpacity onPress={() => {
-                    setVisible(!visible)
-                }}>
-                    <Ionicons name="add-circle-outline" size={50} color={global.color.primaryColors.main} />
-                </TouchableOpacity>
-            </View>
-           
+        <View style={{ flex: 1 }}>
+            {profileCTX.shows.length == 0 &&
+                <View style={{ alignItems: "center", marginVertical: "10%" }}>
+
+                    <Text
+                        style={{
+                            fontSize: 22,
+                            fontFamily: "Rubik-Regular",
+                            color: global.color.primaryColors.adjacent,
+                        }}
+                    >
+                        Click to Add a Show
+                    </Text>
+                    <TouchableOpacity onPress={() => {
+                        setVisible(!visible)
+                    }}>
+                        <Ionicons name="add-circle-outline" size={50} color={global.color.primaryColors.main} />
+                    </TouchableOpacity>
+                </View>}
+                {profileCTX.shows.length != 0 &&
+            <FlatList
+                contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 100 }}
+                data={shows} renderItem={
+                    ({ item }) => { return getItem(item[1], item[0]) }
+                }
+                ListFooterComponent={() => {
+                    return (
+                        <View style={{ alignItems: "center" }}>
+                            <TouchableOpacity onPress={() => {
+                                setVisible(!visible)
+                            }}>
+                                <Ionicons name="add-circle-outline" size={50} color={global.color.primaryColors.main} />
+                            </TouchableOpacity>
+                            <Text style={{ fontSize: 14, fontFamily: "Rubik-Regular", color: global.color.secondaryColors.placeHolderTextColor }}>
+                                Maximum Shows: 10
+                            </Text>
+                        </View>)
+                }}
+                ListFooterComponentStyle={{ marginBottom: "10%" }}
+            />}
+
             <Modal isVisible={visible}>
                 <View style={{
                     height: "60%",
@@ -205,8 +273,6 @@ const ShowsTab = () => {
                     </View>
                     <TouchableOpacity
                         style={{
-                            // alignContent: "center",
-                            // justifyContent: "flex-end",
                             borderRadius: 12,
                             borderWidth: 1,
                             borderColor: "#FCFCFF",
@@ -243,12 +309,13 @@ const ShowsTab = () => {
                     </TouchableOpacity>
                 </View>
             </Modal>
-            </ScrollView>
+
+        </View>
     );
 }
 const styles = StyleSheet.create({
     showContainer: {
-        width: "90%",
+        // width: "90%",
         borderWidth: 1, borderRadius: 12,
         borderColor: "#D9D9D9",
         flexDirection: "row",

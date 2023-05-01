@@ -12,19 +12,20 @@ const CategorySelector = (props) => {
         for (const x in props.data) {
             const item = props.data[x];
             array.push(
-            <TouchableOpacity 
-            onPress={()=>{
-                setSelectedName(item.label)
-            }}
-            key={item.value} 
-            style={[styles.categoryContainer,
-                selectedName == item.label && {backgroundColor: global.color.primaryColors.main}]}>
-                <View style={{ padding: 10 }}>
-                    <Text style={[styles.text, selectedName == item.label && {color: "white"}]}>
-                        {item.label}
-                    </Text>
-                </View>
-            </TouchableOpacity>)
+                <TouchableOpacity
+                    onPress={() => {
+                        setSelectedName(item.label);
+                        props.setValue(item.label);
+                    }}
+                    key={item.value}
+                    style={[styles.categoryContainer,
+                    selectedName == item.label && { backgroundColor: global.color.primaryColors.main }]}>
+                    <View style={{ padding: 10 }}>
+                        <Text style={[styles.text, selectedName == item.label && { color: "white" }]}>
+                            {item.label}
+                        </Text>
+                    </View>
+                </TouchableOpacity>)
         }
         return array;
     }

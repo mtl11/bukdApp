@@ -35,13 +35,10 @@ export async function createNewChatRoom(senderID, recieverID, senderName, reciev
     const putInSenderResponse = await firebaseUtil.put("/users/" + senderID + "/chatrooms/" + recieverID + "/.json", {
         chatRoomID: response.data.name,
         recieverName: recieverName
-
     });
-
     const putInRecieverResponse = await firebaseUtil.put("/users/" + recieverID + "/chatrooms/" + senderID + "/.json", {
         chatRoomID: response.data.name,
         recieverName: senderName
     });
-
     return response.data.name;
 }

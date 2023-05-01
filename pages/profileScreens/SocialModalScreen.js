@@ -12,7 +12,7 @@ import {
 import colors from "../../styles/global";
 import { SocialLinks } from "social-links";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { setSocial } from "../../util/profile";
+import { setSocial,getAccessToken, } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {AuthContext} from "../../store/authContext";
@@ -31,6 +31,7 @@ const SocialModalScreen = (props) => {
 
   async function updateSocial() {
     const localId = await AsyncStorage.getItem("localId");
+    const accessToken = await getAccessToken();
     setIsAuth(true);
     const header = props.route.params.profileType;
     const usernameURL = props.route.params.url + username;
@@ -38,7 +39,8 @@ const SocialModalScreen = (props) => {
     const type = props.route.params.profileType;
     newSocial[type] = { url: usernameURL, username: username };
     profileCTX.updateSocial(newSocial);
-    await setSocial(header, usernameURL, localId, username);
+
+    await setSocial(header, usernameURL, localId, username, accessToken);
     setIsAuth(false);
     props.navigation.pop();
   }

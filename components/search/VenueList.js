@@ -29,7 +29,7 @@ const VenueList = (props) => {
         >
           <View style={[styles.textContainer, item.profilePicURL == null && { backgroundColor: "rgba(0,0,0,0)", }]}>
             <Text style={styles.bigText}>{item.name}</Text>
-            <Text style={styles.smallText}>{item.category}</Text>
+            {/* <Text style={styles.smallText}>{item.category}</Text> */}
           </View>
         </ImageBackground>
       </TouchableOpacity>
@@ -60,7 +60,7 @@ const VenueList = (props) => {
               { color: global.color.primaryColors.adjacent },
             ]}
           >
-            No venues in this location.
+            No Results
           </Text>
         </View>
       }
@@ -78,11 +78,14 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.6)",
     height: "100%",
     borderRadius: 10,
-    justifyContent: "center",
+    justifyContent: "flex-end",
+    textAlign: "center"
   },
   bigText: {
-    alignSelf: "center",
+    // alignSelf: "center",
     padding: 10,
+    // justifyContent:"center",
+    textAlign:"center",
     fontFamily: "Rubik-SemiBold",
     fontSize: 18,
     color: "white",

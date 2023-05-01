@@ -16,8 +16,8 @@ export const ProfileContext = createContext({
   updateProfilePic: () => {},
   updatePersonalInfo: () => {},
   addShow: () => {},
-  updateShows: () =>{}
-
+  updateShows: () =>{},
+  deleteShow: () => {},
 });
 
 function ProfileContextProvider({ children }) {
@@ -34,6 +34,17 @@ function ProfileContextProvider({ children }) {
     const newShowArrow = shows;
     newShowArrow.push(newShow);
     setShows(newShowArrow);
+  }
+  function deleteShow(label){
+    const array = shows;
+    for (const x in array){
+      console.log(array[x][0]);
+      if (label == array[x][0]){
+        console.log("test")
+        array.splice(x, 1);
+      }
+    }
+    setShows(array);
   }
   function updateShows(shows){
     setShows(Object.entries(shows))
@@ -72,7 +83,8 @@ function ProfileContextProvider({ children }) {
     updateProfilePic: updateProfilePic,
     updatePersonalInfo: updatePersonalInfo,
     addShow: addShow,
-    updateShows:updateShows
+    updateShows:updateShows,
+    deleteShow: deleteShow
   };
 
   return (
