@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: 40,
-    width: "84%",
+    width: "90%",
     backgroundColor: global.color.primaryColors.main,
     // borderWidth: 1,
     borderRadius: 12,

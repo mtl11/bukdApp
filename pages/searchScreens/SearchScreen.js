@@ -18,6 +18,7 @@ import { getVenueList, getPerformersList } from "../../util/search";
 import { getProfileInfo } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../store/authContext";
+import CategorySelector from "../../components/search/CategorySelector";
 
 const SearchScreen = (props) => {
   const [location, setLocation] = useState(null);
@@ -49,16 +50,6 @@ const SearchScreen = (props) => {
       setPerformers(performers);
     }
   }
-
-  // async function changePerformers(category){
-  //   // console.log(performers);
-  //   for (const x in performers){
-  //     // console.log(performers[x].category);
-  //     if (performers[x].category != category){
-  //     }
-  //   }
-    
-  // }
 
   async function profileType() {
     const localId = await AsyncStorage.getItem("localId");
@@ -97,7 +88,9 @@ const SearchScreen = (props) => {
                 blur={getVenues}
               />
             )}
-            {pt == "venue" ? (
+            {pt == "venue" ? <CategorySelector data={profileCategoriesArtist} /> :
+              <CategorySelector data={profileCategoriesVenue} />}
+            {/* {pt == "venue" ? (
               <SearchDropDown
                 setValue={setCategory}
                 placeholder={"Select Category"}
@@ -113,12 +106,12 @@ const SearchScreen = (props) => {
                 icon={"business-outline"}
                 blur={() => {}}
               />
-            )}
+            )} */}
           </View>
           {pt == "venue" ? (
-              <VenueList venues={performers} category={category} props={props}/>
+            <VenueList venues={performers} category={category} props={props} />
           ) : (
-              <VenueList venues={venues} category={category} props={props}/>
+            <VenueList venues={venues} category={category} props={props} />
           )}
         </View>
       ) : (
@@ -156,7 +149,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   container: {
-    backgroundColor: global.color.primaryColors.background,
+    backgroundColor: global.color.secondaryColors.background,
     // // flex:1
     height: "100%",
   },

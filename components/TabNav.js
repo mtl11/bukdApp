@@ -31,13 +31,13 @@ export default TabNav = (props) => {
         tabBarActiveTintColor: global.color.primaryColors.main,
         tabBarInactiveTintColor: "#C4C4C4",
         tabBarStyle: {
-          backgroundColor: "#303046",
+          // backgroundColor: "#303046",
           alignItems: "center",
           justifyContent: "center",
           borderTopWidth: 0.5,
           borderColor: "#C4C4C4",
         },
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
       })}
     >
       <Tab.Screen
