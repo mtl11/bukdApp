@@ -246,12 +246,10 @@ const ProfileScreen = (props) => {
                 >
                   <View style={{ flexDirection: "column" }}>
                     <View style={styles.tabTextContainer}>
-                      <Text style={styles.tabText}>Availability</Text>
+                      <Text style={[styles.tabText, availShow && {color: "black"}]}>Availability</Text>
                     </View>
-                    {availShow ? (
+                    {availShow && (
                       <View style={styles.tabBottomBar}></View>
-                    ) : (
-                      <View></View>
                     )}
                   </View>
                 </TouchableOpacity>
@@ -265,12 +263,10 @@ const ProfileScreen = (props) => {
                 >
                   <View style={{ flexDirection: "column" }}>
                     <View style={styles.tabTextContainer}>
-                      <Text style={styles.tabText}>Shows</Text>
+                      <Text style={[styles.tabText,aboutShow && {color: "black"}]}>Shows</Text>
                     </View>
-                    {aboutShow ? (
+                    {aboutShow && (
                       <View style={styles.tabBottomBar}></View>
-                    ) : (
-                      <View></View>
                     )}
                   </View>
                 </TouchableOpacity>
@@ -284,12 +280,10 @@ const ProfileScreen = (props) => {
                 >
                   <View style={{ flexDirection: "column" }}>
                     <View style={styles.tabTextContainer}>
-                      <Text style={styles.tabText}>Social Media</Text>
+                      <Text style={[styles.tabText, socialShow && {color: "black"}]}>Social Media</Text>
                     </View>
-                    {socialShow ? (
+                    {socialShow && (
                       <View style={styles.tabBottomBar}></View>
-                    ) : (
-                      <View></View>
                     )}
                   </View>
                 </TouchableOpacity>

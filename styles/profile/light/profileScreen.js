@@ -28,7 +28,7 @@ export default {
         backgroundColor: global.color.secondaryColors.main,
     },
     tabText: {
-        color: global.color.secondaryColors.text,
+        color: global.color.secondaryColors.placeHolderTextColor,
         fontFamily: "Rubik-Regular",
         fontSize: 16,
     },
