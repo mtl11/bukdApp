@@ -61,6 +61,9 @@ const ProfileScreen = (props) => {
         );
       }
     }
+    if (otherInfo.hasOwnProperty("shows")){
+      profileCTX.updateShows(otherInfo.shows);
+    }
     if (otherInfo.hasOwnProperty("socials")) {
       profileCTX.updateSocial(otherInfo.socials);
     }

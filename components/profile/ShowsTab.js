@@ -14,7 +14,8 @@ import Modal from "react-native-modal";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
 import { ProfileContext } from "../../store/profileContext.js";
-
+import { addNewShow, getAccessToken } from "../../util/profile";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const ShowsTab = () => {
     const profileCTX = useContext(ProfileContext);
     const [visible, setVisible] = useState(false);
@@ -37,18 +38,20 @@ const ShowsTab = () => {
         const array = [];
         console.log(profileCTX.shows);
         for (const show in profileCTX.shows) {
-            const month = new Date(profileCTX.shows[show].date).toLocaleString('default', { month: 'long' });
-            const day = new Date(profileCTX.shows[show].date).getUTCDate();
-            const start = formatAMPM(new Date(profileCTX.shows[show].startTime));
-            const end = formatAMPM(new Date(profileCTX.shows[show].endTime));
-            const venueName = profileCTX.shows[show].venueName;
+            console.log(profileCTX.shows[show][1]);
+            const month = new Date(profileCTX.shows[show][1].date).toLocaleString('default', { month: 'long' });
+            const day = new Date(profileCTX.shows[show][1].date).getDate();
+            const start = formatAMPM(new Date(profileCTX.shows[show][1].startTime));
+            const end = formatAMPM(new Date(profileCTX.shows[show][1].endTime));
+            const venueName = profileCTX.shows[show][1].venueName;
+            console.log(day);
             array.push(
                 <View key={show} style={styles.showContainer}>
-                    <View style={{ padding: "3%" ,flexDirection: "row", width:"100%", justifyContent:"space-between"}}>
-                        <View style={{alignSelf: 'center'}}>
+                    <View style={{ padding: "3%", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
+                        <View style={{ alignSelf: 'center' }}>
                             <Text style={styles.dateText}>{month} {day}</Text>
                         </View>
-                        <View style={{flexDirection: "column", alignItems: "flex-end"}}>
+                        <View style={{ flexDirection: "column", alignItems: "flex-end" }}>
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
                                 <EvilIcons name="clock" size={28} color={global.color.secondaryColors.placeHolderTextColor} />
                                 <Text style={styles.smallText}>
@@ -73,18 +76,24 @@ const ShowsTab = () => {
         return array;
     }
 
-    const addShow = () => {
-        const show = {
+    async function addShow() {
+        const accessToken = await getAccessToken();
+        const show = ["newEntry", {
             startTime: startTime,
             endTime: endTime,
             date: date,
             venueName: venueName,
-        }
+        }]
         profileCTX.addShow(show);
+        const localId = await AsyncStorage.getItem("localId");
+        await addNewShow(startTime, endTime, date, venueName, localId, accessToken);
     }
     return (
-        <View style={{ alignItems: "center", flexDirection: "column", paddingVertical: "5%" }}>
-            {profileCTX.shows.length != 0 ? getShows() :
+        <ScrollView  style={{
+            marginBottom: 100}}contentContainerStyle={{alignItems: "center",  paddingVertical: "5%"}}>
+            {profileCTX.shows.length != 0 ?
+                getShows()
+                :
                 <Text
                     style={{
                         fontSize: 22,
@@ -101,6 +110,7 @@ const ShowsTab = () => {
                     <Ionicons name="add-circle-outline" size={50} color={global.color.primaryColors.main} />
                 </TouchableOpacity>
             </View>
+           
             <Modal isVisible={visible}>
                 <View style={{
                     height: "60%",
@@ -233,7 +243,7 @@ const ShowsTab = () => {
                     </TouchableOpacity>
                 </View>
             </Modal>
-        </View>
+            </ScrollView>
     );
 }
 const styles = StyleSheet.create({

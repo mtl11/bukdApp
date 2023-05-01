@@ -11,7 +11,7 @@ import {
 import { FontAwesome5 } from "@expo/vector-icons";
 import { ProfileContext } from "../../store/profileContext.js";
 import colors from "../../styles/global";
-import { getPersonalInfo, setPersonalInfo } from "../../util/profile";
+import { getPersonalInfo, setPersonalInfo, getAccessToken} from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../store/authContext.js";
 import dark from "../../styles/profile/dark/personalInfo.js";
@@ -28,10 +28,11 @@ const PersonalInfoScreen = (props) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   async function update() {
+    const accessToken = await getAccessToken();
     setLoading(true);
     const localId = await AsyncStorage.getItem("localId");
     if (firstName != (null || "") && lastName != (null|| "")) {
-      const response = await setPersonalInfo(firstName, lastName, localId);
+      const response = await setPersonalInfo(firstName, lastName, localId, accessToken);
       profileCTX.updatePersonalInfo({firstName: firstName,lastName: lastName});
       setError(false);
     } else {

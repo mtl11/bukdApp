@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
 import {
+  getAccessToken,
   getProfilePic,
   setAboutInfo,
   setAvailabilityInfo,
@@ -46,17 +47,19 @@ const EditProfileArtistScreen = (props) => {
   const styles = authCTX.mode === "light" ? light : dark;
   async function update() {
     const localId = await AsyncStorage.getItem("localId");
+    const accessToken = await getAccessToken();
     await setProfileName(
       profileCTX.basicInfo.profileType,
       profilename,
-      localId
+      localId,
+      accessToken
     );
 
     const dow = getDow();
     const time = getTime();
-    await setAvailabilityInfo(time, dow, localId);
+    await setAvailabilityInfo(time, dow, localId, accessToken);
     if (image) {
-      await setProfilePic(image, localId);
+      await setProfilePic(image, localId, accessToken);
     }
     profileCTX.updateBasic(
       new profileInfo(
@@ -66,10 +69,10 @@ const EditProfileArtistScreen = (props) => {
       )
     );
     if (profileCTX.basicInfo.profileType == "performer") {
-      await setAboutInfo(location, category, genre, bio, localId);
+      await setAboutInfo(location, category, genre, bio, localId, accessToken);
       profileCTX.updateAbout(new aboutInfo(bio, category, genre, location));
     } else {
-      await setVenueAboutInfo(bio, category, location, equipment, localId);
+      await setVenueAboutInfo(bio, category, location, equipment, localId, accessToken);
       profileCTX.updateAbout({
         bio: bio,
         category: category,
@@ -82,9 +85,9 @@ const EditProfileArtistScreen = (props) => {
 
     const profilePic = await getProfilePic(localId);
     if (profileCTX.basicInfo.profileType == "performer") {
-      await setPerformerInList(location, category, profilename, localId, profilePic);
+      await setPerformerInList(location, category, profilename, localId, profilePic, accessToken);
     } else {
-      await setVenueInList(location, category, profilename, localId, profilePic);
+      await setVenueInList(location, category, profilename, localId, profilePic, accessToken);
     }
   }
 
@@ -113,6 +116,8 @@ const EditProfileArtistScreen = (props) => {
   const [evening, setEvening] = useState(profileCTX.availabilty.times.evening);
   const [night, setNight] = useState(profileCTX.availabilty.times.night);
 
+  const scrollViewRef = useRef(null);
+
   const getDow = () => {
     const dow = {};
     if (mon) dow.mon = true;
@@ -133,7 +138,7 @@ const EditProfileArtistScreen = (props) => {
     if (night) time.night = true;
     return time;
   };
-  
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -182,12 +187,11 @@ const EditProfileArtistScreen = (props) => {
       return ""
     }
   }
-
+  
   return (
     <SafeAreaView
       style={styles.container}
     >
-
       <View
         style={{
           alignItems: "center",
@@ -239,7 +243,8 @@ const EditProfileArtistScreen = (props) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} 
+      ref={scrollViewRef}>
         <KeyboardAwareScrollView>
           <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
             {image ? (
@@ -273,14 +278,14 @@ const EditProfileArtistScreen = (props) => {
             </KeyboardAvoidingView>
           </View>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={[styles.headerContainer, !about && { marginBottom: 0 }]}
             onPress={() => {
               setAbout(!about);
             }}
-          >
-            <Text style={styles.headerText}>About</Text>
-            {about ? (
+          > */}
+          {/* <Text style={styles.headerText}>About</Text> */}
+          {/* {about ? (
               <Ionicons
                 name="chevron-up"
                 size={28}
@@ -292,9 +297,13 @@ const EditProfileArtistScreen = (props) => {
                 size={28}
                 color={styles.iconColor}
               />
-            )}
-          </TouchableOpacity>
-          {about ? (
+            )} */}
+          {/* </TouchableOpacity> */}
+          <View style={[styles.headerContainer]}>
+            <Text style={styles.headerText}>About</Text>
+          </View>
+
+          {/* {about ? ( */}
             <View>
               <ProfileDropDown
                 data={locations}
@@ -354,10 +363,10 @@ const EditProfileArtistScreen = (props) => {
                 />
               </View>
             </View>
-          ) : (
+          {/* ) : (
             <View></View>
-          )}
-          <TouchableOpacity
+          )} */}
+          {/* <TouchableOpacity
             style={[styles.headerContainer, !avail && { marginBottom: 0 }]}
             onPress={() => {
               setAvail(!avail);
@@ -377,8 +386,11 @@ const EditProfileArtistScreen = (props) => {
                 color={styles.iconColor}
               />
             )}
-          </TouchableOpacity>
-          {avail ? (
+          </TouchableOpacity> */}
+          <View style={[styles.headerContainer]}>
+            <Text style={styles.headerText}>Availability</Text>
+          </View>
+          {/* {avail ? ( */}
             <View>
               <View>
                 <View style={styles.timeRow}>
@@ -495,10 +507,10 @@ const EditProfileArtistScreen = (props) => {
                 </View>
               </View>
             </View>
-          ) : (
+          {/* ) : (
             <View></View>
-          )}
-          <TouchableOpacity
+          )} */}
+          {/* <TouchableOpacity
             style={styles.headerContainer}
             onPress={() => {
               setSocial(!social);
@@ -518,8 +530,11 @@ const EditProfileArtistScreen = (props) => {
                 color={styles.iconColor}
               />
             )}
-          </TouchableOpacity>
-          {social ? (
+          </TouchableOpacity> */}
+          <View style={[styles.headerContainer]}>
+            <Text style={styles.headerText}>Social Media Links</Text>
+          </View>
+          {/* {social ? ( */}
             <View>
               <View style={styles.socialRow}>
                 <TouchableOpacity
@@ -628,9 +643,9 @@ const EditProfileArtistScreen = (props) => {
                 </TouchableOpacity>
               </View>
             </View>
-          ) : (
+          {/* ) : (
             <View></View>
-          )}
+          )} */}
         </KeyboardAwareScrollView>
       </ScrollView>
     </SafeAreaView>

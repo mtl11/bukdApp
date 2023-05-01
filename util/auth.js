@@ -25,7 +25,6 @@ export async function createUser(email, password) {
     AsyncStorage.setItem("localId", response.data.localId);
     return false;
   }
-  
 }
 
 export async function resetPassword(email){
@@ -61,7 +60,9 @@ export async function authenticateUser(email, password) {
     )
     .then((res) => {
       AsyncStorage.setItem("localId", res.data.localId);
+      AsyncStorage.setItem("refreshToken", res.data.refreshToken);
       token = res.data.idToken;
+      console.log("Token: "+res.data.refreshToken);
     })
   return token;
 }

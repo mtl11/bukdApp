@@ -15,7 +15,9 @@ export const ProfileContext = createContext({
   updateSocial: () => {},
   updateProfilePic: () => {},
   updatePersonalInfo: () => {},
-  addShow: () => {}
+  addShow: () => {},
+  updateShows: () =>{}
+
 });
 
 function ProfileContextProvider({ children }) {
@@ -28,9 +30,13 @@ function ProfileContextProvider({ children }) {
   const [profilePic, setProfilePic] = useState();
 
   function addShow(newShow){
+    console.log(shows);
     const newShowArrow = shows;
     newShowArrow.push(newShow);
     setShows(newShowArrow);
+  }
+  function updateShows(shows){
+    setShows(Object.entries(shows))
   }
   function updatePersonalInfo(personalInfo) {
     setPersonalInfo(personalInfo);
@@ -65,7 +71,8 @@ function ProfileContextProvider({ children }) {
     updateSocial: updateSocial,
     updateProfilePic: updateProfilePic,
     updatePersonalInfo: updatePersonalInfo,
-    addShow: addShow
+    addShow: addShow,
+    updateShows:updateShows
   };
 
   return (

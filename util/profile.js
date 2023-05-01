@@ -12,8 +12,8 @@ export async function getProfileInfo(localId) {
   return response.data;
 }
 
-export async function setAboutInfo(location, category, genre, bio, localId) {
-  const response = await firebaseUtil.put("/users/" + localId + "/about.json", {
+export async function setAboutInfo(location, category, genre, bio, localId, accessToken) {
+  const response = await firebaseUtil.put("/users/" + localId + "/about.json?auth="+accessToken, {
     location: location,
     category: category,
     genre: genre,
@@ -21,8 +21,17 @@ export async function setAboutInfo(location, category, genre, bio, localId) {
   });
 }
 
-export async function setVenueAboutInfo(bio, category, location, equipment, localId) {
-  const response = await firebaseUtil.put("/users/" + localId + "/about.json", {
+export async function addNewShow(startTime, endTime, date, venueName, localId, accessToken) {
+  const response = await firebaseUtil.post("/users/" + localId + "/shows.json?auth="+accessToken, {
+    startTime: startTime,
+    endTime: endTime,
+    date: date,
+    venueName: venueName
+  });
+}
+
+export async function setVenueAboutInfo(bio, category, location, equipment, localId, accessToken) {
+  const response = await firebaseUtil.put("/users/" + localId + "/about.json?auth="+accessToken, {
     bio: bio,
     category: category,
     location: location,
@@ -30,20 +39,28 @@ export async function setVenueAboutInfo(bio, category, location, equipment, loca
   });
 }
 
-export async function setAvailabilityInfo(times, dow, localId) {
+export async function setAvailabilityInfo(times, dow, localId, accessToken) {
   const response = await firebaseUtil.put(
-    "/users/" + localId + "/availability.json",
+    "/users/" + localId + "/availability.json?auth="+accessToken,
     {
       times: times,
       dow: dow,
     }
   );
 }
-
-export async function setProfileName(profileType, name, localId) {
+export async function getAccessToken(){
+  const refreshToken = await AsyncStorage.getItem("refreshToken");
+  const tokenUrl = `https://securetoken.googleapis.com/v1/token?key=${APIKey}`;
+  const response = await axios.post(tokenUrl, {
+    grant_type: "refresh_token",
+    refresh_token: refreshToken
+  });
+  return response.data.access_token;
+}
+export async function setProfileName(profileType, name, localId,accessToken) {
   const email = await AsyncStorage.getItem("email");
-  const response = await firebaseUtil.put(
-    "/users/" + localId + "/basicinfo.json",
+  const post = await firebaseUtil.put(
+    "/users/" + localId + "/basicinfo.json?auth="+accessToken,
     {
       email: email,
       profileType: profileType,
@@ -88,9 +105,9 @@ export async function getProfilePic(localId) {
     });
 }
 
-export async function setPersonalInfo(firstName, lastName,localId) {
+export async function setPersonalInfo(firstName, lastName, localId, accessToken) {
   const response = await firebaseUtil.put(
-    "/users/" + localId + "/personalInfo.json",
+    "/users/" + localId + "/personalInfo.json?auth="+accessToken,
     {
       firstName: firstName,
       lastName: lastName,
@@ -129,26 +146,26 @@ export async function resetPassword(password, idToken) {
   return response;
 }
 
-export async function setPerformerInList(location, category, name, uuid, profilePicURL){
+export async function setPerformerInList(location, category, name, uuid, profilePicURL, accessToken) {
   const response = await firebaseUtil.put(
-    "/performers/" +location+"/"+ uuid+".json",
+    "/performers/" + location + "/" + uuid + ".json?auth="+accessToken,
     {
       category: category,
       name: name,
-      uuid:uuid,
-      profilePicURL:profilePicURL
+      uuid: uuid,
+      profilePicURL: profilePicURL
     }
   );
 }
 
-export async function setVenueInList(location, category, name, uuid, profilePicURL){
+export async function setVenueInList(location, category, name, uuid, profilePicURL, accessToken) {
   const response = await firebaseUtil.put(
-    "/venues/" +location+"/"+ uuid +".json",
+    "/venues/" + location + "/" + uuid + ".json?auth="+accessToken,
     {
       category: category,
       name: name,
-      uuid:uuid,
-      profilePicURL:profilePicURL
+      uuid: uuid,
+      profilePicURL: profilePicURL
     }
   );
 }

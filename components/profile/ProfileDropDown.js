@@ -41,11 +41,11 @@ const ProfileDropDown = (props) => {
         renderItem={renderItem}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
-        renderRightIcon={() => {
-          return (
-            <View></View>
-          );
-        }}
+        // renderRightIcon={() => {
+        //   // return (
+        //   //   <View></View>
+        //   // );
+        // }}
         autoScroll={false}
         data={props.data}
         search
