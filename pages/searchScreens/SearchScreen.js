@@ -110,17 +110,17 @@ export default SearchScreen;
 
 const styles = StyleSheet.create({
   dropContainer: {
-    backgroundColor: global.color.primaryColors.adjacent,
-    borderColor: global.color.primaryColors.adjacent,
+    backgroundColor: global.color.secondaryColors.adjacent,
+    borderColor: global.color.secondaryColors.adjacent,
     borderRadius: 12,
     paddingBottom: 10,
   },
   item: {
-    backgroundColor: global.color.primaryColors.adjacent,
+    backgroundColor: global.color.secondaryColors.adjacent,
     borderRadius: 12,
   },
   textItem: {
-    color: global.color.primaryColors.text,
+    color: global.color.secondaryColors.text,
     fontSize: 16,
     padding: 20,
     fontFamily: "Rubik-Regular",
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   dropdown: {
     height: 40,
     width: "84%",
-    backgroundColor: global.color.primaryColors.main,
+    backgroundColor: global.color.secondaryColors.main,
     // borderWidth: 1,
     borderRadius: 12,
     padding: 10,
@@ -148,11 +148,11 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 16,
-    color: global.color.primaryColors.buttonAccent,
+    color: global.color.secondaryColors.buttonAccent,
   },
   selectedTextStyle: {
     fontSize: 16,
-    color: global.color.primaryColors.buttonAccent,
+    color: global.color.secondaryColors.buttonAccent,
   },
   iconStyle: {
     width: 18,
@@ -160,8 +160,67 @@ const styles = StyleSheet.create({
   },
   inputSearchStyle: {
     fontSize: 16,
-    color: global.color.primaryColors.text,
-    backgroundColor: global.color.primaryColors.adjacent,
-    borderColor: global.color.primaryColors.adjacent,
+    color: global.color.secondaryColors.text,
+    backgroundColor: global.color.secondaryColors.adjacent,
+    borderColor: global.color.secondaryColors.adjacent,
   },
 });
+
+
+// const styles = StyleSheet.create({
+//   dropContainer: {
+//     backgroundColor: global.color.primaryColors.adjacent,
+//     borderColor: global.color.primaryColors.adjacent,
+//     borderRadius: 12,
+//     paddingBottom: 10,
+//   },
+//   item: {
+//     backgroundColor: global.color.primaryColors.adjacent,
+//     borderRadius: 12,
+//   },
+//   textItem: {
+//     color: global.color.primaryColors.text,
+//     fontSize: 16,
+//     padding: 20,
+//     fontFamily: "Rubik-Regular",
+//   },
+//   topContainer: {
+//     width: "100%",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+//   container: {
+//     backgroundColor: global.color.secondaryColors.background,
+//     // // flex:1
+//     height: "100%",
+//   },
+//   dropdown: {
+//     height: 40,
+//     width: "84%",
+//     backgroundColor: global.color.primaryColors.main,
+//     // borderWidth: 1,
+//     borderRadius: 12,
+//     padding: 10,
+//   },
+//   icon: {
+//     marginRight: 5,
+//   },
+//   placeholderStyle: {
+//     fontSize: 16,
+//     color: global.color.primaryColors.buttonAccent,
+//   },
+//   selectedTextStyle: {
+//     fontSize: 16,
+//     color: global.color.primaryColors.buttonAccent,
+//   },
+//   iconStyle: {
+//     width: 18,
+//     height: 18,
+//   },
+//   inputSearchStyle: {
+//     fontSize: 16,
+//     color: global.color.primaryColors.text,
+//     backgroundColor: global.color.primaryColors.adjacent,
+//     borderColor: global.color.primaryColors.adjacent,
+//   },
+// });

@@ -28,7 +28,10 @@ const VenueList = (props) => {
           imageStyle={{ borderRadius: 10 }}
         >
           <View style={[styles.textContainer, item.profilePicURL == null && { backgroundColor: "rgba(0,0,0,0)", }]}>
+            <View style={{height: "35%",  backgroundColor: "rgba(34, 109, 206, .7)", borderBottomRightRadius: 12, borderBottomLeftRadius: 12, justifyContent: "center"}}>
             <Text style={styles.bigText}>{item.name}</Text>
+            </View>
+            
             {/* <Text style={styles.smallText}>{item.category}</Text> */}
           </View>
         </ImageBackground>
@@ -75,7 +78,7 @@ const VenueList = (props) => {
 
 const styles = StyleSheet.create({
   textContainer: {
-    backgroundColor: "rgba(0,0,0,0.6)",
+    // backgroundColor: "rgba(0,0,0,0.6)",
     height: "100%",
     borderRadius: 10,
     justifyContent: "flex-end",
@@ -83,11 +86,11 @@ const styles = StyleSheet.create({
   },
   bigText: {
     // alignSelf: "center",
-    padding: 10,
+    paddingHorizontal: 10,
     // justifyContent:"center",
     textAlign:"center",
     fontFamily: "Rubik-SemiBold",
-    fontSize: 18,
+    fontSize: 16,
     color: "white",
   },
   imageContainer: {

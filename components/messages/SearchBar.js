@@ -9,9 +9,9 @@ const SearchBarMessages = (props) => {
             <Text style={styles.headerText}>All Messages</Text>
             <SearchBar
                 platform="ios"
-                containerStyle={{ backgroundColor: global.color.primaryColors.background }}
-                inputContainerStyle={{ backgroundColor: global.color.primaryColors.adjacent }}
-                inputStyle={{ fontSize: 16, color: global.color.primaryColors.text, fontFamily: "Rubik-Regular" }}
+                containerStyle={{ backgroundColor: global.color.secondaryColors.background }}
+                inputContainerStyle={{ backgroundColor: global.color.secondaryColors.adjacent }}
+                inputStyle={{ fontSize: 16, color: global.color.secondaryColors.text, fontFamily: "Rubik-Regular" }}
                 onChangeText={props.setSearchValue}
                 value={props.searchValue}
                 showCancel={true}
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 20,
         fontFamily: "Rubik-Regular",
-        color: global.color.primaryColors.text,
+        color: global.color.secondaryColors.text,
         // marginBottom: 10
     },
     headerContainer: {
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderBottomWidth: 1,
         width: "100%",
-        borderColor: global.color.primaryColors.adjacent,
+        borderColor: global.color.secondaryColors.adjacent,
     },
 });
 

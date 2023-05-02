@@ -20,7 +20,7 @@ const MessagesLists = (props) => {
             <TouchableHighlight
                 id={chatroom.item.chatroomID}
                 activeOpacity={0.2}
-                underlayColor={global.color.primaryColors.background}
+                underlayColor={global.color.secondaryColors.background}
                 onPress={() => { props.props.navigation.navigate("MessageChat", { chatID: chatroom.item.chatRoomID, displayName: chatroom.item.recieverName }) }}
             >
                 <View style={styles.messageContainer}>
@@ -58,7 +58,7 @@ const MessagesLists = (props) => {
 
 const styles = StyleSheet.create({
     roomText: {
-        color: global.color.primaryColors.text
+        color: global.color.secondaryColors.text
     }, lastText: {
         color: "#9E9E9E",
         paddingTop: "1%",
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     nameAndTextContainer: {
         paddingLeft: "10%",
         flexGrow: 1,
-        borderColor: global.color.primaryColors.adjacent,
+        borderColor: global.color.secondaryColors.adjacent,
     },
     messageContainer: {
         padding: "5%",
@@ -76,19 +76,19 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderBottomWidth: 1,
         borderTopWidth: 1,
-        borderColor: global.color.primaryColors.adjacent,
+        borderColor: global.color.secondaryColors.adjacent,
     },
     nameText: {
         fontFamily: "Rubik-Regular",
         fontSize: 18,
-        color: global.color.primaryColors.text,
+        color: global.color.secondaryColors.text,
         paddingBottom: "1%",
     },
     imageContainer: {
         padding: 10,
         borderWidth: 1.5,
         borderRadius: 100,
-        borderColor: global.color.primaryColors.adjacent
+        borderColor: global.color.secondaryColors.adjacent
     },
 })
 

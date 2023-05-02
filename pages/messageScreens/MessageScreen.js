@@ -33,11 +33,19 @@ const MessageScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-  input: { color: global.color.primaryColors.main },
+  input: { color: global.color.secondaryColors.main },
   container: {
-    backgroundColor: global.color.primaryColors.background,
+    backgroundColor: global.color.secondaryColors.background,
     height: "100%",
   },
 });
+
+// const styles = StyleSheet.create({
+//   input: { color: global.color.primaryColors.main },
+//   container: {
+//     backgroundColor: global.color.primaryColors.background,
+//     height: "100%",
+//   },
+// });
 
 export default MessageScreen;
