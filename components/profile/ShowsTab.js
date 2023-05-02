@@ -37,15 +37,16 @@ const ShowsTab = () => {
         return strTime;
     }
     const [selectedItem, setSelectedItem] = useState("-NU4IyBN0dDoPPvlL-f3");
-    
+    const sorted = shows.sort(
+        function(a,b){
+            return new Date(a[1].date) - new Date(b[1].date);
+    });
     const getItem = (item, label) => {
-        console.log(label);
         const month = new Date(item.date).toLocaleString('default', { month: 'long' });
         const day = new Date(item.date).getDate();
         const start = formatAMPM(new Date(item.startTime));
         const end = formatAMPM(new Date(item.endTime));
         const venueName = item.venueName;
-
         return (
             <TouchableOpacity key={label} style={styles.showContainer} onPress={() => {
                 if (label == selectedItem) {
@@ -124,15 +125,9 @@ const ShowsTab = () => {
           },
         ]);
       };
-    async function addShow() {
+    async function addShow(show) {
         const accessToken = await getAccessToken();
-        const show = [shows.length + 1, {
-            startTime: startTime,
-            endTime: endTime,
-            date: date,
-            venueName: venueName,
-        }]
-        profileCTX.addShow(show);
+        // profileCTX.addShow(show);
         const localId = await AsyncStorage.getItem("localId");
         await addNewShow(startTime, endTime, date, venueName, localId, accessToken);
         setShows(profileCTX.shows)
@@ -292,7 +287,14 @@ const ShowsTab = () => {
                         }}
                         onPress={() => {
                             setVisible(!visible);
-                            addShow();
+                            const show = [shows.length + 1, {
+                                startTime: startTime,
+                                endTime: endTime,
+                                date: date,
+                                venueName: venueName,
+                            }]
+                            shows.push(show);
+                            addShow(show);
                         }}
                     >
                         <View style={{ alignSelf: "center", padding: "5%", }}>

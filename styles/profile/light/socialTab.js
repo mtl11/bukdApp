@@ -4,14 +4,14 @@ import global from "../../global";
 export default {
     list: {
         alignItems: "center",
-        paddingVertical: "10%",
+        paddingVertical: "5%",
     },
     socialContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         borderRadius: 12,
-        width: "80%",
+        width: "90%",
         marginBottom: "5%",
         padding: 10,
         paddingHorizontal: "5%",

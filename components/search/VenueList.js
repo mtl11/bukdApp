@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   list: {
-    marginHorizontal: "8%",
+    marginHorizontal: "5%",
     marginTop: 10,
     marginBottom: 120
   },
