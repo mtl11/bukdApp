@@ -38,15 +38,24 @@ const CategorySelector = (props) => {
 
 const styles = StyleSheet.create({
     categoryContainer: {
-        borderWidth: 1,
+        // borderWidth: 1,
         // padding: "5%",
         marginLeft: 20,
+        marginVertical: 5,
         backgroundColor: "white",
         borderRadius: 12,
-        borderColor: "#D9D9D9"
+        borderColor: "#D9D9D9",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        // marginHorizontal: "2.5%"
     }, text: {
         fontSize: 16,
-        color: global.color.primaryColors.main,
+        // color: global.color.primaryColors.main,
         fontFamily: "Rubik-Regular"
 
     }

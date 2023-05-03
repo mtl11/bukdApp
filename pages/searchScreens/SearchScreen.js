@@ -53,9 +53,11 @@ const SearchScreen = (props) => {
 
   async function profileType() {
     const localId = await AsyncStorage.getItem("localId");
+    const email = await AsyncStorage.getItem("localId");
     if (localId == null) {
       authCTX.logout();
     } else {
+      console.log(email);
       const profiletype = await getProfileInfo(localId);
       setPT(profiletype.profileType);
     }
@@ -65,7 +67,7 @@ const SearchScreen = (props) => {
     setAuth(false);
     profileType();
     setAuth(true);
-  }, []);
+  }, [authCTX.isAuthenticated]);
   return (
     <SafeAreaView style={styles.container}>
       {auth ? (
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container: {
-    backgroundColor: global.color.secondaryColors.background,
+    // backgroundColor: global.color.secondaryColors.background,
     // // flex:1
     height: "100%",
   },

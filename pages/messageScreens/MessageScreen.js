@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet,RefreshControl } from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import { SafeAreaView, StyleSheet, RefreshControl, View, Text } from "react-native";
 import global from "../../styles/global";
 import SearchBar from "../../components/messages/SearchBar";
 import MessagesLists from "../../components/messages/MessagesList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getAllMessages } from "../../util/message";
+import { AuthContext } from "../../store/authContext";
 const MessageScreen = (props) => {
-  
+  const authCTX = useContext(AuthContext);
   const [data, setData] = useState({});
   const [searchValue, setSearchValue] = useState("");
-  async function getData(){
+  async function getData() {
     const messageData = await getAllMessages(await AsyncStorage.getItem("localId"));
     // console.log(messageData);
     if (messageData != null) {
@@ -21,12 +22,18 @@ const MessageScreen = (props) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [authCTX.isAuthenticated]);
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar setSearchValue={setSearchValue} searchValue={searchValue} />
-     
-      <MessagesLists data={data} searchValue={searchValue} props={props} refreshData={getData}/>
+      {authCTX.isAuthenticated ?
+        <MessagesLists data={data} searchValue={searchValue} props={props} refreshData={getData} /> :
+        <View style={{alignItems:"center"}}>
+          <Text style={{fontFamily:"Rubik-Medium", fontSize: 24}}>
+            Login or Sign up to Message
+          </Text>
+        </View>}
+
 
     </SafeAreaView>
   );

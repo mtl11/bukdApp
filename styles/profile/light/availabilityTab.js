@@ -24,6 +24,7 @@ export default {
       paddingHorizontal: "5%",
       paddingBottom: "5%",
       borderColor: global.color.secondaryColors.adjacent,
+      // backgroundColor: global.color.secondaryColors.buttonBackground
     },
     container: {
       marginHorizontal: "8%",

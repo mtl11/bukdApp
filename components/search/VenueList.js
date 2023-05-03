@@ -27,11 +27,18 @@ const VenueList = (props) => {
           style={styles.imageContainer}
           imageStyle={{ borderRadius: 10 }}
         >
+          {/* "rgba(34, 109, 206, .7)" */}
           <View style={[styles.textContainer, item.profilePicURL == null && { backgroundColor: "rgba(0,0,0,0)", }]}>
-            <View style={{height: "35%",  backgroundColor: "rgba(34, 109, 206, .7)", borderBottomRightRadius: 12, borderBottomLeftRadius: 12, justifyContent: "center"}}>
-            <Text style={styles.bigText}>{item.name}</Text>
+            <View style={{
+              height: "30%",
+              backgroundColor: "rgba(255, 255, 255, .6)",
+              borderBottomRightRadius: 10, borderBottomLeftRadius: 10, justifyContent: "center",
+              // borderWidth:1,
+              // borderColor: "rgba(256, 256, 256, .7)"
+            }}>
+              <Text style={styles.bigText}>{item.name}</Text>
             </View>
-            
+
             {/* <Text style={styles.smallText}>{item.category}</Text> */}
           </View>
         </ImageBackground>
@@ -46,7 +53,6 @@ const VenueList = (props) => {
         || props.category == null));
     }
   }
-
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
@@ -72,6 +78,7 @@ const VenueList = (props) => {
       style={styles.list}
       data={getFlatListData()}
       renderItem={renderItem}
+      contentContainerStyle={{ justifyContent: "space-evenly" }}
     />
   );
 };
@@ -88,10 +95,10 @@ const styles = StyleSheet.create({
     // alignSelf: "center",
     paddingHorizontal: 10,
     // justifyContent:"center",
-    textAlign:"center",
+    textAlign: "center",
     fontFamily: "Rubik-SemiBold",
     fontSize: 16,
-    color: "white",
+    color: "black",
   },
   imageContainer: {
     justifyContent: "center",
@@ -105,15 +112,26 @@ const styles = StyleSheet.create({
     color: "white",
   },
   list: {
-    marginHorizontal: "5%",
+    marginHorizontal: "2.5%",
     marginTop: 10,
-    marginBottom: 120
+    marginBottom: 120,
+    // height:"100%",
+    // flexDirection: "row", 
+
   },
   individualContainer: {
-    width: 160,
-    height: 160,
-    borderRadius: 12,
+    width: 165,
+    height: 165,
+    borderRadius: 13,
     marginBottom: "8%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    marginHorizontal: "2.5%"
   },
 });
 export default VenueList;

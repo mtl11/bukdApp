@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+  Modal,
 
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -49,13 +50,15 @@ const ForgetPasswordScreen = (props) => {
     setSuccessMessage("Email Sent Successfully")
   }
   return (
+    <Modal visible={props.visible}>
+      
     <SafeAreaView
       style={styles.container}
     >
       <TouchableOpacity
         style={styles.backButtonContainer}
         onPress={() => {
-          props.navigation.pop();
+          props.setVisible(false);
         }}
       >
         <FontAwesome5
@@ -103,8 +106,8 @@ const ForgetPasswordScreen = (props) => {
         <Text style={styles.buttonText}>Reset Password</Text>
       </TouchableOpacity>
     </SafeAreaView>
+    </Modal>
   );
 };
-// const styles = StyleSheet.create();
 
 export default ForgetPasswordScreen;

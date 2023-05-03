@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import styles from "../../styles/auth/light/signupScreen";
@@ -92,149 +93,151 @@ const SignupScreen = (props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.topContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.pop();
+    <Modal visible={props.visible}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.topContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              props.setVisible(false);
+            }}
+          >
+            <FontAwesome5
+              name="chevron-left"
+              size={32}
+              color={global.color.primaryColors.text}
+            />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            alignSelf: "center",
+            marginVertical: "5%",
           }}
         >
-          <FontAwesome5
-            name="chevron-left"
-            size={32}
-            color={global.color.primaryColors.text}
-          />
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          alignSelf: "center",
-          marginVertical: "5%",
-        }}
-      >
-        <Text style={styles.bigText}>We are so happy you are here.</Text>
-        <Text style={styles.bigText}>Let’s get you set up!</Text>
-      </View>
-      <View style={styles.passwordInfoContainer}>
-        <Text style={styles.passwordInfoText}>Choose type of account</Text>
-      </View>
-      <View style={{ flexDirection: "row", marginHorizontal: "8%", justifyContent: "space-evenly", marginTop: "2%" }}>
-        <TouchableOpacity
-          style={{
+          <Text style={styles.bigText}>We are so happy you are here.</Text>
+          <Text style={styles.bigText}>Let’s get you set up!</Text>
+        </View>
+        <View style={styles.passwordInfoContainer}>
+          <Text style={styles.passwordInfoText}>Choose type of account</Text>
+        </View>
+        <View style={{ flexDirection: "row", marginHorizontal: "8%", justifyContent: "space-evenly", marginTop: "2%" }}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: global.color.primaryColors.adjacent,
+              padding: 16,
+              borderRadius: 12,
+              width: "33%",
+              borderWidth: 1,
+              borderColor: acccountType == "Performer" ? "white" : global.color.primaryColors.background
+            }}
+            onPress={() => {
+              setAccountType("Performer")
+            }}>
+            <Text style={{
+              color: acccountType == "Performer" ?
+                "white" : global.color.primaryColors.placeHolderTextColor,
+              fontFamily: "Rubik-Regular",
+              textAlign: "center",
+              fontSize: 16
+            }}>
+              Performer
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{
             backgroundColor: global.color.primaryColors.adjacent,
             padding: 16,
             borderRadius: 12,
             width: "33%",
             borderWidth: 1,
-            borderColor: acccountType == "Performer" ? "white" : global.color.primaryColors.background
+            borderColor: acccountType == "Venue" ? "white" : global.color.primaryColors.background
           }}
-          onPress={() => {
-            setAccountType("Performer")
-          }}>
-          <Text style={{
-            color: acccountType == "Performer" ?
-              "white" : global.color.primaryColors.placeHolderTextColor,
-            fontFamily: "Rubik-Regular",
-            textAlign: "center",
-            fontSize: 16
-          }}>
-            Performer
+            onPress={() => {
+              setAccountType("Venue")
+            }}>
+            <Text style={{
+              color: acccountType == "Venue" ?
+                "white" : global.color.primaryColors.placeHolderTextColor, fontFamily: "Rubik-Regular",
+              textAlign: "center", fontSize: 16
+            }}>
+              Venue
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            inputMode={"text"}
+            keyboardType={"ascii-capable"}
+            style={styles.input}
+            placeholder="Profile Name (Optional)"
+            placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+            autoCorrect={false}
+            autoCapitalize={false}
+            returnKeyType={"next"}
+            onChangeText={setProfileName}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            keyboardType={"ascii-capable"}
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+            autoCorrect={false}
+            autoCapitalize={false}
+            inputMode={"email"}
+            returnKeyType={"next"}
+            onChangeText={setEmail}
+          />
+        </View>
+        <View style={styles.passwordInfoContainer}>
+          <Text style={styles.passwordInfoText}>
+            Password must be at least 10 characters
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{
-          backgroundColor: global.color.primaryColors.adjacent,
-          padding: 16,
-          borderRadius: 12,
-          width: "33%",
-          borderWidth: 1,
-          borderColor: acccountType == "Venue" ? "white" : global.color.primaryColors.background
-        }}
+        </View>
+        <View style={[styles.inputContainer, { marginTop: "2%" }]}>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+            secureTextEntry={true}
+            textContentType={"oneTimeCode"}
+            autoCapitalize={false}
+            returnKeyType={"next"}
+            onChangeText={setPassword}
+          />
+        </View>
+        <View style={styles.passwordInfoContainer}>
+          <Text style={styles.passwordInfoText}>Passwords must match</Text>
+        </View>
+        <View style={[styles.inputContainer, { marginTop: "2%" }]}>
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
+            secureTextEntry={true}
+            autoCapitalize={false}
+            returnKeyType={"next"}
+            textContentType={"oneTimeCode"}
+            onChangeText={setConfirmPassword}
+          />
+        </View>
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{emailErrorMessage}</Text>
+        </View>
+        <TouchableOpacity
+          style={[styles.buttonContainer, { marginTop: "20%" }]}
           onPress={() => {
-            setAccountType("Venue")
-          }}>
-          <Text style={{
-            color: acccountType == "Venue" ?
-              "white" : global.color.primaryColors.placeHolderTextColor, fontFamily: "Rubik-Regular",
-            textAlign: "center", fontSize: 16
-          }}>
-            Venue
-          </Text>
+            checkInputs();
+          }}
+        >
+          {!isAuth ? (
+            <Text style={styles.buttonText}>Create Account</Text>
+          ) : (
+            <ActivityIndicator size={22} />
+          )}
         </TouchableOpacity>
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          inputMode={"text"}
-          keyboardType={"ascii-capable"}
-          style={styles.input}
-          placeholder="Profile Name (Optional)"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
-          autoCorrect={false}
-          autoCapitalize={false}
-          returnKeyType={"next"}
-          onChangeText={setProfileName}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          keyboardType={"ascii-capable"}
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
-          autoCorrect={false}
-          autoCapitalize={false}
-          inputMode={"email"}
-          returnKeyType={"next"}
-          onChangeText={setEmail}
-        />
-      </View>
-      <View style={styles.passwordInfoContainer}>
-        <Text style={styles.passwordInfoText}>
-          Password must be at least 10 characters
-        </Text>
-      </View>
-      <View style={[styles.inputContainer, { marginTop: "2%" }]}>
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
-          secureTextEntry={true}
-          textContentType={"oneTimeCode"}
-          autoCapitalize={false}
-          returnKeyType={"next"}
-          onChangeText={setPassword}
-        />
-      </View>
-      <View style={styles.passwordInfoContainer}>
-        <Text style={styles.passwordInfoText}>Passwords must match</Text>
-      </View>
-      <View style={[styles.inputContainer, { marginTop: "2%" }]}>
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          placeholderTextColor={global.color.primaryColors.placeHolderTextColor}
-          secureTextEntry={true}
-          autoCapitalize={false}
-          returnKeyType={"next"}
-          textContentType={"oneTimeCode"}
-          onChangeText={setConfirmPassword}
-        />
-      </View>
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>{emailErrorMessage}</Text>
-      </View>
-      <TouchableOpacity
-        style={[styles.buttonContainer, { marginTop: "20%" }]}
-        onPress={() => {
-          checkInputs();
-        }}
-      >
-        {!isAuth ? (
-          <Text style={styles.buttonText}>Create Account</Text>
-        ) : (
-          <ActivityIndicator size={22} />
-        )}
-      </TouchableOpacity>
-    </SafeAreaView>
+      </SafeAreaView>
+    </Modal>
   );
 };
 

@@ -28,7 +28,7 @@ const ProfileSettingsScreen = (props) => {
       },
       {
         text: "Sign Out",
-        onPress: () => { authCTX.logout() },
+        onPress: () => { authCTX.logout(); props.navigation.pop();},
         style: "destructive",
       },
     ]);

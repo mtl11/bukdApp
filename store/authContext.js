@@ -16,9 +16,9 @@ function AuthContextProvider({ children }) {
   const [mode, setMode] = useState("light");
   const [darkMode, setDarkMode] = useState(false);
   function authenticate(token) {
-    console.log(token);
-    setAuthToken(token);
+    // console.log(token);
     AsyncStorage.setItem("token", token);
+    setAuthToken(token);
   }
   function logout() {
     setAuthToken(null);

@@ -72,9 +72,19 @@ function AuthenticatedStack() {
           component={MessageChat}
           options={{ headerShown: false }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="SearchChat"
           component={SearchChat}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ForgetPass"
+          component={ForgetPasswordScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Signup"
+          component={SignupScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -118,8 +128,9 @@ function Navigation() {
 
   return (
     <NavigationContainer>
-      {!authCTX.isAuthenticated && <AuthStack />}
-      {authCTX.isAuthenticated && <AuthenticatedStack />}
+      {/* {!authCTX.isAuthenticated && <AuthStack />} */}
+      {/* {authCTX.isAuthenticated && <AuthenticatedStack />} */}
+      <AuthenticatedStack />
     </NavigationContainer>
   );
 }
