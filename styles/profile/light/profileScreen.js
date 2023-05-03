@@ -47,7 +47,7 @@ export default {
         marginHorizontal: 30,
     },
     container: {
-        backgroundColor: global.color.secondaryColors.background,
+        backgroundColor: "#FCFCFF",
         height: "100%",
     },
     iconContainer: {

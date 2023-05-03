@@ -30,7 +30,7 @@ const CategorySelector = (props) => {
         return array;
     }
     return (
-        <ScrollView horizontal={true} style={{ width: "100%", marginVertical: "2%", }} showsHorizontalScrollIndicator={false}>
+        <ScrollView horizontal={true} style={{ marginVertical: "2%", }} showsHorizontalScrollIndicator={false}>
             {getData()}
         </ScrollView>
     )
@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
+        minWidth: 75,
+        alignItems: "center"
         // marginHorizontal: "2.5%"
     }, text: {
         fontSize: 16,

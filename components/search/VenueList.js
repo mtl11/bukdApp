@@ -54,32 +54,44 @@ const VenueList = (props) => {
     }
   }
   return (
-    <FlatList
-      showsVerticalScrollIndicator={false}
-      ListEmptyComponent={
-        <View style={{ alignItems: "center", marginTop: "40%" }}>
-          <Ionicons
-            name={"ios-search"}
-            size={80}
-            color={global.color.primaryColors.adjacent}
-          />
-          <Text
-            style={[
-              styles.bigText,
-              { color: global.color.primaryColors.adjacent },
-            ]}
-          >
-            No Results
+    <View>
+      {/* {props.venues && <View style={{marginLeft: "5%"}}>
+        <Text style={{fontSize: 18, fontFamily: "Rubik-Medium"}}>
+        New To Bukd
+        </Text>
+      </View>} */}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          <View style={{ alignItems: "center", marginTop: "40%" }}>
+            <Ionicons
+              name={"ios-search"}
+              size={80}
+              color={global.color.primaryColors.adjacent}
+            />
+            <Text
+              style={[
+                styles.bigText,
+                { color: global.color.primaryColors.adjacent },
+              ]}
+            >
+              No Results
+            </Text>
+          </View>
+        }
+        ListHeaderComponent={props.venues && <View style={{ marginBottom: "5%", marginHorizontal: "2.5%" }}>
+          <Text style={{ fontSize: 18, fontFamily: "Rubik-Medium" }}>
+            New To Bukd
           </Text>
-        </View>
-      }
-      columnWrapperStyle={{ justifyContent: "space-between" }}
-      numColumns={2}
-      style={styles.list}
-      data={getFlatListData()}
-      renderItem={renderItem}
-      contentContainerStyle={{ justifyContent: "space-evenly" }}
-    />
+        </View>}
+        columnWrapperStyle={{ justifyContent: "space-between" }}
+        numColumns={2}
+        style={styles.list}
+        data={getFlatListData()}
+        renderItem={renderItem}
+        contentContainerStyle={{ justifyContent: "space-evenly" }}
+      />
+    </View>
   );
 };
 
@@ -114,10 +126,7 @@ const styles = StyleSheet.create({
   list: {
     marginHorizontal: "2.5%",
     marginTop: 10,
-    marginBottom: 120,
-    // height:"100%",
-    // flexDirection: "row", 
-
+    marginBottom: "65%",
   },
   individualContainer: {
     width: 165,

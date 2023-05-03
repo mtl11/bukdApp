@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
+  Text
 } from "react-native";
 import VenueList from "../../components/search/VenueList";
 import global from "../../styles/global";
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container: {
-    // backgroundColor: global.color.secondaryColors.background,
+    backgroundColor: "#FCFCFF",
     // // flex:1
     height: "100%",
   },

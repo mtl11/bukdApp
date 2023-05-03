@@ -12,7 +12,6 @@ const AvailabilityProfileArtist = () => {
   const styles = authCTX.mode === "light" ? light : dark;
 
   const profileCTX = useContext(ProfileContext);
-  const [dowData, setDowData] = useState();
   const getTime = (time) => {
     if (time == "after") {
       return "12 PM - 5 PM";

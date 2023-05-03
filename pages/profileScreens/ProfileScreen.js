@@ -30,10 +30,8 @@ import light from "../../styles/profile/light/profileScreen.js"
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
-
   const profileCTX = useContext(ProfileContext);
   const [gettingInfo, setGettingInfo] = useState(false);
-
   async function getProfile() {
     setGettingInfo(true);
     const localId = await AsyncStorage.getItem("localId");
@@ -105,7 +103,7 @@ const ProfileScreen = (props) => {
   useEffect(() => {
     if (authCTX.isAuthenticated) {
       getProfile();
-    }else{
+    } else {
       setVisible(true);
     }
   }, [visible, authCTX.isAuthenticated]);
@@ -157,8 +155,8 @@ const ProfileScreen = (props) => {
                   style={{
                     // justifyContent: "flex-end",
                     borderRadius: 12,
-                    borderWidth: 1,
-                    borderColor: "#FCFCFF",
+                    // borderWidth: 1,
+                    // borderColor: "#FCFCFF",
                     width: "50%",
                     marginTop: 20,
                     marginBottom: 10,
@@ -170,8 +168,7 @@ const ProfileScreen = (props) => {
                       height: 1,
                     },
                     shadowOpacity: 0.22,
-                    shadowRadius: 2.22,
-                    elevation: 3
+                    shadowRadius: 2.22
                   }}
                   onPress={() => {
                     props.navigation.navigate("EditProfileArtistScreen");

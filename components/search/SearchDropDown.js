@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   item: {
-    backgroundColor: global.color.secondaryColors.adjacent,
+    backgroundColor: global.color.secondaryColors.adjacent
   },
   textItem: {
     color: "black",

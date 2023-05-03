@@ -133,7 +133,7 @@ const ShowsTab = () => {
         setShows(profileCTX.shows)
     }
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }} >
             {profileCTX.shows.length == 0 &&
                 <View style={{ alignItems: "center", marginVertical: "10%" }}>
 
@@ -318,9 +318,18 @@ const ShowsTab = () => {
 const styles = StyleSheet.create({
     showContainer: {
         // width: "90%",
-        borderWidth: 1, borderRadius: 12,
+        // borderWidth: 1, 
+        borderRadius: 12,
         borderColor: "#D9D9D9",
         flexDirection: "row",
+        backgroundColor:"white",
+        shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
         // shadowColor: "#000",
         // shadowOffset: {
         //     width: 0,
