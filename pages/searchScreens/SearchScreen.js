@@ -69,12 +69,13 @@ const SearchScreen = (props) => {
     profileType();
     setAuth(true);
   }, [authCTX.isAuthenticated]);
+  console.log(authCTX.isAuthenticated);
   return (
     <SafeAreaView style={styles.container}>
       {auth ? (
         <View>
           <View style={styles.topContainer}>
-            {pt == "venue" ? (
+            {(pt == "venue" || authCTX.isAuthenticated == false) ? (
               <SearchDropDown
                 setValue={setLocation}
                 placeholder={"Select Location"}
@@ -91,10 +92,10 @@ const SearchScreen = (props) => {
                 blur={getVenues}
               />
             )}
-            {pt == "venue" ? <CategorySelector data={profileCategoriesArtist} setValue={setCategory}/> :
+            {pt == "venue" || authCTX.isAuthenticated == false? <CategorySelector data={profileCategoriesArtist} setValue={setCategory}/> :
               <CategorySelector data={profileCategoriesVenue} setValue={setCategory}/>}
           </View>
-          {pt == "venue" ? (
+          {pt == "venue" || authCTX.isAuthenticated == false? (
             <VenueList venues={performers} category={category} props={props} />
           ) : (
             <VenueList venues={venues} category={category} props={props} />

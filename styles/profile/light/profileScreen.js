@@ -40,6 +40,7 @@ export default {
         width: 120,
         height: 120,
         borderRadius: 100,
+        backgroundColor: "white"
         // overflow: 'hidden'
     },
     topIconContainer: {
@@ -56,7 +57,7 @@ export default {
     profilePicContainer: {
         alignItems: "center",
         overflow: 'hidden',
-        flex:1,
+        flex: 1,
         borderRadius: 100,
         marginTop: 50,
         justifyContent: "center",

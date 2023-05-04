@@ -171,7 +171,7 @@ const ProfileScreen = (props) => {
                     shadowRadius: 2.22
                   }}
                   onPress={() => {
-                    props.navigation.navigate("EditProfileArtistScreen");
+                    props.navigation.pop("EditProfileArtistScreen");
                   }}
                 >
                   <View style={{ alignSelf: "center", padding: 10 }}>
@@ -206,7 +206,8 @@ const ProfileScreen = (props) => {
                         fontSize: 16
                       }}>
                         {profileCTX.about.category}
-                      </Text></View>)}
+                      </Text>
+                    </View>)}
                   <View style={{ marginLeft: profileCTX.about.genre && 10, flexDirection: "row", alignItems: "center" }}>
                     {profileCTX.about.location != undefined ?
                       <Ionicons

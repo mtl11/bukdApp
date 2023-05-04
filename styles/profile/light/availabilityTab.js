@@ -14,7 +14,8 @@ export default {
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-    marginHorizontal: "8%"
+    marginHorizontal: "8%",
+
   },
   headerContainer: {
     flexDirection: "row",
@@ -41,14 +42,14 @@ export default {
     // flex:1
   },
   headerText: {
-    fontFamily: "Rubik-Regular",
+    fontFamily: "Rubik-Medium",
     fontSize: 16,
-    color: global.color.secondaryColors.main,
+    color: global.color.secondaryColors.text,
     marginLeft: 10,
   },
   bigText: {
-    fontFamily: "Rubik-SemiBold",
-    fontSize: 20,
+    fontFamily: "Rubik-Regular",
+    fontSize: 16,
     color: global.color.secondaryColors.text,
-  },
+  }
 }

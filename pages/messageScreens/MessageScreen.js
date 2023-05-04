@@ -28,8 +28,8 @@ const MessageScreen = (props) => {
       <SearchBar setSearchValue={setSearchValue} searchValue={searchValue} />
       {authCTX.isAuthenticated ?
         <MessagesLists data={data} searchValue={searchValue} props={props} refreshData={getData} /> :
-        <View style={{alignItems:"center"}}>
-          <Text style={{fontFamily:"Rubik-Medium", fontSize: 24}}>
+        <View style={{alignItems:"center", marginTop: "5%"}}>
+          <Text style={{fontFamily:"Rubik-Medium", fontSize: 20}}>
             Login or Sign up to Message
           </Text>
         </View>}

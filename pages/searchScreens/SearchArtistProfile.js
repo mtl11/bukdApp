@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import AboutTabArtist from "../../components/search/AboutTabArtist";
 import global from "../../styles/global";
 import {
@@ -19,7 +19,12 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AvailabilitySearch from "../../components/search/AvailabilitySearch";
 import SocialSearchTab from "../../components/search/SocialSearchTab";
+import UnAuthSearch from "../../components/search/UnAuthSearch";
+import { AuthContext } from "../../store/authContext";
+import ShowsTab from "../../components/search/ShowsTab";
+
 const ProfileScreen = (props) => {
+  const authCTX = useContext(AuthContext);
   const [gettingInfo, setGettingInfo] = useState(true);
   const [basicInfo, setBasicInfo] = useState({});
   const [about, setAbout] = useState({});
@@ -27,6 +32,8 @@ const ProfileScreen = (props) => {
   const [profileURI, setProfileURI] = useState({});
   const [socials, setSocials] = useState({});
   const [searchID, setSearchID] = useState({});
+  const [shows, setShows] = useState([]);
+
   async function getProfile() {
     setGettingInfo(true);
     const searchID = await AsyncStorage.getItem("searchID");
@@ -40,182 +47,278 @@ const ProfileScreen = (props) => {
     setSocials(otherInfo.socials);
     const profileuri = await getProfilePic(searchID);
     setProfileURI(profileuri);
+    if (otherInfo.shows != undefined){
+      setShows(otherInfo.shows);
+    }
     setGettingInfo(false);
   }
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
   const [availShow, setAvailShow] = useState(false);
+  console.log(shows)
   function getScreenTab() {
     if (socialShow == true) {
       return <SocialSearchTab socials={socials} />;
     }
     if (aboutShow == true) {
-      return <AboutTabArtist about={about} basicInfo={basicInfo} />;
+      return <ShowsTab shows={shows}/>;
     }
     if (availShow == true) {
       return <AvailabilitySearch availability={availability} />;
     }
   }
-
+  const [visible, setVisible] = useState(false);
+  // console.log(shows)
   useEffect(() => {
     getProfile();
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
-      {gettingInfo ? (
-        <View style={{ height: "100%", justifyContent: "center" }}>
-          <ActivityIndicator size={"large"} />
-        </View>
-      ) : (
-        <View style={styles.container}>
-          <View>
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ justifyContent: "center" }}>
+    <View>
+      <UnAuthSearch visible={visible} setVisible={setVisible} props = {props}/>
+      <SafeAreaView style={{ backgroundColor: global.color.primaryColors.main }} />
+      <SafeAreaView style={styles.container}>
+        {gettingInfo ? (
+          <View style={{ height: "100%", justifyContent: "center" }}>
+            <ActivityIndicator size={"large"} />
+          </View>
+        ) : (
+          <View style={styles.container}>
+            <View style={{ flexDirection: "row", justifyContent: "flex-start", backgroundColor: global.color.primaryColors.main, height: "12%" }}>
+              <View>
                 <TouchableOpacity
                   style={styles.topIconContainer}
                   onPress={() => {
                     props.navigation.pop();
                   }}
                 >
-                  <FontAwesome5
-                    name="chevron-left"
-                    size={32}
-                    color={global.color.primaryColors.buttonAccent}
+                  <Ionicons
+                    name="arrow-back"
+                    size={28}
+                    color={styles.iconColor}
                   />
                 </TouchableOpacity>
               </View>
             </View>
-            <View>
-              <View style={styles.profilePicContainer}>
-                <Image
-                  source={{ uri: profileURI }}
-                  style={styles.profilePic}
-                  resizeMode="contain"
-                />
+            <View style={[styles.profilePicContainer, {
+              position: 'absolute',
+              top: "-1%",
+              bottom: 0,
+              width: 120,
+              height: 120,
+              marginHorizontal: 30
+            }]}>
+              <Image
+                source={{ uri: profileURI }}
+                style={styles.profilePic}
+                resizeMode="contain"
+              // defaultSource={}
+              />
+            </View>
+            <View style={{ marginHorizontal: 30 , flexDirection:"row", justifyContent: "flex-end"}}>
+              <TouchableOpacity
+                style={{
+                  // justifyContent: "flex-end",
+                  borderRadius: 12,
+                  // borderWidth: 1,
+                  // borderColor: "#FCFCFF",
+                  width: "40%",
+                  marginTop: 20,
+                  marginBottom: 10,
+                  backgroundColor: global.color.primaryColors.main,
+                  alignSelf: "flex-end",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.22,
+                  shadowRadius: 2.22
+                }}
+                onPress={() => {
+                  if (authCTX.isAuthenticated == true) {
+                    props.navigation.navigate("SearchChat", {
+                      displayName: basicInfo.profileName, searchID: searchID
+                    })
+                  }else{
+                      setVisible(true);
+                  }
+                }}
+              >
+                <View style={{ alignSelf: "center", padding: 10 }}>
+                  <Text
+                    style={styles.editProfileText}
+                  >
+                    Message
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  // justifyContent: "flex-end",
+                  borderRadius: 12,
+                  // borderWidth: 1,
+                  marginLeft: 10,
+                  width: "15%",
+                  marginTop: 20,
+                  marginBottom: 10,
+                  backgroundColor: global.color.primaryColors.main,
+                  alignSelf: "flex-end",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.22,
+                  shadowRadius: 2.22
+                }}
+                onPress={() => {
+                  if (authCTX.isAuthenticated == true) {
+                    props.navigation.navigate("SearchChat", {
+                      displayName: basicInfo.profileName, searchID: searchID
+                    })
+                  }else{
+                      setVisible(true);
+                  }
+                }}
+              >
+                <View style={{ alignSelf: "center", padding: 10 }}>
+                  <MaterialCommunityIcons name="cards-heart-outline" size={24} color="white" />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={{ marginHorizontal: 30 }}>
+              <View style={styles.usernameContainer}>
+                <Text style={styles.usernameText}>
+                  {basicInfo.profileName}
+                </Text>
+              </View>
+              <View style={{ marginBottom: 2.5, flexDirection: "row", alignItems: "center" }}>
+                {basicInfo.profileType == "performer" ? (
+                  <View>
+                    <Text style={{
+                      color: global.color.primaryColors.main,
+                      fontFamily: "Rubik-Regular",
+                      fontSize: 16,
+                    }}>
+                      {about.category} {" "}
+                      {about.genre && <Text>
+                        |{" "}{about.genre} </Text>}
+                    </Text></View>) : (<View><Text style={{
+                      color: global.color.primaryColors.main,
+                      fontFamily: "Rubik-Regular",
+                      fontSize: 16
+                    }}>
+                      {about.category}
+                    </Text>
+                    </View>)}
+                <View style={{ marginLeft: about.genre && 10, flexDirection: "row", alignItems: "center" }}>
+                  {about.location != undefined ?
+                    <Ionicons
+                      name="location-outline"
+                      size={24}
+                      color={global.color.secondaryColors.placeHolderTextColor}
+                    /> : <View></View>}
+                  <Text style={{
+                    color: global.color.secondaryColors.placeHolderTextColor,
+                    fontFamily: "Rubik-Regular",
+                    fontSize: 16
+                  }}>
+                    {about.location}
+                  </Text>
+                </View>
+              </View>
+              <View>
+                <Text style={{
+                  color: "black",
+                  fontFamily: "Rubik-Regular",
+                  fontSize: 14,
+                }}>{about.bio}</Text>
               </View>
             </View>
-          </View>
-          <View style={{ justifyContent: "center" }}>
-            <View style={styles.usernameContainer}>
-              <Text style={styles.usernameText}>{basicInfo.profileName}</Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text
-                style={{
-                  color: global.color.primaryColors.main,
-                  fontFamily: "Rubik-Medium",
-                  fontSize: 18,
-                }}
-              >
-                {basicInfo.profileType.charAt(0).toUpperCase() + basicInfo.profileType.slice(1)}
-              </Text>
-            </View>
-          </View>
-          <TouchableOpacity
-            style={{
-              alignSelf: "center",
-              borderRadius: 12,
-              borderColor: "#2A51DB",
-              width: "80%",
-              marginVertical: "5%",
-              backgroundColor: global.color.primaryColors.main,
-            }}
-            onPress={() => {props.navigation.navigate("SearchChat",{displayName: basicInfo.profileName,searchID:searchID})}}
-          >
-            <View style={{ alignSelf: "center", padding: 10 }}>
-              <Text
-                style={{
-                  color: global.color.primaryColors.buttonAccent,
-                  fontFamily: "Rubik-Medium",
-                  fontSize: 18,
-                }}
-              >
-                Message
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <View
-            style={{
-              borderBottomWidth: 1,
-              marginTop: 20,
-              alignItems: "center",
-              borderColor: global.color.primaryColors.adjacent,
-            }}
-          >
             <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-                width: "90%",
-              }}
+              style={styles.tabView}
             >
-              <TouchableOpacity
-                style={styles.tabContainer}
-                onPress={() => {
-                  setAboutShow(true);
-                  setAvailShow(false);
-                  setSocialShow(false);
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                  width: "90%",
                 }}
               >
-                <View style={{ flexDirection: "column" }}>
-                  <View style={styles.tabTextContainer}>
-                    <Text style={styles.tabText}>About</Text>
+                <TouchableOpacity
+                  style={styles.tabContainer}
+                  onPress={() => {
+                    setAvailShow(true);
+                    setAboutShow(false);
+                    setSocialShow(false);
+                  }}
+                >
+                  <View style={{ flexDirection: "column" }}>
+                    <View style={styles.tabTextContainer}>
+                      <Text style={[styles.tabText, availShow && { color: "black" }]}>Availability</Text>
+                    </View>
+                    {availShow && (
+                      <View style={styles.tabBottomBar}></View>
+                    )}
                   </View>
-                  {aboutShow ? (
-                    <View style={styles.tabBottomBar}></View>
-                  ) : (
-                    <View></View>
-                  )}
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.tabContainer}
-                onPress={() => {
-                  setAvailShow(true);
-                  setAboutShow(false);
-                  setSocialShow(false);
-                }}
-              >
-                <View style={{ flexDirection: "column" }}>
-                  <View style={styles.tabTextContainer}>
-                    <Text style={styles.tabText}>Availability</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.tabContainer}
+                  onPress={() => {
+                    setAboutShow(true);
+                    setAvailShow(false);
+                    setSocialShow(false);
+                  }}
+                >
+                  <View style={{ flexDirection: "column" }}>
+                    <View style={styles.tabTextContainer}>
+                      <Text style={[styles.tabText, aboutShow && { color: "black" }]}>Shows</Text>
+                    </View>
+                    {aboutShow && (
+                      <View style={styles.tabBottomBar}></View>
+                    )}
                   </View>
-                  {availShow ? (
-                    <View style={styles.tabBottomBar}></View>
-                  ) : (
-                    <View></View>
-                  )}
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.tabContainer}
-                onPress={() => {
-                  setSocialShow(true);
-                  setAvailShow(false);
-                  setAboutShow(false);
-                }}
-              >
-                <View style={{ flexDirection: "column" }}>
-                  <View style={styles.tabTextContainer}>
-                    <Text style={styles.tabText}>Socials</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.tabContainer}
+                  onPress={() => {
+                    setSocialShow(true);
+                    setAvailShow(false);
+                    setAboutShow(false);
+                  }}
+                >
+                  <View style={{ flexDirection: "column" }}>
+                    <View style={styles.tabTextContainer}>
+                      <Text style={[styles.tabText, socialShow && { color: "black" }]}>Social Media</Text>
+                    </View>
+                    {socialShow && (
+                      <View style={styles.tabBottomBar}></View>
+                    )}
                   </View>
-                  {socialShow ? (
-                    <View style={styles.tabBottomBar}></View>
-                  ) : (
-                    <View></View>
-                  )}
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
+              </View>
             </View>
+            {getScreenTab()}
           </View>
-          {getScreenTab()}
-        </View>
-      )}
-    </SafeAreaView>
+        )}
+      </SafeAreaView>
+    </View >
   );
 };
 
 const styles = StyleSheet.create({
+  iconColor: "white",
+  editProfileText: {
+    color: "white",
+    fontFamily: "Rubik-Medium",
+    fontSize: 18,
+  },
+  tabView: {
+    borderBottomWidth: 1,
+    marginTop: 10,
+    alignItems: "center",
+    borderColor: global.color.secondaryColors.adjacent,
+  },
   tabTextContainer: {
     paddingHorizontal: 15,
     borderRadius: 10,
@@ -228,11 +331,11 @@ const styles = StyleSheet.create({
   tabBottomBar: {
     borderWidth: 2.5,
     borderRadius: 12,
-    borderColor: global.color.primaryColors.main,
-    backgroundColor: global.color.primaryColors.main,
+    borderColor: global.color.secondaryColors.main,
+    backgroundColor: global.color.secondaryColors.main,
   },
   tabText: {
-    color: global.color.primaryColors.text,
+    color: global.color.secondaryColors.placeHolderTextColor,
     fontFamily: "Rubik-Regular",
     fontSize: 16,
   },
@@ -244,38 +347,36 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 100,
+    backgroundColor: "white"
   },
   topIconContainer: {
     alignSelf: "flex-end",
     marginHorizontal: 30,
   },
   container: {
-    backgroundColor: global.color.primaryColors.background,
+    backgroundColor: "#FCFCFF",
     height: "100%",
   },
   iconContainer: {
     justifyContent: "center",
   },
   profilePicContainer: {
-    alignSelf: "center",
+    alignItems: "center",
+    overflow: 'hidden',
+    flex: 1,
     borderRadius: 100,
-    marginTop: "3%",
+    marginTop: 50,
     justifyContent: "center",
-    borderWidth: 4,
-    borderColor: global.color.primaryColors.adjacent,
-    // shadowColor: "#000",
-    // shadowOffset: { width: 0, height: 0 },
-    // shadowOpacity: 0.41,
-    // shadowRadius: 4,
+    borderWidth: 3,
+    borderColor: global.color.secondaryColors.main,
   },
   usernameContainer: {
-    alignSelf: "center",
-    marginTop: 15,
+    // marginTop: 5,
   },
   usernameText: {
     fontFamily: "Rubik-SemiBold",
-    fontSize: 24,
-    color: global.color.primaryColors.text,
-  },
+    fontSize: 20,
+    color: global.color.secondaryColors.text,
+  }
 });
 export default ProfileScreen;

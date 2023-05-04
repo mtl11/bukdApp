@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import colors from "../../styles/global";
+import global from "../../styles/global";
 
 const AvailabilitySearch = (props) => {
-  const [dowData, setDowData] = useState();
   const getTime = (time) => {
     if (time == "after") {
       return "10 PM - 1 AM";
@@ -67,7 +66,7 @@ const AvailabilitySearch = (props) => {
           <View key={x} style={styles.timeContainer}>
             <Text style={styles.bigText}>{getHour(x)}</Text>
             <Text
-              style={[styles.bigText, { color: colors.color.primaryColors.text }]}
+              style={[styles.bigText, { color: global.color.primaryColors.text }]}
             >
               {getTime(x)}
             </Text>
@@ -115,7 +114,7 @@ const AvailabilitySearch = (props) => {
           <Ionicons
             name="ios-alarm-outline"
             size={24}
-            color={colors.color.primaryColors.main}
+            color={"black"}
           />
           <Text style={styles.headerText}>Preferred Time</Text>
         </View>
@@ -126,7 +125,7 @@ const AvailabilitySearch = (props) => {
           <Ionicons
             name="ios-calendar-outline"
             size={24}
-            color={colors.color.primaryColors.main}
+            color={"black"}
           />
           <Text style={styles.headerText}>Preferred Days</Text>
         </View>
@@ -137,8 +136,21 @@ const AvailabilitySearch = (props) => {
 };
 
 const styles = StyleSheet.create({
+  headerTextColor: "black",
   singleContainer: {
     marginTop: "8%",
+    backgroundColor: "white",
+    // borderWidth:1,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    marginHorizontal: "8%",
+    
   },
   headerContainer: {
     flexDirection: "row",
@@ -152,28 +164,27 @@ const styles = StyleSheet.create({
     marginTop: "5%",
   },
   boxContainer: {
-    borderTopWidth: 0,
-    borderWidth: 1,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
+    // // borderTopWidth: 0,
+    // borderWidth: 1,
+    // borderRadius: 12,
     paddingHorizontal: "5%",
     paddingBottom: "5%",
-    borderColor: colors.color.primaryColors.adjacent,
+    borderColor: global.color.secondaryColors.adjacent,
   },
   container: {
-    marginHorizontal: "8%",
+    // marginHorizontal: "8%",
+    marginBottom: 120
     // flex:1
   },
   headerText: {
-    fontFamily: "Rubik-Regular",
+    fontFamily: "Rubik-Medium",
     fontSize: 16,
-    color: colors.color.primaryColors.main,
+    color: global.color.secondaryColors.text,
     marginLeft: 10,
   },
   bigText: {
-    fontFamily: "Rubik-SemiBold",
-    fontSize: 20,
-    color: colors.color.primaryColors.text,
-  },
-});
+    fontFamily: "Rubik-Regular",
+    fontSize: 16,
+    color: global.color.secondaryColors.text,
+  }});
 export default AvailabilitySearch;
