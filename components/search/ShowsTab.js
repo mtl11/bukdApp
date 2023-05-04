@@ -19,6 +19,7 @@ import { ProfileContext } from "../../store/profileContext.js";
 import { addNewShow, getAccessToken, deleteSomeShow } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const ShowsTab = (props) => {
+    // const profileCTX = useContext(ProfileContext);
     const [shows, setShows] = useState(Object.entries(props.shows));
     const [visible, setVisible] = useState(false);
     function formatAMPM(date) {
@@ -44,13 +45,10 @@ const ShowsTab = (props) => {
         const start = formatAMPM(new Date(item.startTime));
         const end = formatAMPM(new Date(item.endTime));
         const venueName = item.venueName;
+        const performersNeeded = item.performersNeeded;
+        const description = item.description;
         return (
-            <TouchableOpacity key={label} style={styles.showContainer} onPress={() => {
-                if (label == selectedItem) {
-                    setSelectedItem(null);
-                } else
-                    setSelectedItem(label);
-            }}>
+            <View key={label} style={styles.showContainer}>
                 <View style={{ width: "90%" }}>
                     <View style={{ padding: "3%", flexDirection: "row", justifyContent: "space-between", width: "110%" }}>
                         <View style={{ alignSelf: 'center' }}>
@@ -63,37 +61,36 @@ const ShowsTab = (props) => {
                                     {start} - {end}
                                 </Text>
                             </View>
+                            {props.basicInfo.profileType == "venue" ? 
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                <Ionicons
-                                    name="location-outline"
-                                    size={24}
-                                    color={global.color.secondaryColors.placeHolderTextColor}
-                                />
+                                {performersNeeded ?<MaterialIcons name="event-available" size={24} color={global.color.secondaryColors.placeHolderTextColor} />:
+                                <MaterialIcons name="event-busy" size={24} color="black" />}
                                 <Text style={styles.smallText}>
-                                    {venueName}
+                                    {performersNeeded ? "Performers needed" : "Booked"}
                                 </Text>
-                            </View>
+                            </View> :
+                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                    <Ionicons
+                                        name="location-outline"
+                                        size={24}
+                                        color={global.color.secondaryColors.placeHolderTextColor}
+                                    />
+                                    <Text style={styles.smallText}>
+                                        {venueName}
+                                    </Text>
+                                </View>
+                            }
                         </View>
                     </View>
-                    {/* {selectedItem == label &&
-                        <TouchableWithoutFeedback >
-                            <View style={{ flexDirection: "row", justifyContent: "space-evenly", width: "110%", padding: "5%" }}>
-                                <TouchableOpacity style={{ backgroundColor: "white", padding: 12, borderRadius: 12, width: "30%", alignItems: "center", borderWidth: 1, borderColor: global.color.primaryColors.main }}>
-                                    <Text style={{ color: global.color.primaryColors.main, fontSize: 14, fontFamily: "Rubik-SemiBold" }}>
-                                        Edit
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={deleteShow} style={{ backgroundColor: global.color.primaryColors.main, padding: 12, borderRadius: 12, width: "30%", alignItems: "center" }}>
-                                    <Text style={{ color: "white", fontSize: 14, fontFamily: "Rubik-SemiBold" }}>
-                                        Delete
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-
-                        </TouchableWithoutFeedback>
-                    } */}
+                    {description &&
+                    <View>  
+                        <Text style={{fontFamily:"Rubik-Regular", fontSize: 16, margin: "3%"}}>
+                            {description}    
+                        </Text>     
+                    </View>
+                    }
                 </View>
-            </TouchableOpacity>
+            </View>
         )
     }
     return (

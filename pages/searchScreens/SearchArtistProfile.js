@@ -61,7 +61,7 @@ const ProfileScreen = (props) => {
       return <SocialSearchTab socials={socials} />;
     }
     if (aboutShow == true) {
-      return <ShowsTab shows={shows}/>;
+      return <ShowsTab shows={shows} basicInfo={basicInfo}/>;
     }
     if (availShow == true) {
       return <AvailabilitySearch availability={availability} />;
@@ -235,6 +235,7 @@ const ProfileScreen = (props) => {
                 }}>{about.bio}</Text>
               </View>
             </View>
+
             <View
               style={styles.tabView}
             >
@@ -245,6 +246,7 @@ const ProfileScreen = (props) => {
                   width: "90%",
                 }}
               >
+                {basicInfo.profileType == "performer" &&
                 <TouchableOpacity
                   style={styles.tabContainer}
                   onPress={() => {
@@ -262,6 +264,7 @@ const ProfileScreen = (props) => {
                     )}
                   </View>
                 </TouchableOpacity>
+                }
                 <TouchableOpacity
                   style={styles.tabContainer}
                   onPress={() => {

@@ -8,7 +8,7 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5,Ionicons } from "@expo/vector-icons";
 import colors from "../../styles/global";
 
 import { AuthContext } from "../../store/authContext";
@@ -37,17 +37,17 @@ const ConfirmPasswordReset = (props) => {
         [
           {
             text: "Cancel",
-            onPress: () => {},
+            onPress: () => { },
             style: "destructive",
           },
-          { text: "Reset", onPress: () => { reset(confirmPass, idToken) , props.navigation.navigate("ProfileSettingsScreen")}}
+          { text: "Reset", onPress: () => { reset(confirmPass, idToken), props.navigation.navigate("ProfileSettingsScreen") } }
         ]
       );
       setError(false);
     }
   }
 
-  async function reset(password, token){
+  async function reset(password, token) {
     const response = await resetPassword(password, token);
     console.log(response);
   }
@@ -61,9 +61,9 @@ const ConfirmPasswordReset = (props) => {
             props.navigation.navigate("ProfileSettingsScreen");
           }}
         >
-          <FontAwesome5
-            name="chevron-left"
-            size={32}
+          <Ionicons
+            name="arrow-back"
+            size={28}
             color={styles.iconColor}
           />
         </TouchableOpacity>

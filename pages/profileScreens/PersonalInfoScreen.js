@@ -8,10 +8,10 @@ import {
   TextInput,
   ActivityIndicator,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { ProfileContext } from "../../store/profileContext.js";
 import colors from "../../styles/global";
-import { getPersonalInfo, setPersonalInfo, getAccessToken} from "../../util/profile";
+import { getPersonalInfo, setPersonalInfo, getAccessToken } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../store/authContext.js";
 import dark from "../../styles/profile/dark/personalInfo.js";
@@ -31,9 +31,9 @@ const PersonalInfoScreen = (props) => {
     const accessToken = await getAccessToken();
     setLoading(true);
     const localId = await AsyncStorage.getItem("localId");
-    if (firstName != (null || "") && lastName != (null|| "")) {
+    if (firstName != (null || "") && lastName != (null || "")) {
       const response = await setPersonalInfo(firstName, lastName, localId, accessToken);
-      profileCTX.updatePersonalInfo({firstName: firstName,lastName: lastName});
+      profileCTX.updatePersonalInfo({ firstName: firstName, lastName: lastName });
       setError(false);
     } else {
       setError(true);
@@ -49,9 +49,9 @@ const PersonalInfoScreen = (props) => {
             props.navigation.pop();
           }}
         >
-          <FontAwesome5
-            name="chevron-left"
-            size={32}
+          <Ionicons
+            name="arrow-back"
+            size={28}
             color={styles.iconColor}
           />
         </TouchableOpacity>

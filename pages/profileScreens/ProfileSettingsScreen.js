@@ -8,7 +8,7 @@ import {
   Switch,
   Alert,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../styles/global";
 import { AuthContext } from "../../store/authContext";
@@ -28,7 +28,7 @@ const ProfileSettingsScreen = (props) => {
       },
       {
         text: "Sign Out",
-        onPress: () => { authCTX.logout(); props.navigation.pop();},
+        onPress: () => { authCTX.logout(); props.navigation.navigate("TabNav", { screen: "Search" }); },
         style: "destructive",
       },
     ]);
@@ -38,7 +38,7 @@ const ProfileSettingsScreen = (props) => {
     setNewShowRequests(!newShowRequests);
     authCTX.toggleMode();
   };
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topIconContainer}>
@@ -47,9 +47,9 @@ const ProfileSettingsScreen = (props) => {
             props.navigation.pop();
           }}
         >
-          <FontAwesome5
-            name="chevron-left"
-            size={32}
+          <Ionicons
+            name="arrow-back"
+            size={28}
             color={styles.iconColor}
           />
         </TouchableOpacity>
@@ -94,12 +94,12 @@ const ProfileSettingsScreen = (props) => {
         </View>
       </TouchableOpacity>
       <View style={styles.sectionHeaderContainer}>
-        <FontAwesome5
-          name="bell"
+        <Ionicons
+          name="ios-settings-outline"
           size={22}
           color={styles.iconColor}
         />
-        <Text style={styles.sectionHeaderText}>Notifications</Text>
+        <Text style={styles.sectionHeaderText}>General</Text>
       </View>
       <View style={styles.labelContainer}>
         <Text style={styles.labelText}>Dark Mode</Text>

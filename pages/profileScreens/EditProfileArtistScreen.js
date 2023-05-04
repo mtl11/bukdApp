@@ -273,7 +273,7 @@ const EditProfileArtistScreen = (props) => {
                 value={profilename}
                 onChangeText={setProfilename}
                 maxLength={24}
-                returnKeyType="done"
+                returnKeyType="next"
               />
             </KeyboardAvoidingView>
           </View>
@@ -387,6 +387,8 @@ const EditProfileArtistScreen = (props) => {
               />
             )}
           </TouchableOpacity> */}
+          {profileCTX.basicInfo.profileType == "performer" && 
+          <View>
           <View style={[styles.headerContainer]}>
             <Text style={styles.headerText}>Availability</Text>
           </View>
@@ -507,30 +509,8 @@ const EditProfileArtistScreen = (props) => {
                 </View>
               </View>
             </View>
-          {/* ) : (
-            <View></View>
-          )} */}
-          {/* <TouchableOpacity
-            style={styles.headerContainer}
-            onPress={() => {
-              setSocial(!social);
-            }}
-          >
-            <Text style={styles.headerText}>Social Media Links</Text>
-            {social ? (
-              <Ionicons
-                name="chevron-up"
-                size={28}
-                color={styles.iconColor}
-              />
-            ) : (
-              <Ionicons
-                name="chevron-down"
-                size={28}
-                color={styles.iconColor}
-              />
-            )}
-          </TouchableOpacity> */}
+          </View>
+          }
           <View style={[styles.headerContainer]}>
             <Text style={styles.headerText}>Social Media Links</Text>
           </View>

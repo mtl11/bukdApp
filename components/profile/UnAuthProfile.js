@@ -52,7 +52,8 @@ const UnAuthProfile = (props) => {
                     style={{
                         flexDirection: "row",
                         alignSelf: "center",
-                        marginTop: "40%",
+                        marginTop: "20%",
+                        marginBottom: 12
                     }}
                 >
                     <Image
@@ -64,6 +65,9 @@ const UnAuthProfile = (props) => {
                         style={styles.image}
                     />
                 </View>
+                <Text style={{ alignSelf: "center", marginBottom: "18%", fontFamily: "Rubik-Regular", fontSize: 16 }}>
+                    Login with your email and password.
+                </Text>
                 {/* <View style={styles.welcomeContainer}>
                 <Text style={styles.welcomeText}>Login in or Sign Up</Text>
             </View> */}

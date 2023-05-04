@@ -21,14 +21,26 @@ export async function setAboutInfo(location, category, genre, bio, localId, acce
   });
 }
 
-export async function addNewShow(startTime, endTime, date, venueName, localId, accessToken) {
+export async function addNewShow(startTime, endTime, date, venueName, description, localId, accessToken) {
   const response = await firebaseUtil.post("/users/" + localId + "/shows.json?auth="+accessToken, {
     startTime: startTime,
     endTime: endTime,
     date: date,
-    venueName: venueName
+    venueName: venueName,
+    description: description
   });
 }
+
+export async function addNewShowVenue(startTime, endTime, date, performersNeeded,description, localId, accessToken) {
+  const response = await firebaseUtil.post("/users/" + localId + "/shows.json?auth="+accessToken, {
+    startTime: startTime,
+    endTime: endTime,
+    date: date,
+    performersNeeded: performersNeeded,
+    description: description,
+  });
+}
+
 
 export async function deleteSomeShow(localId, item, accessToken){
   const response = await firebaseUtil.delete("/users/" + localId + "/shows/"+item+".json?auth="+accessToken);

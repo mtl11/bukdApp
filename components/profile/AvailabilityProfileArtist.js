@@ -120,7 +120,7 @@ const AvailabilityProfileArtist = () => {
           <Ionicons
             name="ios-alarm-outline"
             size={24}
-            color={global.color.primaryColors.main}
+            color={"black"}
           />
           <Text style={styles.headerText}>Preferred Time</Text>
         </View>
@@ -131,7 +131,7 @@ const AvailabilityProfileArtist = () => {
           <Ionicons
             name="ios-calendar-outline"
             size={24}
-            color={global.color.primaryColors.main}
+            color={"black"}
           />
           <Text style={styles.headerText}>Preferred Days</Text>
         </View>

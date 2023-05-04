@@ -62,9 +62,13 @@ const ProfileScreen = (props) => {
     }
     if (otherInfo.hasOwnProperty("shows")) {
       profileCTX.updateShows(otherInfo.shows);
+    }else{
+      profileCTX.updateShows([]);
     }
     if (otherInfo.hasOwnProperty("socials")) {
       profileCTX.updateSocial(otherInfo.socials);
+    }else{
+      profileCTX.updateSocial();
     }
     if (otherInfo.hasOwnProperty("availability")) {
       profileCTX.updateAvailability(
@@ -171,7 +175,7 @@ const ProfileScreen = (props) => {
                     shadowRadius: 2.22
                   }}
                   onPress={() => {
-                    props.navigation.pop("EditProfileArtistScreen");
+                    props.navigation.navigate("EditProfileArtistScreen");
                   }}
                 >
                   <View style={{ alignSelf: "center", padding: 10 }}>
@@ -242,6 +246,7 @@ const ProfileScreen = (props) => {
                     width: "90%",
                   }}
                 >
+                  {profileCTX.basicInfo.profileType == "performer" &&
                   <TouchableOpacity
                     style={styles.tabContainer}
                     onPress={() => {
@@ -258,7 +263,7 @@ const ProfileScreen = (props) => {
                         <View style={styles.tabBottomBar}></View>
                       )}
                     </View>
-                  </TouchableOpacity>
+                  </TouchableOpacity>}
                   <TouchableOpacity
                     style={styles.tabContainer}
                     onPress={() => {

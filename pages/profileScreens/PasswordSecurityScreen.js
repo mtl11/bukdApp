@@ -8,7 +8,7 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import colors from "../../styles/global";
 
 import { AuthContext } from "../../store/authContext";
@@ -32,10 +32,10 @@ const PasswordSecurityScreen = (props) => {
     console.log(email);
     const response = await authenticateUser(email, currPass);
     console.log(response);
-    AsyncStorage.setItem("changePasswordToken",response);
-    if (response == ""){
+    AsyncStorage.setItem("changePasswordToken", response);
+    if (response == "") {
       setError(true);
-    }else{
+    } else {
       props.navigation.navigate("ConfirmPasswordReset");
     };
   }
@@ -50,9 +50,9 @@ const PasswordSecurityScreen = (props) => {
             props.navigation.pop();
           }}
         >
-          <FontAwesome5
-            name="chevron-left"
-            size={32}
+          <Ionicons
+            name="arrow-back"
+            size={28}
             color={styles.iconColor}
           />
         </TouchableOpacity>
