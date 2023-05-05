@@ -37,7 +37,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../store/authContext";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import light from "../../styles/profile/light/editProfile";
 import dark from "../../styles/profile/dark/editProfile";
 
@@ -45,6 +45,7 @@ const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
+  
   async function update() {
     const localId = await AsyncStorage.getItem("localId");
     const accessToken = await getAccessToken();

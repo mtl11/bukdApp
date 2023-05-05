@@ -29,17 +29,27 @@ const PersonalInfoScreen = (props) => {
   const [loading, setLoading] = useState(false);
   async function update() {
     const accessToken = await getAccessToken();
-    setLoading(true);
-    const localId = await AsyncStorage.getItem("localId");
-    if (firstName != (null || "") && lastName != (null || "")) {
-      const response = await setPersonalInfo(firstName, lastName, localId, accessToken);
-      profileCTX.updatePersonalInfo({ firstName: firstName, lastName: lastName });
-      setError(false);
+      setLoading(true);
+      const localId = await AsyncStorage.getItem("localId");
+    if (profileCTX.basicInfo.profileType == "general") {
+      if (firstName != (null || "") && lastName != (null || "")) {
+        setError(false);
+        setLoading(false);
+        props.navigation.pop();
+      }else{
+        setError(true);
+      }
     } else {
-      setError(true);
+      if (firstName != (null || "") && lastName != (null || "")) {
+        const response = await setPersonalInfo(firstName, lastName, localId, accessToken);
+        profileCTX.updatePersonalInfo({ firstName: firstName, lastName: lastName });
+        setError(false);
+        setLoading(false);
+        props.navigation.pop();
+      } else {
+        setError(true);
+      }
     }
-    setLoading(false);
-    props.navigation.pop();
   }
   return (
     <SafeAreaView style={styles.container}>

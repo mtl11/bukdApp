@@ -8,7 +8,7 @@ export default {
     marginHorizontal: "5%",
   },
   errorText:{
-    color: global.color.primaryColors.errorText,
+    color: global.color.secondaryColors.errorText,
     fontFamily: "Rubik-Regular",
         fontSize: 16
   },
@@ -19,10 +19,10 @@ export default {
   passwordInfoText:{
     fontFamily: "Rubik-Regular",
     fontSize:14,
-    color: global.color.primaryColors.adjacent
+    color: global.color.secondaryColors.placeHolderTextColor
   },
   container: {
-    backgroundColor: global.color.primaryColors.background,
+    backgroundColor: global.color.secondaryColors.background,
     flex:1
   },
   image: {
@@ -37,24 +37,24 @@ export default {
     marginHorizontal: "5%",
     fontSize: 16,
     fontFamily: "Rubik-Regular",
-    color: global.color.primaryColors.text,
+    color: global.color.secondaryColors.text,
   },
   inputContainer: {
     borderRadius: 12,
     marginHorizontal: "8%",
     marginTop: "5%",
-    backgroundColor: global.color.primaryColors.adjacent,
+    backgroundColor: global.color.secondaryColors.adjacent,
   },
   inputContainer2:{
     marginHorizontal: "8%",
-    backgroundColor: global.color.primaryColors.adjacent,
+    backgroundColor: global.color.secondaryColors.adjacent,
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "center",
     padding: 16,
     marginHorizontal: "8%",
-    backgroundColor: global.color.primaryColors.main,
+    backgroundColor: global.color.secondaryColors.main,
     borderRadius: 12,
     marginTop: "25%",
   },
@@ -70,12 +70,12 @@ export default {
     borderRadius: 12,
     marginHorizontal: "8%",
     marginTop: "5%",
-    backgroundColor: global.color.primaryColors.adjacent,
+    backgroundColor: global.color.secondaryColors.adjacent,
   },
   placeholderStyle: {
     fontSize: 16,
     fontFamily: "Rubik-Regular",
-    color: global.color.primaryColors.placeHolderTextColor,
+    color: global.color.secondaryColors.placeHolderTextColor,
   },
   selectedTextStyle: {
     fontSize: 20,
@@ -87,11 +87,11 @@ export default {
     fontSize: 20,
     marginHorizontal: "8%",
     fontFamily: "Rubik-SemiBold",
-    color: global.color.primaryColors.main,
+    color: "black",
     alignSelf: "center"
   },
   itemContainerStyle: {
-    backgroundColor: global.color.primaryColors.main,
+    backgroundColor: global.color.secondaryColors.main,
     width: 1,
   },
   topContainer: {

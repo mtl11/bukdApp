@@ -62,6 +62,7 @@ const SearchScreen = (props) => {
       const profiletype = await getProfileInfo(localId);
       setPT(profiletype.profileType);
     }
+    // await AsyncStorage.removeItem("localId");
   }
 
   useEffect(() => {
@@ -75,7 +76,7 @@ const SearchScreen = (props) => {
       {auth ? (
         <View>
           <View style={styles.topContainer}>
-            {(pt == "venue" || authCTX.isAuthenticated == false) ? (
+            {(pt == "venue" || pt == "general"|| authCTX.isAuthenticated == false) ? (
               <SearchDropDown
                 setValue={setLocation}
                 placeholder={"Select Location"}
@@ -92,10 +93,10 @@ const SearchScreen = (props) => {
                 blur={getVenues}
               />
             )}
-            {pt == "venue" || authCTX.isAuthenticated == false? <CategorySelector data={profileCategoriesArtist} setValue={setCategory}/> :
+            {pt == "venue" || pt == "general"|| authCTX.isAuthenticated == false? <CategorySelector data={profileCategoriesArtist} setValue={setCategory}/> :
               <CategorySelector data={profileCategoriesVenue} setValue={setCategory}/>}
           </View>
-          {pt == "venue" || authCTX.isAuthenticated == false? (
+          {pt == "venue" || pt == "general"|| authCTX.isAuthenticated == false? (
             <VenueList venues={performers} category={category} props={props} />
           ) : (
             <VenueList venues={venues} category={category} props={props} />

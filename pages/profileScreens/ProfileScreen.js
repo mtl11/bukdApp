@@ -26,7 +26,7 @@ import { aboutInfo, availabilityInfo } from "../../models/profile.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import dark from "../../styles/profile/dark/profileScreen.js";
 import light from "../../styles/profile/light/profileScreen.js"
-
+import FollowingTab from "../../components/profile/FollowingTab.js";
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
@@ -62,12 +62,12 @@ const ProfileScreen = (props) => {
     }
     if (otherInfo.hasOwnProperty("shows")) {
       profileCTX.updateShows(otherInfo.shows);
-    }else{
+    } else {
       profileCTX.updateShows([]);
     }
     if (otherInfo.hasOwnProperty("socials")) {
       profileCTX.updateSocial(otherInfo.socials);
-    }else{
+    } else {
       profileCTX.updateSocial();
     }
     if (otherInfo.hasOwnProperty("availability")) {
@@ -94,14 +94,18 @@ const ProfileScreen = (props) => {
   const [availShow, setAvailShow] = useState(false);
   const [visible, setVisible] = useState(true);
   function getScreenTab() {
-    if (socialShow == true) {
-      return <SocialTab />;
-    }
-    if (aboutShow == true) {
-      return <ShowsTab />;
-    }
-    if (availShow == true) {
-      return <AvailabilityProfileArtist />;
+    if (profileCTX.basicInfo.profileType != "general") {
+      if (socialShow == true) {
+        return <SocialTab />;
+      }
+      if (aboutShow == true) {
+        return <ShowsTab />;
+      }
+      if (availShow == true) {
+        return <AvailabilityProfileArtist />;
+      }
+    } else {
+      return <FollowingTab/>
     }
   }
   useEffect(() => {
@@ -141,7 +145,7 @@ const ProfileScreen = (props) => {
               </View>
               <View style={[styles.profilePicContainer, {
                 position: 'absolute',
-                top: "-1%",
+                top: "-1.5%",
                 bottom: 0,
                 width: 120,
                 height: 120,
@@ -154,6 +158,7 @@ const ProfileScreen = (props) => {
                 // defaultSource={}
                 />
               </View>
+              {profileCTX.basicInfo.profileType != "general" &&
               <View style={{ marginHorizontal: 30 }}>
                 <TouchableOpacity
                   style={{
@@ -186,119 +191,136 @@ const ProfileScreen = (props) => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-              </View>
-              <View style={{ marginHorizontal: 30 }}>
-                <View style={styles.usernameContainer}>
-                  <Text style={styles.usernameText}>
-                    {profileCTX.basicInfo.profileName}
-                  </Text>
-                </View>
-                <View style={{ marginBottom: 2.5, flexDirection: "row", alignItems: "center" }}>
-                  {profileCTX.basicInfo.profileType == "performer" ? (
-                    <View>
+              </View>}
+              {profileCTX.basicInfo.profileType != "general" ?
+                <View style={{ marginHorizontal: 30 }}>
+                  <View style={styles.usernameContainer}>
+                    <Text style={styles.usernameText}>
+                      {profileCTX.basicInfo.profileName}
+                    </Text>
+                  </View>
+                  <View style={{ marginBottom: 2.5, flexDirection: "row", alignItems: "center" }}>
+                    {profileCTX.basicInfo.profileType == "performer" ? (
+                      <View>
+                        <Text style={{
+                          color: global.color.primaryColors.main,
+                          fontFamily: "Rubik-Regular",
+                          fontSize: 16,
+                        }}>
+                          {profileCTX.about.category} {" "}
+                          {profileCTX.about.genre && <Text>
+                            |{" "}{profileCTX.about.genre} </Text>}
+                        </Text></View>) : (<View><Text style={{
+                          color: global.color.primaryColors.main,
+                          fontFamily: "Rubik-Regular",
+                          fontSize: 16
+                        }}>
+                          {profileCTX.about.category}
+                        </Text>
+                        </View>)}
+                    <View style={{ marginLeft: profileCTX.about.genre && 10, flexDirection: "row", alignItems: "center" }}>
+                      {profileCTX.about.location != undefined ?
+                        <Ionicons
+                          name="location-outline"
+                          size={24}
+                          color={global.color.secondaryColors.placeHolderTextColor}
+                        /> : <View></View>}
                       <Text style={{
-                        color: global.color.primaryColors.main,
-                        fontFamily: "Rubik-Regular",
-                        fontSize: 16,
-                      }}>
-                        {profileCTX.about.category} {" "}
-                        {profileCTX.about.genre && <Text>
-                          |{" "}{profileCTX.about.genre} </Text>}
-                      </Text></View>) : (<View><Text style={{
-                        color: global.color.primaryColors.main,
+                        color: global.color.secondaryColors.placeHolderTextColor,
                         fontFamily: "Rubik-Regular",
                         fontSize: 16
                       }}>
-                        {profileCTX.about.category}
+                        {profileCTX.about.location}
                       </Text>
-                    </View>)}
-                  <View style={{ marginLeft: profileCTX.about.genre && 10, flexDirection: "row", alignItems: "center" }}>
-                    {profileCTX.about.location != undefined ?
-                      <Ionicons
-                        name="location-outline"
-                        size={24}
-                        color={global.color.secondaryColors.placeHolderTextColor}
-                      /> : <View></View>}
+                    </View>
+                  </View>
+
+                  <View>
                     <Text style={{
-                      color: global.color.secondaryColors.placeHolderTextColor,
+                      color: "black",
                       fontFamily: "Rubik-Regular",
-                      fontSize: 16
-                    }}>
-                      {profileCTX.about.location}
-                    </Text>
+                      fontSize: 14,
+                    }}>{profileCTX.about.bio}</Text>
                   </View>
                 </View>
-                <View>
-                  <Text style={{
-                    color: "black",
-                    fontFamily: "Rubik-Regular",
-                    fontSize: 14,
-                  }}>{profileCTX.about.bio}</Text>
-                </View>
-              </View>
+                : <View style={{ marginHorizontal: 30, marginTop: "20%", }}>
+                  <View style={styles.usernameContainer}>
+                    <Text style={styles.usernameText}>
+                      {profileCTX.basicInfo.firstName} {profileCTX.basicInfo.lastName}
+                    </Text>
+                  </View>
+                </View>}
               <View
                 style={styles.tabView}
               >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-evenly",
-                    width: "90%",
-                  }}
-                >
-                  {profileCTX.basicInfo.profileType == "performer" &&
-                  <TouchableOpacity
-                    style={styles.tabContainer}
-                    onPress={() => {
-                      setAvailShow(true);
-                      setAboutShow(false);
-                      setSocialShow(false);
+                {profileCTX.basicInfo.profileType != "general" ?
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-evenly",
+                      width: "90%",
                     }}
                   >
-                    <View style={{ flexDirection: "column" }}>
-                      <View style={styles.tabTextContainer}>
-                        <Text style={[styles.tabText, availShow && { color: "black" }]}>Availability</Text>
+
+                    {profileCTX.basicInfo.profileType == "performer" &&
+                      <TouchableOpacity
+                        style={styles.tabContainer}
+                        onPress={() => {
+                          setAvailShow(true);
+                          setAboutShow(false);
+                          setSocialShow(false);
+                        }}
+                      >
+                        <View style={{ flexDirection: "column" }}>
+                          <View style={styles.tabTextContainer}>
+                            <Text style={[styles.tabText, availShow && { color: "black" }]}>Availability</Text>
+                          </View>
+                          {availShow && (
+                            <View style={styles.tabBottomBar}></View>
+                          )}
+                        </View>
+                      </TouchableOpacity>}
+                    <TouchableOpacity
+                      style={styles.tabContainer}
+                      onPress={() => {
+                        setAboutShow(true);
+                        setAvailShow(false);
+                        setSocialShow(false);
+                      }}
+                    >
+                      <View style={{ flexDirection: "column" }}>
+                        <View style={styles.tabTextContainer}>
+                          <Text style={[styles.tabText, aboutShow && { color: "black" }]}>Shows</Text>
+                        </View>
+                        {aboutShow && (
+                          <View style={styles.tabBottomBar}></View>
+                        )}
                       </View>
-                      {availShow && (
-                        <View style={styles.tabBottomBar}></View>
-                      )}
-                    </View>
-                  </TouchableOpacity>}
-                  <TouchableOpacity
-                    style={styles.tabContainer}
-                    onPress={() => {
-                      setAboutShow(true);
-                      setAvailShow(false);
-                      setSocialShow(false);
-                    }}
-                  >
-                    <View style={{ flexDirection: "column" }}>
-                      <View style={styles.tabTextContainer}>
-                        <Text style={[styles.tabText, aboutShow && { color: "black" }]}>Shows</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.tabContainer}
+                      onPress={() => {
+                        setSocialShow(true);
+                        setAvailShow(false);
+                        setAboutShow(false);
+                      }}
+                    >
+                      <View style={{ flexDirection: "column" }}>
+                        <View style={styles.tabTextContainer}>
+                          <Text style={[styles.tabText, socialShow && { color: "black" }]}>Social Media</Text>
+                        </View>
+                        {socialShow && (
+                          <View style={styles.tabBottomBar}></View>
+                        )}
                       </View>
-                      {aboutShow && (
-                        <View style={styles.tabBottomBar}></View>
-                      )}
+                    </TouchableOpacity>
+                  </View> :
+                  <View>
+                    <View style={styles.tabTextContainer}>
+                      <Text style={[styles.tabText, { color: "black" }]}>Following</Text>
                     </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.tabContainer}
-                    onPress={() => {
-                      setSocialShow(true);
-                      setAvailShow(false);
-                      setAboutShow(false);
-                    }}
-                  >
-                    <View style={{ flexDirection: "column" }}>
-                      <View style={styles.tabTextContainer}>
-                        <Text style={[styles.tabText, socialShow && { color: "black" }]}>Social Media</Text>
-                      </View>
-                      {socialShow && (
-                        <View style={styles.tabBottomBar}></View>
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                </View>
+                    <View style={styles.tabBottomBar}></View>
+                  </View>}
               </View>
               {getScreenTab()}
             </View>

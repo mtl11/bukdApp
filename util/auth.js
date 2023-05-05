@@ -67,30 +67,15 @@ export async function authenticateUser(email, password) {
   return token;
 }
 
-export async function addAccountFB(email, profileName, localId) {
+export async function addAccountFB(email, firstName, lastName, localId, accessToken) {
   // const hash = email.hashCode();
+  console.log("hello");
   const response = await firebaseUtil
-    .put("/users/" + localId + "/basicinfo.json", {
+    .put("/users/" + localId + "/basicinfo.json?auth="+accessToken, {
       email: email,
-      profileName: profileName,
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-  await firebaseUtil
-    .put("/users/" + localId + "/about.json", {
-      about: "",
-      bio: "",
-      category: "",
-      genre: "",
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-  await firebaseUtil
-    .put("/users/" + localId + "/availability.json", {
-      dow: {},
-      times: {},
+      firstName: firstName,
+      lastName: lastName,
+      profileType : "general"
     })
     .catch((error) => {
       console.log(error.response);

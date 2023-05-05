@@ -121,7 +121,7 @@ const ProfileScreen = (props) => {
                   borderRadius: 12,
                   // borderWidth: 1,
                   // borderColor: "#FCFCFF",
-                  width: "40%",
+                  width: "50%", 
                   marginTop: 20,
                   marginBottom: 10,
                   backgroundColor: global.color.primaryColors.main,
@@ -152,7 +152,7 @@ const ProfileScreen = (props) => {
                   </Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={{
                   // justifyContent: "flex-end",
                   borderRadius: 12,
@@ -184,7 +184,7 @@ const ProfileScreen = (props) => {
                 <View style={{ alignSelf: "center", padding: 10 }}>
                   <MaterialCommunityIcons name="cards-heart-outline" size={24} color="white" />
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             <View style={{ marginHorizontal: 30 }}>
               <View style={styles.usernameContainer}>
