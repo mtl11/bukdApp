@@ -158,7 +158,7 @@ const ProfileScreen = (props) => {
                 marginHorizontal: 30
               }]}>
                 <Image
-                  source={{ uri: profileCTX.profilePic }}
+                  source={{ uri: profileCTX.profilePic}}
                   style={styles.profilePic}
                   resizeMode="contain"
                 // defaultSource={}

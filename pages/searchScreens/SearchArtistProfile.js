@@ -57,8 +57,8 @@ const ProfileScreen = (props) => {
     setGettingInfo(false);
   }
   const [socialShow, setSocialShow] = useState(false);
-  const [aboutShow, setAboutShow] = useState(false);
-  const [availShow, setAvailShow] = useState(true);
+  const [aboutShow, setAboutShow] = useState(true);
+  const [availShow, setAvailShow] = useState(false);
   console.log(shows)
   function getScreenTab() {
     if (socialShow == true) {

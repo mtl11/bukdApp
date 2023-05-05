@@ -44,11 +44,12 @@ const FollowingTab = (props) => {
   }
   return (
     <View>
+      {profileCTX.followingList.length != 0 &&
       <FlatList
         contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 100 }}
         data={data}
         renderItem={(item) => { return itemHandler(item.item) }}
-      />
+      />}
       {profileCTX.followingList.length == 0 &&
         <View style={{ marginTop: "5%" }}>
           <Text style={{ textAlign: "center", fontSize: 20, fontFamily: "Rubik-Regular", }}>

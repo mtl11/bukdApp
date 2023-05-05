@@ -86,9 +86,8 @@ function ProfileContextProvider({ children }) {
     setAvailability({});
     setBasic({});
     setPersonalInfo({});
-    setProfilePic({});
+    setProfilePic();
     setAbout({});
-    setProfilePic({});
   }
   const value = {
     followingList: followingList,
