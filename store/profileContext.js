@@ -9,19 +9,24 @@ export const ProfileContext = createContext({
   profilePic: "",
   personalInfo: {},
   shows: [],
-  updateBasic: (basicInfo) => {},
-  updateAbout: () => {},
-  updateAvailability: () => {},
-  updateSocial: () => {},
-  updateProfilePic: () => {},
-  updatePersonalInfo: () => {},
-  addShow: () => {},
-  updateShows: () =>{},
-  deleteShow: () => {},
+  followingList: [],
+  updateBasic: (basicInfo) => { },
+  updateAbout: () => { },
+  updateAvailability: () => { },
+  updateSocial: () => { },
+  updateProfilePic: () => { },
+  updatePersonalInfo: () => { },
+  addShow: () => { },
+  updateShows: () => { },
+  deleteShow: () => { },
+  signOut: () => { },
+  updateFollowingList: () => { },
+  addFollow: () => { },
 });
 
 function ProfileContextProvider({ children }) {
   const [shows, setShows] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
   const [basic, setBasic] = useState({});
   const [about, setAbout] = useState({});
@@ -29,30 +34,34 @@ function ProfileContextProvider({ children }) {
   const [social, setSocial] = useState({});
   const [profilePic, setProfilePic] = useState();
 
-  function addShow(newShow){
+  function addShow(newShow) {
     console.log(shows);
     const newShowArrow = shows;
     newShowArrow.push(newShow);
     setShows(newShowArrow);
   }
-  function deleteShow(label){
+  function deleteShow(label) {
     const array = shows;
-    for (const x in array){
+    for (const x in array) {
       console.log(array[x][0]);
-      if (label == array[x][0]){
+      if (label == array[x][0]) {
         console.log("test")
         array.splice(x, 1);
       }
     }
     setShows(array);
   }
-  function updateShows(shows){
+  function updateFollowingList(list) {
+    setFollowingList(list);
+  }
+
+  function updateShows(shows) {
     setShows(Object.entries(shows))
   }
   function updatePersonalInfo(personalInfo) {
     setPersonalInfo(personalInfo);
   }
-  
+
   function updateBasic(basicInfo) {
     setBasic(basicInfo);
   }
@@ -68,7 +77,21 @@ function ProfileContextProvider({ children }) {
   function updateProfilePic(profilePic) {
     setProfilePic(profilePic);
   }
+  function addFollow(follow) {
+    followingList.push(follow);
+    setFollowingList(followingList);
+  }
+  function signOut() {
+    setShows([]);
+    setAvailability({});
+    setBasic({});
+    setPersonalInfo({});
+    setProfilePic({});
+    setAbout({});
+    setProfilePic({});
+  }
   const value = {
+    followingList: followingList,
     shows: shows,
     basicInfo: basic,
     about: about,
@@ -83,8 +106,10 @@ function ProfileContextProvider({ children }) {
     updateProfilePic: updateProfilePic,
     updatePersonalInfo: updatePersonalInfo,
     addShow: addShow,
-    updateShows:updateShows,
-    deleteShow: deleteShow
+    updateShows: updateShows,
+    deleteShow: deleteShow,
+    signOut: signOut,
+    updateFollowingList: updateFollowingList, addFollow: addFollow
   };
 
   return (

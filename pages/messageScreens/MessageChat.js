@@ -14,6 +14,7 @@ import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { sendMessage, checkIfChatExists, createNewChatRoom, getMessages } from "../../util/chat";
 import {ProfileContext} from "../../store/profileContext";
+import { getAccessToken } from "../../util/profile";
 
 const MessageChat = (props) => {
     console.log(props.route.params)
@@ -23,8 +24,9 @@ const MessageChat = (props) => {
     const [recieverID, setRecieverID] = useState();
     const [messages, setMessages] = useState([]);
     async function send(message) {
+        const accessToken = await getAccessToken();
         console.log(chatRoomID);
-        await sendMessage(chatRoomID, message, senderID);
+        await sendMessage(chatRoomID, message, senderID, accessToken);
     }
     const onSend = useCallback((messages = []) => {
         const { _id, createdAt, text, user, } = messages[0];
@@ -75,10 +77,6 @@ const MessageChat = (props) => {
         return msgs.reverse();
     }
 
-    // async function getIDs() {
-    //     setSenderID(await AsyncStorage.getItem("localId"));
-    //     setRecieverID(await AsyncStorage.getItem("searchID"));
-    // }
     async function getPreviousMessages() {
         setSenderID(await AsyncStorage.getItem("localId"))
 

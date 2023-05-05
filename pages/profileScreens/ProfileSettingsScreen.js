@@ -14,9 +14,11 @@ import colors from "../../styles/global";
 import { AuthContext } from "../../store/authContext";
 import dark from "../../styles/profile/dark/settings";
 import light from "../../styles/profile/light/settings";
+import { ProfileContext } from "../../store/profileContext";
 
 const ProfileSettingsScreen = (props) => {
   const authCTX = useContext(AuthContext);
+  const profileCTX = useContext(ProfileContext);
   const styles = authCTX.mode === "light" ? light : dark;
 
   const signOutAlert = () => {
@@ -28,9 +30,10 @@ const ProfileSettingsScreen = (props) => {
       },
       {
         text: "Sign Out",
-        onPress: () => { authCTX.logout(); props.navigation.navigate("TabNav", { screen: "Search" }); },
+        onPress: () => { authCTX.logout(); profileCTX.signOut(); props.navigation.navigate("TabNav", { screen: "Search" }); },
         style: "destructive",
       },
+
     ]);
   };
   const [newShowRequests, setNewShowRequests] = useState(authCTX.darkMode);

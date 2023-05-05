@@ -11,7 +11,7 @@ import {
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { ProfileContext } from "../../store/profileContext.js";
 import colors from "../../styles/global";
-import { getPersonalInfo, setPersonalInfo, getAccessToken } from "../../util/profile";
+import { getPersonalInfo, setPersonalInfo, getAccessToken, setGeneralName } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../store/authContext.js";
 import dark from "../../styles/profile/dark/personalInfo.js";
@@ -21,7 +21,6 @@ const PersonalInfoScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
-
   const [firstName, setFirstName] = useState(profileCTX.personalInfo.firstName);
   const [lastName, setLastName] = useState(profileCTX.personalInfo.lastName);
   console.log(profileCTX.personalInfo);
@@ -29,14 +28,25 @@ const PersonalInfoScreen = (props) => {
   const [loading, setLoading] = useState(false);
   async function update() {
     const accessToken = await getAccessToken();
-      setLoading(true);
-      const localId = await AsyncStorage.getItem("localId");
+    setLoading(true);
+    const localId = await AsyncStorage.getItem("localId");
     if (profileCTX.basicInfo.profileType == "general") {
       if (firstName != (null || "") && lastName != (null || "")) {
+        const response = await setGeneralName(firstName, lastName, localId, accessToken);
+        await setPersonalInfo(firstName, lastName, localId, accessToken);
+        profileCTX.updatePersonalInfo({ firstName: firstName, lastName: lastName });
+        const email = await AsyncStorage.getItem("email");
+        profileCTX.updateBasic(
+          {
+            firstName: firstName,
+            lastName: lastName, 
+            profileType: "general", 
+            email: email
+          });
         setError(false);
         setLoading(false);
         props.navigation.pop();
-      }else{
+      } else {
         setError(true);
       }
     } else {

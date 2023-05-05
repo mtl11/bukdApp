@@ -12,3 +12,14 @@ export async function getPerformersList(location) {
   const values = response.data;
   return values;
 }
+
+export async function addToFollowingList(profileURI, profileName, searchID, localId, accessToken){
+  const response = await firebaseUtil.put(
+    "/users/" + localId + "/following/"+searchID+".json?auth="+accessToken,
+    {
+      profileURI: profileURI,
+      profileName: profileName,
+      searchID: searchID
+    }
+  );
+}

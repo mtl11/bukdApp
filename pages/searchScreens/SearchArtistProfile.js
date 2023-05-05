@@ -8,10 +8,10 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import { FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import AboutTabArtist from "../../components/search/AboutTabArtist";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import global from "../../styles/global";
 import {
+  getAccessToken,
   getProfileInfo,
   getProfilePic,
   getProfileStart,
@@ -22,9 +22,13 @@ import SocialSearchTab from "../../components/search/SocialSearchTab";
 import UnAuthSearch from "../../components/search/UnAuthSearch";
 import { AuthContext } from "../../store/authContext";
 import ShowsTab from "../../components/search/ShowsTab";
+import { ProfileContext } from "../../store/profileContext";
+import { addToFollowingList } from "../../util/search";
 
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
+  const profileCTX = useContext(ProfileContext)
+
   const [gettingInfo, setGettingInfo] = useState(true);
   const [basicInfo, setBasicInfo] = useState({});
   const [about, setAbout] = useState({});
@@ -47,26 +51,37 @@ const ProfileScreen = (props) => {
     setSocials(otherInfo.socials);
     const profileuri = await getProfilePic(searchID);
     setProfileURI(profileuri);
-    if (otherInfo.shows != undefined){
+    if (otherInfo.shows != undefined) {
       setShows(otherInfo.shows);
     }
     setGettingInfo(false);
   }
   const [socialShow, setSocialShow] = useState(false);
-  const [aboutShow, setAboutShow] = useState(true);
-  const [availShow, setAvailShow] = useState(false);
+  const [aboutShow, setAboutShow] = useState(false);
+  const [availShow, setAvailShow] = useState(true);
   console.log(shows)
   function getScreenTab() {
     if (socialShow == true) {
       return <SocialSearchTab socials={socials} />;
     }
     if (aboutShow == true) {
-      return <ShowsTab shows={shows} basicInfo={basicInfo}/>;
+      return <ShowsTab shows={shows} basicInfo={basicInfo} />;
     }
     if (availShow == true) {
       return <AvailabilitySearch availability={availability} />;
     }
   }
+  async function addToFollowing() {
+    console.log("saved");
+    const token = await AsyncStorage.getItem("localId")
+    const accessToken = await getAccessToken();
+    console.log(accessToken);
+    await addToFollowingList(profileURI, basicInfo.profileName, searchID, token, accessToken);
+    profileCTX.addFollow([searchID, 
+      { profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI 
+      }])
+  }
+
   const [visible, setVisible] = useState(false);
   // console.log(shows)
   useEffect(() => {
@@ -74,7 +89,7 @@ const ProfileScreen = (props) => {
   }, []);
   return (
     <View>
-      <UnAuthSearch visible={visible} setVisible={setVisible} props = {props}/>
+      <UnAuthSearch visible={visible} setVisible={setVisible} props={props} />
       <SafeAreaView style={{ backgroundColor: global.color.primaryColors.main }} />
       <SafeAreaView style={styles.container}>
         {gettingInfo ? (
@@ -102,7 +117,7 @@ const ProfileScreen = (props) => {
             <View style={[styles.profilePicContainer, {
               position: 'absolute',
               top: "-1%",
-              bottom: 0,
+              bottom: "0%",
               width: 120,
               height: 120,
               marginHorizontal: 30
@@ -114,14 +129,14 @@ const ProfileScreen = (props) => {
               // defaultSource={}
               />
             </View>
-            <View style={{ marginHorizontal: 30 , flexDirection:"row", justifyContent: "flex-end"}}>
+            <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
               <TouchableOpacity
                 style={{
                   // justifyContent: "flex-end",
                   borderRadius: 12,
                   // borderWidth: 1,
                   // borderColor: "#FCFCFF",
-                  width: "50%", 
+                  width: "40%",
                   marginTop: 20,
                   marginBottom: 10,
                   backgroundColor: global.color.primaryColors.main,
@@ -139,8 +154,8 @@ const ProfileScreen = (props) => {
                     props.navigation.navigate("SearchChat", {
                       displayName: basicInfo.profileName, searchID: searchID
                     })
-                  }else{
-                      setVisible(true);
+                  } else {
+                    setVisible(true);
                   }
                 }}
               >
@@ -152,7 +167,7 @@ const ProfileScreen = (props) => {
                   </Text>
                 </View>
               </TouchableOpacity>
-              {/* <TouchableOpacity
+              <TouchableOpacity
                 style={{
                   // justifyContent: "flex-end",
                   borderRadius: 12,
@@ -173,18 +188,16 @@ const ProfileScreen = (props) => {
                 }}
                 onPress={() => {
                   if (authCTX.isAuthenticated == true) {
-                    props.navigation.navigate("SearchChat", {
-                      displayName: basicInfo.profileName, searchID: searchID
-                    })
-                  }else{
-                      setVisible(true);
+                    addToFollowing();
+                  } else {
+                    setVisible(true);
                   }
                 }}
               >
                 <View style={{ alignSelf: "center", padding: 10 }}>
-                  <MaterialCommunityIcons name="cards-heart-outline" size={24} color="white" />
+                  <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />
                 </View>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
             <View style={{ marginHorizontal: 30 }}>
               <View style={styles.usernameContainer}>
@@ -211,7 +224,7 @@ const ProfileScreen = (props) => {
                       {about.category}
                     </Text>
                     </View>)}
-                <View style={{ marginLeft: about.genre && 10, flexDirection: "row", alignItems: "center" }}>
+                <View style={{ marginLeft: about.genre ? 10 : 0, flexDirection: "row", alignItems: "center" }}>
                   {about.location != undefined ?
                     <Ionicons
                       name="location-outline"
@@ -247,23 +260,23 @@ const ProfileScreen = (props) => {
                 }}
               >
                 {basicInfo.profileType == "performer" &&
-                <TouchableOpacity
-                  style={styles.tabContainer}
-                  onPress={() => {
-                    setAvailShow(true);
-                    setAboutShow(false);
-                    setSocialShow(false);
-                  }}
-                >
-                  <View style={{ flexDirection: "column" }}>
-                    <View style={styles.tabTextContainer}>
-                      <Text style={[styles.tabText, availShow && { color: "black" }]}>Availability</Text>
+                  <TouchableOpacity
+                    style={styles.tabContainer}
+                    onPress={() => {
+                      setAvailShow(true);
+                      setAboutShow(false);
+                      setSocialShow(false);
+                    }}
+                  >
+                    <View style={{ flexDirection: "column" }}>
+                      <View style={styles.tabTextContainer}>
+                        <Text style={[styles.tabText, availShow && { color: "black" }]}>Availability</Text>
+                      </View>
+                      {availShow && (
+                        <View style={styles.tabBottomBar}></View>
+                      )}
                     </View>
-                    {availShow && (
-                      <View style={styles.tabBottomBar}></View>
-                    )}
-                  </View>
-                </TouchableOpacity>
+                  </TouchableOpacity>
                 }
                 <TouchableOpacity
                   style={styles.tabContainer}

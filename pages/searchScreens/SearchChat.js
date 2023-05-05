@@ -14,6 +14,7 @@ import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { sendMessage, checkIfChatExists, createNewChatRoom, getMessages } from "../../util/chat";
 import { ProfileContext } from "../../store/profileContext";
+import { getAccessToken } from "../../util/profile";
 const SearchChat = (props) => {
     const profileCTX = useContext(ProfileContext);
     const [chatRoomID, setChatRoomID] = useState();
@@ -21,13 +22,18 @@ const SearchChat = (props) => {
     const [recieverID, setRecieverID] = useState();
     const [messages, setMessages] = useState([]);
     async function send(message) {
+        const accessToken = await getAccessToken();
         console.log(chatRoomID);
         if (chatRoomID == null) {
-            const newChat = await createNewChatRoom(await AsyncStorage.getItem("localId"), await AsyncStorage.getItem("searchID"), profileCTX.basicInfo.profileName, props.route.params.displayName);
+            const newChat = await createNewChatRoom(
+                await AsyncStorage.getItem("localId"),
+                await AsyncStorage.getItem("searchID"),
+                profileCTX.basicInfo.profileName, 
+                props.route.params.displayName, accessToken);
             setChatRoomID(newChat);
-            await sendMessage(newChat, message, senderID);
+            await sendMessage(newChat, message, senderID, accessToken);
         } else {
-            await sendMessage(chatRoomID, message, senderID);
+            await sendMessage(chatRoomID, message, senderID, accessToken);
         }
     }
 
@@ -135,7 +141,7 @@ const SearchChat = (props) => {
             <GiftedChat
                 renderSend={props => renderSend(props, chatRoomID, senderID)}
                 renderInputToolbar={props => customtInputToolbar(props)}
-                messagesContainerStyle={{paddingBottom: 12}}
+                messagesContainerStyle={{ paddingBottom: 12 }}
                 textInputStyle={styles.input}
                 messages={messages}
                 onSend={messages => onSend(messages)}
@@ -159,6 +165,6 @@ const styles = StyleSheet.create({
         alignSelf: "flex-end",
         marginHorizontal: 30,
     },
-    iconColor:global.color.primaryColors.main
+    iconColor: global.color.primaryColors.main
 });
 export default SearchChat;

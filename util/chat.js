@@ -1,7 +1,7 @@
 import axios from "axios";
 import firebaseUtil from "./firebaseUtil";
 
-export async function sendMessage(chatRoomID, message, senderID) {
+export async function sendMessage(chatRoomID, message, senderID, accessToken) {
     const mes = {
         _id: message._id,
         text: message.text,
@@ -9,7 +9,7 @@ export async function sendMessage(chatRoomID, message, senderID) {
         createdAt: message.createdAt
     }
     // console.log(mes);
-    const response = await firebaseUtil.post("/chatrooms/" + chatRoomID + "/messages/.json", {
+    const response = await firebaseUtil.post("/chatrooms/" + chatRoomID + "/messages/.json?auth="+accessToken, {
         message: mes,
     });
 }
@@ -24,19 +24,19 @@ export async function checkIfChatExists(senderID, recieverID) {
     return response.data;
 }
 
-export async function createNewChatRoom(senderID, recieverID, senderName, recieverName) {
+export async function createNewChatRoom(senderID, recieverID, senderName, recieverName, accessToken) {
     console.log("Sender: "+senderID);
     console.log("Reciever: "+recieverID);
-    const response = await firebaseUtil.post("/chatrooms/.json", {
+    const response = await firebaseUtil.post("/chatrooms/.json?auth="+accessToken, {
         firstUser: senderID,
         secondUser: recieverID,
         messages: {}
     })
-    const putInSenderResponse = await firebaseUtil.put("/users/" + senderID + "/chatrooms/" + recieverID + "/.json", {
+    const putInSenderResponse = await firebaseUtil.put("/users/" + senderID + "/chatrooms/" + recieverID + "/.json?auth="+accessToken, {
         chatRoomID: response.data.name,
         recieverName: recieverName
     });
-    const putInRecieverResponse = await firebaseUtil.put("/users/" + recieverID + "/chatrooms/" + senderID + "/.json", {
+    const putInRecieverResponse = await firebaseUtil.put("/users/" + recieverID + "/chatrooms/" + senderID + "/.json?auth="+accessToken, {
         chatRoomID: response.data.name,
         recieverName: senderName
     });

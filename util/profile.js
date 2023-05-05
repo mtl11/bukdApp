@@ -55,6 +55,22 @@ export async function setVenueAboutInfo(bio, category, location, equipment, loca
   });
 }
 
+export async function setGeneralName(firstName, lastName, localId, accessToken){
+  const email = await AsyncStorage.getItem("email");
+  const response = await firebaseUtil.put(
+    "/users/" + localId + "/basicinfo.json?auth="+accessToken,
+    {
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      profileType: "general"
+    }
+  );
+}
+// export async function getFollowing(localId){
+//   const response = await firebaseUtil.get("/users/" + localId + "/following.json");
+//   return response.data
+// }
 export async function setAvailabilityInfo(times, dow, localId, accessToken) {
   const response = await firebaseUtil.put(
     "/users/" + localId + "/availability.json?auth="+accessToken,

@@ -39,6 +39,11 @@ const ProfileScreen = (props) => {
     const otherInfo = await getProfileStart(localId);
 
     profileCTX.updateBasic(basicInfo);
+    if (basicInfo.profileType == "general"){
+      console.log(Object.entries(otherInfo.following));
+      profileCTX.updatePersonalInfo({firstName: basicInfo.firstName, lastName: basicInfo.lastName});
+      profileCTX.updateFollowingList(Object.entries(otherInfo.following));
+    }
     if (basicInfo.profileType == "venue") {
       if (otherInfo.hasOwnProperty("about")) {
         profileCTX.updateAbout({
@@ -105,7 +110,7 @@ const ProfileScreen = (props) => {
         return <AvailabilityProfileArtist />;
       }
     } else {
-      return <FollowingTab/>
+      return <FollowingTab props={props}/>
     }
   }
   useEffect(() => {
@@ -143,6 +148,7 @@ const ProfileScreen = (props) => {
                   </TouchableOpacity>
                 </View>
               </View>
+              {profileCTX.basicInfo.profileType != "general" &&
               <View style={[styles.profilePicContainer, {
                 position: 'absolute',
                 top: "-1.5%",
@@ -157,7 +163,7 @@ const ProfileScreen = (props) => {
                   resizeMode="contain"
                 // defaultSource={}
                 />
-              </View>
+              </View>}
               {profileCTX.basicInfo.profileType != "general" &&
               <View style={{ marginHorizontal: 30 }}>
                 <TouchableOpacity
@@ -243,7 +249,7 @@ const ProfileScreen = (props) => {
                     }}>{profileCTX.about.bio}</Text>
                   </View>
                 </View>
-                : <View style={{ marginHorizontal: 30, marginTop: "20%", }}>
+                : <View style={{ marginHorizontal: 30, marginTop: "5%", }}>
                   <View style={styles.usernameContainer}>
                     <Text style={styles.usernameText}>
                       {profileCTX.basicInfo.firstName} {profileCTX.basicInfo.lastName}
