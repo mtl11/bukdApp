@@ -42,12 +42,13 @@ const FollowingTab = (props) => {
       </TouchableOpacity>
     )
   }
+  useEffect(()=>{},[profileCTX.followingList])
   return (
     <View>
       {profileCTX.followingList.length != 0 &&
       <FlatList
         contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 100 }}
-        data={data}
+        data={profileCTX.followingList}
         renderItem={(item) => { return itemHandler(item.item) }}
       />}
       {profileCTX.followingList.length == 0 &&

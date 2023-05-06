@@ -25,10 +25,14 @@ const SearchChat = (props) => {
         const accessToken = await getAccessToken();
         console.log(chatRoomID);
         if (chatRoomID == null) {
+            var senderName = profileCTX.basicInfo.profileName;
+            if (senderName == undefined){
+                senderName = profileCTX.basicInfo.firstName+ " "+profileCTX.basicInfo.lastName;
+            }
             const newChat = await createNewChatRoom(
                 await AsyncStorage.getItem("localId"),
                 await AsyncStorage.getItem("searchID"),
-                profileCTX.basicInfo.profileName, 
+                senderName, 
                 props.route.params.displayName, accessToken);
             setChatRoomID(newChat);
             await sendMessage(newChat, message, senderID, accessToken);

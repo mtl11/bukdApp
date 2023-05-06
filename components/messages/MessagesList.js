@@ -13,7 +13,7 @@ const MessagesLists = (props) => {
             setRefreshing(false);
         }, 1000);
     }, []);
-    console.log(props.data)
+    
     const renderItem = (chatroom) => {
         // console.log(chatroom.item.chatRoomID);
         return (
@@ -35,9 +35,11 @@ const MessagesLists = (props) => {
         );
     }
     const getData = () => {
+        console.log(props.data)
         if (props.data != {}) {
             if (Array.isArray(props.data)) {
-                const data = props.data.filter(word => word.recieverName.includes(props.searchValue))
+                const data = props.data.filter(word =>
+                    word.recieverName.includes(props.searchValue))
                 return data;
             }
         } else {

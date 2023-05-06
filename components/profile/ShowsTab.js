@@ -162,7 +162,7 @@ const ShowsTab = () => {
         const localId = await AsyncStorage.getItem("localId");
         await addNewShowVenue(startTime, endTime, date, performersNeeded, description, localId, accessToken);
         // console.log("test");
-        setShows(profileCTX.shows);
+        // setShows(profileCTX.shows);
     }
     console.log(shows);
     return (
@@ -389,6 +389,9 @@ const ShowsTab = () => {
                             }}
                             onPress={() => {
                                 setVisible(!visible);
+                                setPerformersNeeded(false);
+                                setVenueName("");
+                                setDescription("");
                                 if (profileCTX.basicInfo.profileType == "performer") {
                                     const show = [shows.length + 1, {
                                         startTime: startTime,
@@ -397,7 +400,7 @@ const ShowsTab = () => {
                                         description: description,
                                         venueName: venueName,
                                     }]
-                                        shows.push(show);
+                                    // shows.push(show);
                                     addShow(show);
                                 } else {
                                     const show = [shows.length + 1, {
@@ -407,7 +410,7 @@ const ShowsTab = () => {
                                         description: description,
                                         performersNeeded: performersNeeded
                                     }]
-                                    shows.push(show);
+                                    // shows.push(show);
                                     addShowVenue(show);
                                 }
                             }}

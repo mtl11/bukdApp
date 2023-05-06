@@ -96,7 +96,7 @@ const ProfileSettingsScreen = (props) => {
           />
         </View>
       </TouchableOpacity>
-      <View style={styles.sectionHeaderContainer}>
+      {/* <View style={styles.sectionHeaderContainer}>
         <Ionicons
           name="ios-settings-outline"
           size={22}
@@ -116,7 +116,7 @@ const ProfileSettingsScreen = (props) => {
           onValueChange={newShowToggle}
           value={newShowRequests}
         />
-      </View>
+      </View> */}
       <TouchableOpacity style={styles.signOutContainer} onPress={signOutAlert}>
         <View style={{ marginHorizontal: 7.5 }}>
           <Text style={styles.signOutText}>Sign Out</Text>
@@ -128,7 +128,7 @@ const ProfileSettingsScreen = (props) => {
         />
       </TouchableOpacity>
       <View style={styles.infoContainer}>
-        <Text style={styles.smallerText}>Bukd v0.0</Text>
+        <Text style={styles.smallerText}>Bukd v1.1.0</Text>
         <View style={styles.copyrightContainer}>
           <FontAwesome5
             name="copyright"

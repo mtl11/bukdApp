@@ -45,7 +45,7 @@ const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
-  
+
   async function update() {
     const localId = await AsyncStorage.getItem("localId");
     const accessToken = await getAccessToken();
@@ -188,7 +188,7 @@ const EditProfileArtistScreen = (props) => {
       return ""
     }
   }
-  
+
   return (
     <SafeAreaView
       style={styles.container}
@@ -229,8 +229,10 @@ const EditProfileArtistScreen = (props) => {
         </Text>
         <TouchableOpacity
           onPress={() => {
-            update();
-            props.navigation.pop();
+            if (profilename.length > 0) {
+              update();
+              props.navigation.pop();
+            }
           }}
         >
           <Text
@@ -244,8 +246,8 @@ const EditProfileArtistScreen = (props) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false} 
-      ref={scrollViewRef}>
+      <ScrollView showsVerticalScrollIndicator={false}
+        ref={scrollViewRef}>
         <KeyboardAwareScrollView>
           <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
             {image ? (
@@ -305,65 +307,65 @@ const EditProfileArtistScreen = (props) => {
           </View>
 
           {/* {about ? ( */}
-            <View>
+          <View>
+            <ProfileDropDown
+              data={locations}
+              setValue={setLocation}
+              value={profileCTX.about.location}
+              placeholder={locationPlaceholder()}
+            />
+            {profileCTX.basicInfo.profileType == "performer" ? (
               <ProfileDropDown
-                data={locations}
-                setValue={setLocation}
-                value={profileCTX.about.location}
-                placeholder={locationPlaceholder()}
+                data={profileCategoriesArtist}
+                setValue={setCategory}
+                value={profileCTX.about.category}
+                placeholder={categoryPlaceholder()}
+                margin={"5%"}
               />
-              {profileCTX.basicInfo.profileType == "performer" ? (
-                <ProfileDropDown
-                  data={profileCategoriesArtist}
-                  setValue={setCategory}
-                  value={profileCTX.about.category}
-                  placeholder={categoryPlaceholder()}
-                  margin={"5%"}
-                />
-              ) : (
-                <ProfileDropDown
-                  data={profileCategoriesVenue}
-                  setValue={setCategory}
-                  value={profileCTX.about.category}
-                  placeholder={categoryPlaceholder()}
-                  margin={"5%"}
-                />
-              )}
-              {profileCTX.basicInfo.profileType == "performer" ? (
-                <ProfileDropDown
-                  data={subCategories}
-                  setValue={setGenre}
-                  value={profileCTX.about.genre}
-                  placeholder={genrePlaceholder()}
-                  margin={"5%"}
-                />
-              ) : (
-                <View style={styles.inputContainer}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder={"List available equipment"}
-                    onChangeText={setEquipment}
-                    value={equipment}
-                    placeholderTextColor={styles.placeHolderTextColor}
-                    maxLength={160}
-                  />
-                </View>
-              )}
-              <View style={[styles.inputContainer]}>
+            ) : (
+              <ProfileDropDown
+                data={profileCategoriesVenue}
+                setValue={setCategory}
+                value={profileCTX.about.category}
+                placeholder={categoryPlaceholder()}
+                margin={"5%"}
+              />
+            )}
+            {profileCTX.basicInfo.profileType == "performer" ? (
+              <ProfileDropDown
+                data={subCategories}
+                setValue={setGenre}
+                value={profileCTX.about.genre}
+                placeholder={genrePlaceholder()}
+                margin={"5%"}
+              />
+            ) : (
+              <View style={styles.inputContainer}>
                 <TextInput
-                  style={[styles.input, { marginTop: 10 }]}
-                  multiline={true}
-                  numberOfLines={4}
-                  placeholder={"Bio"}
-                  onChangeText={setBio}
-                  value={bio}
+                  style={styles.input}
+                  placeholder={"List available equipment"}
+                  onChangeText={setEquipment}
+                  value={equipment}
                   placeholderTextColor={styles.placeHolderTextColor}
                   maxLength={160}
-                  maxHeight={160}
-                  blurOnSubmit={true}
                 />
               </View>
+            )}
+            <View style={[styles.inputContainer]}>
+              <TextInput
+                style={[styles.input, { marginTop: 10 }]}
+                multiline={true}
+                numberOfLines={4}
+                placeholder={"Bio"}
+                onChangeText={setBio}
+                value={bio}
+                placeholderTextColor={styles.placeHolderTextColor}
+                maxLength={160}
+                maxHeight={160}
+                blurOnSubmit={true}
+              />
             </View>
+          </View>
           {/* ) : (
             <View></View>
           )} */}
@@ -388,242 +390,242 @@ const EditProfileArtistScreen = (props) => {
               />
             )}
           </TouchableOpacity> */}
-          {profileCTX.basicInfo.profileType == "performer" && 
-          <View>
-          <View style={[styles.headerContainer]}>
-            <Text style={styles.headerText}>Availability</Text>
-          </View>
-          {/* {avail ? ( */}
+          {profileCTX.basicInfo.profileType == "performer" &&
             <View>
-              <View>
-                <View style={styles.timeRow}>
-                  <TouchableOpacity
-                    style={[
-                      styles.timeContainer,
-                      morn && { borderColor: styles.borderColorDay },
-                    ]}
-                    onPress={() => {
-                      setMorn(!morn);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Morning</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.timeContainer,
-                      after && { borderColor: styles.borderColorDay },
-                    ]}
-                    onPress={() => {
-                      setAfter(!after);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Afternoon</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={[styles.timeRow, { marginTop: "5%" }]}>
-                  <TouchableOpacity
-                    style={[
-                      styles.timeContainer,
-                      evening && { borderColor: styles.borderColorDay },
-                    ]}
-                    onPress={() => {
-                      setEvening(!evening);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Evening</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.timeContainer,
-                      night && { borderColor: styles.borderColorDay },
-                    ]}
-                    onPress={() => {
-                      setNight(!night);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Late Night</Text>
-                  </TouchableOpacity>
-                </View>
+              <View style={[styles.headerContainer]}>
+                <Text style={styles.headerText}>Availability</Text>
               </View>
+              {/* {avail ? ( */}
               <View>
-                <View style={[styles.dayRow, { marginTop: "10%" }]}>
-                  <TouchableOpacity
-                    style={[styles.dayContainer, mon && { borderColor: styles.borderColorDay }]}
-                    onPress={() => {
-                      setMon(!mon);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Mon</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.dayContainer, tue && { borderColor: styles.borderColorDay }]}
-                    onPress={() => {
-                      setTue(!tue);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Tue</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.dayContainer, wed && { borderColor: styles.borderColorDay }]}
-                    onPress={() => {
-                      setWed(!wed);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Wed</Text>
-                  </TouchableOpacity>
+                <View>
+                  <View style={styles.timeRow}>
+                    <TouchableOpacity
+                      style={[
+                        styles.timeContainer,
+                        morn && { borderColor: styles.borderColorDay },
+                      ]}
+                      onPress={() => {
+                        setMorn(!morn);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Morning</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.timeContainer,
+                        after && { borderColor: styles.borderColorDay },
+                      ]}
+                      onPress={() => {
+                        setAfter(!after);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Afternoon</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={[styles.timeRow, { marginTop: "5%" }]}>
+                    <TouchableOpacity
+                      style={[
+                        styles.timeContainer,
+                        evening && { borderColor: styles.borderColorDay },
+                      ]}
+                      onPress={() => {
+                        setEvening(!evening);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Evening</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.timeContainer,
+                        night && { borderColor: styles.borderColorDay },
+                      ]}
+                      onPress={() => {
+                        setNight(!night);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Late Night</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <View style={[styles.dayRow, { marginTop: "5%" }]}>
-                  <TouchableOpacity
-                    style={[styles.dayContainer, thu && { borderColor: styles.borderColorDay }]}
-                    onPress={() => {
-                      setThu(!thu);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Thu</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.dayContainer, fri && { borderColor: styles.borderColorDay }]}
-                    onPress={() => {
-                      setFri(!fri);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Fri</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.dayContainer, sat && { borderColor: styles.borderColorDay }]}
-                    onPress={() => {
-                      setSat(!sat);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Sat</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={[styles.dayRow, { marginTop: "5%" }]}>
-                  <TouchableOpacity
-                    style={[styles.dayContainer, sun && { borderColor: styles.borderColorDay }]}
-                    onPress={() => {
-                      setSun(!sun);
-                    }}
-                  >
-                    <Text style={styles.timeText}>Sun</Text>
-                  </TouchableOpacity>
+                <View>
+                  <View style={[styles.dayRow, { marginTop: "10%" }]}>
+                    <TouchableOpacity
+                      style={[styles.dayContainer, mon && { borderColor: styles.borderColorDay }]}
+                      onPress={() => {
+                        setMon(!mon);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Mon</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.dayContainer, tue && { borderColor: styles.borderColorDay }]}
+                      onPress={() => {
+                        setTue(!tue);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Tue</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.dayContainer, wed && { borderColor: styles.borderColorDay }]}
+                      onPress={() => {
+                        setWed(!wed);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Wed</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={[styles.dayRow, { marginTop: "5%" }]}>
+                    <TouchableOpacity
+                      style={[styles.dayContainer, thu && { borderColor: styles.borderColorDay }]}
+                      onPress={() => {
+                        setThu(!thu);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Thu</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.dayContainer, fri && { borderColor: styles.borderColorDay }]}
+                      onPress={() => {
+                        setFri(!fri);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Fri</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.dayContainer, sat && { borderColor: styles.borderColorDay }]}
+                      onPress={() => {
+                        setSat(!sat);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Sat</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={[styles.dayRow, { marginTop: "5%" }]}>
+                    <TouchableOpacity
+                      style={[styles.dayContainer, sun && { borderColor: styles.borderColorDay }]}
+                      onPress={() => {
+                        setSun(!sun);
+                      }}
+                    >
+                      <Text style={styles.timeText}>Sun</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
           }
           <View style={[styles.headerContainer]}>
             <Text style={styles.headerText}>Social Media Links</Text>
           </View>
           {/* {social ? ( */}
-            <View>
-              <View style={styles.socialRow}>
-                <TouchableOpacity
-                  style={[styles.inputContainerSocial, { marginTop: 0 }]}
-                  onPress={() => {
-                    const socialName = getSocialUsername("soundcloud");
-                    props.navigation.navigate("SocialModalScreen",
-                      {
-                        name: "Soundcloud", url: "https://soundcloud.com/", profileType: "soundcloud",
-                        username: socialName
-                      })
-                  }}
-                >
-                  <FontAwesome5
-                    name="soundcloud"
-                    size={40}
-                    color={global.color.primaryColors.main}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.inputContainerSocial}
-                  onPress={() => {
-                    const socialName = getSocialUsername("instagram");
-                    props.navigation.navigate("SocialModalScreen",
-                      {
-                        name: "Instagram", url: "https://instagram.com/", profileType: "instagram",
-                        username: socialName
-                      })
-                  }}
-                >
-                  <FontAwesome5
-                    name="instagram"
-                    size={40}
-                    color={global.color.primaryColors.main}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.inputContainerSocial}
-                  onPress={() => {
-                    const socialName = getSocialUsername("tiktok");
-                    props.navigation.navigate("SocialModalScreen",
-                      {
-                        name: "TikTok", url: "https://tiktok.com/@", profileType: "tiktok",
-                        username: socialName
-                      })
-                  }}
-                >
-                  <FontAwesome5
-                    name="tiktok"
-                    size={40}
-                    color={global.color.primaryColors.main}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.socialRow}>
-                <TouchableOpacity
-                  style={styles.inputContainerSocial}
-                  onPress={() => {
-                    const socialName = getSocialUsername("youtube");
-                    props.navigation.navigate("SocialModalScreen",
-                      {
-                        name: "YouTube", url: "https://youtube.com/@", profileType: "youtube",
-                        username: socialName
-                      })
-                  }}
-                >
-                  <FontAwesome5
-                    name="youtube"
-                    size={40}
-                    color={global.color.primaryColors.main}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.inputContainerSocial}
-                  onPress={() => {
-                    const socialName = getSocialUsername("spotify");
-                    props.navigation.navigate("SocialModalScreen",
-                      {
-                        name: "Spotify", url: "https://open.spotify.com/artist/", profileType: "spotify",
-                        username: socialName
-                      })
-                  }}
-                >
-                  <FontAwesome5
-                    name="spotify"
-                    size={40}
-                    color={global.color.primaryColors.main}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.inputContainerSocial}
-                  onPress={() => {
-                    const socialName = getSocialUsername("twitter");
-                    props.navigation.navigate("SocialModalScreen",
-                      {
-                        name: "Twitter", url: "https://twitter.com/", profileType: "twitter",
-                        username: socialName
-                      })
-                  }}
-                >
-                  <FontAwesome5
-                    name="facebook"
-                    size={40}
-                    color={global.color.primaryColors.main}
-                  />
-                </TouchableOpacity>
-              </View>
+          <View>
+            <View style={styles.socialRow}>
+              <TouchableOpacity
+                style={[styles.inputContainerSocial, { marginTop: 0 }]}
+                onPress={() => {
+                  const socialName = getSocialUsername("soundcloud");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "Soundcloud", url: "https://soundcloud.com/", profileType: "soundcloud",
+                      username: socialName
+                    })
+                }}
+              >
+                <FontAwesome5
+                  name="soundcloud"
+                  size={40}
+                  color={global.color.primaryColors.main}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.inputContainerSocial}
+                onPress={() => {
+                  const socialName = getSocialUsername("instagram");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "Instagram", url: "https://instagram.com/", profileType: "instagram",
+                      username: socialName
+                    })
+                }}
+              >
+                <FontAwesome5
+                  name="instagram"
+                  size={40}
+                  color={global.color.primaryColors.main}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.inputContainerSocial}
+                onPress={() => {
+                  const socialName = getSocialUsername("tiktok");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "TikTok", url: "https://tiktok.com/@", profileType: "tiktok",
+                      username: socialName
+                    })
+                }}
+              >
+                <FontAwesome5
+                  name="tiktok"
+                  size={40}
+                  color={global.color.primaryColors.main}
+                />
+              </TouchableOpacity>
             </View>
+            <View style={styles.socialRow}>
+              <TouchableOpacity
+                style={styles.inputContainerSocial}
+                onPress={() => {
+                  const socialName = getSocialUsername("youtube");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "YouTube", url: "https://youtube.com/@", profileType: "youtube",
+                      username: socialName
+                    })
+                }}
+              >
+                <FontAwesome5
+                  name="youtube"
+                  size={40}
+                  color={global.color.primaryColors.main}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.inputContainerSocial}
+                onPress={() => {
+                  const socialName = getSocialUsername("spotify");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "Spotify", url: "https://open.spotify.com/artist/", profileType: "spotify",
+                      username: socialName
+                    })
+                }}
+              >
+                <FontAwesome5
+                  name="spotify"
+                  size={40}
+                  color={global.color.primaryColors.main}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.inputContainerSocial}
+                onPress={() => {
+                  const socialName = getSocialUsername("twitter");
+                  props.navigation.navigate("SocialModalScreen",
+                    {
+                      name: "Twitter", url: "https://twitter.com/", profileType: "twitter",
+                      username: socialName
+                    })
+                }}
+              >
+                <FontAwesome5
+                  name="facebook"
+                  size={40}
+                  color={global.color.primaryColors.main}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
           {/* ) : (
             <View></View>
           )} */}

@@ -39,10 +39,13 @@ const ProfileScreen = (props) => {
     const otherInfo = await getProfileStart(localId);
 
     profileCTX.updateBasic(basicInfo);
-    if (basicInfo.profileType == "general"){
-      console.log(Object.entries(otherInfo.following));
-      profileCTX.updatePersonalInfo({firstName: basicInfo.firstName, lastName: basicInfo.lastName});
-      profileCTX.updateFollowingList(Object.entries(otherInfo.following));
+    if (basicInfo.profileType == "general") {
+      profileCTX.updatePersonalInfo({ firstName: basicInfo.firstName, lastName: basicInfo.lastName });
+      if (otherInfo.hasOwnProperty("following")) {
+        profileCTX.updateFollowingList(Object.entries(otherInfo.following));
+      } else {
+        profileCTX.updateFollowingList([]);
+      }
     }
     if (basicInfo.profileType == "venue") {
       if (otherInfo.hasOwnProperty("about")) {
@@ -106,11 +109,13 @@ const ProfileScreen = (props) => {
       if (aboutShow == true) {
         return <ShowsTab />;
       }
-      if (availShow == true) {
-        return <AvailabilityProfileArtist />;
+      if (profileCTX.basicInfo.profileType == "performer") {
+        if (availShow == true) {
+          return <AvailabilityProfileArtist />;
+        }
       }
     } else {
-      return <FollowingTab props={props}/>
+      return <FollowingTab props={props} />
     }
   }
   useEffect(() => {
@@ -132,7 +137,12 @@ const ProfileScreen = (props) => {
             </View>
           ) : (
             <View style={styles.container}>
-              <View style={{ flexDirection: "row", justifyContent: "flex-end", backgroundColor: global.color.primaryColors.main, height: "12%" }}>
+              <View style={{
+                flexDirection: "row", justifyContent: "flex-end",
+                backgroundColor: global.color.primaryColors.main,
+
+                height: profileCTX.basicInfo.profileType != "general" ? "12%" : "5%"
+              }}>
                 <View>
                   <TouchableOpacity
                     style={styles.topIconContainer}
@@ -149,55 +159,55 @@ const ProfileScreen = (props) => {
                 </View>
               </View>
               {profileCTX.basicInfo.profileType != "general" &&
-              <View style={[styles.profilePicContainer, {
-                position: 'absolute',
-                top: "-1.5%",
-                bottom: 0,
-                width: 120,
-                height: 120,
-                marginHorizontal: 30
-              }]}>
-                <Image
-                  source={{ uri: profileCTX.profilePic}}
-                  style={styles.profilePic}
-                  resizeMode="contain"
-                // defaultSource={}
-                />
-              </View>}
+                <View style={[styles.profilePicContainer, {
+                  position: 'absolute',
+                  top: "-1.5%",
+                  bottom: 0,
+                  width: 120,
+                  height: 120,
+                  marginHorizontal: 30
+                }]}>
+                  <Image
+                    source={{ uri: profileCTX.profilePic }}
+                    style={styles.profilePic}
+                    resizeMode="contain"
+                  // defaultSource={}
+                  />
+                </View>}
               {profileCTX.basicInfo.profileType != "general" &&
-              <View style={{ marginHorizontal: 30 }}>
-                <TouchableOpacity
-                  style={{
-                    // justifyContent: "flex-end",
-                    borderRadius: 12,
-                    // borderWidth: 1,
-                    // borderColor: "#FCFCFF",
-                    width: "50%",
-                    marginTop: 20,
-                    marginBottom: 10,
-                    backgroundColor: global.color.primaryColors.main,
-                    alignSelf: "flex-end",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 1,
-                    },
-                    shadowOpacity: 0.22,
-                    shadowRadius: 2.22
-                  }}
-                  onPress={() => {
-                    props.navigation.navigate("EditProfileArtistScreen");
-                  }}
-                >
-                  <View style={{ alignSelf: "center", padding: 10 }}>
-                    <Text
-                      style={styles.editProfileText}
-                    >
-                      Edit Profile
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </View>}
+                <View style={{ marginHorizontal: 30 }}>
+                  <TouchableOpacity
+                    style={{
+                      // justifyContent: "flex-end",
+                      borderRadius: 12,
+                      // borderWidth: 1,
+                      // borderColor: "#FCFCFF",
+                      width: "50%",
+                      marginTop: 20,
+                      marginBottom: 10,
+                      backgroundColor: global.color.primaryColors.main,
+                      alignSelf: "flex-end",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 1,
+                      },
+                      shadowOpacity: 0.22,
+                      shadowRadius: 2.22
+                    }}
+                    onPress={() => {
+                      props.navigation.navigate("EditProfileArtistScreen");
+                    }}
+                  >
+                    <View style={{ alignSelf: "center", padding: 10 }}>
+                      <Text
+                        style={styles.editProfileText}
+                      >
+                        Edit Profile
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>}
               {profileCTX.basicInfo.profileType != "general" ?
                 <View style={{ marginHorizontal: 30 }}>
                   <View style={styles.usernameContainer}>

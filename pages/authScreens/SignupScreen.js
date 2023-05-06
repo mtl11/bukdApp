@@ -66,10 +66,13 @@ const SignupScreen = (props) => {
       setEmailErrorMessage("");
       const response = await addAccountFB(email, firstName, lastName, localId, accessToken);
       setIsAuth(false);
+      props.setVisible(false);
+      authCTX.authenticate(token);
       // const token = await authenticateUser(email, password);
       // AsyncStorage.setItem("email", JSON.stringify(email));
-      // authCTX.authenticate(token);
+      
     }
+    setIsAuth(false);
   }
 
   function checkInputs() {
@@ -100,7 +103,6 @@ const SignupScreen = (props) => {
   return (
     <Modal visible={props.visible}>
       <SafeAreaView style={styles.container}>
-        <KeyboardAwareScrollView>
           <View style={styles.topContainer}>
             <TouchableOpacity
               onPress={() => {
@@ -114,6 +116,7 @@ const SignupScreen = (props) => {
               />
             </TouchableOpacity>
           </View>
+          <KeyboardAwareScrollView>
           <View
             style={{
               alignSelf: "center",

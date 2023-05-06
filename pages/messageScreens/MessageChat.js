@@ -13,7 +13,7 @@ import { GiftedChat, Send, InputToolbar } from "react-native-gifted-chat";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { sendMessage, checkIfChatExists, createNewChatRoom, getMessages } from "../../util/chat";
-import {ProfileContext} from "../../store/profileContext";
+import { ProfileContext } from "../../store/profileContext";
 import { getAccessToken } from "../../util/profile";
 
 const MessageChat = (props) => {
@@ -39,19 +39,19 @@ const MessageChat = (props) => {
             <InputToolbar
                 {...props}
                 containerStyle={{
-                    backgroundColor: global.color.primaryColors.background,
+                    backgroundColor: global.color.secondaryColors.background,
                     paddingTop: 5,
                     borderRadius: 100,
                     borderTopWidth: 0
                 }}
                 primaryStyle={{
-                    backgroundColor: global.color.primaryColors.background,
+                    backgroundColor: global.color.secondaryColors.background,
                     paddingTop: 5,
                     borderRadius: 100,
                     borderTopWidth: 1,
                     borderWidth: 1,
-                    borderTopColor: global.color.primaryColors.text,
-                    borderColor: global.color.primaryColors.text,
+                    borderTopColor: global.color.secondaryColors.text,
+                    borderColor: global.color.secondaryColors.text,
                     marginHorizontal: 10
                 }}
             />
@@ -85,13 +85,13 @@ const MessageChat = (props) => {
     }
     useEffect(() => {
         getPreviousMessages()
-        
+
     }, [])
     return (
         <SafeAreaView style={styles.container}>
             <View style={{
                 flexDirection: "row", borderBottomWidth: 1,
-                paddingBottom: 10, borderColor: global.color.primaryColors.adjacent
+                paddingBottom: 10, borderColor: global.color.secondaryColors.adjacent
             }}>
                 <View style={{ justifyContent: "center" }}>
                     <TouchableOpacity
@@ -100,15 +100,15 @@ const MessageChat = (props) => {
                             props.navigation.pop();
                         }}
                     >
-                        <FontAwesome5
-                            name="chevron-left"
-                            size={32}
-                            color={global.color.primaryColors.buttonAccent}
+                        <Ionicons
+                            name="arrow-back"
+                            size={28}
+                            color={styles.iconColor}
                         />
                     </TouchableOpacity>
                 </View>
                 <View style={{ justifyContent: "center" }}>
-                    <Text style={{ color: global.color.primaryColors.text, fontFamily: "Rubik-Regular", fontSize: 20 }}>
+                    <Text style={{ color: global.color.secondaryColors.text, fontFamily: "Rubik-Regular", fontSize: 20 }}>
                         {props.route.params.displayName}
                     </Text>
                 </View>
@@ -116,6 +116,7 @@ const MessageChat = (props) => {
             <GiftedChat
                 renderSend={props => renderSend(props, chatRoomID, senderID)}
                 renderInputToolbar={props => customtInputToolbar(props)}
+                messagesContainerStyle={{ paddingBottom: 12 }}
                 textInputStyle={styles.input}
                 messages={messages}
                 onSend={messages => onSend(messages)}
@@ -128,16 +129,17 @@ const MessageChat = (props) => {
 }
 
 const styles = StyleSheet.create({
-    input: { color: global.color.primaryColors.text, fontFamily: "Rubik-Regular" },
+    input: { color: global.color.secondaryColors.text, fontFamily: "Rubik-Regular" },
     container: {
-        backgroundColor: global.color.primaryColors.background,
+        backgroundColor: global.color.secondaryColors.background,
         height: "100%",
     }, footerContainer: {
-        backgroundColor: global.color.primaryColors.background,
+        backgroundColor: global.color.secondaryColors.background,
         height: "100%",
     }, topIconContainer: {
         alignSelf: "flex-end",
         marginHorizontal: 30,
     },
+    iconColor: global.color.primaryColors.main
 });
 export default MessageChat;

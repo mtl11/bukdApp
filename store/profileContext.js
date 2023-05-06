@@ -78,8 +78,16 @@ function ProfileContextProvider({ children }) {
     setProfilePic(profilePic);
   }
   function addFollow(follow) {
-    followingList.push(follow);
-    setFollowingList(followingList);
+    const alreadySaved = followingList.filter((item) => {
+      return item[0] == follow[0]
+    })
+    
+    if (alreadySaved.length == 0) {
+      const list = followingList;
+      list.push(follow);
+      setFollowingList(list);
+      console.log("Added")
+    }
   }
   function signOut() {
     setShows([]);
@@ -88,6 +96,7 @@ function ProfileContextProvider({ children }) {
     setPersonalInfo({});
     setProfilePic();
     setAbout({});
+    setFollowingList([])
   }
   const value = {
     followingList: followingList,
