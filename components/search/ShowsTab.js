@@ -32,7 +32,6 @@ const ShowsTab = (props) => {
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
     }
-    const [selectedItem, setSelectedItem] = useState("-NU4IyBN0dDoPPvlL-f3");
     if (shows != undefined) {
         const sorted = shows.sort(
             function (a, b) {

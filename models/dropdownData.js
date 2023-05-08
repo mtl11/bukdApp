@@ -14,7 +14,7 @@ export const profileCategoriesVenue = [
 ];
 
 export const locations = [
-  { label: "Tuscon, AZ", value: "1" },
+  { label: "Tucson, AZ", value: "1" },
   // { label: "Denver, CO", value: "2",disabled: true },
   // { label: "Las Vegas, NV", value: "3" },
   // { label: "Los Angeles, CA", value: "4" },

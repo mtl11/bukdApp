@@ -53,6 +53,7 @@ const VenueList = (props) => {
         || props.category == null));
     }
   }
+  console.log(props.pt)
   return (
     <View>
       {/* {props.venues && <View style={{marginLeft: "5%"}}>
@@ -81,7 +82,7 @@ const VenueList = (props) => {
         }
         ListHeaderComponent={props.venues && <View style={{ marginBottom: "5%", marginHorizontal: "2.5%" }}>
           <Text style={{ fontSize: 18, fontFamily: "Rubik-Medium" }}>
-            New To Bukd
+            New {props.profileType == "performer" ? "Venues " : "Performers "}To Bukd
           </Text>
         </View>}
         columnWrapperStyle={{ justifyContent: "space-between" }}

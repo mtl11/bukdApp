@@ -179,6 +179,9 @@ export async function resetPassword(password, idToken) {
 }
 
 export async function setPerformerInList(location, category, name, uuid, profilePicURL, accessToken) {
+  if (location == "Tucson, AZ"){
+    location = "Tuscon, AZ"
+  }
   const response = await firebaseUtil.put(
     "/performers/" + location + "/" + uuid + ".json?auth="+accessToken,
     {
@@ -191,6 +194,9 @@ export async function setPerformerInList(location, category, name, uuid, profile
 }
 
 export async function setVenueInList(location, category, name, uuid, profilePicURL, accessToken) {
+  if (location == "Tucson, AZ"){
+    location = "Tuscon, AZ"
+  }
   const response = await firebaseUtil.put(
     "/venues/" + location + "/" + uuid + ".json?auth="+accessToken,
     {
