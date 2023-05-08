@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ImageBackground,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
@@ -14,6 +15,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const VenueList = (props) => {
   console.log(props.venues)
   const renderItem = ({ item }) => {
+    let loading = true;
+    // function setLoadingHelper(){
+    //   setLoading(true);
+    // }
     return (
       <TouchableOpacity
         style={styles.individualContainer}
@@ -26,6 +31,7 @@ const VenueList = (props) => {
           source={{ uri: item.profilePicURL }}
           style={styles.imageContainer}
           imageStyle={{ borderRadius: 10 }}
+          onLoadEnd={()=>{loading = false}}
         >
           {/* "rgba(34, 109, 206, .7)" */}
           <View style={[styles.textContainer, item.profilePicURL == null && { backgroundColor: "rgba(0,0,0,0)", }]}>
@@ -56,11 +62,6 @@ const VenueList = (props) => {
   console.log(props.pt)
   return (
     <View>
-      {/* {props.venues && <View style={{marginLeft: "5%"}}>
-        <Text style={{fontSize: 18, fontFamily: "Rubik-Medium"}}>
-        New To Bukd
-        </Text>
-      </View>} */}
       <FlatList
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
@@ -76,7 +77,7 @@ const VenueList = (props) => {
                 { color: global.color.primaryColors.adjacent },
               ]}
             >
-              No Results
+              {props.venues == undefined ? "Please Select a Location": "No Results"}
             </Text>
           </View>
         }

@@ -9,7 +9,6 @@ import {
   ScrollView,
   Image,
   KeyboardAvoidingView,
-  Platform
 } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
@@ -30,9 +29,9 @@ import { aboutInfo, profileInfo } from "../../models/profile";
 import ProfileDropDown from "../../components/profile/ProfileDropDown";
 import {
   locations,
-  profileCategoriesArtist,
+  profileCategoriesArtistEdit,
   subCategories,
-  profileCategoriesVenue,
+  profileCategoriesVenueEdit,
 } from "../../models/dropdownData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../store/authContext";
@@ -40,6 +39,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import light from "../../styles/profile/light/editProfile";
 import dark from "../../styles/profile/dark/editProfile";
+import { manipulateAsync } from "expo-image-manipulator";
 
 const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
@@ -145,15 +145,25 @@ const EditProfileArtistScreen = (props) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: .7,
+      allowsMultipleSelection: false
     });
     if (!result.canceled) {
       const uri = result.assets[0].uri;
-      setImage(uri);
+      // setImage(uri);
+      const manipResult = await manipulateAsync(
+        uri,
+        [{ resize: { width: 600 } }],
+        { format: 'jpeg' }
+      );
+      // console.log(manipResult);
+      setImage(manipResult.uri);
     }
+
   };
 
   const locationPlaceholder = () => {
+
     if (profileCTX.about.location == ("" || undefined)) {
       return "Location";
     } else {
@@ -164,14 +174,22 @@ const EditProfileArtistScreen = (props) => {
     if (profileCTX.about.category == ("" || undefined)) {
       return "Category";
     } else {
-      return profileCTX.about.category;
+      if (profileCTX.about.category.length == (0)) {
+        return "Category";
+      } else {
+        return profileCTX.about.category;
+      }
     }
   };
   const genrePlaceholder = () => {
     if (profileCTX.about.genre == ("" || undefined)) {
       return "Genre";
     } else {
-      return profileCTX.about.genre;
+      if (profileCTX.about.genre.length == (0)) {
+        return "Genre";
+      } else {
+        return profileCTX.about.genre;
+      }
     }
   };
 
@@ -316,7 +334,7 @@ const EditProfileArtistScreen = (props) => {
             />
             {profileCTX.basicInfo.profileType == "performer" ? (
               <ProfileDropDown
-                data={profileCategoriesArtist}
+                data={profileCategoriesArtistEdit}
                 setValue={setCategory}
                 value={profileCTX.about.category}
                 placeholder={categoryPlaceholder()}
@@ -324,7 +342,7 @@ const EditProfileArtistScreen = (props) => {
               />
             ) : (
               <ProfileDropDown
-                data={profileCategoriesVenue}
+                data={profileCategoriesVenueEdit}
                 setValue={setCategory}
                 value={profileCTX.about.category}
                 placeholder={categoryPlaceholder()}

@@ -96,7 +96,7 @@ const ProfileScreen = (props) => {
     profileCTX.updateProfilePic(profileuri);
     setGettingInfo(false);
   }
-  console.log(profileCTX.about);
+  // console.log(profileCTX.about);
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
   const [availShow, setAvailShow] = useState(false);
@@ -170,7 +170,8 @@ const ProfileScreen = (props) => {
                   <Image
                     source={{ uri: profileCTX.profilePic }}
                     style={styles.profilePic}
-                    resizeMode="contain"
+                    // resizeMode="contain"
+                    
                   // defaultSource={}
                   />
                 </View>}
@@ -226,15 +227,19 @@ const ProfileScreen = (props) => {
                           {profileCTX.about.category} {" "}
                           {profileCTX.about.genre && <Text>
                             |{" "}{profileCTX.about.genre} </Text>}
-                        </Text></View>) : (<View><Text style={{
+                        </Text>
+                      </View>
+                      ) : (
+                      <View>
+                        <Text style={{
                           color: global.color.primaryColors.main,
                           fontFamily: "Rubik-Regular",
                           fontSize: 16
                         }}>
                           {profileCTX.about.category}
                         </Text>
-                        </View>)}
-                    <View style={{ marginLeft: profileCTX.about.genre && 10, flexDirection: "row", alignItems: "center" }}>
+                      </View>)}
+                    <View style={{ marginLeft: profileCTX.about.genre ? 10 : 0, flexDirection: "row", alignItems: "center" }}>
                       {profileCTX.about.location != undefined ?
                         <Ionicons
                           name="location-outline"

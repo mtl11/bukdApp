@@ -13,6 +13,19 @@ export const profileCategoriesVenue = [
   { label: "Night Club", value: "3" },
 ];
 
+export const profileCategoriesArtistEdit = [
+  { label: "Band", value: "0" },
+  { label: "DJ", value: "1" },
+  { label: "Singer", value: "2" },
+  { label: "Vocalist", value: "3" },
+];
+
+export const profileCategoriesVenueEdit = [
+  { label: "Bar", value: "0" },
+  { label: "Club", value: "1" },
+  { label: "Night Club", value: "2" },
+];
+
 export const locations = [
   { label: "Tucson, AZ", value: "1" },
   // { label: "Denver, CO", value: "2",disabled: true },
