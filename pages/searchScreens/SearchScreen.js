@@ -41,9 +41,7 @@ const SearchScreen = (props) => {
   }
 
   async function getPerformers(location) {
-    console.log("Location: "+location)
     const performers = await getPerformersList(location);
-    console.log("Performers: "+performers);
     if (performers != null) {
       setPerformers(Object.values(performers));
     } else {
@@ -59,7 +57,6 @@ const SearchScreen = (props) => {
       authCTX.logout();
       // await getPerformers("Tucson, AZ");
     } else {
-      console.log(email);
       const profiletype = await getProfileInfo(localId);
       setPT(profiletype.profileType);
       if (profiletype.profileType == "venue" || profiletype.profileType == "general"){
@@ -78,7 +75,6 @@ const SearchScreen = (props) => {
     // getPerformers("Tucson, AZ");
     setAuth(true);
   }, [authCTX.isAuthenticated]);
-  console.log(authCTX.isAuthenticated);
   return (
     <SafeAreaView style={styles.container}>
       {auth ? (

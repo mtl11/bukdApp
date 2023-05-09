@@ -125,7 +125,6 @@ const ProfileScreen = (props) => {
       setVisible(true);
     }
   }, [visible, authCTX.isAuthenticated]);
-  console.log(authCTX.isAuthenticated);
   if (authCTX.isAuthenticated) {
     return (
       <View>

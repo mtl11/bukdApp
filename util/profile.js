@@ -29,6 +29,7 @@ export async function addNewShow(startTime, endTime, date, venueName, descriptio
     venueName: venueName,
     description: description
   });
+  return response.data;
 }
 
 export async function addNewShowVenue(startTime, endTime, date, performersNeeded,description, localId, accessToken) {
@@ -39,6 +40,7 @@ export async function addNewShowVenue(startTime, endTime, date, performersNeeded
     performersNeeded: performersNeeded,
     description: description,
   });
+  return response.data;
 }
 
 
@@ -107,7 +109,6 @@ export async function getProfileStart(localId) {
 }
 
 export async function setSocial(type, url, localId, username,accessToken) {
-  console.log(username);
   const response = await firebaseUtil.put(
     "/users/" + localId + "/socials/" + type + ".json?auth="+accessToken,
     {

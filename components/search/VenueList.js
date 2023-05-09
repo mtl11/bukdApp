@@ -13,7 +13,6 @@ import global from "../../styles/global";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const VenueList = (props) => {
-  console.log(props.venues)
   const renderItem = ({ item }) => {
     let loading = true;
     // function setLoadingHelper(){
@@ -59,7 +58,7 @@ const VenueList = (props) => {
         || props.category == null));
     }
   }
-  console.log(props.pt)
+  
   return (
     <View>
       <FlatList

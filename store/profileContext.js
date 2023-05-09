@@ -35,9 +35,7 @@ function ProfileContextProvider({ children }) {
   const [profilePic, setProfilePic] = useState();
 
   function addShow(newShow) {
-    console.log(shows);
-    const newShowArrow = shows;
-    newShowArrow.push(newShow);
+    const newShowArrow = [...shows, newShow];
     setShows(newShowArrow);
   }
   function deleteShow(label) {
@@ -81,12 +79,10 @@ function ProfileContextProvider({ children }) {
     const alreadySaved = followingList.filter((item) => {
       return item[0] == follow[0]
     })
-    
     if (alreadySaved.length == 0) {
       const list = followingList;
       list.push(follow);
       setFollowingList(list);
-      console.log("Added")
     }
   }
   function signOut() {
