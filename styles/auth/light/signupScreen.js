@@ -15,6 +15,7 @@ export default {
   passwordInfoContainer:{
     marginHorizontal: "8%",
     marginTop: "5%",
+
   },
   passwordInfoText:{
     fontFamily: "Rubik-Regular",
@@ -98,7 +99,6 @@ export default {
     justifyContent: "space-between",
     flexDirection: "row",
     marginHorizontal: "8%",
-    marginTop: "5%",
     alignItems:"center"
   },
   profileText: {

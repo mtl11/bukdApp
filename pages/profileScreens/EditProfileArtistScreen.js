@@ -153,7 +153,7 @@ const EditProfileArtistScreen = (props) => {
       // setImage(uri);
       const manipResult = await manipulateAsync(
         uri,
-        [{ resize: { width: 600 } }],
+        [{ resize: { width: 200 } }],
         { format: 'jpeg' }
       );
       // console.log(manipResult);

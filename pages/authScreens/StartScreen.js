@@ -122,7 +122,6 @@ const StartScreen = (props) => {
           <Text style={styles.buttonTextSignUp}> Sign Up</Text>
         </TouchableOpacity>
       </View>
-     
       <InfoModal visible={visible} setVisible={setVisible} />
     </SafeAreaView>
   );

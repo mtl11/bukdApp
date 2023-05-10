@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -11,13 +11,8 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 const VenueList = (props) => {
-  const renderItem = ({ item }) => {
-    let loading = true;
-    // function setLoadingHelper(){
-    //   setLoading(true);
-    // }
+  const renderItem = useCallback(({ item }) => {
     return (
       <TouchableOpacity
         style={styles.individualContainer}
@@ -30,26 +25,21 @@ const VenueList = (props) => {
           source={{ uri: item.profilePicURL }}
           style={styles.imageContainer}
           imageStyle={{ borderRadius: 10 }}
-          onLoadEnd={()=>{loading = false}}
+          defaultSource={{ source: require("../../assets/loadingImage.png") }}
         >
-          {/* "rgba(34, 109, 206, .7)" */}
           <View style={[styles.textContainer, item.profilePicURL == null && { backgroundColor: "rgba(0,0,0,0)", }]}>
             <View style={{
               height: "30%",
               backgroundColor: "rgba(255, 255, 255, .6)",
               borderBottomRightRadius: 10, borderBottomLeftRadius: 10, justifyContent: "center",
-              // borderWidth:1,
-              // borderColor: "rgba(256, 256, 256, .7)"
             }}>
               <Text style={styles.bigText}>{item.name}</Text>
             </View>
-
-            {/* <Text style={styles.smallText}>{item.category}</Text> */}
           </View>
         </ImageBackground>
       </TouchableOpacity>
-    );
-  };
+    )
+  }, []);
   const getFlatListData = () => {
     if (props.venues != null) {
       return (props.venues.filter(venue =>
@@ -58,10 +48,11 @@ const VenueList = (props) => {
         || props.category == null));
     }
   }
-  
+
   return (
     <View>
       <FlatList
+        maxToRenderPerBatch={8}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View style={{ alignItems: "center", marginTop: "40%" }}>
@@ -76,7 +67,7 @@ const VenueList = (props) => {
                 { color: global.color.primaryColors.adjacent },
               ]}
             >
-              {props.venues == undefined ? "Please Select a Location": "No Results"}
+              {props.venues == undefined ? "Please Select a Location" : "No Results"}
             </Text>
           </View>
         }
