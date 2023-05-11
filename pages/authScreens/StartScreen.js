@@ -7,7 +7,9 @@ import {
   TextInput,
   Image,
   ActivityIndicator,
-  Modal
+  Modal,
+  TouchableWithoutFeedback,
+  Keyboard
 } from "react-native";
 import light from "../../styles/auth/light/startScreen";
 import dark from "../../styles/auth/dark/startScreen";
@@ -17,6 +19,8 @@ import { AuthContext } from "../../store/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from '@expo/vector-icons';
 import InfoModal from "../../components/auth/InfoModal";
+
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const StartScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -39,91 +43,97 @@ const StartScreen = (props) => {
     }
   }
   return (
+
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={{ marginLeft: 30 }} onPress={() => { setVisible(true) }}>
-        <Ionicons name="ios-information-circle-outline" size={32} color={styles.iconColor} />
-      </TouchableOpacity>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          marginTop: "25%",
-        }}
-      >
-        <Image
-          source={require("../../assets/Logo.png")}
-          style={styles.logoImage}
-        />
-        <Image
-          source={require("../../assets/Vector.png")}
-          style={styles.image}
-        />
-      </View>
-      <View style={styles.welcomeContainer}>
-        <Text style={styles.welcomeText}>Your local live music hub</Text>
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          autoCapitalize={"none"}
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor={styles.placeHolderTextColor}
-          onChangeText={setEmail}
-          autoCorrect={false}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          secureTextEntry={true}
-          placeholder="Password"
-          placeholderTextColor={styles.placeHolderTextColor}
-          onChangeText={setPassword}
-        />
-      </View>
-      <TouchableOpacity
-        style={styles.forgotPasswordContainer}
-        onPress={() => {
-          props.navigation.navigate("ForgetPass");
-        }}
-      >
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-      </TouchableOpacity>
-      {passwordDontMatch ? (
-        <View style={{ alignSelf: "center" }}>
-          <Text style={{ color: global.color.primaryColors.errorText, fontFamily: "Rubik-Regular", fontSize: 16 }}>
-            Entered email and password do not match our records.
-          </Text>
-        </View>
-      ) : (
-        <View></View>
-      )}
-      <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={() => {
-          setIsAuth(true);
-          authenticateHandler();
-        }}
-      >
-        {!isAuth ? (
-          <Text style={styles.buttonText}>Login</Text>
-        ) : (
-          <ActivityIndicator size={22} />
-        )}
-      </TouchableOpacity>
-      {/* DO NOT DELETE  */}
-      <View style={styles.newAccountContainer}>
-        <Text style={styles.newAccountText}>Don't have an account?</Text>
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate("Signup");
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <TouchableOpacity style={{ marginLeft: 30 }} onPress={() => { setVisible(true) }}>
+          <Ionicons name="ios-information-circle-outline" size={32} color={styles.iconColor} />
+        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginTop: "25%",
           }}
         >
-          <Text style={styles.buttonTextSignUp}> Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-      <InfoModal visible={visible} setVisible={setVisible} />
+          <Image
+            source={require("../../assets/Logo.png")}
+            style={styles.logoImage}
+          />
+          <Image
+            source={require("../../assets/Vector.png")}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.welcomeContainer}>
+          <Text style={styles.welcomeText}>Your local live music hub</Text>
+        </View>
+        <KeyboardAwareScrollView>
+          <View style={styles.inputContainer}>
+            <TextInput
+              autoCapitalize={"none"}
+              style={styles.input}
+              placeholder="Email"
+              placeholderTextColor={styles.placeHolderTextColor}
+              onChangeText={setEmail}
+              autoCorrect={false}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              secureTextEntry={true}
+              placeholder="Password"
+              placeholderTextColor={styles.placeHolderTextColor}
+              onChangeText={setPassword}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.forgotPasswordContainer}
+            onPress={() => {
+              props.navigation.navigate("ForgetPass");
+            }}
+          >
+            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+          </TouchableOpacity>
+          {passwordDontMatch ? (
+            <View style={{ alignSelf: "center" }}>
+              <Text style={{ color: global.color.primaryColors.errorText, fontFamily: "Rubik-Regular", fontSize: 16 }}>
+                Entered email and password do not match our records.
+              </Text>
+            </View>
+          ) : (
+            <View></View>
+          )}
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => {
+              setIsAuth(true);
+              authenticateHandler();
+            }}
+          >
+            {!isAuth ? (
+              <Text style={styles.buttonText}>Login</Text>
+            ) : (
+              <ActivityIndicator size={22} />
+            )}
+          </TouchableOpacity>
+          {/* DO NOT DELETE  */}
+          <View style={styles.newAccountContainer}>
+            <Text style={styles.newAccountText}>Don't have an account?</Text>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate("Signup");
+              }}
+            >
+              <Text style={styles.buttonTextSignUp}> Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAwareScrollView>
+        <InfoModal visible={visible} setVisible={setVisible} />
+      </TouchableWithoutFeedback>
     </SafeAreaView>
+
   );
 };
 export default StartScreen;

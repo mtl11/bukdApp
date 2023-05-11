@@ -167,6 +167,7 @@ const ProfileScreen = (props) => {
                   </Text>
                 </View>
               </TouchableOpacity>
+              {profileCTX.basicInfo.profileType == "general" || !authCTX.isAuthenticated &&
               <TouchableOpacity
                 style={{
                   // justifyContent: "flex-end",
@@ -197,8 +198,8 @@ const ProfileScreen = (props) => {
                 <View style={{ alignSelf: "center", padding: 10 }}>
                   <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />
                 </View>
-              </TouchableOpacity>
-            </View>
+              </TouchableOpacity>}
+            </View> 
             <View style={{ marginHorizontal: 30 }}>
               <View style={styles.usernameContainer}>
                 <Text style={styles.usernameText}>

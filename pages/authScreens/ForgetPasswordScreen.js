@@ -10,7 +10,7 @@ import {
   Modal,
 
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
 import light from "../../styles/auth/light/forgotPassword";
 import dark from "../../styles/auth/dark/forgotPassword";
@@ -61,11 +61,11 @@ const ForgetPasswordScreen = (props) => {
           props.setVisible(false);
         }}
       >
-        <FontAwesome5
-          name="chevron-left"
-          size={32}
-          color={styles.iconColor}
-        />
+        <Ionicons
+              name="arrow-back"
+              size={28}
+              color={styles.iconColor}
+            />
       </TouchableOpacity>
       <View style={{ marginTop: "8%" }}>
         <Text style={styles.headerText}>

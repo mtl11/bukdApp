@@ -97,3 +97,17 @@ export async function forgotPassword(idToken, password){
       sameEmail = true;
     });
 }
+
+export async function submitVerifyRequest(email, profileName, firstName, lastName, accountType) {
+  const response = await firebaseUtil
+    .post("/help.json", {
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      profileType : accountType,
+      profileName: profileName
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+}
