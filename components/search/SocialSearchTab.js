@@ -14,6 +14,8 @@ const SocialProfileTabArtist = (props) => {
   function dataList() {
     const array = [];
     for (const x in props.socials) {
+      const profile = socialLinks.detectProfile(props.social[x].url);
+      const profileID = socialLinks.getProfileId(profile, props.social[x].url);
       const item = (
         <TouchableOpacity
           key={x}
@@ -23,7 +25,7 @@ const SocialProfileTabArtist = (props) => {
           }}
         >
           <View style={{ marginRight: "0%" }}>
-            <Text style={styles.socialText}>{x}</Text>
+            <Text style={styles.socialText}>@{profileID}</Text>
           </View>
           <FontAwesome5 name={x} size={40} color={"white"} />
         </TouchableOpacity>

@@ -12,6 +12,9 @@ export async function sendMessage(chatRoomID, message, senderID, accessToken) {
     const response = await firebaseUtil.post("/chatrooms/" + chatRoomID + "/messages/.json?auth="+accessToken, {
         message: mes,
     });
+    await firebaseUtil.put("/chatrooms/" + chatRoomID + "/lastMessage/.json?auth="+accessToken, {
+        message: mes,
+    });
 }
 export async function getMessages(chatRoomID) {
     const response = await firebaseUtil.get("/chatrooms/" + chatRoomID + "/messages/.json");

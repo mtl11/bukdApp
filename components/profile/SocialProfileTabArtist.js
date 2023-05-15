@@ -15,14 +15,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import light from "../../styles/profile/light/socialTab";
 import dark from "../../styles/profile/dark/socialTab";
-
+import { SocialLinks } from "social-links";
 const SocialProfileTabArtist = (props) => {
   const profileCTX = useContext(ProfileContext);
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
+  const socialLinks = new SocialLinks();
   function dataList() {
     const array = [];
+    
     for (const x in profileCTX.social) {
+      const profile = socialLinks.detectProfile(profileCTX.social[x].url);
+      const profileID = socialLinks.getProfileId(profile, profileCTX.social[x].url);
       const item = (
         <TouchableOpacity
           key={x}
@@ -32,7 +36,7 @@ const SocialProfileTabArtist = (props) => {
           }}
         >
           <View style={{ marginRight: "0%" }}>
-            <Text style={styles.socialText}>{x}</Text>
+            <Text style={styles.socialText}>@{profileID}</Text>
           </View>
           <FontAwesome5 name={x} size={40} color={"white"} />
         </TouchableOpacity>
