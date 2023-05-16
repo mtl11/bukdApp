@@ -3,27 +3,17 @@ import { View, StyleSheet, FlatList, Text, TouchableHighlight, RefreshControl, I
 import global from "../../styles/global";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getChatroomIdData } from "../../util/message";
+import { FontAwesome5, FontAwesome, Ionicons } from '@expo/vector-icons';
 
 const MessagesLists = (props) => {
     const [refreshing, setRefreshing] = React.useState(false);
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         props.refreshData();
-        setTimeout(() => {
+        // setTimeout(() => {
             setRefreshing(false);
-        }, 1000);
+        // }, 1000);
     }, []);
-
-    // function formatAMPM(date) {
-    //     var hours = date.getHours();
-    //     var minutes = date.getMinutes();
-    //     var ampm = hours >= 12 ? 'PM' : 'AM';
-    //     hours = hours % 12;
-    //     hours = hours ? hours : 12; // the hour '0' should be '12'
-    //     minutes = minutes < 10 ? '0' + minutes : minutes;
-    //     var strTime = hours + ':' + minutes + ' ' + ampm;
-    //     return strTime;
-    // }
     const formatter = new Intl.DateTimeFormat('en-US', {
         hour: 'numeric',
         hour12: false,
@@ -94,11 +84,9 @@ const MessagesLists = (props) => {
             >
                 <View style={styles.messageContainer}>
                     <View style={styles.imageContainer}>
-                        <Image
-                        style={styles.img}
-                            source={chatroom.item.profilePicURL === undefined ? {source: require("../../assets/loadingImage.png")} :{  uri: chatroom.item.profilePicURL}}
-                            defaultSource={require("../../assets/loadingImage.png") }
-                        />
+                       {chatroom.item.basicInfo.profileType == "venue" && <FontAwesome5 name="building" size={24} color={global.color.primaryColors.main} />}
+                       {chatroom.item.basicInfo.profileType == "general" && <FontAwesome name="user" size={24} color={global.color.primaryColors.main} />}
+                       {chatroom.item.basicInfo.profileType == "performer" && <Ionicons name="musical-notes" size={24} color={global.color.primaryColors.main} />}
                     </View>
                     <View style={styles.nameAndTextContainer}>
                         <View style={{flexDirection: "row", alignItems:"center", justifyContent:"space-between", paddingBottom: "1%"}}>
@@ -179,10 +167,10 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         // padding: 10,
-        overflow: "hidden",
-        borderWidth: 1.5,
-        borderRadius: 100,
-        borderColor: global.color.secondaryColors.adjacent
+        // overflow: "hidden",
+        // // borderWidth: 1.5,
+        // // borderRadius: 100,
+        // borderColor: global.color.secondaryColors.adjacent
     },
 })
 

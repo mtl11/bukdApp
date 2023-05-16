@@ -23,7 +23,6 @@ const SearchChat = (props) => {
     const [messages, setMessages] = useState([]);
     async function send(message) {
         const accessToken = await getAccessToken();
-        console.log(chatRoomID);
         if (chatRoomID == null) {
             var senderName = profileCTX.basicInfo.profileName;
             if (senderName == undefined){
@@ -152,6 +151,7 @@ const SearchChat = (props) => {
                 user={{
                     _id: senderID,
                 }}
+                renderAvatar={()=>{<View></View>}}
             />
         </SafeAreaView>
     )

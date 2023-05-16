@@ -16,7 +16,6 @@ const MessageScreen = (props) => {
   async function getData() {
     setGettingInfo(true);
     const messageData = await getAllMessages(await AsyncStorage.getItem("localId"));
-    // console.log(messageData);
     if (messageData != null) {
       const array = [];
       const values = Object.values(messageData);
@@ -36,13 +35,12 @@ const MessageScreen = (props) => {
           recieverName = getName.profileName
         }
         const lastMessage = await getLastMessage(values[x].chatRoomID);
-        // console.log(lastMessage);
         array.push({chatRoomID: 
           values[x].chatRoomID, 
           recieverName: recieverName, 
           lastMessage: lastMessage,
           recieverID: senderID,
-          profilePicURL: await getProfilePic(senderID),
+          // profilePicURL: await getProfilePic(senderID),
           basicInfo: getName
         })
       }

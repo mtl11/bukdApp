@@ -123,6 +123,7 @@ const MessageChat = (props) => {
                 user={{
                     _id: senderID,
                 }}
+                renderAvatar={()=>{<View></View>}}
             />
         </SafeAreaView>
     )
