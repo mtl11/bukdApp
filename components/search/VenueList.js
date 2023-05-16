@@ -30,7 +30,7 @@ const VenueList = (props) => {
           <View style={[styles.textContainer, item.profilePicURL == null && { backgroundColor: "rgba(0,0,0,0)", }]}>
             <View style={{
               height: "30%",
-              backgroundColor: "rgba(255, 255, 255, .6)",
+              backgroundColor: "rgba(255, 255, 255, .9)",
               borderBottomRightRadius: 10, borderBottomLeftRadius: 10, justifyContent: "center",
             }}>
               <Text style={styles.bigText}>{item.name}</Text>

@@ -21,11 +21,12 @@ export default {
     flexDirection: "row",
     alignItems: "center",
     margin: "1%",
+    
   },
   timeContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: "center",
+    // alignItems: "center",
     marginTop: "5%",
   },
   boxContainer: {
@@ -35,6 +36,7 @@ export default {
     paddingHorizontal: "5%",
     paddingBottom: "5%",
     borderColor: global.color.secondaryColors.adjacent,
+    alignItems: "center",
   },
   container: {
     // marginHorizontal: "8%",

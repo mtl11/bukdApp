@@ -52,7 +52,8 @@ const SearchScreen = (props) => {
   async function profileType() {
     const localId = await AsyncStorage.getItem("localId");
     const email = await AsyncStorage.getItem("localId");
-    if (localId == null) {
+    // console.log("hey")
+    if (!authCTX.isAuthenticated) {
       getPerformers("Tucson, AZ");
       authCTX.logout();
       // await getPerformers("Tucson, AZ");
@@ -60,9 +61,9 @@ const SearchScreen = (props) => {
       const profiletype = await getProfileInfo(localId);
       setPT(profiletype.profileType);
       if (profiletype.profileType == "venue" || profiletype.profileType == "general"){
-        await getPerformers("Tucson, AZ");
+        getPerformers("Tucson, AZ");
       }else{
-        await getVenues("Tucson, AZ");
+        getVenues("Tucson, AZ");
       }
     }
     
@@ -81,9 +82,10 @@ const SearchScreen = (props) => {
         <View>
           <View style={styles.topContainer}>
             {(pt == "venue" || pt == "general" || authCTX.isAuthenticated == false) ? (
+             
               <SearchDropDown
                 setValue={setLocation}
-                placeholder={"Select Location"}
+                placeholder={"Tucson, AZ"}
                 data={locations}
                 icon={"ios-location-outline"}
                 blur={getPerformers}

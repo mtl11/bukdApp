@@ -43,7 +43,7 @@ const UnAuthSearch = (props) => {
             <SafeAreaView >
                 <TouchableOpacity
                     style={{ marginHorizontal: 30 }}
-                    onPress={() => {props.setVisible(false); setPasswordDontMatch(false); }}
+                    onPress={() => { props.setVisible(false); setPasswordDontMatch(false); }}
                 >
                     <Text style={{ fontSize: 18 }}>
                         Cancel
@@ -53,18 +53,18 @@ const UnAuthSearch = (props) => {
                     style={{
                         flexDirection: "row",
                         alignSelf: "center",
-                        marginTop: "40%",
+                        marginTop: "5%",
+                        marginBottom: 12
                     }}
                 >
                     <Image
-                        source={require("../../assets/Logo.png")}
-                        style={styles.logoImage}
-                    />
-                    <Image
-                        source={require("../../assets/Vector.png")}
+                        source={require("../../assets/bukdImage.png")}
                         style={styles.image}
                     />
                 </View>
+                <Text style={{ alignSelf: "center", marginBottom: "18%", fontFamily: "Rubik-Regular", fontSize: 16 }}>
+                    Login with your email and password.
+                </Text>
                 <View style={styles.inputContainer}>
                     <TextInput
                         autoCapitalize={"none"}
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
         // alignSelf: "center",
         // marginTop: "30%",
         width: 125,
-        height: 45,
+        height: 125,
         resizeMode: "contain",
         marginHorizontal: "1%"
     },

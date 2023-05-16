@@ -53,7 +53,9 @@ const MessageScreen = (props) => {
   }
 
   useEffect(() => {
-    getData();
+    if(authCTX.isAuthenticated){
+      getData();
+    }
   }, [authCTX.isAuthenticated]);
   return (
     <SafeAreaView style={styles.container}>
@@ -62,9 +64,6 @@ const MessageScreen = (props) => {
               <ActivityIndicator size={"large"} />
             </View>}
       {authCTX.isAuthenticated ? (
-    //    <View style={{ height: "100%", justifyContent: "center" }}>
-    //   <ActivityIndicator size={"large"} />
-    //  </View>
     <MessagesLists data={data} searchValue={searchValue} props={props} refreshData={getData} />
      ): 
         <View style={{alignItems:"center", marginTop: "5%"}}>

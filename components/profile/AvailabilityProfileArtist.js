@@ -12,20 +12,20 @@ const AvailabilityProfileArtist = () => {
   const styles = authCTX.mode === "light" ? light : dark;
 
   const profileCTX = useContext(ProfileContext);
-  const getTime = (time) => {
-    if (time == "after") {
-      return "12 PM - 5 PM";
-    }
-    if (time == "morn") {
-      return "8 AM - 12 PM";
-    }
-    if (time == "evening") {
-      return "5 PM - 9 PM";
-    }
-    if (time == "night") {
-      return "9 PM - 2 AM";
-    }
-  };
+  // const getTime = (time) => {
+  //   if (time == "after") {
+  //     return "12 PM - 5 PM";
+  //   }
+  //   if (time == "morn") {
+  //     return "8 AM - 12 PM";
+  //   }
+  //   if (time == "evening") {
+  //     return "5 PM - 9 PM";
+  //   }
+  //   if (time == "night") {
+  //     return "9 PM - 2 AM";
+  //   }
+  // };
 
   const getHour = (time) => {
     if (time == "after") {
@@ -72,11 +72,11 @@ const AvailabilityProfileArtist = () => {
       const item = (
         <View key={x} style={styles.timeContainer}>
           <Text style={styles.bigText}>{getHour(x)}</Text>
-          <Text
+          {/* <Text
             style={[styles.bigText, { color: styles.headerTextColor }]}
           >
             {getTime(x)}
-          </Text>
+          </Text> */}
         </View>
       );
       array.push(item);
@@ -115,18 +115,8 @@ const AvailabilityProfileArtist = () => {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      
       <View style={styles.singleContainer}>
-        <View style={styles.headerContainer}>
-          <Ionicons
-            name="ios-alarm-outline"
-            size={24}
-            color={"black"}
-          />
-          <Text style={styles.headerText}>Preferred Time</Text>
-        </View>
-        <View style={styles.boxContainer}>{time()}</View>
-      </View>
-      <View style={[styles.singleContainer, { marginBottom: "8%" }]}>
         <View style={styles.headerContainer}>
           <Ionicons
             name="ios-calendar-outline"
@@ -136,6 +126,17 @@ const AvailabilityProfileArtist = () => {
           <Text style={styles.headerText}>Preferred Days</Text>
         </View>
         <View style={styles.boxContainer}>{dow()}</View>
+      </View>
+      <View style={[styles.singleContainer, { marginBottom: "8%" }]}>
+        <View style={styles.headerContainer}>
+          <Ionicons
+            name="ios-alarm-outline"
+            size={24}
+            color={"black"}
+          />
+          <Text style={styles.headerText}>Preferred Time</Text>
+        </View>
+        <View style={styles.boxContainer}>{time()}</View>
       </View>
     </ScrollView>
   );

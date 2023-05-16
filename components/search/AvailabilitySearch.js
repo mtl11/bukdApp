@@ -4,20 +4,20 @@ import { Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
 
 const AvailabilitySearch = (props) => {
-  const getTime = (time) => {
-    if (time == "after") {
-      return "10 PM - 1 AM";
-    }
-    if (time == "morn") {
-      return "11 PM - 1 PM";
-    }
-    if (time == "evening") {
-      return "6 PM - 5 PM";
-    }
-    if (time == "night") {
-      return "1 PM - 9 PM";
-    }
-  };
+  // const getTime = (time) => {
+  //   if (time == "after") {
+  //     return "10 PM - 1 AM";
+  //   }
+  //   if (time == "morn") {
+  //     return "11 PM - 1 PM";
+  //   }
+  //   if (time == "evening") {
+  //     return "6 PM - 5 PM";
+  //   }
+  //   if (time == "night") {
+  //     return "1 PM - 9 PM";
+  //   }
+  // };
 
   const getHour = (time) => {
     if (time == "after") {
@@ -65,11 +65,11 @@ const AvailabilitySearch = (props) => {
         const item = (
           <View key={x} style={styles.timeContainer}>
             <Text style={styles.bigText}>{getHour(x)}</Text>
-            <Text
+            {/* <Text
               style={[styles.bigText, { color: global.color.primaryColors.text }]}
             >
               {getTime(x)}
-            </Text>
+            </Text> */}
           </View>
         );
         array.push(item);
@@ -109,18 +109,7 @@ const AvailabilitySearch = (props) => {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.singleContainer}>
-        <View style={styles.headerContainer}>
-          <Ionicons
-            name="ios-alarm-outline"
-            size={24}
-            color={"black"}
-          />
-          <Text style={styles.headerText}>Preferred Time</Text>
-        </View>
-        <View style={styles.boxContainer}>{time()}</View>
-      </View>
-      <View style={[styles.singleContainer, { marginBottom: "8%" }]}>
+       <View style={styles.singleContainer}>
         <View style={styles.headerContainer}>
           <Ionicons
             name="ios-calendar-outline"
@@ -131,6 +120,18 @@ const AvailabilitySearch = (props) => {
         </View>
         <View style={styles.boxContainer}>{dow()}</View>
       </View>
+      <View style={[styles.singleContainer, { marginBottom: "8%" }]}>
+        <View style={styles.headerContainer}>
+          <Ionicons
+            name="ios-alarm-outline"
+            size={24}
+            color={"black"}
+          />
+          <Text style={styles.headerText}>Preferred Time</Text>
+        </View>
+        <View style={styles.boxContainer}>{time()}</View>
+      </View>
+     
     </ScrollView>
   );
 };
@@ -170,6 +171,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: "5%",
     paddingBottom: "5%",
     borderColor: global.color.secondaryColors.adjacent,
+    alignItems: "center",
   },
   container: {
     // marginHorizontal: "8%",

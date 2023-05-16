@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
 
 const SearchDropDown = (props) => {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState("Tucson, AZ");
   const renderItem = (item) => {
     // if (item.label == "Tuscon, AZ") {
       return (
@@ -71,7 +71,6 @@ const SearchDropDown = (props) => {
     />
   );
 };
-
 const styles = StyleSheet.create({
   dropContainer: {
     backgroundColor: global.color.secondaryColors.adjacent,
