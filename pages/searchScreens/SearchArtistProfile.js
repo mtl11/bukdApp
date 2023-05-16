@@ -59,7 +59,7 @@ const ProfileScreen = (props) => {
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
   const [availShow, setAvailShow] = useState(false);
-  console.log(shows)
+
   function getScreenTab() {
     if (socialShow == true) {
       return <SocialSearchTab socials={socials} />;
@@ -71,19 +71,31 @@ const ProfileScreen = (props) => {
       return <AvailabilitySearch availability={availability} />;
     }
   }
+  function checkFollowingList(){
+    for (const x in profileCTX.followingList){
+      if(profileCTX.followingList[x].searchID == searchID){
+        return true;
+      }
+    }
+    return false;
+  }
   async function addToFollowing() {
-    console.log("saved");
     const token = await AsyncStorage.getItem("localId")
     const accessToken = await getAccessToken();
-    console.log(accessToken);
+    // console.log(profileCTX.followingList);
+    for (const x in profileCTX.followingList){
+      if(profileCTX.followingList[x].searchID == searchID){
+        return
+      }
+    }
     await addToFollowingList(profileURI, basicInfo.profileName, searchID, token, accessToken);
-    profileCTX.addFollow([searchID, 
-      { profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI 
+    profileCTX.addFollow([searchID,
+      {
+        profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI
       }])
   }
-
+  console.log(profileCTX.basicInfo);
   const [visible, setVisible] = useState(false);
-  // console.log(shows)
   useEffect(() => {
     getProfile();
   }, []);
@@ -125,8 +137,6 @@ const ProfileScreen = (props) => {
               <Image
                 source={{ uri: profileURI }}
                 style={styles.profilePic}
-                resizeMode="contain"
-              // defaultSource={}
               />
             </View>
             <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
@@ -136,7 +146,7 @@ const ProfileScreen = (props) => {
                   borderRadius: 12,
                   // borderWidth: 1,
                   // borderColor: "#FCFCFF",
-                  width: "40%",
+                  width: "30%",
                   marginTop: 20,
                   marginBottom: 10,
                   backgroundColor: global.color.primaryColors.main,
@@ -167,39 +177,41 @@ const ProfileScreen = (props) => {
                   </Text>
                 </View>
               </TouchableOpacity>
-              {profileCTX.basicInfo.profileType == "general" || !authCTX.isAuthenticated &&
-              <TouchableOpacity
-                style={{
-                  // justifyContent: "flex-end",
-                  borderRadius: 12,
-                  // borderWidth: 1,
-                  marginLeft: 10,
-                  width: "15%",
-                  marginTop: 20,
-                  marginBottom: 10,
-                  backgroundColor: global.color.primaryColors.main,
-                  alignSelf: "flex-end",
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.22,
-                  shadowRadius: 2.22
-                }}
-                onPress={() => {
-                  if (authCTX.isAuthenticated == true) {
-                    addToFollowing();
-                  } else {
-                    setVisible(true);
-                  }
-                }}
-              >
-                <View style={{ alignSelf: "center", padding: 10 }}>
-                  <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />
-                </View>
-              </TouchableOpacity>}
-            </View> 
+
+              {(profileCTX.basicInfo.profileType != "venue") || (profileCTX.basicInfo.profileType != "performer") ?
+                <TouchableOpacity
+                  style={{
+                    // justifyContent: "flex-end",
+                    borderRadius: 12,
+                    // borderWidth: 1,
+                    marginLeft: 10,
+                    width: "15%",
+                    marginTop: 20,
+                    marginBottom: 10,
+                    backgroundColor: global.color.primaryColors.main,
+                    alignSelf: "flex-end",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.22,
+                    shadowRadius: 2.22
+                  }}
+                  onPress={() => {
+                    if (authCTX.isAuthenticated == true) {
+                      addToFollowing();
+                    } else {
+                      setVisible(true);
+                    }
+                  }}
+                >
+                  <View style={{ alignSelf: "center", padding: 10 }}>
+                    {checkFollowingList() == true && <MaterialCommunityIcons name="cards-heart" size={20} color="white" /> }
+                    {checkFollowingList() == false && <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" /> }
+                  </View>
+                </TouchableOpacity>: <View></View>}
+            </View>
             <View style={{ marginHorizontal: 30 }}>
               <View style={styles.usernameContainer}>
                 <Text style={styles.usernameText}>

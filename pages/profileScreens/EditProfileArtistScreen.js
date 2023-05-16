@@ -53,6 +53,7 @@ const EditProfileArtistScreen = (props) => {
       profileCTX.basicInfo.profileType,
       profilename,
       localId,
+      image,
       accessToken
     );
 
@@ -66,7 +67,8 @@ const EditProfileArtistScreen = (props) => {
       new profileInfo(
         profileCTX.basicInfo.email,
         profileCTX.basicInfo.profileType,
-        profilename
+        profilename,
+        image
       )
     );
     if (profileCTX.basicInfo.profileType == "performer") {

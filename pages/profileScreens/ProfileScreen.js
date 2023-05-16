@@ -32,6 +32,24 @@ const ProfileScreen = (props) => {
   const styles = authCTX.mode === "light" ? light : dark;
   const profileCTX = useContext(ProfileContext);
   const [gettingInfo, setGettingInfo] = useState(false);
+  async function helper(data){
+    const array = [];
+    for (const x in data){
+      const singleData = await getProfileInfo(data[x][0]);
+      let profileURI = singleData.profileURI;
+      if (profileURI == null){
+        profileURI = data[x][1].profileURI;
+      }
+
+      array.push({
+        profileName: singleData.profileName,
+        profileURI: profileURI,
+        searchID: data[x][0]
+      })
+    }
+    return array;
+  }
+
   async function getProfile() {
     setGettingInfo(true);
     const localId = await AsyncStorage.getItem("localId");
@@ -42,7 +60,9 @@ const ProfileScreen = (props) => {
     if (basicInfo.profileType == "general") {
       profileCTX.updatePersonalInfo({ firstName: basicInfo.firstName, lastName: basicInfo.lastName });
       if (otherInfo.hasOwnProperty("following")) {
-        profileCTX.updateFollowingList(Object.entries(otherInfo.following));
+        const data = await helper(Object.entries(otherInfo.following));
+        console.log(data);
+        profileCTX.updateFollowingList(data);
       } else {
         profileCTX.updateFollowingList([]);
       }

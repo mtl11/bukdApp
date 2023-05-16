@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  Keyboard,
+  TouchableWithoutFeedback
 } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import colors from "../../styles/global";
@@ -39,71 +41,75 @@ const PasswordSecurityScreen = (props) => {
       props.navigation.navigate("ConfirmPasswordReset");
     };
   }
-
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
   return (
-    <SafeAreaView
-      style={styles.container}
-    >
-      <View style={styles.topIconContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.pop();
-          }}
-        >
-          <Ionicons
-            name="arrow-back"
-            size={28}
-            color={styles.iconColor}
-          />
-        </TouchableOpacity>
-        <View style={styles.largeContainer}>
-          <Text style={styles.largeText}>Reset Password</Text>
-        </View>
-      </View>
-      <View style={{ marginVertical: "10%" }}>
-        <Text style={styles.smallText}>
-          Enter your current password.
-        </Text>
-      </View>
-      <View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            autoCapitalize={false}
-            onChangeText={setCurrPass}
-            style={styles.input}
-            placeholder="Current Password"
-            placeholderTextColor={
-              styles.placeHolderTextColor
-            }
-            inputMode="email"
-            keyboardType="ascii-capable"
-            secureTextEntry={true}
-          />
-        </View>
-        {error ? (
-          <View style={{ alignSelf: "center" }}>
-            <Text
-              style={{
-                color: colors.color.primaryColors.errorText,
-                fontFamily: "Rubik-Regular",
-              }}
-            >
-              Wrong password
-            </Text>
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <SafeAreaView
+        style={styles.container}
+      >
+        <View style={styles.topIconContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.pop();
+            }}
+          >
+            <Ionicons
+              name="arrow-back"
+              size={28}
+              color={styles.iconColor}
+            />
+          </TouchableOpacity>
+          <View style={styles.largeContainer}>
+            <Text style={styles.largeText}>Reset Password</Text>
           </View>
-        ) : (
-          <View></View>
-        )}
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => {
-            checkPassword();
-          }}
-        >
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+        </View>
+        <View style={{ marginVertical: "10%" }}>
+          <Text style={styles.smallText}>
+            Enter your current password.
+          </Text>
+        </View>
+        <View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              autoCapitalize={false}
+              onChangeText={setCurrPass}
+              style={styles.input}
+              placeholder="Current Password"
+              placeholderTextColor={
+                styles.placeHolderTextColor
+              }
+              inputMode="email"
+              keyboardType="ascii-capable"
+              secureTextEntry={true}
+            />
+          </View>
+          {error ? (
+            <View style={{ alignSelf: "center" }}>
+              <Text
+                style={{
+                  color: colors.color.primaryColors.errorText,
+                  fontFamily: "Rubik-Regular",
+                }}
+              >
+                Wrong password
+              </Text>
+            </View>
+          ) : (
+            <View></View>
+          )}
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => {
+              checkPassword();
+            }}
+          >
+            <Text style={styles.buttonText}>Next</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

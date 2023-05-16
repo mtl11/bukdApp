@@ -56,12 +56,12 @@ const StartScreen = (props) => {
             marginTop: "25%",
           }}
         >
-          <Image
+          {/* <Image
             source={require("../../assets/Logo.png")}
             style={styles.logoImage}
-          />
+          /> */}
           <Image
-            source={require("../../assets/Vector.png")}
+            source={require("../../assets/bukdImage.png")}
             style={styles.image}
           />
         </View>

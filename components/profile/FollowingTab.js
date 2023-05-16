@@ -17,23 +17,18 @@ const FollowingTab = (props) => {
   const profileCTX = useContext(ProfileContext);
   const [data, setData] = useState(profileCTX.followingList);
   const itemHandler = (item) => {
-    console.log("hey")
-    // console.log(item[1].profileName)
-    console.log(item[1].searchID)
     return (
       <TouchableOpacity style={styles.showContainer} onPress={() => {
-        AsyncStorage.setItem("searchID", item[1].searchID);
+        AsyncStorage.setItem("searchID", item.searchID);
         props.props.navigation.navigate("SearchArtistProfile");
       }}>
-        {/* <View style={styles.imageContainer}> */}
           <Image
             style={styles.imageContainer}
-            source={{ uri: item[1].profileURI }}
+            source={{ uri: item.profileURI }}
           />
-        {/* </View> */}
         <View style={{ width: "80%" }}>
           <Text style={{ fontSize: 16, padding: 20 }}>
-            {item[1].profileName}
+            {item.profileName}
           </Text>
         </View>
         <View>

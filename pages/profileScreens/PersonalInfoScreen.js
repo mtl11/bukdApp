@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
+  Keyboard,
+  TouchableWithoutFeedback
 } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { ProfileContext } from "../../store/profileContext.js";
@@ -23,7 +25,6 @@ const PersonalInfoScreen = (props) => {
   const styles = authCTX.mode === "light" ? light : dark;
   const [firstName, setFirstName] = useState(profileCTX.personalInfo.firstName);
   const [lastName, setLastName] = useState(profileCTX.personalInfo.lastName);
-  console.log(profileCTX.personalInfo);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   async function update() {
@@ -39,8 +40,8 @@ const PersonalInfoScreen = (props) => {
         profileCTX.updateBasic(
           {
             firstName: firstName,
-            lastName: lastName, 
-            profileType: "general", 
+            lastName: lastName,
+            profileType: "general",
             email: email
           });
         setError(false);
@@ -61,73 +62,78 @@ const PersonalInfoScreen = (props) => {
       }
     }
   }
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.topIconContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.pop();
-          }}
-        >
-          <Ionicons
-            name="arrow-back"
-            size={28}
-            color={styles.iconColor}
-          />
-        </TouchableOpacity>
-        <View style={styles.largeContainer}>
-          <Text style={styles.largeText}>Personal Information</Text>
-        </View>
-      </View>
-      <View style={styles.textInputsContanier}>
-        <View style={[styles.inputContainer, { marginTop: 10 }]}>
-          <TextInput
-            style={styles.input}
-            placeholder={"First Name"}
-            placeholderTextColor={colors.color.primaryColors.main}
-            onChangeText={setFirstName}
-            value={firstName}
-            maxLength={35}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder={"Last Name"}
-            placeholderTextColor={colors.color.primaryColors.main}
-            onChangeText={setLastName}
-            value={lastName}
-            maxLength={35}
-          />
-        </View>
-        {error ? (
-          <View style={{ alignSelf: "center" }}>
-            <Text
-              style={{
-                color: colors.color.primaryColors.errorText,
-                fontFamily: "Rubik-Regular",
-              }}
-            >
-              Please fill in all spaces
-            </Text>
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.topIconContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.pop();
+            }}
+          >
+            <Ionicons
+              name="arrow-back"
+              size={28}
+              color={styles.iconColor}
+            />
+          </TouchableOpacity>
+          <View style={styles.largeContainer}>
+            <Text style={styles.largeText}>Personal Information</Text>
           </View>
-        ) : (
-          <View></View>
-        )}
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => {
-            update();
-          }}
-        >
-          {!loading ? (
-            <Text style={styles.buttonText}>Save Changes</Text>
+        </View>
+        <View style={styles.textInputsContanier}>
+          <View style={[styles.inputContainer, { marginTop: 10 }]}>
+            <TextInput
+              style={styles.input}
+              placeholder={"First Name"}
+              placeholderTextColor={colors.color.primaryColors.main}
+              onChangeText={setFirstName}
+              value={firstName}
+              maxLength={35}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder={"Last Name"}
+              placeholderTextColor={colors.color.primaryColors.main}
+              onChangeText={setLastName}
+              value={lastName}
+              maxLength={35}
+            />
+          </View>
+          {error ? (
+            <View style={{ alignSelf: "center" }}>
+              <Text
+                style={{
+                  color: colors.color.primaryColors.errorText,
+                  fontFamily: "Rubik-Regular",
+                }}
+              >
+                Please fill in all spaces
+              </Text>
+            </View>
           ) : (
-            <ActivityIndicator size={22}></ActivityIndicator>
+            <View></View>
           )}
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => {
+              update();
+            }}
+          >
+            {!loading ? (
+              <Text style={styles.buttonText}>Save Changes</Text>
+            ) : (
+              <ActivityIndicator size={22}></ActivityIndicator>
+            )}
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

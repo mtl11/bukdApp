@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   ActivityIndicator,
+  Keyboard, TouchableWithoutFeedback
 } from "react-native";
 import colors from "../../styles/global";
 import { SocialLinks } from "social-links";
@@ -44,7 +45,11 @@ const SocialModalScreen = (props) => {
     setIsAuth(false);
     props.navigation.pop();
   }
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
   return (
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <SafeAreaView style={styles.container}>
         <View style={styles.topIconContainer}>
           <TouchableOpacity
@@ -111,7 +116,9 @@ const SocialModalScreen = (props) => {
             <ActivityIndicator size={22} />
           )}
         </TouchableOpacity>
+       
       </SafeAreaView>
+      </TouchableWithoutFeedback>
   );
 };
 

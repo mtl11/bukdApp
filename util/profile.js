@@ -91,7 +91,7 @@ export async function getAccessToken(){
   });
   return response.data.access_token;
 }
-export async function setProfileName(profileType, name, localId,accessToken) {
+export async function setProfileName(profileType, name, localId,image, accessToken) {
   const email = await AsyncStorage.getItem("email");
   const post = await firebaseUtil.put(
     "/users/" + localId + "/basicinfo.json?auth="+accessToken,
@@ -99,6 +99,7 @@ export async function setProfileName(profileType, name, localId,accessToken) {
       email: email,
       profileType: profileType,
       profileName: name,
+      profileURI: image
     }
   );
 }

@@ -6,7 +6,11 @@ import {
     TouchableOpacity,
     Image,
     ActivityIndicator,
-    StyleSheet, TextInput, Modal
+    StyleSheet, 
+    TextInput,
+    Modal,
+    Keyboard,
+    TouchableWithoutFeedback
 } from "react-native";
 import global from "../../styles/global";
 import { authenticateUser } from "../../util/auth";
@@ -35,109 +39,115 @@ const UnAuthProfile = (props) => {
     }
     const [forgotPassVisible, setForgotPassVisible] = useState(false);
     const [signupVisible, setSignupVisible] = useState(false);
+    const dismissKeyboard = () => {
+        Keyboard.dismiss();
+    };
+
     return (
         <Modal animationType="slide" visible={props.visible}>
             <ForgetPasswordScreen visible={forgotPassVisible} setVisible={setForgotPassVisible} />
             <SignupScreen visible={signupVisible} setVisible={setSignupVisible} />
-            <SafeAreaView >
-                <TouchableOpacity
-                    style={{ marginHorizontal: 30 }}
-                    onPress={() => { props.props.navigation.navigate("TabNav", { screen: "Search" }); props.setVisible(false); setPasswordDontMatch(false); }}
-                >
-                    <Text style={{ fontSize: 18 }}>
-                        Cancel
-                    </Text>
-                </TouchableOpacity>
-                <View
-                    style={{
-                        flexDirection: "row",
-                        alignSelf: "center",
-                        marginTop: "20%",
-                        marginBottom: 12
-                    }}
-                >
-                    <Image
-                        source={require("../../assets/Logo.png")}
-                        style={styles.logoImage}
-                    />
-                    <Image
-                        source={require("../../assets/Vector.png")}
-                        style={styles.image}
-                    />
-                </View>
-                <Text style={{ alignSelf: "center", marginBottom: "18%", fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Login with your email and password.
-                </Text>
-                {/* <View style={styles.welcomeContainer}>
-                <Text style={styles.welcomeText}>Login in or Sign Up</Text>
-            </View> */}
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        placeholder="Email"
-                        placeholderTextColor={styles.placeHolderTextColor}
-                        onChangeText={(text) => {
-                            setEmail(text);
-                            setPasswordDontMatch(false);
-                        }}
-                        autoCorrect={false}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        secureTextEntry={true}
-                        placeholder="Password"
-                        placeholderTextColor={styles.placeHolderTextColor}
-                        onChangeText={(text) => {
-                            setPassword(text);
-                            setPasswordDontMatch(false);
-                        }}
-                    />
-                </View>
-                <TouchableOpacity
-                    style={styles.forgotPasswordContainer}
-                    onPress={() => {
-                        setForgotPassVisible(true);
-                    }}
-                >
-                    <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.buttonContainer}
-                    onPress={() => {
-                        setIsAuth(true);
-                        authenticateHandler();
-                    }}
-                >
-                    {!isAuth ? (
-                        <Text style={styles.buttonText}>Login</Text>
-                    ) : (
-                        <ActivityIndicator size={22} />
-                    )}
-                </TouchableOpacity>
-                {passwordDontMatch &&
-                    <View style={{ alignSelf: "center" }}>
-                        <Text style={{
-                            color: global.color.primaryColors.errorText,
-                            fontFamily: "Rubik-Regular", fontSize: 16, textAlign: "center", marginTop: 10
-                        }}>
-                            Entered email and password do not match our records.
-                        </Text>
-                    </View>}
-                <View style={styles.newAccountContainer}>
-                    <Text style={styles.newAccountText}>Don't have an account?</Text>
+            <TouchableWithoutFeedback onPress={dismissKeyboard}>
+                <SafeAreaView >
                     <TouchableOpacity
-                        onPress={() => {
-                            setSignupVisible(true);
-
+                        style={{ marginHorizontal: 30 }}
+                        onPress={() => { props.props.navigation.navigate("TabNav", { screen: "Search" }); props.setVisible(false); setPasswordDontMatch(false); }}
+                    >
+                        <Text style={{ fontSize: 18 }}>
+                            Cancel
+                        </Text>
+                    </TouchableOpacity>
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            alignSelf: "center",
+                            marginTop: "5%",
+                            marginBottom: 12
                         }}
                     >
-                        <Text style={styles.buttonTextSignUp}> Sign Up</Text>
+                        {/* <Image
+                        source={require("../../assets/Logo.png")}
+                        style={styles.logoImage}
+                    /> */}
+                        <Image
+                            source={require("../../assets/bukdImage.png")}
+                            style={styles.image}
+                        />
+                    </View>
+                    <Text style={{ alignSelf: "center", marginBottom: "18%", fontFamily: "Rubik-Regular", fontSize: 16 }}>
+                        Login with your email and password.
+                    </Text>
+                    {/* <View style={styles.welcomeContainer}>
+                <Text style={styles.welcomeText}>Login in or Sign Up</Text>
+            </View> */}
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            autoCapitalize={"none"}
+                            style={styles.input}
+                            placeholder="Email"
+                            placeholderTextColor={styles.placeHolderTextColor}
+                            onChangeText={(text) => {
+                                setEmail(text);
+                                setPasswordDontMatch(false);
+                            }}
+                            autoCorrect={false}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            secureTextEntry={true}
+                            placeholder="Password"
+                            placeholderTextColor={styles.placeHolderTextColor}
+                            onChangeText={(text) => {
+                                setPassword(text);
+                                setPasswordDontMatch(false);
+                            }}
+                        />
+                    </View>
+                    <TouchableOpacity
+                        style={styles.forgotPasswordContainer}
+                        onPress={() => {
+                            setForgotPassVisible(true);
+                        }}
+                    >
+                        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                     </TouchableOpacity>
-                </View>
-            </SafeAreaView>
+                    <TouchableOpacity
+                        style={styles.buttonContainer}
+                        onPress={() => {
+                            setIsAuth(true);
+                            authenticateHandler();
+                        }}
+                    >
+                        {!isAuth ? (
+                            <Text style={styles.buttonText}>Login</Text>
+                        ) : (
+                            <ActivityIndicator size={22} />
+                        )}
+                    </TouchableOpacity>
+                    {passwordDontMatch &&
+                        <View style={{ alignSelf: "center" }}>
+                            <Text style={{
+                                color: global.color.primaryColors.errorText,
+                                fontFamily: "Rubik-Regular", fontSize: 16, textAlign: "center", marginTop: 10
+                            }}>
+                                Entered email and password do not match our records.
+                            </Text>
+                        </View>}
+                    <View style={styles.newAccountContainer}>
+                        <Text style={styles.newAccountText}>Don't have an account?</Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setSignupVisible(true);
+
+                            }}
+                        >
+                            <Text style={styles.buttonTextSignUp}> Sign Up</Text>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+            </TouchableWithoutFeedback>
         </Modal>)
 }
 const styles = StyleSheet.create({
@@ -174,7 +184,7 @@ const styles = StyleSheet.create({
         // alignSelf: "center",
         // marginTop: "30%",
         width: 125,
-        height: 45,
+        height: 125,
         resizeMode: "contain",
         marginHorizontal: "1%"
     },
