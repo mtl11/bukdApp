@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   inputSearchStyle: {
     fontSize: 16,
-    color: global.color.primaryColors.text,
+    color: global.color.secondaryColors.text,
     backgroundColor: global.color.secondaryColors.adjacent,
     borderColor: global.color.secondaryColors.adjacent,
   },

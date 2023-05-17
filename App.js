@@ -18,6 +18,7 @@ import ProfileContextProvider from "./store/profileContext";
 import MessageChat from "./pages/messageScreens/MessageChat";
 import SearchChat from "./pages/searchScreens/SearchChat";
 import SocialModalScreen from "./pages/profileScreens/SocialModalScreen";
+import MessageProfile from "./pages/messageScreens/MessageProfile";
 // import * as Sentry from '@sentry/react-native';
 
 // Sentry.init({ 
@@ -37,6 +38,12 @@ function AuthenticatedStack() {
           component={ProfileSettingsScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="MessageProfile"
+          component={MessageProfile}
+          options={{ headerShown: false }}
+        />
+        
         <Stack.Screen
           name="EditProfileArtistScreen"
           component={EditProfileArtistScreen}

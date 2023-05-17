@@ -91,7 +91,9 @@ const MessageChat = (props) => {
         <SafeAreaView style={styles.container}>
             <View style={{
                 flexDirection: "row", borderBottomWidth: 1,
-                paddingBottom: 10, borderColor: global.color.secondaryColors.adjacent
+                paddingBottom: 10, borderColor: global.color.secondaryColors.adjacent,
+                justifyContent: "space-between",
+                paddingHorizontal: 30
             }}>
                 <View style={{ justifyContent: "center" }}>
                     <TouchableOpacity
@@ -112,6 +114,22 @@ const MessageChat = (props) => {
                         {props.route.params.displayName}
                     </Text>
                 </View>
+                {props.route.params.profileType == "general" ? 
+                // <View style={{ justifyContent: "center" }}>
+                <View style={{justifyContent:"center"}}>
+                    <Text style={{ 
+                        color: global.color.secondaryColors.main, 
+                        fontFamily: "Rubik-Regular", 
+                        fontSize: 18 }}>
+                        Fan
+                    </Text> 
+                </View> 
+                :
+                    <TouchableOpacity style={{ justifyContent: "center" }} onPress={() => {
+                        props.navigation.navigate("MessageProfile")
+                    }}>
+                        <Ionicons name="person" size={22} color={styles.iconColor} />
+                    </TouchableOpacity>}
             </View>
             <GiftedChat
                 renderSend={props => renderSend(props, chatRoomID, senderID)}
@@ -123,7 +141,7 @@ const MessageChat = (props) => {
                 user={{
                     _id: senderID,
                 }}
-                renderAvatar={()=>{<View></View>}}
+                renderAvatar={() => { <View></View> }}
             />
         </SafeAreaView>
     )
@@ -138,8 +156,8 @@ const styles = StyleSheet.create({
         backgroundColor: global.color.secondaryColors.background,
         height: "100%",
     }, topIconContainer: {
-        alignSelf: "flex-end",
-        marginHorizontal: 30,
+        // alignSelf: "flex-end",
+        // marginHorizontal: 30,
     },
     iconColor: global.color.primaryColors.main
 });

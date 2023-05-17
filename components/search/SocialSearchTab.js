@@ -20,7 +20,6 @@ const SocialProfileTabArtist = (props) => {
   function dataList() {
     const array = [];
     for (const x in props.socials) {
-      console.log(props.socials);
       const profile = socialLinks.detectProfile(props.socials[x].url);
       const profileID = socialLinks.getProfileId(profile, props.socials[x].url);
       const item = (
