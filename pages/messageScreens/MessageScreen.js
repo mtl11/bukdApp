@@ -44,7 +44,12 @@ const MessageScreen = (props) => {
           basicInfo: getName
         })
       }
-      // console.log(array);
+      array.sort(
+        function (a, b) {
+            if (a.lastMessage != null && b.lastMessage != null){
+              return new Date(b.lastMessage.message.createdAt) - new Date(a.lastMessage.message.createdAt);
+            }
+        });
       setData(array);
     } else {
       setData(messageData);

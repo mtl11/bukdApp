@@ -1,23 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     View,
     Text,
-    TouchableOpacity,
     StyleSheet,
-    ScrollView,
-    Button,
-    TextInput,
-    FlatList,
-    TouchableWithoutFeedback,
-    Alert
-} from "react-native";
+    FlatList} from "react-native";
 import global from "../../styles/global";
-import Modal from "react-native-modal";
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { ProfileContext } from "../../store/profileContext.js";
-import { addNewShow, getAccessToken, deleteSomeShow } from "../../util/profile";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 const ShowsTab = (props) => {
     // const profileCTX = useContext(ProfileContext);
     const [shows, setShows] = useState(Object.entries(props.shows));
