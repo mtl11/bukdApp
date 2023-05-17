@@ -10,12 +10,19 @@ import global from "../../styles/global";
 import * as WebBrowser from "expo-web-browser";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from '@expo/vector-icons'; 
+import { SocialLinks } from "social-links";
+
+
+
 const SocialProfileTabArtist = (props) => {
+
+  const socialLinks = new SocialLinks();
   function dataList() {
     const array = [];
     for (const x in props.socials) {
-      const profile = socialLinks.detectProfile(props.social[x].url);
-      const profileID = socialLinks.getProfileId(profile, props.social[x].url);
+      console.log(props.socials);
+      const profile = socialLinks.detectProfile(props.socials[x].url);
+      const profileID = socialLinks.getProfileId(profile, props.socials[x].url);
       const item = (
         <TouchableOpacity
           key={x}
