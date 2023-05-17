@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { memo, useCallback, useContext, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,11 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../store/authContext";
+
 const VenueList = (props) => {
+
+  const authCTX = useContext(AuthContext);
   const renderItem = useCallback(({ item }) => {
     return (
       <TouchableOpacity
@@ -73,7 +77,8 @@ const VenueList = (props) => {
         }
         ListHeaderComponent={props.venues && <View style={{ marginBottom: "5%", marginHorizontal: "2.5%" }}>
           <Text style={{ fontSize: 18, fontFamily: "Rubik-Medium" }}>
-            New {props.profileType == "performer" ? "Venues " : "Performers "}To Bukd
+            New {
+            props.profileType  == "venue" || props.profileType  == "general" || authCTX.isAuthenticated == false ? "Performers " : "Venues "}To Bukd
           </Text>
         </View>}
         columnWrapperStyle={{ justifyContent: "space-between" }}

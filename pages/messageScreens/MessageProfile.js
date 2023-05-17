@@ -139,8 +139,8 @@ const MessageProfile = (props) => {
                 style={styles.profilePic}
               />
             </View>
-            <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
-              <TouchableOpacity
+           <View style={{ marginHorizontal: 30, marginTop:60,flexDirection: "row", justifyContent: "flex-end" }}>
+              {/*  <TouchableOpacity
                 style={{
                   // justifyContent: "flex-end",
                   borderRadius: 12,
@@ -176,9 +176,9 @@ const MessageProfile = (props) => {
                     Message
                   </Text>
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
-              {(profileCTX.basicInfo.profileType != "venue") || (profileCTX.basicInfo.profileType != "performer") ?
+              {/* {(profileCTX.basicInfo.profileType != "venue") || (profileCTX.basicInfo.profileType != "performer") ?
                 <TouchableOpacity
                   style={{
                     // justifyContent: "flex-end",
@@ -210,7 +210,7 @@ const MessageProfile = (props) => {
                     {checkFollowingList() == true && <MaterialCommunityIcons name="cards-heart" size={20} color="white" /> }
                     {checkFollowingList() == false && <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" /> }
                   </View>
-                </TouchableOpacity>: <View></View>}
+                </TouchableOpacity>: <View></View>} */}
             </View>
             <View style={{ marginHorizontal: 30 }}>
               <View style={styles.usernameContainer}>
