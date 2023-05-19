@@ -196,16 +196,17 @@ const EditProfileArtistScreen = (props) => {
   };
 
   function getSocialUsername(pType) {
-    console.log(profileCTX.social[pType]);
-    if (profileCTX.social[pType] != undefined) {
-      if (profileCTX.social[pType].username != undefined) {
-        console.log(profileCTX.social[pType].username);
-        return profileCTX.social[pType].username;
+    if (profileCTX.social != undefined) {
+      if (profileCTX.social[pType] != undefined) {
+        if (profileCTX.social[pType].username != undefined) {
+          console.log(profileCTX.social[pType].username);
+          return profileCTX.social[pType].username;
+        } else {
+          return ""
+        }
       } else {
         return ""
       }
-    } else {
-      return ""
     }
   }
 

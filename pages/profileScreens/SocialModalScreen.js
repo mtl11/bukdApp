@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import colors from "../../styles/global";
 import { SocialLinks } from "social-links";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { setSocial,getAccessToken, } from "../../util/profile";
 import { ProfileContext } from "../../store/profileContext.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -57,9 +57,9 @@ const SocialModalScreen = (props) => {
               props.navigation.pop();
             }}
           >
-            <FontAwesome5
-              name="chevron-left"
-              size={32}
+            <Ionicons
+              name="arrow-back"
+              size={28}
               color={styles.iconColor}
             />
           </TouchableOpacity>

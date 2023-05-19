@@ -52,6 +52,7 @@ const ProfileScreen = (props) => {
 
   async function getProfile() {
     setGettingInfo(true);
+
     const localId = await AsyncStorage.getItem("localId");
     const basicInfo = await getProfileInfo(localId);
     const otherInfo = await getProfileStart(localId);

@@ -13,7 +13,6 @@ export default {
       },
       topIconContainer: {
         marginHorizontal: "8%",
-        marginTop: "7%",
         flexDirection: "row",
       },
       container: {

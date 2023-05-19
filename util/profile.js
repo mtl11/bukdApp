@@ -83,6 +83,7 @@ export async function setAvailabilityInfo(times, dow, localId, accessToken) {
   );
 }
 export async function getAccessToken(){
+  
   const refreshToken = await AsyncStorage.getItem("refreshToken");
   const tokenUrl = `https://securetoken.googleapis.com/v1/token?key=${APIKey}`;
   const response = await axios.post(tokenUrl, {
@@ -101,7 +102,14 @@ export async function setProfileName(profileType, name, localId,image, accessTok
       profileName: name,
       profileURI: image
     }
-  );
+  ).catch((error) => {
+    if (error.response) {
+      console.log(error.response.data);
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log("Error", error.message);
+    };})
 }
 
 export async function getProfileStart(localId) {
