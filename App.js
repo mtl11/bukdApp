@@ -20,6 +20,7 @@ import SearchChat from "./pages/searchScreens/SearchChat";
 import SocialModalScreen from "./pages/profileScreens/SocialModalScreen";
 import MessageProfile from "./pages/messageScreens/MessageProfile";
 import Report from "./pages/searchScreens/Report";
+import ProfileScreen from "./pages/profileScreens/ProfileScreen";
 
 // import * as Sentry from '@sentry/react-native';
 
@@ -43,6 +44,11 @@ function AuthenticatedStack() {
         <Stack.Screen
           name = "Report"
           component={Report}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name = "ProfileScreen"
+          component={ProfileScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

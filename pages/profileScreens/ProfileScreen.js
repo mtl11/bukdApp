@@ -32,6 +32,7 @@ const ProfileScreen = (props) => {
   const styles = authCTX.mode === "light" ? light : dark;
   const profileCTX = useContext(ProfileContext);
   const [gettingInfo, setGettingInfo] = useState(false);
+  // const { search } = props.route.params;
   async function helper(data){
     const array = [];
     for (const x in data){
@@ -158,14 +159,29 @@ const ProfileScreen = (props) => {
           ) : (
             <View style={styles.container}>
               <View style={{
-                flexDirection: "row", justifyContent: "flex-end",
+                flexDirection: "row",justifyContent:"space-between",
                 backgroundColor: global.color.primaryColors.main,
-
                 height: profileCTX.basicInfo.profileType != "general" ? "12%" : "5%"
               }}>
                 <View>
-                  <TouchableOpacity
+                  {props.route.params != undefined && 
+                    <TouchableOpacity
                     style={styles.topIconContainer}
+                    onPress={() => {
+                      props.navigation.pop();
+                    }}
+                  >
+                    <Ionicons
+                      name="arrow-back"
+                      size={28}
+                      color={styles.iconColor}
+                    />
+                  </TouchableOpacity>
+                  }
+                </View>
+                <View>
+                  <TouchableOpacity
+                    style={[styles.topIconContainer,{alignSelf:"flex-end"}]}
                     onPress={() => {
                       props.navigation.navigate("ProfileSettingsScreen");
                     }}

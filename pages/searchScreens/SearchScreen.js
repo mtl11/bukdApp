@@ -5,7 +5,8 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  Text
+  Text,
+  TouchableOpacity
 } from "react-native";
 import VenueList from "../../components/search/VenueList";
 import global from "../../styles/global";
@@ -20,7 +21,7 @@ import { getProfileInfo } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../store/authContext";
 import CategorySelector from "../../components/search/CategorySelector";
-
+import PerformerList from "../../components/search/PerformerList";
 const SearchScreen = (props) => {
   const [location, setLocation] = useState(null);
   const [category, setCategory] = useState(null);
@@ -51,24 +52,24 @@ const SearchScreen = (props) => {
 
   async function profileType() {
     const localId = await AsyncStorage.getItem("localId");
-    const email = await AsyncStorage.getItem("localId");
     // console.log("hey")
     if (!authCTX.isAuthenticated) {
       getPerformers("Tucson, AZ");
+      getVenues("Tucson, AZ");
+      // getVenues("Tucson, AZ");
       authCTX.logout();
-      // await getPerformers("Tucson, AZ");
     } else {
       const profiletype = await getProfileInfo(localId);
       setPT(profiletype.profileType);
-      if (profiletype.profileType == "venue" || profiletype.profileType == "general"){
         getPerformers("Tucson, AZ");
-      }else{
         getVenues("Tucson, AZ");
-      }
     }
-    
+
     // await AsyncStorage.removeItem("localId");
   }
+
+  const [performersShow, setPerformersShow] = useState(true);
+  const [venuesShow, setVenuesShow] = useState(false);
 
   useEffect(() => {
     setAuth(false);
@@ -81,8 +82,7 @@ const SearchScreen = (props) => {
       {auth ? (
         <View>
           <View style={styles.topContainer}>
-            {(pt == "venue" || pt == "general" || authCTX.isAuthenticated == false) ? (
-             
+            {venuesShow == false ? (
               <SearchDropDown
                 setValue={setLocation}
                 placeholder={"Tucson, AZ"}
@@ -93,18 +93,59 @@ const SearchScreen = (props) => {
             ) : (
               <SearchDropDown
                 setValue={setLocation}
-                placeholder={"Select Location"}
+                placeholder={"Tucson, AZ"}
                 data={locations}
                 icon={"ios-location-outline"}
                 blur={getVenues}
               />
             )}
-            {pt == "venue" || pt == "general" || authCTX.isAuthenticated == false ?
+            {venuesShow == false ?
               <CategorySelector data={profileCategoriesArtist} setValue={setCategory} /> :
               <CategorySelector data={profileCategoriesVenue} setValue={setCategory} />}
           </View>
-          {pt == "venue" || pt == "general" || authCTX.isAuthenticated == false ? (
-            <VenueList venues={performers} category={category} props={props} profileType={pt} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              width: "90%",
+              alignSelf:"center"
+            }}
+          >
+            <TouchableOpacity
+              style={styles.tabContainer}
+              onPress={() => {
+                setPerformersShow(true);
+                setVenuesShow(false);
+              }}
+            >
+              <View style={{ flexDirection: "column" }}>
+                <View style={styles.tabTextContainer}>
+                  <Text style={[styles.tabText, performersShow && { color: "black" }]}>Performers</Text>
+                </View>
+                {performersShow && (
+                  <View style={styles.tabBottomBar}></View>
+                )}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.tabContainer}
+              onPress={() => {
+                setPerformersShow(false);
+                setVenuesShow(true);
+              }}
+            >
+              <View style={{ flexDirection: "column" }}>
+                <View style={styles.tabTextContainer}>
+                  <Text style={[styles.tabText, venuesShow && { color: "black" }]}>Venues</Text>
+                </View>
+                {venuesShow && (
+                  <View style={styles.tabBottomBar}></View>
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+          {venuesShow == false ? (
+            <PerformerList venues={performers} category={category} props={props} profileType={pt} />
           ) : (
             <VenueList venues={venues} category={category} props={props} profileType={pt} />
           )}
@@ -176,63 +217,30 @@ const styles = StyleSheet.create({
     backgroundColor: global.color.secondaryColors.adjacent,
     borderColor: global.color.secondaryColors.adjacent,
   },
+  tabView: {
+    borderBottomWidth: 1,
+    marginTop: 10,
+    alignItems: "center",
+    borderColor: global.color.secondaryColors.adjacent,
+  },
+  tabTextContainer: {
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    paddingBottom: 10,
+  },
+  tabContainer: {
+    width: "50%",
+    alignItems: "center",
+  },
+  tabBottomBar: {
+    borderWidth: 2.5,
+    borderRadius: 12,
+    borderColor: global.color.secondaryColors.main,
+    backgroundColor: global.color.secondaryColors.main,
+  },
+  tabText: {
+    color: global.color.secondaryColors.placeHolderTextColor,
+    fontFamily: "Rubik-Regular",
+    fontSize: 16,
+  },
 });
-
-
-// const styles = StyleSheet.create({
-//   dropContainer: {
-//     backgroundColor: global.color.primaryColors.adjacent,
-//     borderColor: global.color.primaryColors.adjacent,
-//     borderRadius: 12,
-//     paddingBottom: 10,
-//   },
-//   item: {
-//     backgroundColor: global.color.primaryColors.adjacent,
-//     borderRadius: 12,
-//   },
-//   textItem: {
-//     color: global.color.primaryColors.text,
-//     fontSize: 16,
-//     padding: 20,
-//     fontFamily: "Rubik-Regular",
-//   },
-//   topContainer: {
-//     width: "100%",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   container: {
-//     backgroundColor: global.color.secondaryColors.background,
-//     // // flex:1
-//     height: "100%",
-//   },
-//   dropdown: {
-//     height: 40,
-//     width: "84%",
-//     backgroundColor: global.color.primaryColors.main,
-//     // borderWidth: 1,
-//     borderRadius: 12,
-//     padding: 10,
-//   },
-//   icon: {
-//     marginRight: 5,
-//   },
-//   placeholderStyle: {
-//     fontSize: 16,
-//     color: global.color.primaryColors.buttonAccent,
-//   },
-//   selectedTextStyle: {
-//     fontSize: 16,
-//     color: global.color.primaryColors.buttonAccent,
-//   },
-//   iconStyle: {
-//     width: 18,
-//     height: 18,
-//   },
-//   inputSearchStyle: {
-//     fontSize: 16,
-//     color: global.color.primaryColors.text,
-//     backgroundColor: global.color.primaryColors.adjacent,
-//     borderColor: global.color.primaryColors.adjacent,
-//   },
-// });

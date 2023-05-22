@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: global.color.primaryColors.main,
     borderRadius: 12,
     padding: 10,
-    marginVertical: "2%"
+    // marginVertical: "2%"
   },
   icon: {
     marginRight: 5,
