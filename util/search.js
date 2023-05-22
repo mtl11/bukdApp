@@ -31,3 +31,13 @@ export async function addToFollowingList(profileURI, profileName, searchID, loca
     }
   );
 }
+
+export async function sendProfileReport(profileID, reportMessage, accessToken){
+  const response = await firebaseUtil.post(
+    "/report.json?auth="+accessToken,
+    {
+      profileID: profileID,
+      reportMessage: reportMessage
+    }
+  );
+}

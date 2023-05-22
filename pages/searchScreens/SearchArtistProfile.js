@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  Button
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import global from "../../styles/global";
@@ -24,10 +25,18 @@ import { AuthContext } from "../../store/authContext";
 import ShowsTab from "../../components/search/ShowsTab";
 import { ProfileContext } from "../../store/profileContext";
 import { addToFollowingList } from "../../util/search";
+import { BottomSheet } from 'react-native-btr';
+import { Octicons } from '@expo/vector-icons';
 
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
   const profileCTX = useContext(ProfileContext)
+
+  const [visibleBottomNav, setVisibleBottomNav] = useState(false);
+  const toggleBottomNavigationView = () => {
+    //Toggling the visibility state of the bottom sheet
+    setVisibleBottomNav(!visibleBottomNav);
+  };
 
   const [gettingInfo, setGettingInfo] = useState(true);
   const [basicInfo, setBasicInfo] = useState({});
@@ -71,9 +80,9 @@ const ProfileScreen = (props) => {
       return <AvailabilitySearch availability={availability} />;
     }
   }
-  function checkFollowingList(){
-    for (const x in profileCTX.followingList){
-      if(profileCTX.followingList[x].searchID == searchID){
+  function checkFollowingList() {
+    for (const x in profileCTX.followingList) {
+      if (profileCTX.followingList[x].searchID == searchID) {
         return true;
       }
     }
@@ -83,8 +92,8 @@ const ProfileScreen = (props) => {
     const token = await AsyncStorage.getItem("localId")
     const accessToken = await getAccessToken();
     // console.log(profileCTX.followingList);
-    for (const x in profileCTX.followingList){
-      if(profileCTX.followingList[x].searchID == searchID){
+    for (const x in profileCTX.followingList) {
+      if (profileCTX.followingList[x].searchID == searchID) {
         return
       }
     }
@@ -94,7 +103,7 @@ const ProfileScreen = (props) => {
         profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI
       }])
   }
-  console.log(profileCTX.basicInfo);
+  // console.log(profileCTX.basicInfo);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     getProfile();
@@ -110,7 +119,61 @@ const ProfileScreen = (props) => {
           </View>
         ) : (
           <View style={styles.container}>
-            <View style={{ flexDirection: "row", justifyContent: "flex-start", backgroundColor: global.color.primaryColors.main, height: "12%" }}>
+            <BottomSheet
+              visible={visibleBottomNav}
+              onBackButtonPress={toggleBottomNavigationView}
+              onBackdropPress={toggleBottomNavigationView}
+            >
+              <View style={styles.bottomNavigationView}>
+                <View style={{ flex: 1 }}>
+                  <TouchableOpacity style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    marginHorizontal: "5%",
+                    backgroundColor: "white",
+                    borderRadius: 12,
+                    padding: 15,
+                    
+                  }}
+                  onPress={()=>{
+                    toggleBottomNavigationView()
+                    props.navigation.navigate("Report")
+                  }}
+                  >
+                    <Text style={{
+                      fontFamily: "Rubik-Regular",
+                      fontSize: 20,
+                      paddingHorizontal: 10,
+                      color: global.color.primaryColors.errorText
+                    }}>
+                      Report Profile
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{
+                    marginTop: "3%",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    marginHorizontal: "5%",
+                    backgroundColor: "white",
+                    borderRadius: 12,
+                    padding: 15,
+                    
+                  }} onPress={toggleBottomNavigationView}>
+                    <Text style={{
+                      fontFamily: "Rubik-SemiBold",
+                      fontSize: 20,
+                      paddingHorizontal: 10,
+                      color: global.color.primaryColors.main
+                    }}>
+                      Done
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+
+              </View>
+            </BottomSheet>
+            <View style={{ flexDirection: "row", backgroundColor: global.color.primaryColors.main, height: "12%", justifyContent: "space-between" }}>
               <View>
                 <TouchableOpacity
                   style={styles.topIconContainer}
@@ -125,6 +188,20 @@ const ProfileScreen = (props) => {
                   />
                 </TouchableOpacity>
               </View>
+              {authCTX.isAuthenticated &&
+              <View>
+                <TouchableOpacity
+                  style={styles.topIconContainer}
+
+                  onPress={toggleBottomNavigationView}
+
+                >
+                  <Ionicons
+                    name="ellipsis-horizontal-sharp"
+                    size={28}
+                    color={styles.iconColor} />
+                </TouchableOpacity>
+              </View>}
             </View>
             <View style={[styles.profilePicContainer, {
               position: 'absolute',
@@ -207,10 +284,10 @@ const ProfileScreen = (props) => {
                   }}
                 >
                   <View style={{ alignSelf: "center", padding: 10 }}>
-                    {checkFollowingList() == true && <MaterialCommunityIcons name="cards-heart" size={20} color="white" /> }
-                    {checkFollowingList() == false && <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" /> }
+                    {checkFollowingList() == true && <MaterialCommunityIcons name="cards-heart" size={20} color="white" />}
+                    {checkFollowingList() == false && <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />}
                   </View>
-                </TouchableOpacity>: <View></View>}
+                </TouchableOpacity> : <View></View>}
             </View>
             <View style={{ marginHorizontal: 30 }}>
               <View style={styles.usernameContainer}>
@@ -336,6 +413,13 @@ const ProfileScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
+  bottomNavigationView: {
+    // backgroundColor: '#fff',
+    width: '100%',
+    height: 150,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
   iconColor: "white",
   editProfileText: {
     color: "white",
