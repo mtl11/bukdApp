@@ -100,7 +100,6 @@ const MessageProfile = (props) => {
         profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI
       }])
   }
-  console.log(profileCTX.basicInfo);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     getProfile();
@@ -120,7 +119,6 @@ const MessageProfile = (props) => {
               visible={visibleBottomNav}
               onBackButtonPress={toggleBottomNavigationView}
               onBackdropPress={toggleBottomNavigationView}
-
             >
               <View style={styles.bottomNavigationView}>
                 <View style={{ flex: 1 }}>
@@ -167,8 +165,6 @@ const MessageProfile = (props) => {
                     </Text>
                   </TouchableOpacity>
                 </View>
-
-
               </View>
             </BottomSheet>
             <View style={{ flexDirection: "row", justifyContent: "space-between", backgroundColor: global.color.primaryColors.main, height: "12%" }}>
@@ -197,7 +193,6 @@ const MessageProfile = (props) => {
                       color={styles.iconColor} />
                   </TouchableOpacity>
                 </View>
-              
             </View>
             <View style={[styles.profilePicContainer, {
               position: 'absolute',
@@ -212,7 +207,68 @@ const MessageProfile = (props) => {
                 style={styles.profilePic}
               />
             </View>
-            <View style={{ marginHorizontal: 30, marginTop: 60, flexDirection: "row", justifyContent: "flex-end" }}>
+            <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 12,
+                  width: "30%",
+                  marginTop: 20,
+                  marginBottom: 10,
+                  backgroundColor: global.color.primaryColors.main,
+                  alignSelf: "flex-end",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.22,
+                  shadowRadius: 2.22
+                }}
+                onPress={() => {
+                  props.navigation.pop()
+                }}
+              >
+                <View style={{ alignSelf: "center", padding: 10 }}>
+                  <Text
+                    style={styles.editProfileText}
+                  >
+                    Message
+                  </Text>
+                </View>
+              </TouchableOpacity>
+
+              {(profileCTX.basicInfo.profileType == "general") || (!authCTX.isAuthenticated) ?
+                <TouchableOpacity
+                  style={{
+                    // justifyContent: "flex-end",
+                    borderRadius: 12,
+                    // borderWidth: 1,
+                    marginLeft: 10,
+                    width: "15%",
+                    marginTop: 20,
+                    marginBottom: 10,
+                    backgroundColor: global.color.primaryColors.main,
+                    alignSelf: "flex-end",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.22,
+                    shadowRadius: 2.22
+                  }}
+                  onPress={() => {
+                    if (authCTX.isAuthenticated == true) {
+                      addToFollowing();
+                    }
+                  }}
+                >
+                  <View style={{ alignSelf: "center", padding: 10 }}>
+                    {checkFollowingList() == true && <MaterialCommunityIcons name="cards-heart" size={20} color="white" />}
+                    {checkFollowingList() == false && <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />}
+                  </View>
+                </TouchableOpacity> : <View></View>}</View>
+            <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
             </View>
             <View style={{ marginHorizontal: 30 }}>
               <View style={styles.usernameContainer}>

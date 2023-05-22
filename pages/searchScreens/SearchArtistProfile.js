@@ -34,7 +34,6 @@ const ProfileScreen = (props) => {
 
   const [visibleBottomNav, setVisibleBottomNav] = useState(false);
   const toggleBottomNavigationView = () => {
-    //Toggling the visibility state of the bottom sheet
     setVisibleBottomNav(!visibleBottomNav);
   };
 
@@ -102,11 +101,9 @@ const ProfileScreen = (props) => {
         return
       }
     }
-    // console.log("test");
     await addToFollowingList(profileURI, basicInfo.profileName, searchID, token, accessToken);
     profileCTX.addFollow({profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI})
   }
-  // console.log(profileCTX.basicInfo);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     getProfile();
@@ -218,10 +215,7 @@ const ProfileScreen = (props) => {
             <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
               <TouchableOpacity
                 style={{
-                  // justifyContent: "flex-end",
                   borderRadius: 12,
-                  // borderWidth: 1,
-                  // borderColor: "#FCFCFF",
                   width: "30%",
                   marginTop: 20,
                   marginBottom: 10,

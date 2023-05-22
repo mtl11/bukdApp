@@ -15,11 +15,12 @@ import { AuthContext } from "../../store/authContext";
 
 const VenueList = (props) => {
   const authCTX = useContext(AuthContext);
-  async function check(uuid){
+  async function check(uuid) {
     const localId = await AsyncStorage.getItem("localId");
-    if (uuid == localId){
-      props.props.navigation.navigate("ProfileScreen", {search:true});
-    }else{
+    console.log(localId);
+    if (uuid == localId) {
+      props.props.navigation.navigate("ProfileScreen", { search: true });
+    } else {
       AsyncStorage.setItem("searchID", uuid);
       props.props.navigation.navigate("SearchArtistProfile");
     }
@@ -29,7 +30,7 @@ const VenueList = (props) => {
     return (
       <TouchableOpacity
         style={styles.individualContainer}
-        onPress={()=>{
+        onPress={() => {
           check(item.uuid)
         }
         }
@@ -61,7 +62,6 @@ const VenueList = (props) => {
         || props.category == null));
     }
   }
-
   return (
     <View>
       <FlatList

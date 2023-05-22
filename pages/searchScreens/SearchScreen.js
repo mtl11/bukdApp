@@ -54,29 +54,24 @@ const SearchScreen = (props) => {
 
   async function profileType() {
     const localId = await AsyncStorage.getItem("localId");
-    // console.log("hey")
     if (!authCTX.isAuthenticated) {
       getPerformers("Tucson, AZ");
       getVenues("Tucson, AZ");
-      // getVenues("Tucson, AZ");
       authCTX.logout();
     } else {
       const profiletype = await getProfileInfo(localId);
       setPT(profiletype.profileType);
-        getPerformers("Tucson, AZ");
-        getVenues("Tucson, AZ");
+      getPerformers("Tucson, AZ");
+      getVenues("Tucson, AZ");
     }
-
-    // await AsyncStorage.removeItem("localId");
   }
 
   const [performersShow, setPerformersShow] = useState(true);
   const [venuesShow, setVenuesShow] = useState(false);
-  
+
   useEffect(() => {
     setAuth(false);
     profileType();
-    // getPerformers("Tucson, AZ");
     setAuth(true);
   }, [authCTX.isAuthenticated]);
   return (
@@ -102,15 +97,15 @@ const SearchScreen = (props) => {
               />
             )}
             {venuesShow == false ?
-              <PerformerCategorySelector data={profileCategoriesArtist} setValue={setPerformerCategory} value={performerCategory}/> :
-              <CategorySelector data={profileCategoriesVenue} setValue={setVenueCategory} value={venueCategory}/>}
+              <PerformerCategorySelector data={profileCategoriesArtist} setValue={setPerformerCategory} value={performerCategory} /> :
+              <CategorySelector data={profileCategoriesVenue} setValue={setVenueCategory} value={venueCategory} />}
           </View>
           <View
             style={{
               flexDirection: "row",
               justifyContent: "space-evenly",
               width: "90%",
-              alignSelf:"center"
+              alignSelf: "center"
             }}
           >
             <TouchableOpacity
@@ -118,7 +113,7 @@ const SearchScreen = (props) => {
               onPress={() => {
                 setPerformersShow(true);
                 setVenuesShow(false);
-                
+
               }}
             >
               <View style={{ flexDirection: "column" }}>
@@ -135,7 +130,7 @@ const SearchScreen = (props) => {
               onPress={() => {
                 setPerformersShow(false);
                 setVenuesShow(true);
-                
+
               }}
             >
               <View style={{ flexDirection: "column" }}>
