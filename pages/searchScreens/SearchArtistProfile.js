@@ -53,7 +53,11 @@ const ProfileScreen = (props) => {
     setSearchID(searchID);
     const basicInfo = await getProfileInfo(searchID);
     const otherInfo = await getProfileStart(searchID);
-
+    if(basicInfo.profileType == "performer"){
+      setAvailShow(true);
+    }else{
+      setAboutShow(true);
+    }
     setBasicInfo(basicInfo);
     setAbout(otherInfo.about);
     setAvailability(otherInfo.availability);
@@ -66,7 +70,7 @@ const ProfileScreen = (props) => {
     setGettingInfo(false);
   }
   const [socialShow, setSocialShow] = useState(false);
-  const [aboutShow, setAboutShow] = useState(true);
+  const [aboutShow, setAboutShow] = useState(false);
   const [availShow, setAvailShow] = useState(false);
 
   function getScreenTab() {
@@ -169,8 +173,6 @@ const ProfileScreen = (props) => {
                     </Text>
                   </TouchableOpacity>
                 </View>
-
-
               </View>
             </BottomSheet>
             <View style={{ flexDirection: "row", backgroundColor: global.color.primaryColors.main, height: "12%", justifyContent: "space-between" }}>

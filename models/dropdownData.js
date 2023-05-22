@@ -3,7 +3,7 @@ export const profileCategoriesArtist = [
   { label: "Band", value: "1" },
   { label: "DJ", value: "2" },
   { label: "Singer", value: "3" },
-  { label: "Vocalist", value: "4" },
+  { label: "Cover Band", value: "4" },
 ];
 
 export const profileCategoriesVenue = [

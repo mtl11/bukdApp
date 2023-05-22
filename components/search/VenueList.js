@@ -86,8 +86,7 @@ const VenueList = (props) => {
         }
         ListHeaderComponent={props.venues && <View style={{ marginBottom: "5%", marginHorizontal: "2.5%" }}>
           <Text style={{ fontSize: 18, fontFamily: "Rubik-Medium" }}>
-            New {
-            props.profileType  == "venue" || props.profileType  == "general" || authCTX.isAuthenticated == false ? "Performers " : "Venues "}To Bukd
+            New Venues To Bukd
           </Text>
         </View>}
         columnWrapperStyle={{ justifyContent: "space-between" }}

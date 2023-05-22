@@ -8,11 +8,11 @@ const SearchDropDown = (props) => {
   const [value, setValue] = useState("Tucson, AZ");
   const renderItem = (item) => {
     // if (item.label == "Tuscon, AZ") {
-      return (
-        <View style={styles.item}>
-          <Text style={styles.textItem}>{item.label}</Text>
-        </View>
-      );
+    return (
+      <View style={styles.item}>
+        <Text style={styles.textItem}>{item.label}</Text>
+      </View>
+    );
     // } else {
     //   return (
     //     <View style={[styles.item, { flexDirection: "row", justifyContent: "space-between" }]}>
@@ -23,6 +23,7 @@ const SearchDropDown = (props) => {
     // }
 
   };
+  const [pressed, setPressed] = useState(false);
   return (
     <Dropdown
       statusBarIsTranslucent={true}
@@ -42,15 +43,30 @@ const SearchDropDown = (props) => {
           />
         );
       }}
+
       renderRightIcon={() => {
-        return (
-          <Ionicons
-            name="chevron-down"
-            size={22}
-            color={global.color.primaryColors.buttonAccent}
-          />
-        );
+        if (pressed == false) {
+          return (
+            <Ionicons
+              name="chevron-down"
+              size={22}
+              color={global.color.primaryColors.buttonAccent}
+            />
+          );
+        } else {
+          return (
+            <Ionicons
+              name="chevron-up"
+              size={22}
+              color={global.color.primaryColors.buttonAccent}
+            />
+          );
+        }
       }}
+      onFocus={() => {
+        setPressed(true)
+      }}
+      onBlur={() => { setPressed(false) }}
       autoScroll={false}
       data={props.data}
       search
@@ -64,7 +80,6 @@ const SearchDropDown = (props) => {
       containerStyle={styles.dropContainer}
       onChange={(item) => {
         props.setValue(item.label);
-        // console.log(item.label);
         setValue(item.value);
         props.blur(item.label);
       }}

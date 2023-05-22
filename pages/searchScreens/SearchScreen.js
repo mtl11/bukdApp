@@ -21,10 +21,12 @@ import { getProfileInfo } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../store/authContext";
 import CategorySelector from "../../components/search/CategorySelector";
+import PerformerCategorySelector from "../../components/search/PerformerCategorySelector";
 import PerformerList from "../../components/search/PerformerList";
 const SearchScreen = (props) => {
   const [location, setLocation] = useState(null);
-  const [category, setCategory] = useState(null);
+  const [performerCategory, setPerformerCategory] = useState("All Categories");
+  const [venueCategory, setVenueCategory] = useState("All Categories");
   const [venues, setVenues] = useState(null);
   const [performers, setPerformers] = useState(null);
   const [auth, setAuth] = useState(false);
@@ -70,7 +72,7 @@ const SearchScreen = (props) => {
 
   const [performersShow, setPerformersShow] = useState(true);
   const [venuesShow, setVenuesShow] = useState(false);
-
+  
   useEffect(() => {
     setAuth(false);
     profileType();
@@ -100,8 +102,8 @@ const SearchScreen = (props) => {
               />
             )}
             {venuesShow == false ?
-              <CategorySelector data={profileCategoriesArtist} setValue={setCategory} /> :
-              <CategorySelector data={profileCategoriesVenue} setValue={setCategory} />}
+              <PerformerCategorySelector data={profileCategoriesArtist} setValue={setPerformerCategory} value={performerCategory}/> :
+              <CategorySelector data={profileCategoriesVenue} setValue={setVenueCategory} value={venueCategory}/>}
           </View>
           <View
             style={{
@@ -116,6 +118,7 @@ const SearchScreen = (props) => {
               onPress={() => {
                 setPerformersShow(true);
                 setVenuesShow(false);
+                
               }}
             >
               <View style={{ flexDirection: "column" }}>
@@ -132,6 +135,7 @@ const SearchScreen = (props) => {
               onPress={() => {
                 setPerformersShow(false);
                 setVenuesShow(true);
+                
               }}
             >
               <View style={{ flexDirection: "column" }}>
@@ -145,9 +149,9 @@ const SearchScreen = (props) => {
             </TouchableOpacity>
           </View>
           {venuesShow == false ? (
-            <PerformerList venues={performers} category={category} props={props} profileType={pt} />
+            <PerformerList venues={performers} category={performerCategory} props={props} profileType={pt} />
           ) : (
-            <VenueList venues={venues} category={category} props={props} profileType={pt} />
+            <VenueList venues={venues} category={venueCategory} props={props} profileType={pt} />
           )}
         </View>
       ) : (
