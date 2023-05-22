@@ -63,7 +63,6 @@ const ProfileScreen = (props) => {
       profileCTX.updatePersonalInfo({ firstName: basicInfo.firstName, lastName: basicInfo.lastName });
       if (otherInfo.hasOwnProperty("following")) {
         const data = await helper(Object.entries(otherInfo.following));
-        console.log(data);
         profileCTX.updateFollowingList(data);
       } else {
         profileCTX.updateFollowingList([]);
@@ -118,7 +117,7 @@ const ProfileScreen = (props) => {
     profileCTX.updateProfilePic(profileuri);
     setGettingInfo(false);
   }
-  // console.log(profileCTX.about);
+  console.log(profileCTX.followingList);
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
   const [availShow, setAvailShow] = useState(false);

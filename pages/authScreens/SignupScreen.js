@@ -479,7 +479,7 @@ const SignupScreen = (props) => {
                       </View>
                       <View style={styles.passwordInfoContainer}>
                         <Text style={styles.passwordInfoText}>
-                          Recommend Performer/Venue name
+                          We recommend using your Performer/Venue name
                         </Text>
                       </View>
                       <View style={styles.inputContainer}>

@@ -15,7 +15,6 @@ import global from "../../styles/global";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const FollowingTab = (props) => {
   const profileCTX = useContext(ProfileContext);
-  const [data, setData] = useState(profileCTX.followingList);
   const itemHandler = (item) => {
     return (
       <TouchableOpacity style={styles.showContainer} onPress={() => {

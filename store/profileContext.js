@@ -41,9 +41,7 @@ function ProfileContextProvider({ children }) {
   function deleteShow(label) {
     const array = shows;
     for (const x in array) {
-      console.log(array[x][0]);
       if (label == array[x][0]) {
-        console.log("test")
         array.splice(x, 1);
       }
     }
@@ -76,14 +74,8 @@ function ProfileContextProvider({ children }) {
     setProfilePic(profilePic);
   }
   function addFollow(follow) {
-    const alreadySaved = followingList.filter((item) => {
-      return item[0] == follow[0]
-    })
-    if (alreadySaved.length == 0) {
-      const list = followingList;
-      list.push(follow);
-      setFollowingList(list);
-    }
+    const list = [...followingList, follow];
+    setFollowingList(list);
   }
   function signOut() {
     setShows([]);

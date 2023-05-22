@@ -85,6 +85,7 @@ const ProfileScreen = (props) => {
     }
   }
   function checkFollowingList() {
+    // console.log(profileCTX.followingList[0]);
     for (const x in profileCTX.followingList) {
       if (profileCTX.followingList[x].searchID == searchID) {
         return true;
@@ -95,17 +96,15 @@ const ProfileScreen = (props) => {
   async function addToFollowing() {
     const token = await AsyncStorage.getItem("localId")
     const accessToken = await getAccessToken();
-    // console.log(profileCTX.followingList);
+
     for (const x in profileCTX.followingList) {
       if (profileCTX.followingList[x].searchID == searchID) {
         return
       }
     }
+    // console.log("test");
     await addToFollowingList(profileURI, basicInfo.profileName, searchID, token, accessToken);
-    profileCTX.addFollow([searchID,
-      {
-        profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI
-      }])
+    profileCTX.addFollow({profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI})
   }
   // console.log(profileCTX.basicInfo);
   const [visible, setVisible] = useState(false);
@@ -194,9 +193,7 @@ const ProfileScreen = (props) => {
               <View>
                 <TouchableOpacity
                   style={styles.topIconContainer}
-
                   onPress={toggleBottomNavigationView}
-
                 >
                   <Ionicons
                     name="ellipsis-horizontal-sharp"
@@ -257,7 +254,7 @@ const ProfileScreen = (props) => {
                 </View>
               </TouchableOpacity>
 
-              {(profileCTX.basicInfo.profileType != "venue") || (profileCTX.basicInfo.profileType != "performer") ?
+              {(profileCTX.basicInfo.profileType == "general") || (!authCTX.isAuthenticated) ?
                 <TouchableOpacity
                   style={{
                     // justifyContent: "flex-end",
@@ -279,6 +276,7 @@ const ProfileScreen = (props) => {
                   }}
                   onPress={() => {
                     if (authCTX.isAuthenticated == true) {
+
                       addToFollowing();
                     } else {
                       setVisible(true);
