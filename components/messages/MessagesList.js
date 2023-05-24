@@ -81,7 +81,7 @@ const MessagesLists = (props) => {
         id={chatroom.item.chatRoomID}
         activeOpacity={0.2}
         underlayColor={global.color.secondaryColors.background}
-        onPress={() => { AsyncStorage.setItem("searchID", chatroom.item.recieverID); props.props.navigation.navigate("MessageChat", { chatID: chatroom.item.chatRoomID, displayName: chatroom.item.recieverName, profileType:  chatroom.item.basicInfo.profileType}) }}
+        onPress={() => { AsyncStorage.setItem("searchID", chatroom.item.recieverID); props.props.navigation.navigate("MessageChat", { chatID: chatroom.item.chatRoomID, displayName: chatroom.item.recieverName, profileType: chatroom.item.basicInfo.profileType }) }}
       >
         <View style={styles.messageContainer}>
           <View style={styles.imageContainer}>
@@ -120,6 +120,11 @@ const MessagesLists = (props) => {
 
   return (
     <FlatList data={getData()} renderItem={renderItem}
+      ListEmptyComponent={<View style={{ marginTop: '50%' }}>
+        <Text style={{fontSize: 16, textAlign: 'center', fontFamily: "Rubik-Regular"}}>
+          No Messages Available
+        </Text>
+      </View>}
       refreshControl={
         <RefreshControl
           refreshing={refreshing} onRefresh={onRefresh}

@@ -81,9 +81,7 @@ const FollowingTab = (props) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     dataHelper();
-    // setTimeout(() => {
     setRefreshing(false);
-    // }, 1000);
   }, []);
   return (
     <View>
