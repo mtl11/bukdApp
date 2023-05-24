@@ -9,7 +9,7 @@ export const profileCategoriesArtist = [
 export const profileCategoriesVenue = [
   { label: "All Categories", value: "0" },
   { label: "Bar", value: "1" },
-  { label: "Club", value: "2" },
+  { label: "Restaurant", value: "2" },
   { label: "Night Club", value: "3" },
 ];
 

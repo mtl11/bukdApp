@@ -56,13 +56,13 @@ const ShowsTab = (props) => {
                                     {performersNeeded ? "Performers needed" : "Booked"}
                                 </Text>
                             </View> :
-                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                <View style={{ flexDirection: "row", alignItems: "center" ,width:200, justifyContent:"flex-end"}}>
                                     <Ionicons
                                         name="location-outline"
                                         size={24}
                                         color={global.color.secondaryColors.placeHolderTextColor}
                                     />
-                                    <Text style={styles.smallText}>
+                                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText, ]} >
                                         {venueName}
                                     </Text>
                                 </View>

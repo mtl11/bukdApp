@@ -82,13 +82,13 @@ const ShowsTab = () => {
                                         {performersNeeded ? "Performers needed" : "Booked"}
                                     </Text>
                                 </View> :
-                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                <View style={{ flexDirection: "row", alignItems: "center", width: 200, justifyContent: "flex-end" }}>
                                     <Ionicons
                                         name="location-outline"
                                         size={24}
                                         color={global.color.secondaryColors.placeHolderTextColor}
                                     />
-                                    <Text style={styles.smallText}>
+                                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText,]}>
                                         {venueName}
                                     </Text>
                                 </View>}
@@ -328,7 +328,6 @@ const ShowsTab = () => {
                                     marginHorizontal: "8%",
                                     marginTop: "5%",
                                     backgroundColor: global.color.secondaryColors.adjacent,
-
                                 }}>
                                     <TextInput
                                         style={{
@@ -342,7 +341,7 @@ const ShowsTab = () => {
                                         placeholder={"Description"}
                                         placeholderTextColor={global.color.secondaryColors.placeHolderTextColor}
                                         onChangeText={setDescription}
-                                        maxLength={160}
+                                        maxLength={120}
                                         maxHeight={160}
                                         blurOnSubmit={true}
                                         multiline={true}
@@ -367,6 +366,7 @@ const ShowsTab = () => {
                                             fontFamily: "Rubik-Regular",
                                             color: global.color.secondaryColors.text,
                                         }}
+                                        maxLength={24}
                                         placeholder={"Venue Name"}
                                         placeholderTextColor={global.color.secondaryColors.placeHolderTextColor}
                                         onChangeText={setVenueName}
@@ -391,7 +391,7 @@ const ShowsTab = () => {
                                         placeholder={"Description"}
                                         placeholderTextColor={global.color.secondaryColors.placeHolderTextColor}
                                         onChangeText={setDescription}
-                                        maxLength={160}
+                                        maxLength={120}
                                         maxHeight={160}
                                         blurOnSubmit={true}
                                         multiline={true}
@@ -453,8 +453,6 @@ const ShowsTab = () => {
 }
 const styles = StyleSheet.create({
     showContainer: {
-        // width: "90%",
-        // borderWidth: 1, 
         borderRadius: 12,
         borderColor: "#D9D9D9",
         flexDirection: "row",
@@ -466,13 +464,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
-        // shadowColor: "#000",
-        // shadowOffset: {
-        //     width: 0,
-        //     height: 1,
-        // },
-        // shadowOpacity: 0.2,
-        // shadowRadius: 2.2,
         marginBottom: "5%"
     },
     dateText: {
