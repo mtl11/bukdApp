@@ -111,9 +111,10 @@ const ProfileScreen = (props) => {
           // if(props.route != null){
           //   props.setData(props.data.filter(item => item.searchID != id));
           // }
-          profileCTX.unfollow(id); 
-          unfollowHelper(id); 
-          setIsFollowing(false);  },
+          profileCTX.unfollow(id);
+          unfollowHelper(id);
+          setIsFollowing(false);
+        },
         // unfollowHelper(id)
         style: "destructive",
       },
@@ -136,12 +137,12 @@ const ProfileScreen = (props) => {
   const [isFollowing, setIsFollowing] = useState(false)
   useEffect(() => {
     getProfile();
-   
+
   }, []);
-  useEffect(()=>{
+  useEffect(() => {
     setIsFollowing(checkFollowingList())
   })
-  
+
   return (
     <View>
       <UnAuthSearch visible={visible} setVisible={setVisible} props={props} />
@@ -246,43 +247,43 @@ const ProfileScreen = (props) => {
                 style={styles.profilePic}
               />
             </View>
-            
-              <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
-              {((basicInfo.profileType == "venue" && profileType == "performer") ||  basicInfo.profileType == "performer") == true &&
-              <TouchableOpacity
-                style={{
-                  borderRadius: 12,
-                  width: "30%",
-                  marginTop: 20,
-                  marginBottom: 10,
-                  backgroundColor: global.color.primaryColors.main,
-                  alignSelf: "flex-end",
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.22,
-                  shadowRadius: 2.22
-                }}
-                onPress={() => {
-                  if (authCTX.isAuthenticated == true) {
-                    props.navigation.navigate("SearchChat", {
-                      displayName: basicInfo.profileName, searchID: searchID
-                    })
-                  } else {
-                    setVisible(true);
-                  }
-                }}
-              >
-                <View style={{ alignSelf: "center", padding: 10 }}>
-                  <Text
-                    style={styles.editProfileText}
-                  >
-                    Message
-                  </Text>
-                </View>
-              </TouchableOpacity>}
+
+            <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
+              {((basicInfo.profileType == "venue" && profileType == "performer") || basicInfo.profileType == "performer") == true &&
+                <TouchableOpacity
+                  style={{
+                    borderRadius: 12,
+                    width: "30%",
+                    marginTop: 20,
+                    marginBottom: 10,
+                    backgroundColor: global.color.primaryColors.main,
+                    alignSelf: "flex-end",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.22,
+                    shadowRadius: 2.22
+                  }}
+                  onPress={() => {
+                    if (authCTX.isAuthenticated == true) {
+                      props.navigation.navigate("SearchChat", {
+                        displayName: basicInfo.profileName, searchID: searchID
+                      })
+                    } else {
+                      setVisible(true);
+                    }
+                  }}
+                >
+                  <View style={{ alignSelf: "center", padding: 10 }}>
+                    <Text
+                      style={styles.editProfileText}
+                    >
+                      Message
+                    </Text>
+                  </View>
+                </TouchableOpacity>}
               {(profileType == "general") || (!authCTX.isAuthenticated) ?
                 <TouchableOpacity
                   style={{
@@ -317,10 +318,12 @@ const ProfileScreen = (props) => {
                   }}
                 >
                   <View style={{ alignSelf: "center", padding: 10 }}>
-                    {isFollowing == true ? <MaterialCommunityIcons name="cards-heart" size={20} color="white" /> : 
-                    <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />}
+                    {isFollowing == true ? <MaterialCommunityIcons name="cards-heart" size={20} color="white" /> :
+                      <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />}
                   </View>
                 </TouchableOpacity> : <View></View>}
+              {profileType == "venue" && <View style={{ marginTop: 50, }}>
+              </View>}
             </View>
             <View style={{ marginHorizontal: 30 }}>
               <View style={styles.usernameContainer}>
@@ -363,13 +366,24 @@ const ProfileScreen = (props) => {
                   </Text>
                 </View>
               </View>
-              <View>
-                <Text style={{
-                  color: "black",
-                  fontFamily: "Rubik-Regular",
-                  fontSize: 14,
-                }}>{about.bio}</Text>
-              </View>
+              {about.hasOwnProperty("bio") && about.bio.length != 0 &&
+                <View>
+                  <Text style={{
+                    color: "black",
+                    fontFamily: "Rubik-Regular",
+                    fontSize: 14,
+                  }}>{about.bio}</Text>
+                </View>
+              }
+              {about.hasOwnProperty("equipment") &&
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  {/* <FontAwesome5 name="clipboard" size={20} color={global.color.secondaryColors.placeHolderTextColor} /> */}
+                  <Text style={{
+                    color: global.color.secondaryColors.placeHolderTextColor,
+                    fontFamily: "Rubik-Regular",
+                    fontSize: 14,
+                  }}>Equipment: {about.equipment}</Text>
+                </View>}
             </View>
 
             <View

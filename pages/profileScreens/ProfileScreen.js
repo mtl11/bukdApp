@@ -289,7 +289,7 @@ const ProfileScreen = (props) => {
                       </Text>
                     </View>
                   </View>
-
+                        
                   <View>
                     <Text style={{
                       color: "black",
@@ -297,6 +297,15 @@ const ProfileScreen = (props) => {
                       fontSize: 14,
                     }}>{profileCTX.about.bio}</Text>
                   </View>
+                  {profileCTX.about.hasOwnProperty("equipment") &&
+                    <View style={{flexDirection: "row", alignItems: "center" }}>
+                      {/* <FontAwesome5 name="clipboard" size={20} color={global.color.secondaryColors.placeHolderTextColor} /> */}
+                      <Text style={{
+                        color: global.color.secondaryColors.placeHolderTextColor,
+                        fontFamily: "Rubik-Regular",
+                        fontSize: 14,
+                      }}>Equipment: {profileCTX.about.equipment}</Text>
+                    </View>}
                 </View>
                 : <View style={{ marginHorizontal: 30, marginTop: "5%", }}>
                   <View style={styles.usernameContainer}>

@@ -104,8 +104,8 @@ const MessagesLists = (props) => {
       </TouchableHighlight>
     );
   }
+  
   const getData = () => {
-    // console.log(props.data)
     if (props.data != {}) {
       if (Array.isArray(props.data)) {
         const data = props.data.filter(word =>
@@ -115,7 +115,6 @@ const MessagesLists = (props) => {
     } else {
       return [];
     }
-
   }
 
   return (
