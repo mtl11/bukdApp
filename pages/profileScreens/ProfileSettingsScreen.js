@@ -128,7 +128,7 @@ const ProfileSettingsScreen = (props) => {
         />
       </TouchableOpacity>
       <View style={styles.infoContainer}>
-        <Text style={styles.smallerText}>Bukd v1.1.0</Text>
+        <Text style={styles.smallerText}>Bukd v1.1.1</Text>
         <View style={styles.copyrightContainer}>
           <FontAwesome5
             name="copyright"

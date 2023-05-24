@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
-  Button
+  Alert
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import global from "../../styles/global";
@@ -26,8 +26,7 @@ import ShowsTab from "../../components/search/ShowsTab";
 import { ProfileContext } from "../../store/profileContext";
 import { addToFollowingList } from "../../util/search";
 import { BottomSheet } from 'react-native-btr';
-import { Octicons } from '@expo/vector-icons';
-
+import { unfollowAccount } from "../../util/profile";
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
   const profileCTX = useContext(ProfileContext)
@@ -45,16 +44,17 @@ const ProfileScreen = (props) => {
   const [socials, setSocials] = useState({});
   const [searchID, setSearchID] = useState({});
   const [shows, setShows] = useState([]);
-
+  const [profileType, setProfileType] = useState("");
   async function getProfile() {
     setGettingInfo(true);
     const searchID = await AsyncStorage.getItem("searchID");
+    setProfileType(await AsyncStorage.getItem("profileType"));
     setSearchID(searchID);
     const basicInfo = await getProfileInfo(searchID);
     const otherInfo = await getProfileStart(searchID);
-    if(basicInfo.profileType == "performer"){
+    if (basicInfo.profileType == "performer") {
       setAvailShow(true);
-    }else{
+    } else {
       setAboutShow(true);
     }
     setBasicInfo(basicInfo);
@@ -84,7 +84,6 @@ const ProfileScreen = (props) => {
     }
   }
   function checkFollowingList() {
-    // console.log(profileCTX.followingList[0]);
     for (const x in profileCTX.followingList) {
       if (profileCTX.followingList[x].searchID == searchID) {
         return true;
@@ -92,6 +91,35 @@ const ProfileScreen = (props) => {
     }
     return false;
   }
+
+  async function unfollowHelper(id) {
+    const localId = await AsyncStorage.getItem("localId");
+    const accessToken = await getAccessToken();
+    await unfollowAccount(localId, id, accessToken);
+  }
+
+  const unfollowAlert = (name, id) => {
+    Alert.alert("Are you sure you want to unfollow " + name + "?", "", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Unfollow",
+        onPress: () => {
+          // if(props.route != null){
+          //   props.setData(props.data.filter(item => item.searchID != id));
+          // }
+          profileCTX.unfollow(id); 
+          unfollowHelper(id); 
+          setIsFollowing(false);  },
+        // unfollowHelper(id)
+        style: "destructive",
+      },
+    ]);
+  }
+
   async function addToFollowing() {
     const token = await AsyncStorage.getItem("localId")
     const accessToken = await getAccessToken();
@@ -102,12 +130,18 @@ const ProfileScreen = (props) => {
       }
     }
     await addToFollowingList(profileURI, basicInfo.profileName, searchID, token, accessToken);
-    profileCTX.addFollow({profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI})
+    profileCTX.addFollow({ profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI })
   }
   const [visible, setVisible] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false)
   useEffect(() => {
     getProfile();
+   
   }, []);
+  useEffect(()=>{
+    setIsFollowing(checkFollowingList())
+  })
+  
   return (
     <View>
       <UnAuthSearch visible={visible} setVisible={setVisible} props={props} />
@@ -133,12 +167,12 @@ const ProfileScreen = (props) => {
                     backgroundColor: "white",
                     borderRadius: 12,
                     padding: 15,
-                    
+
                   }}
-                  onPress={()=>{
-                    toggleBottomNavigationView()
-                    props.navigation.navigate("Report")
-                  }}
+                    onPress={() => {
+                      toggleBottomNavigationView()
+                      props.navigation.navigate("Report")
+                    }}
                   >
                     <Text style={{
                       fontFamily: "Rubik-Regular",
@@ -157,7 +191,7 @@ const ProfileScreen = (props) => {
                     backgroundColor: "white",
                     borderRadius: 12,
                     padding: 15,
-                    
+
                   }} onPress={toggleBottomNavigationView}>
                     <Text style={{
                       fontFamily: "Rubik-SemiBold",
@@ -187,17 +221,17 @@ const ProfileScreen = (props) => {
                 </TouchableOpacity>
               </View>
               {authCTX.isAuthenticated &&
-              <View>
-                <TouchableOpacity
-                  style={styles.topIconContainer}
-                  onPress={toggleBottomNavigationView}
-                >
-                  <Ionicons
-                    name="ellipsis-horizontal-sharp"
-                    size={28}
-                    color={styles.iconColor} />
-                </TouchableOpacity>
-              </View>}
+                <View>
+                  <TouchableOpacity
+                    style={styles.topIconContainer}
+                    onPress={toggleBottomNavigationView}
+                  >
+                    <Ionicons
+                      name="ellipsis-horizontal-sharp"
+                      size={28}
+                      color={styles.iconColor} />
+                  </TouchableOpacity>
+                </View>}
             </View>
             <View style={[styles.profilePicContainer, {
               position: 'absolute',
@@ -212,7 +246,9 @@ const ProfileScreen = (props) => {
                 style={styles.profilePic}
               />
             </View>
-            <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
+            
+              <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
+              {((basicInfo.profileType == "venue" && profileType == "performer") ||  basicInfo.profileType == "performer") == true &&
               <TouchableOpacity
                 style={{
                   borderRadius: 12,
@@ -246,9 +282,8 @@ const ProfileScreen = (props) => {
                     Message
                   </Text>
                 </View>
-              </TouchableOpacity>
-
-              {(profileCTX.basicInfo.profileType == "general") || (!authCTX.isAuthenticated) ?
+              </TouchableOpacity>}
+              {(profileType == "general") || (!authCTX.isAuthenticated) ?
                 <TouchableOpacity
                   style={{
                     // justifyContent: "flex-end",
@@ -269,17 +304,21 @@ const ProfileScreen = (props) => {
                     shadowRadius: 2.22
                   }}
                   onPress={() => {
-                    if (authCTX.isAuthenticated == true) {
-
-                      addToFollowing();
+                    if (checkFollowingList() == true) {
+                      unfollowAlert(basicInfo.profileName, searchID);
                     } else {
-                      setVisible(true);
+                      if (authCTX.isAuthenticated == true) {
+                        setIsFollowing(true);
+                        addToFollowing();
+                      } else {
+                        setVisible(true);
+                      }
                     }
                   }}
                 >
                   <View style={{ alignSelf: "center", padding: 10 }}>
-                    {checkFollowingList() == true && <MaterialCommunityIcons name="cards-heart" size={20} color="white" />}
-                    {checkFollowingList() == false && <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />}
+                    {isFollowing == true ? <MaterialCommunityIcons name="cards-heart" size={20} color="white" /> : 
+                    <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />}
                   </View>
                 </TouchableOpacity> : <View></View>}
             </View>

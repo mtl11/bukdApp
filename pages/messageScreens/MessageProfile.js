@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  Alert
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import global from "../../styles/global";
@@ -15,6 +16,7 @@ import {
   getProfileInfo,
   getProfilePic,
   getProfileStart,
+  unfollowAccount,
 } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AvailabilitySearch from "../../components/search/AvailabilitySearch";
@@ -85,6 +87,13 @@ const MessageProfile = (props) => {
     }
     return false;
   }
+
+  async function unfollowHelper(id) {
+    const localId = await AsyncStorage.getItem("localId");
+    const accessToken = await getAccessToken();
+    await unfollowAccount(localId, id, accessToken);
+  }
+
   async function addToFollowing() {
     const token = await AsyncStorage.getItem("localId")
     const accessToken = await getAccessToken();
@@ -95,15 +104,40 @@ const MessageProfile = (props) => {
       }
     }
     await addToFollowingList(profileURI, basicInfo.profileName, searchID, token, accessToken);
-    profileCTX.addFollow([searchID,
-      {
-        profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI
-      }])
+    profileCTX.addFollow({ profileName: basicInfo.profileName, searchID: searchID, profileURI: profileURI })
   }
+
+  const unfollowAlert = (name, id) => {
+    Alert.alert("Are you sure you want to unfollow " + name + "?", "", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Unfollow",
+        onPress: () => {
+          // if(props.route != null){
+          //   props.setData(props.data.filter(item => item.searchID != id));
+          // }
+          profileCTX.unfollow(id);
+          unfollowHelper(id);
+          setIsFollowing(false);
+        },
+        // unfollowHelper(id)
+        style: "destructive",
+      },
+    ]);
+  }
+
   const [visible, setVisible] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false)
   useEffect(() => {
     getProfile();
   }, []);
+  useEffect(() => {
+    setIsFollowing(checkFollowingList())
+  })
   return (
     <View>
       <UnAuthSearch visible={visible} setVisible={setVisible} props={props} />
@@ -181,18 +215,18 @@ const MessageProfile = (props) => {
                     color={styles.iconColor}
                   />
                 </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    style={styles.topIconContainer}
-                    onPress={toggleBottomNavigationView}
-                  >
-                    <Ionicons
-                      name="ellipsis-horizontal-sharp"
-                      size={28}
-                      color={styles.iconColor} />
-                  </TouchableOpacity>
-                </View>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={styles.topIconContainer}
+                  onPress={toggleBottomNavigationView}
+                >
+                  <Ionicons
+                    name="ellipsis-horizontal-sharp"
+                    size={28}
+                    color={styles.iconColor} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={[styles.profilePicContainer, {
               position: 'absolute',
@@ -258,14 +292,21 @@ const MessageProfile = (props) => {
                     shadowRadius: 2.22
                   }}
                   onPress={() => {
-                    if (authCTX.isAuthenticated == true) {
-                      addToFollowing();
+                    if (checkFollowingList() == true) {
+                      unfollowAlert(basicInfo.profileName, searchID);
+                    } else {
+                      if (authCTX.isAuthenticated == true) {
+                        setIsFollowing(true);
+                        addToFollowing();
+                      } else {
+                        setVisible(true);
+                      }
                     }
                   }}
                 >
                   <View style={{ alignSelf: "center", padding: 10 }}>
-                    {checkFollowingList() == true && <MaterialCommunityIcons name="cards-heart" size={20} color="white" />}
-                    {checkFollowingList() == false && <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />}
+                    {isFollowing == true ? <MaterialCommunityIcons name="cards-heart" size={20} color="white" /> :
+                      <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />}
                   </View>
                 </TouchableOpacity> : <View></View>}</View>
             <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>

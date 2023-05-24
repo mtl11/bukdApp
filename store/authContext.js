@@ -24,6 +24,7 @@ function AuthContextProvider({ children }) {
     setAuthToken(null);
     AsyncStorage.removeItem("token");
     AsyncStorage.removeItem("localId");
+    AsyncStorage.removeItem("profileType");
   }
 
   function toggleMode(){

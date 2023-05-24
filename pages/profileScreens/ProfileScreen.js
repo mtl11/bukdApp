@@ -48,6 +48,7 @@ const ProfileScreen = (props) => {
         searchID: data[x][0]
       })
     }
+    console.log(data)
     return array;
   }
 
@@ -57,7 +58,6 @@ const ProfileScreen = (props) => {
     const localId = await AsyncStorage.getItem("localId");
     const basicInfo = await getProfileInfo(localId);
     const otherInfo = await getProfileStart(localId);
-
     profileCTX.updateBasic(basicInfo);
     if (basicInfo.profileType == "general") {
       profileCTX.updatePersonalInfo({ firstName: basicInfo.firstName, lastName: basicInfo.lastName });
@@ -117,7 +117,6 @@ const ProfileScreen = (props) => {
     profileCTX.updateProfilePic(profileuri);
     setGettingInfo(false);
   }
-  console.log(profileCTX.followingList);
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
   const [availShow, setAvailShow] = useState(false);

@@ -48,6 +48,10 @@ export async function deleteSomeShow(localId, item, accessToken){
   const response = await firebaseUtil.delete("/users/" + localId + "/shows/"+item+".json?auth="+accessToken);
 }
 
+export async function unfollowAccount(localId, profileID, accessToken){
+  const response = await firebaseUtil.delete("/users/" + localId + "/following/"+profileID+".json?auth="+accessToken);
+}
+
 export async function setVenueAboutInfo(bio, category, location, equipment, localId, accessToken) {
   const response = await firebaseUtil.put("/users/" + localId + "/about.json?auth="+accessToken, {
     bio: bio,
@@ -83,7 +87,6 @@ export async function setAvailabilityInfo(times, dow, localId, accessToken) {
   );
 }
 export async function getAccessToken(){
-  
   const refreshToken = await AsyncStorage.getItem("refreshToken");
   const tokenUrl = `https://securetoken.googleapis.com/v1/token?key=${APIKey}`;
   const response = await axios.post(tokenUrl, {

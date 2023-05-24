@@ -22,6 +22,7 @@ export const ProfileContext = createContext({
   signOut: () => { },
   updateFollowingList: () => { },
   addFollow: () => { },
+  unfollow: () => {}
 });
 
 function ProfileContextProvider({ children }) {
@@ -77,6 +78,21 @@ function ProfileContextProvider({ children }) {
     const list = [...followingList, follow];
     setFollowingList(list);
   }
+
+  function unfollow(id){
+    const array = followingList;
+    for (const x in array) {
+      
+      if (id == array[x].searchID) {
+       
+        array.splice(x, 1);
+      }
+    }
+    setFollowingList(array);
+    return array;
+    
+  }
+
   function signOut() {
     setShows([]);
     setAvailability({});
@@ -105,7 +121,9 @@ function ProfileContextProvider({ children }) {
     updateShows: updateShows,
     deleteShow: deleteShow,
     signOut: signOut,
-    updateFollowingList: updateFollowingList, addFollow: addFollow
+    updateFollowingList: updateFollowingList, 
+    addFollow: addFollow,
+    unfollow: unfollow
   };
 
   return (

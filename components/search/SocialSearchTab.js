@@ -15,7 +15,6 @@ import { SocialLinks } from "social-links";
 
 
 const SocialProfileTabArtist = (props) => {
-
   const socialLinks = new SocialLinks();
   function dataList() {
     const array = [];

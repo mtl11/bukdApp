@@ -54,13 +54,15 @@ const SearchScreen = (props) => {
 
   async function profileType() {
     const localId = await AsyncStorage.getItem("localId");
+    
     if (!authCTX.isAuthenticated) {
       getPerformers("Tucson, AZ");
       getVenues("Tucson, AZ");
       authCTX.logout();
     } else {
       const profiletype = await getProfileInfo(localId);
-      setPT(profiletype.profileType);
+      await AsyncStorage.setItem("profileType", profiletype.profileType);
+      console.log(profiletype);
       getPerformers("Tucson, AZ");
       getVenues("Tucson, AZ");
     }
@@ -144,9 +146,9 @@ const SearchScreen = (props) => {
             </TouchableOpacity>
           </View>
           {venuesShow == false ? (
-            <PerformerList venues={performers} category={performerCategory} props={props} profileType={pt} />
+            <PerformerList venues={performers} category={performerCategory} props={props}  />
           ) : (
-            <VenueList venues={venues} category={venueCategory} props={props} profileType={pt} />
+            <VenueList venues={venues} category={venueCategory} props={props}  />
           )}
         </View>
       ) : (
