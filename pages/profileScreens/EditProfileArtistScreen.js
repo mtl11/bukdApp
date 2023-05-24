@@ -301,7 +301,22 @@ const EditProfileArtistScreen = (props) => {
               />
             </KeyboardAvoidingView>
           </View>
-
+          <TouchableOpacity style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginHorizontal: "10%",
+            marginTop: "5%"
+          }}
+          onPress={()=>{
+            props.navigation.navigate("AddProfileLink");
+          }}
+          >
+            <Text style={{ color: global.color.primaryColors.main, fontSize: 16, fontFamily: "Rubik-Medium" }}>
+              Add General Link
+            </Text>
+            <FontAwesome5 name="chevron-right" size={20} color={global.color.primaryColors.main} />
+          </TouchableOpacity>
           {/* <TouchableOpacity
             style={[styles.headerContainer, !about && { marginBottom: 0 }]}
             onPress={() => {

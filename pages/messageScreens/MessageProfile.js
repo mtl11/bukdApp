@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
-  Alert
+  Alert,
+  Linking
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import global from "../../styles/global";
@@ -39,7 +40,7 @@ const MessageProfile = (props) => {
   const [socials, setSocials] = useState({});
   const [searchID, setSearchID] = useState({});
   const [shows, setShows] = useState([]);
-
+  const [profileLink, setProfileLink] = useState();
   async function getProfile() {
     setGettingInfo(true);
     const searchID = await AsyncStorage.getItem("searchID");
@@ -48,6 +49,9 @@ const MessageProfile = (props) => {
     const otherInfo = await getProfileStart(searchID);
 
     setBasicInfo(basicInfo);
+    if (otherInfo.hasOwnProperty("profileLink")) {
+      setProfileLink(otherInfo.profileLink.link);
+    }
     setAbout(otherInfo.about);
     setAvailability(otherInfo.availability);
     setSocials(otherInfo.socials);
@@ -66,6 +70,10 @@ const MessageProfile = (props) => {
   const toggleBottomNavigationView = () => {
     //Toggling the visibility state of the bottom sheet
     setVisibleBottomNav(!visibleBottomNav);
+  };
+
+  const handleLinkPress = () => {
+    Linking.openURL(profileLink);
   };
 
   function getScreenTab() {
@@ -359,8 +367,28 @@ const MessageProfile = (props) => {
                   fontSize: 14,
                 }}>{about.bio}</Text>
               </View>
+              {about.hasOwnProperty("equipment") &&
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  {/* <FontAwesome5 name="clipboard" size={20} color={global.color.secondaryColors.placeHolderTextColor} /> */}
+                  <Text style={{
+                    color: global.color.secondaryColors.placeHolderTextColor,
+                    fontFamily: "Rubik-Regular",
+                    fontSize: 14,
+                  }}>Equipment: {about.equipment}</Text>
+                </View>}
             </View>
-
+            {profileLink &&
+              <TouchableOpacity onPress={handleLinkPress} style={{ marginHorizontal: "5%", flexDirection: "row", marginTop: "3%" }}>
+                <Ionicons name="link-outline" size={20} color={global.color.primaryColors.main} style={{ paddingHorizontal: "2%" }} />
+                <Text style={{
+                  textDecorationLine: 'underline',
+                  color: global.color.primaryColors.main,
+                  fontFamily: "Rubik-Regular",
+                }}>
+                  {
+                    profileLink.split("/")[2]}
+                </Text>
+              </TouchableOpacity>}
             <View
               style={styles.tabView}
             >

@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
-  Alert
+  Alert,
+  Linking
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import global from "../../styles/global";
@@ -45,6 +46,12 @@ const ProfileScreen = (props) => {
   const [searchID, setSearchID] = useState({});
   const [shows, setShows] = useState([]);
   const [profileType, setProfileType] = useState("");
+  const [profileLink, setProfileLink] = useState();
+
+  const handleLinkPress = () => {
+    Linking.openURL(profileLink);
+  };
+
   async function getProfile() {
     setGettingInfo(true);
     const searchID = await AsyncStorage.getItem("searchID");
@@ -52,6 +59,11 @@ const ProfileScreen = (props) => {
     setSearchID(searchID);
     const basicInfo = await getProfileInfo(searchID);
     const otherInfo = await getProfileStart(searchID);
+
+    if (otherInfo.hasOwnProperty("profileLink")) {
+      setProfileLink(otherInfo.profileLink.link);
+    }
+
     if (basicInfo.profileType == "performer") {
       setAvailShow(true);
     } else {
@@ -385,7 +397,18 @@ const ProfileScreen = (props) => {
                   }}>Equipment: {about.equipment}</Text>
                 </View>}
             </View>
-
+            {profileLink &&
+              <TouchableOpacity onPress={handleLinkPress} style={{ marginHorizontal: "5%", flexDirection: "row", marginTop: "3%" }}>
+                <Ionicons name="link-outline" size={20} color={global.color.primaryColors.main} style={{ paddingHorizontal: "2%" }} />
+                <Text style={{
+                  textDecorationLine: 'underline',
+                  color: global.color.primaryColors.main,
+                  fontFamily: "Rubik-Regular",
+                }}>
+                  {
+                    profileLink.split("/")[2]}
+                </Text>
+              </TouchableOpacity>}
             <View
               style={styles.tabView}
             >

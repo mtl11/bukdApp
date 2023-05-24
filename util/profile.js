@@ -95,6 +95,16 @@ export async function getAccessToken(){
   });
   return response.data.access_token;
 }
+
+export async function setProfileLink(link, localId, accessToken){
+  const response = await firebaseUtil.put(
+    "/users/" + localId + "/profileLink.json?auth="+accessToken,
+    {
+      link: link
+    }
+  );
+}
+
 export async function setProfileName(profileType, name, localId,image, accessToken) {
   const email = await AsyncStorage.getItem("email");
   const post = await firebaseUtil.put(

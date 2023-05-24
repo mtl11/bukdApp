@@ -10,6 +10,7 @@ export const ProfileContext = createContext({
   personalInfo: {},
   shows: [],
   followingList: [],
+  profileLink: "",
   updateBasic: (basicInfo) => { },
   updateAbout: () => { },
   updateAvailability: () => { },
@@ -22,7 +23,8 @@ export const ProfileContext = createContext({
   signOut: () => { },
   updateFollowingList: () => { },
   addFollow: () => { },
-  unfollow: () => {}
+  unfollow: () => {},
+  updateProfileLink:()=>{}
 });
 
 function ProfileContextProvider({ children }) {
@@ -34,7 +36,7 @@ function ProfileContextProvider({ children }) {
   const [availability, setAvailability] = useState({});
   const [social, setSocial] = useState({});
   const [profilePic, setProfilePic] = useState();
-
+  const [profileLink, setProfileLink] = useState();
   function addShow(newShow) {
     const newShowArrow = [...shows, newShow];
     setShows(newShowArrow);
@@ -57,6 +59,10 @@ function ProfileContextProvider({ children }) {
   }
   function updatePersonalInfo(personalInfo) {
     setPersonalInfo(personalInfo);
+  }
+
+  function updateProfileLink(link){
+    setProfileLink(link)
   }
 
   function updateBasic(basicInfo) {
@@ -100,7 +106,8 @@ function ProfileContextProvider({ children }) {
     setPersonalInfo({});
     setProfilePic();
     setAbout({});
-    setFollowingList([])
+    setFollowingList([]);
+    setProfileLink();
   }
   const value = {
     followingList: followingList,
@@ -111,6 +118,7 @@ function ProfileContextProvider({ children }) {
     social: social,
     profilePic: profilePic,
     personalInfo: personalInfo,
+    profileLink: profileLink,
     updateBasic: updateBasic,
     updateAbout: updateAbout,
     updateAvailability: updateAvailability,
@@ -123,7 +131,8 @@ function ProfileContextProvider({ children }) {
     signOut: signOut,
     updateFollowingList: updateFollowingList, 
     addFollow: addFollow,
-    unfollow: unfollow
+    unfollow: unfollow,
+    updateProfileLink:updateProfileLink
   };
 
   return (

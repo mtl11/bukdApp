@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  Linking
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import SocialTab from "../../components/profile/SocialProfileTabArtist.js";
@@ -58,7 +59,9 @@ const ProfileScreen = (props) => {
     const localId = await AsyncStorage.getItem("localId");
     const basicInfo = await getProfileInfo(localId);
     const otherInfo = await getProfileStart(localId);
+    console.log(otherInfo)
     profileCTX.updateBasic(basicInfo);
+    
     if (basicInfo.profileType == "general") {
       profileCTX.updatePersonalInfo({ firstName: basicInfo.firstName, lastName: basicInfo.lastName });
       if (otherInfo.hasOwnProperty("following")) {
@@ -89,6 +92,9 @@ const ProfileScreen = (props) => {
         );
       }
     }
+    if (otherInfo.hasOwnProperty("profileLink")){
+      profileCTX.updateProfileLink(otherInfo.profileLink.link);
+    }
     if (otherInfo.hasOwnProperty("shows")) {
       profileCTX.updateShows(otherInfo.shows);
     } else {
@@ -117,6 +123,11 @@ const ProfileScreen = (props) => {
     profileCTX.updateProfilePic(profileuri);
     setGettingInfo(false);
   }
+
+  const handleLinkPress = () => {
+    Linking.openURL(profileCTX.profileLink);
+  };
+
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
   const [availShow, setAvailShow] = useState(false);
@@ -314,6 +325,16 @@ const ProfileScreen = (props) => {
                     </Text>
                   </View>
                 </View>}
+                {profileCTX.profileLink && 
+                <TouchableOpacity onPress={handleLinkPress} style={{marginHorizontal:"5%", flexDirection:"row",marginTop:"3%"}}>
+                  <Ionicons name="link-outline" size={20} color={global.color.primaryColors.main} style={{paddingHorizontal:"2%"}}/>
+                  <Text style={{textDecorationLine: 'underline', 
+                          color: global.color.primaryColors.main,
+                        fontFamily: "Rubik-Regular",}}>
+                  {
+                  profileCTX.profileLink.split("/")[2]}
+                  </Text>
+                </TouchableOpacity>}
               <View
                 style={styles.tabView}
               >
