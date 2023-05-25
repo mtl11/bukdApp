@@ -28,6 +28,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import dark from "../../styles/profile/dark/profileScreen.js";
 import light from "../../styles/profile/light/profileScreen.js"
 import FollowingTab from "../../components/profile/FollowingTab.js";
+import { URL } from 'react-native-url-polyfill';
+
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
@@ -331,8 +333,7 @@ const ProfileScreen = (props) => {
                   <Text style={{textDecorationLine: 'underline', 
                           color: global.color.primaryColors.main,
                         fontFamily: "Rubik-Regular",}}>
-                  {
-                  profileCTX.profileLink.split("/")[2]}
+                  {new URL(profileCTX.profileLink).hostname}
                   </Text>
                 </TouchableOpacity>}
               <View

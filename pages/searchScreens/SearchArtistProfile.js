@@ -28,6 +28,8 @@ import { ProfileContext } from "../../store/profileContext";
 import { addToFollowingList } from "../../util/search";
 import { BottomSheet } from 'react-native-btr';
 import { unfollowAccount } from "../../util/profile";
+import { URL } from 'react-native-url-polyfill';
+
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
   const profileCTX = useContext(ProfileContext)
@@ -405,8 +407,7 @@ const ProfileScreen = (props) => {
                   color: global.color.primaryColors.main,
                   fontFamily: "Rubik-Regular",
                 }}>
-                  {
-                    profileLink.split("/")[2]}
+                  {new URL(profileLink).hostname}
                 </Text>
               </TouchableOpacity>}
             <View

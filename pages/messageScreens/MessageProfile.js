@@ -28,6 +28,8 @@ import ShowsTab from "../../components/search/ShowsTab";
 import { ProfileContext } from "../../store/profileContext";
 import { addToFollowingList } from "../../util/search";
 import { BottomSheet } from 'react-native-btr';
+import { URL } from 'react-native-url-polyfill';
+
 const MessageProfile = (props) => {
   const authCTX = useContext(AuthContext);
   const profileCTX = useContext(ProfileContext)
@@ -385,8 +387,7 @@ const MessageProfile = (props) => {
                   color: global.color.primaryColors.main,
                   fontFamily: "Rubik-Regular",
                 }}>
-                  {
-                    profileLink.split("/")[2]}
+                   {new URL(profileLink).hostname}
                 </Text>
               </TouchableOpacity>}
             <View
