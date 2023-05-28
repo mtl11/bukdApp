@@ -84,11 +84,11 @@ const VenueList = (props) => {
             </Text>
           </View>
         }
-        ListHeaderComponent={props.venues && <View style={{ marginBottom: "5%", marginHorizontal: "2.5%" }}>
-          <Text style={{ fontSize: 18, fontFamily: "Rubik-Medium" }}>
-            New Venues To Bukd
-          </Text>
-        </View>}
+        // ListHeaderComponent={props.venues && <View style={{ marginBottom: "5%", marginHorizontal: "2.5%" }}>
+        //   <Text style={{ fontSize: 18, fontFamily: "Rubik-Medium" }}>
+        //     New Venues To Bukd
+        //   </Text>
+        // </View>}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         numColumns={2}
         style={styles.list}

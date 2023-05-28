@@ -43,6 +43,27 @@ export async function addNewShowVenue(startTime, endTime, date, performersNeeded
   return response.data;
 }
 
+export async function editShowV(label, startTime, endTime, date, performersNeeded, description, localId, accessToken) {
+  const response = await firebaseUtil.put("/users/" + localId + "/shows/"+label+".json?auth="+accessToken, {
+    startTime: startTime,
+    endTime: endTime,
+    date: date,
+    performersNeeded: performersNeeded,
+    description: description,
+  });
+  return response.data;
+}
+
+export async function editShowP(label, startTime, endTime, date, venueName, description, localId, accessToken) {
+  const response = await firebaseUtil.put("/users/" + localId + "/shows/"+label+".json?auth="+accessToken, {
+    startTime: startTime,
+    endTime: endTime,
+    date: date,
+    venueName: venueName,
+    description: description,
+  });
+  return response.data;
+}
 
 export async function deleteSomeShow(localId, item, accessToken){
   const response = await firebaseUtil.delete("/users/" + localId + "/shows/"+item+".json?auth="+accessToken);

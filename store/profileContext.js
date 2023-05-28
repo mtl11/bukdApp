@@ -24,7 +24,8 @@ export const ProfileContext = createContext({
   updateFollowingList: () => { },
   addFollow: () => { },
   unfollow: () => {},
-  updateProfileLink:()=>{}
+  updateProfileLink:()=>{},
+  changeShow:()=>{}
 });
 
 function ProfileContextProvider({ children }) {
@@ -56,6 +57,9 @@ function ProfileContextProvider({ children }) {
 
   function updateShows(shows) {
     setShows(Object.entries(shows))
+  }
+  function changeShow(shows){
+    setShows(shows)
   }
   function updatePersonalInfo(personalInfo) {
     setPersonalInfo(personalInfo);
@@ -132,7 +136,8 @@ function ProfileContextProvider({ children }) {
     updateFollowingList: updateFollowingList, 
     addFollow: addFollow,
     unfollow: unfollow,
-    updateProfileLink:updateProfileLink
+    updateProfileLink:updateProfileLink,
+    changeShow:changeShow
   };
 
   return (

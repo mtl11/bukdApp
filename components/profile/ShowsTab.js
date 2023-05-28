@@ -20,18 +20,20 @@ import { ProfileContext } from "../../store/profileContext.js";
 import { addNewShow, getAccessToken, deleteSomeShow, addNewShowVenue } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import EditShow from "./EditShow";
 
 const ShowsTab = () => {
     const profileCTX = useContext(ProfileContext);
     const [shows, setShows] = useState(profileCTX.shows);
     const [visible, setVisible] = useState(false);
+    const [editVisible, editSetVisible] = useState(false);
     const [startTime, setStartTime] = useState(new Date());
     const [endTime, setEndTime] = useState(new Date());
     const [date, setDate] = useState(new Date());
     const [venueName, setVenueName] = useState("");
     const [description, setDescription] = useState("");
     const [performersNeeded, setPerformersNeeded] = useState(false);
-
+    const [editSelectedItem, setEditSelectedItem] = useState({});
     function formatAMPM(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -55,6 +57,7 @@ const ShowsTab = () => {
         const venueName = item.venueName;
         const performersNeeded = item.performersNeeded;
         const description = item.description;
+        
         return (
             <TouchableOpacity key={label} style={styles.showContainer} onPress={() => {
                 if (label == selectedItem) {
@@ -104,11 +107,11 @@ const ShowsTab = () => {
                     {selectedItem == label &&
                         <TouchableWithoutFeedback >
                             <View style={{ flexDirection: "row", justifyContent: "space-evenly", width: "110%", padding: "5%" }}>
-                                {/* <TouchableOpacity style={{ backgroundColor: "white", padding: 12, borderRadius: 12, width: "30%", alignItems: "center", borderWidth: 1, borderColor: global.color.primaryColors.main }}>
+                                <TouchableOpacity onPress={() => { setEditSelectedItem(item); editSetVisible(!editVisible) }} style={{ backgroundColor: "white", padding: 12, borderRadius: 12, width: "30%", alignItems: "center", borderWidth: 1, borderColor: global.color.primaryColors.main }}>
                                     <Text style={{ color: global.color.primaryColors.main, fontSize: 14, fontFamily: "Rubik-SemiBold" }}>
                                         Edit
                                     </Text>
-                                </TouchableOpacity> */}
+                                </TouchableOpacity>
                                 <TouchableOpacity onPress={deleteShow} style={{ backgroundColor: global.color.primaryColors.main, padding: 12, borderRadius: 12, width: "30%", alignItems: "center" }}>
                                     <Text style={{ color: "white", fontSize: 14, fontFamily: "Rubik-SemiBold" }}>
                                         Delete
@@ -211,7 +214,7 @@ const ShowsTab = () => {
                         }
                     }
                     ListFooterComponent={() => {
-                        console.log(shows.length)
+                        
                         if (shows.length <= 5) {
                             return (
                                 <View style={{ alignItems: "center", marginBottom: "5%" }}>
@@ -447,7 +450,12 @@ const ShowsTab = () => {
                     </KeyboardAwareScrollView>
                 </View>
             </Modal>
-
+            <EditShow
+                visible={editVisible}
+                setVisible={editSetVisible}
+                item={editSelectedItem} 
+                label={selectedItem}
+            />
         </View>
     );
 }

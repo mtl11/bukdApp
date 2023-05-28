@@ -217,19 +217,13 @@ const ProfileScreen = (props) => {
                   <Image
                     source={{ uri: profileCTX.profilePic }}
                     style={styles.profilePic}
-                    // resizeMode="contain"
-                    
-                  // defaultSource={}
                   />
                 </View>}
               {profileCTX.basicInfo.profileType != "general" &&
                 <View style={{ marginHorizontal: 30 }}>
                   <TouchableOpacity
                     style={{
-                      // justifyContent: "flex-end",
                       borderRadius: 12,
-                      // borderWidth: 1,
-                      // borderColor: "#FCFCFF",
                       width: "50%",
                       marginTop: 20,
                       marginBottom: 10,
