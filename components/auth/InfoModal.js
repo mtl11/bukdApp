@@ -19,7 +19,7 @@ import dark from "../../styles/auth/dark/infoModal";
 
 const InfoModal = (props) => {
     const authCTX = useContext(AuthContext);
-  const styles = authCTX.mode === "light" ? light : dark;
+    const styles = authCTX.mode === "light" ? light : dark;
     return (
         <Modal visible={props.visible} animationType="slide" transparent={true} >
             <SafeAreaView style={styles.modalView}>
@@ -27,15 +27,14 @@ const InfoModal = (props) => {
                     <Feather name="x" size={32} color={styles.iconColor} />
                 </TouchableOpacity>
                 <View style={styles.textContainer}>
-                
-                    <View style={{ marginTop: "5%", marginBottom: "5%", alignItems:"center" }}>
-                    <Ionicons name="ios-information-circle-outline" size={40} color={styles.iconColor} />
+                    <View style={{ marginTop: "5%", marginBottom: "5%", alignItems: "center" }}>
+                        {/* <Ionicons name="ios-information-circle-outline" size={40} color={styles.iconColor} /> */}
                         <Text style={styles.bigText}>
                             Welcome To Bukd
                         </Text>
                         <Text style={styles.smallerText}>
-                        Bukd is in all inclusive platform that connects small businesses to local musicians for bookings.
-                    </Text>
+                            Bukd is in all inclusive platform that connects small businesses to local musicians for bookings.
+                        </Text>
                     </View>
                     <View style={styles.headerContainer}>
                         <Ionicons name={"person"} size={24} color={styles.infoIconColor} />
@@ -44,8 +43,8 @@ const InfoModal = (props) => {
                                 Profile
                             </Text>
                             <Text style={styles.regularText}>
-                            Profiles designed to show off your uniquness and book gigs faster by showcasing your 
-                            talent directly with users.
+                                Profiles designed to show off your uniquness and book gigs faster by showcasing your
+                                talent directly with users.
                             </Text>
                         </View>
                     </View>

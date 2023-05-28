@@ -14,6 +14,8 @@ import { AuthContext } from "../../store/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ForgetPasswordScreen from "../../pages/authScreens/ForgetPasswordScreen";
 import SignupScreen from "../../pages/authScreens/SignupScreen";
+import { Ionicons } from '@expo/vector-icons';
+import InfoModal from "../auth/InfoModal";
 
 const UnAuthSearch = (props) => {
     const authCTX = useContext(AuthContext);
@@ -36,19 +38,29 @@ const UnAuthSearch = (props) => {
     }
     const [forgotPassVisible, setForgotPassVisible] = useState(false);
     const [signupVisible, setSignupVisible] = useState(false);
+    const [infoModalVisible, setInfoModalVisible] = useState(false);
     return (
         <Modal animationType="slide" visible={props.visible}>
             <ForgetPasswordScreen visible={forgotPassVisible} setVisible={setForgotPassVisible} />
             <SignupScreen visible={signupVisible} setVisible={setSignupVisible} />
+            <InfoModal visible={infoModalVisible} setVisible={setInfoModalVisible}/>
             <SafeAreaView >
-                <TouchableOpacity
-                    style={{ marginHorizontal: 30 }}
-                    onPress={() => { props.setVisible(false); setPasswordDontMatch(false); }}
-                >
-                    <Text style={{ fontSize: 18 }}>
-                        Cancel
-                    </Text>
-                </TouchableOpacity>
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <TouchableOpacity
+                        style={{ marginHorizontal: 30 }}
+                        onPress={() => { props.setVisible(false); setPasswordDontMatch(false); }}
+                    >
+                        <Text style={{ fontSize: 18 }}>
+                            Cancel
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={{ marginHorizontal: 30 }}
+                        onPress={() => { setInfoModalVisible(!infoModalVisible); }}
+                    >
+                        <Ionicons name="information-circle-outline" size={30} color="black" />
+                    </TouchableOpacity>
+                </View>
                 <View
                     style={{
                         flexDirection: "row",
