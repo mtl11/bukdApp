@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
-  Linking
+  Linking,
+  Modal
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import SocialTab from "../../components/profile/SocialProfileTabArtist.js";
@@ -29,19 +30,19 @@ import dark from "../../styles/profile/dark/profileScreen.js";
 import light from "../../styles/profile/light/profileScreen.js"
 import FollowingTab from "../../components/profile/FollowingTab.js";
 import { URL } from 'react-native-url-polyfill';
+import { Feather } from '@expo/vector-icons';
 
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
   const profileCTX = useContext(ProfileContext);
   const [gettingInfo, setGettingInfo] = useState(false);
-  // const { search } = props.route.params;
-  async function helper(data){
+  async function helper(data) {
     const array = [];
-    for (const x in data){
+    for (const x in data) {
       const singleData = await getProfileInfo(data[x][0]);
       let profileURI = singleData.profileURI;
-      if (profileURI == null){
+      if (profileURI == null) {
         profileURI = data[x][1].profileURI;
       }
 
@@ -51,7 +52,6 @@ const ProfileScreen = (props) => {
         searchID: data[x][0]
       })
     }
-    console.log(data)
     return array;
   }
 
@@ -61,9 +61,8 @@ const ProfileScreen = (props) => {
     const localId = await AsyncStorage.getItem("localId");
     const basicInfo = await getProfileInfo(localId);
     const otherInfo = await getProfileStart(localId);
-    console.log(otherInfo)
     profileCTX.updateBasic(basicInfo);
-    
+
     if (basicInfo.profileType == "general") {
       profileCTX.updatePersonalInfo({ firstName: basicInfo.firstName, lastName: basicInfo.lastName });
       if (otherInfo.hasOwnProperty("following")) {
@@ -94,7 +93,7 @@ const ProfileScreen = (props) => {
         );
       }
     }
-    if (otherInfo.hasOwnProperty("profileLink")){
+    if (otherInfo.hasOwnProperty("profileLink")) {
       profileCTX.updateProfileLink(otherInfo.profileLink.link);
     }
     if (otherInfo.hasOwnProperty("shows")) {
@@ -130,6 +129,12 @@ const ProfileScreen = (props) => {
     Linking.openURL(profileCTX.profileLink);
   };
 
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const handleImageClick = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   const [socialShow, setSocialShow] = useState(false);
   const [aboutShow, setAboutShow] = useState(true);
   const [availShow, setAvailShow] = useState(false);
@@ -161,7 +166,7 @@ const ProfileScreen = (props) => {
   if (authCTX.isAuthenticated) {
     return (
       <View>
-        <SafeAreaView style={{ backgroundColor: global.color.primaryColors.main }} />
+        {/* <SafeAreaView style={{ backgroundColor: global.color.primaryColors.main }} /> */}
         <SafeAreaView style={styles.container}>
           {gettingInfo ? (
             <View style={{ height: "100%", justifyContent: "center" }}>
@@ -170,29 +175,29 @@ const ProfileScreen = (props) => {
           ) : (
             <View style={styles.container}>
               <View style={{
-                flexDirection: "row",justifyContent:"space-between",
-                backgroundColor: global.color.primaryColors.main,
-                height: profileCTX.basicInfo.profileType != "general" ? "12%" : "5%"
+                flexDirection: "row", justifyContent: "space-between",
+                // backgroundColor: global.color.primaryColors.main,
+                // height:  "5%"
               }}>
                 <View>
-                  {props.route.params != undefined && 
+                  {props.route.params != undefined &&
                     <TouchableOpacity
-                    style={styles.topIconContainer}
-                    onPress={() => {
-                      props.navigation.pop();
-                    }}
-                  >
-                    <Ionicons
-                      name="arrow-back"
-                      size={28}
-                      color={styles.iconColor}
-                    />
-                  </TouchableOpacity>
+                      style={styles.topIconContainer}
+                      onPress={() => {
+                        props.navigation.pop();
+                      }}
+                    >
+                      <Ionicons
+                        name="arrow-back"
+                        size={28}
+                        color={global.color.secondaryColors.main}
+                      />
+                    </TouchableOpacity>
                   }
                 </View>
                 <View>
                   <TouchableOpacity
-                    style={[styles.topIconContainer,{alignSelf:"flex-end"}]}
+                    style={[styles.topIconContainer, { alignSelf: "flex-end" }]}
                     onPress={() => {
                       props.navigation.navigate("ProfileSettingsScreen");
                     }}
@@ -200,55 +205,64 @@ const ProfileScreen = (props) => {
                     <Ionicons
                       name="ios-settings"
                       size={28}
-                      color={styles.iconColor}
+                      color={global.color.secondaryColors.main}
                     />
                   </TouchableOpacity>
                 </View>
               </View>
               {profileCTX.basicInfo.profileType != "general" &&
-                <View style={[styles.profilePicContainer, {
-                  position: 'absolute',
-                  top: "-1.5%",
-                  bottom: 0,
-                  width: 120,
-                  height: 120,
-                  marginHorizontal: 30
-                }]}>
-                  <Image
-                    source={{ uri: profileCTX.profilePic }}
-                    style={styles.profilePic}
-                  />
-                </View>}
-              {profileCTX.basicInfo.profileType != "general" &&
-                <View style={{ marginHorizontal: 30 }}>
-                  <TouchableOpacity
-                    style={{
-                      borderRadius: 12,
-                      width: "50%",
-                      marginTop: 20,
-                      marginBottom: 10,
-                      backgroundColor: global.color.primaryColors.main,
-                      alignSelf: "flex-end",
-                      shadowColor: "#000",
-                      shadowOffset: {
-                        width: 0,
-                        height: 1,
-                      },
-                      shadowOpacity: 0.22,
-                      shadowRadius: 2.22
-                    }}
-                    onPress={() => {
-                      props.navigation.navigate("EditProfileArtistScreen");
-                    }}
-                  >
-                    <View style={{ alignSelf: "center", padding: 10 }}>
-                      <Text
-                        style={styles.editProfileText}
-                      >
-                        Edit Profile
-                      </Text>
-                    </View>
+                <View style={{
+                  flexDirection: "row", justifyContent: "space-between", marginHorizontal: 30,
+                  alignItems: "center", marginBottom: "2%"
+                }}>
+                  <TouchableOpacity style={{
+                    borderWidth: 3,
+                    justifyContent: "center",
+                    overflow: "hidden",
+                    width: 120,
+                    height: 120,
+                    borderRadius: 100,
+                    borderColor: global.color.primaryColors.main
+                  }} onPress={handleImageClick} >
+                    {/* <TouchableOpacity onPress={handleImageClick}> */}
+                    <Image
+                      source={{ uri: profileCTX.profilePic }}
+                      style={styles.profilePic}
+                    />
+                    {/* </TouchableOpacity> */}
                   </TouchableOpacity>
+
+                  <View>
+                    <TouchableOpacity
+                      style={{
+                        borderRadius: 12,
+                        // width: "50%",
+                        paddingHorizontal: 10,
+                        marginTop: 20,
+                        marginBottom: 10,
+                        backgroundColor: global.color.primaryColors.main,
+                        alignSelf: "flex-end",
+                        shadowColor: "#000",
+                        shadowOffset: {
+                          width: 0,
+                          height: 1,
+                        },
+                        shadowOpacity: 0.22,
+                        shadowRadius: 2.22
+                      }}
+                      onPress={() => {
+                        props.navigation.navigate("EditProfileArtistScreen");
+                      }}
+                    >
+                      <View style={{ alignSelf: "center", padding: 10 }}>
+                        <Text
+                          style={styles.editProfileText}
+                        >
+                          Edit Profile
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
                 </View>}
               {profileCTX.basicInfo.profileType != "general" ?
                 <View style={{ marginHorizontal: 30 }}>
@@ -270,7 +284,7 @@ const ProfileScreen = (props) => {
                             |{" "}{profileCTX.about.genre} </Text>}
                         </Text>
                       </View>
-                      ) : (
+                    ) : (
                       <View>
                         <Text style={{
                           color: global.color.primaryColors.main,
@@ -296,7 +310,7 @@ const ProfileScreen = (props) => {
                       </Text>
                     </View>
                   </View>
-                        
+
                   <View>
                     <Text style={{
                       color: "black",
@@ -305,7 +319,7 @@ const ProfileScreen = (props) => {
                     }}>{profileCTX.about.bio}</Text>
                   </View>
                   {profileCTX.about.hasOwnProperty("equipment") &&
-                    <View style={{flexDirection: "row", alignItems: "center" }}>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
                       {/* <FontAwesome5 name="clipboard" size={20} color={global.color.secondaryColors.placeHolderTextColor} /> */}
                       <Text style={{
                         color: global.color.secondaryColors.placeHolderTextColor,
@@ -321,13 +335,15 @@ const ProfileScreen = (props) => {
                     </Text>
                   </View>
                 </View>}
-                {profileCTX.profileLink && 
-                <TouchableOpacity onPress={handleLinkPress} style={{marginHorizontal:"5%", flexDirection:"row",marginTop:"3%"}}>
-                  <Ionicons name="link-outline" size={20} color={global.color.primaryColors.main} style={{paddingHorizontal:"2%"}}/>
-                  <Text style={{textDecorationLine: 'underline', 
-                          color: global.color.primaryColors.main,
-                        fontFamily: "Rubik-Regular",}}>
-                  {new URL(profileCTX.profileLink).hostname}
+              {profileCTX.profileLink &&
+                <TouchableOpacity onPress={handleLinkPress} style={{ marginHorizontal: "5%", flexDirection: "row", marginTop: "3%" }}>
+                  <Ionicons name="link-outline" size={20} color={global.color.primaryColors.main} style={{ paddingHorizontal: "2%" }} />
+                  <Text style={{
+                    textDecorationLine: 'underline',
+                    color: global.color.primaryColors.main,
+                    fontFamily: "Rubik-Regular",
+                  }}>
+                    {new URL(profileCTX.profileLink).hostname}
                   </Text>
                 </TouchableOpacity>}
               <View
@@ -405,6 +421,24 @@ const ProfileScreen = (props) => {
               {getScreenTab()}
             </View>
           )}
+         <Modal visible={isModalVisible} transparent={true}>
+            <SafeAreaView style={{
+              flex: 1,
+              alignItems: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            }}>
+              <TouchableOpacity style={{ alignSelf: "flex-start", marginHorizontal: "5%",marginTop: "5%" }} onPress={handleImageClick}>
+                <Feather name="x" size={32} color={"white"} />
+              </TouchableOpacity>
+              <View style={{ marginTop: "20%" }}>
+                <Image source={{ uri: profileCTX.profilePic }}
+                  style={{
+                    width: 300,
+                    height: 300,
+                  }} />
+              </View>
+            </SafeAreaView>
+          </Modal>
         </SafeAreaView>
       </View >
     )

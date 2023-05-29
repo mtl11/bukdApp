@@ -8,9 +8,10 @@ import {
   Image,
   ActivityIndicator,
   Alert,
-  Linking
+  Linking,
+  Modal
 } from "react-native";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import global from "../../styles/global";
 import {
   getAccessToken,
@@ -140,6 +141,12 @@ const MessageProfile = (props) => {
     ]);
   }
 
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const handleImageClick = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   const [visible, setVisible] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false)
   useEffect(() => {
@@ -148,10 +155,11 @@ const MessageProfile = (props) => {
   useEffect(() => {
     setIsFollowing(checkFollowingList())
   })
+
   return (
     <View>
       <UnAuthSearch visible={visible} setVisible={setVisible} props={props} />
-      <SafeAreaView style={{ backgroundColor: global.color.primaryColors.main }} />
+      {/* <SafeAreaView style={{ backgroundColor: global.color.primaryColors.main }} /> */}
       <SafeAreaView style={styles.container}>
         {gettingInfo ? (
           <View style={{ height: "100%", justifyContent: "center" }}>
@@ -211,7 +219,7 @@ const MessageProfile = (props) => {
                 </View>
               </View>
             </BottomSheet>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", backgroundColor: global.color.primaryColors.main, height: "12%" }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
               <View>
                 <TouchableOpacity
                   style={styles.topIconContainer}
@@ -222,7 +230,7 @@ const MessageProfile = (props) => {
                   <Ionicons
                     name="arrow-back"
                     size={28}
-                    color={styles.iconColor}
+                    color={global.color.primaryColors.main}
                   />
                 </TouchableOpacity>
               </View>
@@ -234,28 +242,36 @@ const MessageProfile = (props) => {
                   <Ionicons
                     name="ellipsis-horizontal-sharp"
                     size={28}
-                    color={styles.iconColor} />
+                    color={global.color.primaryColors.main} />
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={[styles.profilePicContainer, {
-              position: 'absolute',
-              top: "-1%",
-              bottom: "0%",
+            <View style={{
+                  flexDirection: "row", justifyContent: "space-between", marginHorizontal: 30,
+                  alignItems: "center", marginBottom: "2%"
+                }}>
+            <TouchableOpacity style={{
+              borderWidth: 3,
+              justifyContent: "center",
+              overflow: "hidden",
               width: 120,
               height: 120,
-              marginHorizontal: 30
-            }]}>
+              borderRadius: 100,
+              borderColor: global.color.primaryColors.main,
+              
+            }}
+            onPress={handleImageClick}
+            >
               <Image
                 source={{ uri: profileURI }}
                 style={styles.profilePic}
               />
-            </View>
-            <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
+            </TouchableOpacity>
+            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
               <TouchableOpacity
                 style={{
                   borderRadius: 12,
-                  width: "30%",
+                  paddingHorizontal:10,
                   marginTop: 20,
                   marginBottom: 10,
                   backgroundColor: global.color.primaryColors.main,
@@ -286,9 +302,9 @@ const MessageProfile = (props) => {
                   style={{
                     // justifyContent: "flex-end",
                     borderRadius: 12,
-                    // borderWidth: 1,
+                    paddingHorizontal:5,
                     marginLeft: 10,
-                    width: "15%",
+                    // width: "15%",
                     marginTop: 20,
                     marginBottom: 10,
                     backgroundColor: global.color.primaryColors.main,
@@ -315,10 +331,13 @@ const MessageProfile = (props) => {
                   }}
                 >
                   <View style={{ alignSelf: "center", padding: 10 }}>
-                    {isFollowing == true ? <MaterialCommunityIcons name="cards-heart" size={20} color="white" /> :
-                      <MaterialCommunityIcons name="cards-heart-outline" size={20} color="white" />}
+                    {isFollowing == true ? <MaterialCommunityIcons name="cards-heart" size={22} color="white" /> :
+                      <MaterialCommunityIcons name="cards-heart-outline" size={22} color="white" />}
                   </View>
-                </TouchableOpacity> : <View></View>}</View>
+                </TouchableOpacity> : <View></View>}
+            </View>
+            </View>
+
             <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
             </View>
             <View style={{ marginHorizontal: 30 }}>
@@ -387,7 +406,7 @@ const MessageProfile = (props) => {
                   color: global.color.primaryColors.main,
                   fontFamily: "Rubik-Regular",
                 }}>
-                   {new URL(profileLink).hostname}
+                  {new URL(profileLink).hostname}
                 </Text>
               </TouchableOpacity>}
             <View
@@ -458,6 +477,24 @@ const MessageProfile = (props) => {
             {getScreenTab()}
           </View>
         )}
+        <Modal visible={isModalVisible} transparent={true}>
+          <SafeAreaView style={{
+            flex: 1,
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          }}>
+            <TouchableOpacity style={{ alignSelf: "flex-start", marginHorizontal: "5%", marginTop: "5%" }} onPress={handleImageClick}>
+              <Feather name="x" size={32} color={"white"} />
+            </TouchableOpacity>
+            <View style={{ marginTop: "20%" }}>
+              <Image source={{ uri: profileURI }}
+                style={{
+                  width: 300,
+                  height: 300,
+                }} />
+            </View>
+          </SafeAreaView>
+        </Modal>
       </SafeAreaView>
     </View >
   );
