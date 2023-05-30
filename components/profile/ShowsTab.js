@@ -57,7 +57,7 @@ const ShowsTab = () => {
         const venueName = item.venueName;
         const performersNeeded = item.performersNeeded;
         const description = item.description;
-        
+
         return (
             <TouchableOpacity key={label} style={styles.showContainer} onPress={() => {
                 if (label == selectedItem) {
@@ -99,8 +99,8 @@ const ShowsTab = () => {
                         </View>
                     </View>
                     {description &&
-                        <View>
-                            <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, margin: "3%" }}>
+                        <View style={{ marginVertical: "5%", marginHorizontal: "2%" }}>
+                            <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, lineHeight: 20 }}>
                                 {description}
                             </Text>
                         </View>}
@@ -214,7 +214,7 @@ const ShowsTab = () => {
                         }
                     }
                     ListFooterComponent={() => {
-                        
+
                         if (shows.length <= 5) {
                             return (
                                 <View style={{ alignItems: "center", marginBottom: "5%" }}>
@@ -453,7 +453,7 @@ const ShowsTab = () => {
             <EditShow
                 visible={editVisible}
                 setVisible={editSetVisible}
-                item={editSelectedItem} 
+                item={editSelectedItem}
                 label={selectedItem}
             />
         </View>

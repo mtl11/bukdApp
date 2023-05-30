@@ -31,9 +31,9 @@ const EditShow = (props) => {
         const newShow = [props.label, {
             date: date,
             description: description,
-            endTime: startTime,
+            endTime: endTime,
             venueName: venueName,
-            startTime: endTime
+            startTime: startTime
         }];
 
         const shows = profileCTX.shows;
@@ -47,9 +47,9 @@ const EditShow = (props) => {
         const newShow = [props.label, {
             date: date,
             description: description,
-            endTime: startTime,
+            endTime: endTime,
             performersNeeded: performersNeeded,
-            startTime: endTime
+            startTime: startTime
         }];
 
         const shows = profileCTX.shows;

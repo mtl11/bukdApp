@@ -68,10 +68,27 @@ const AvailabilityProfileArtist = () => {
 
   const time = () => {
     const array = [];
-    for (const x in profileCTX.availabilty.times) {
+    const unSortedArray = [];
+    if (profileCTX.availabilty.hasOwnProperty("times")) {
+      const entries = Object.entries(profileCTX.availabilty.times);
+      for (const entry in entries) {
+        unSortedArray.push(entries[entry][0])
+      }
+    }
+    const sortedDays = unSortedArray.sort((a, b) => {
+      const order = {
+        morn: 1,
+        after: 2,
+        evening: 3,
+        night: 4,
+      };
+      return order[a] - order[b];
+    });
+
+    for (const x in sortedDays) {
       const item = (
         <View key={x} style={styles.timeContainer}>
-          <Text style={styles.bigText}>{getHour(x)}</Text>
+          <Text style={styles.bigText}>{getHour(sortedDays[x])}</Text>
           {/* <Text
             style={[styles.bigText, { color: styles.headerTextColor }]}
           >
@@ -95,10 +112,30 @@ const AvailabilityProfileArtist = () => {
 
   const dow = () => {
     const array = [];
-    for (const x in profileCTX.availabilty.dow) {
+    const unSortedArray = [];
+    if (profileCTX.availabilty.hasOwnProperty("dow")) {
+      const entries = Object.entries(profileCTX.availabilty.dow);
+      for (const entry in entries) {
+        unSortedArray.push(entries[entry][0])
+      }
+    }
+    const sortedDays = unSortedArray.sort((a, b) => {
+      const order = {
+        mon: 1,
+        tue: 2,
+        wed: 3,
+        thu: 4,
+        fri: 5,
+        sat: 6,
+        sun: 7
+      };
+      return order[a] - order[b];
+    });
+
+    for (const x in sortedDays) {
       const item = (
         <View key={x}>
-          <Text style={[styles.bigText, { marginTop: "5%" }]}>{getDow(x)}</Text>
+          <Text style={[styles.bigText, { marginTop: "5%" }]}>{getDow(sortedDays[x])}</Text>
         </View>
       );
       array.push(item);
@@ -114,8 +151,7 @@ const AvailabilityProfileArtist = () => {
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      
+    <ScrollView style={[styles.container, { marginBottom: 0 }]} showsVerticalScrollIndicator={false}>
       <View style={styles.singleContainer}>
         <View style={styles.headerContainer}>
           <Ionicons

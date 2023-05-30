@@ -51,7 +51,7 @@ const ShowsTab = (props) => {
                             {props.basicInfo.profileType == "venue" ? 
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
                                 {performersNeeded ?<MaterialIcons name="event-available" size={24} color={global.color.secondaryColors.placeHolderTextColor} />:
-                                <MaterialIcons name="event-busy" size={24} color="black" />}
+                                <MaterialIcons name="event-busy" size={24} color={global.color.secondaryColors.placeHolderTextColor} />}
                                 <Text style={styles.smallText}>
                                     {performersNeeded ? "Performers needed" : "Booked"}
                                 </Text>
@@ -70,8 +70,8 @@ const ShowsTab = (props) => {
                         </View>
                     </View>
                     {description &&
-                    <View>  
-                        <Text style={{fontFamily:"Rubik-Regular", fontSize: 16, margin: "3%"}}>
+                    <View style={{ marginVertical:"5%", marginHorizontal: "2%"}}>  
+                        <Text style={{fontFamily:"Rubik-Regular", fontSize: 16, lineHeight: 20}}>
                             {description}    
                         </Text>     
                     </View>
