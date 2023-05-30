@@ -31,6 +31,7 @@ import light from "../../styles/profile/light/profileScreen.js"
 import FollowingTab from "../../components/profile/FollowingTab.js";
 import { URL } from 'react-native-url-polyfill';
 import { Feather } from '@expo/vector-icons';
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -421,23 +422,24 @@ const ProfileScreen = (props) => {
               {getScreenTab()}
             </View>
           )}
-         <Modal visible={isModalVisible} transparent={true}>
-            <SafeAreaView style={{
-              flex: 1,
+        <Modal visible={isModalVisible} transparent={true}>
+          <TouchableWithoutFeedback onPress={handleImageClick}>
+            <View style={{
               alignItems: 'center',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              justifyContent: 'center',
+              backgroundColor: '#000000c0',
+
             }}>
-              <TouchableOpacity style={{ alignSelf: "flex-start", marginHorizontal: "5%",marginTop: "5%" }} onPress={handleImageClick}>
-                <Feather name="x" size={32} color={"white"} />
-              </TouchableOpacity>
-              <View style={{ marginTop: "20%" }}>
+              <View style={{ height: "100%", alignContent:"center", justifyContent:"center" }}>
                 <Image source={{ uri: profileCTX.profilePic }}
                   style={{
-                    width: 300,
-                    height: 300,
+                    width: 250,
+                    height: 250,
+                    borderRadius: 1000
                   }} />
               </View>
-            </SafeAreaView>
+            </View>
+          </TouchableWithoutFeedback>
           </Modal>
         </SafeAreaView>
       </View >

@@ -30,6 +30,7 @@ import { ProfileContext } from "../../store/profileContext";
 import { addToFollowingList } from "../../util/search";
 import { BottomSheet } from 'react-native-btr';
 import { URL } from 'react-native-url-polyfill';
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const MessageProfile = (props) => {
   const authCTX = useContext(AuthContext);
@@ -478,23 +479,24 @@ const MessageProfile = (props) => {
           </View>
         )}
         <Modal visible={isModalVisible} transparent={true}>
-          <SafeAreaView style={{
-            flex: 1,
-            alignItems: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          }}>
-            <TouchableOpacity style={{ alignSelf: "flex-start", marginHorizontal: "5%", marginTop: "5%" }} onPress={handleImageClick}>
-              <Feather name="x" size={32} color={"white"} />
-            </TouchableOpacity>
-            <View style={{ marginTop: "20%" }}>
-              <Image source={{ uri: profileURI }}
-                style={{
-                  width: 300,
-                  height: 300,
-                }} />
+          <TouchableWithoutFeedback onPress={handleImageClick}>
+            <View style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#000000c0',
+
+            }}>
+              <View style={{ height: "100%", alignContent:"center", justifyContent:"center" }}>
+                <Image source={{ uri: profileURI }}
+                  style={{
+                    width: 250,
+                    height: 250,
+                    borderRadius: 1000
+                  }} />
+              </View>
             </View>
-          </SafeAreaView>
-        </Modal>
+          </TouchableWithoutFeedback>
+          </Modal>
       </SafeAreaView>
     </View >
   );

@@ -31,6 +31,7 @@ import { BottomSheet } from 'react-native-btr';
 import { unfollowAccount } from "../../util/profile";
 import { URL } from 'react-native-url-polyfill';
 import { Feather } from '@expo/vector-icons';
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -258,103 +259,103 @@ const ProfileScreen = (props) => {
                 </View>}
             </View>
             <View style={{
-                  flexDirection: "row", justifyContent: "space-between", marginHorizontal: 30,
-                  alignItems: "center", marginBottom: "2%"
-                }}>
-            <TouchableOpacity style={{
-              borderWidth: 3,
-              justifyContent: "center",
-              overflow: "hidden",
-              width: 120,
-              height: 120,
-              borderRadius: 100,
-              borderColor: global.color.primaryColors.main,
-              
-            }}
-            onPress={handleImageClick}
-            >
-              <Image
-                source={{ uri: profileURI }}
-                style={styles.profilePic}
-              />
-            </TouchableOpacity>
+              flexDirection: "row", justifyContent: "space-between", marginHorizontal: 30,
+              alignItems: "center", marginBottom: "2%"
+            }}>
+              <TouchableOpacity style={{
+                borderWidth: 3,
+                justifyContent: "center",
+                overflow: "hidden",
+                width: 120,
+                height: 120,
+                borderRadius: 100,
+                borderColor: global.color.primaryColors.main,
 
-            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              {((basicInfo.profileType == "venue" && profileType == "performer") || basicInfo.profileType == "performer") == true &&
-                <TouchableOpacity
-                  style={{
-                    borderRadius: 12,
-                    paddingHorizontal: 10,
-                    marginTop: 20,
-                    marginBottom: 10,
-                    backgroundColor: global.color.primaryColors.main,
-                    alignSelf: "flex-end",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 1,
-                    },
-                    shadowOpacity: 0.22,
-                    shadowRadius: 2.22
-                  }}
-                  onPress={() => {
-                    if (authCTX.isAuthenticated == true) {
-                      props.navigation.navigate("SearchChat", {
-                        displayName: basicInfo.profileName, searchID: searchID
-                      })
-                    } else {
-                      setVisible(true);
-                    }
-                  }}
-                >
-                  <View style={{ alignSelf: "center", padding: 10 }}>
-                    <Text
-                      style={styles.editProfileText}
-                    >
-                      Message
-                    </Text>
-                  </View>
-                </TouchableOpacity>}
-              {(profileType == "general") || (!authCTX.isAuthenticated) ?
-                <TouchableOpacity
-                  style={{
-                    // justifyContent: "flex-end",
-                    borderRadius: 12,
-                    paddingHorizontal:5,
-                    marginLeft: 10,
-                    // width: "15%",
-                    marginTop: 20,
-                    marginBottom: 10,
-                    backgroundColor: global.color.primaryColors.main,
-                    alignSelf: "flex-end",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 1,
-                    },
-                    shadowOpacity: 0.22,
-                    shadowRadius: 2.22
-                  }}
-                  onPress={() => {
-                    if (checkFollowingList() == true) {
-                      unfollowAlert(basicInfo.profileName, searchID);
-                    } else {
+              }}
+                onPress={handleImageClick}
+              >
+                <Image
+                  source={{ uri: profileURI }}
+                  style={styles.profilePic}
+                />
+              </TouchableOpacity>
+
+              <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                {((basicInfo.profileType == "venue" && profileType == "performer") || basicInfo.profileType == "performer") == true &&
+                  <TouchableOpacity
+                    style={{
+                      borderRadius: 12,
+                      paddingHorizontal: 10,
+                      marginTop: 20,
+                      marginBottom: 10,
+                      backgroundColor: global.color.primaryColors.main,
+                      alignSelf: "flex-end",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 1,
+                      },
+                      shadowOpacity: 0.22,
+                      shadowRadius: 2.22
+                    }}
+                    onPress={() => {
                       if (authCTX.isAuthenticated == true) {
-                        setIsFollowing(true);
-                        addToFollowing();
+                        props.navigation.navigate("SearchChat", {
+                          displayName: basicInfo.profileName, searchID: searchID
+                        })
                       } else {
                         setVisible(true);
                       }
-                    }
-                  }}
-                >
-                  <View style={{ alignSelf: "center", padding: 10 }}>
-                    {isFollowing == true ? <MaterialCommunityIcons name="cards-heart" size={22} color="white" /> :
-                      <MaterialCommunityIcons name="cards-heart-outline" size={22} color="white" />}
-                  </View>
-                </TouchableOpacity> : <View></View>}
-              {profileType == "venue" && <View style={{ marginTop: 50, }}>
-              </View>}
+                    }}
+                  >
+                    <View style={{ alignSelf: "center", padding: 10 }}>
+                      <Text
+                        style={styles.editProfileText}
+                      >
+                        Message
+                      </Text>
+                    </View>
+                  </TouchableOpacity>}
+                {(profileType == "general") || (!authCTX.isAuthenticated) ?
+                  <TouchableOpacity
+                    style={{
+                      // justifyContent: "flex-end",
+                      borderRadius: 12,
+                      paddingHorizontal: 5,
+                      marginLeft: 10,
+                      // width: "15%",
+                      marginTop: 20,
+                      marginBottom: 10,
+                      backgroundColor: global.color.primaryColors.main,
+                      alignSelf: "flex-end",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 1,
+                      },
+                      shadowOpacity: 0.22,
+                      shadowRadius: 2.22
+                    }}
+                    onPress={() => {
+                      if (checkFollowingList() == true) {
+                        unfollowAlert(basicInfo.profileName, searchID);
+                      } else {
+                        if (authCTX.isAuthenticated == true) {
+                          setIsFollowing(true);
+                          addToFollowing();
+                        } else {
+                          setVisible(true);
+                        }
+                      }
+                    }}
+                  >
+                    <View style={{ alignSelf: "center", padding: 10 }}>
+                      {isFollowing == true ? <MaterialCommunityIcons name="cards-heart" size={22} color="white" /> :
+                        <MaterialCommunityIcons name="cards-heart-outline" size={22} color="white" />}
+                    </View>
+                  </TouchableOpacity> : <View></View>}
+                {profileType == "venue" && <View style={{ marginTop: 50, }}>
+                </View>}
               </View>
             </View>
             <View style={{ marginHorizontal: 30 }}>
@@ -497,24 +498,26 @@ const ProfileScreen = (props) => {
           </View>
         )}
         <Modal visible={isModalVisible} transparent={true}>
-            <SafeAreaView style={{
-              flex: 1,
+          <TouchableWithoutFeedback onPress={handleImageClick}>
+            <View style={{
+              // flex: 1,
               alignItems: 'center',
-              // justifyContent: 'center',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              justifyContent: 'center',
+              backgroundColor: '#000000c0',
+
             }}>
-              <TouchableOpacity style={{ alignSelf: "flex-start", marginHorizontal: "5%",marginTop: "5%" }} onPress={handleImageClick}>
-                <Feather name="x" size={32} color={"white"} />
-              </TouchableOpacity>
-              <View style={{ marginTop: "20%" }}>
+              <View style={{ height: "100%", alignContent:"center", justifyContent:"center" }}>
                 <Image source={{ uri: profileURI }}
                   style={{
-                    width: 300,
-                    height: 300,
+                    width: 250,
+                    height: 250,
+                    borderRadius: 1000
                   }} />
               </View>
-            </SafeAreaView>
-          </Modal>
+            </View>
+          </TouchableWithoutFeedback>
+          {/* </SafeAreaView> */}
+        </Modal>
       </SafeAreaView>
     </View >
   );
