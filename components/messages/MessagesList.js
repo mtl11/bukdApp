@@ -97,7 +97,7 @@ const MessagesLists = (props) => {
             </View>
             {chatroom.item.lastMessage != null &&
               <View>
-                <Text style={styles.lastText}>{chatroom.item.lastMessage.message.text}</Text>
+                <Text numberOfLines={1} ellipsizeMode="tail" style={styles.lastText}>{chatroom.item.lastMessage.message.text}</Text>
               </View>}
           </View>
         </View>
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   nameAndTextContainer: {
-    paddingLeft: "5%",
+    paddingHorizontal: "5%",
     flexGrow: 1,
     borderColor: global.color.secondaryColors.adjacent,
   },
@@ -166,13 +166,7 @@ const styles = StyleSheet.create({
     color: global.color.secondaryColors.text,
     // paddingBottom: "1%",
   },
-  imageContainer: {
-    // padding: 10,
-    // overflow: "hidden",
-    // // borderWidth: 1.5,
-    // // borderRadius: 100,
-    // borderColor: global.color.secondaryColors.adjacent
-  },
+ 
 })
 
 export default MessagesLists;

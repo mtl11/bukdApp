@@ -134,14 +134,16 @@ const MessageChat = (props) => {
             <GiftedChat
                 renderSend={props => renderSend(props, chatRoomID, senderID)}
                 renderInputToolbar={props => customtInputToolbar(props)}
-                messagesContainerStyle={{ paddingBottom: 12 }}
+                messagesContainerStyle={{ paddingBottom: 12, paddingHorizontal:10 }}
                 textInputStyle={styles.input}
                 messages={messages}
                 onSend={messages => onSend(messages)}
                 user={{
                     _id: senderID,
                 }}
-                renderAvatar={() => { <View></View> }}
+                renderAvatar={null}
+                
+                
             />
         </SafeAreaView>
     )
