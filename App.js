@@ -22,6 +22,7 @@ import MessageProfile from "./pages/messageScreens/MessageProfile";
 import Report from "./pages/searchScreens/Report";
 import ProfileScreen from "./pages/profileScreens/ProfileScreen";
 import AddProfileLink from "./pages/profileScreens/AddProfileLink";
+import { getAccessToken } from "./util/profile";
 
 // import * as Sentry from '@sentry/react-native';
 
@@ -169,7 +170,9 @@ function Root() {
   useEffect(() => {
     async function fetchToken() {
       const storedToken = await AsyncStorage.getItem("token");
-      if (storedToken) {
+      const accessToken = await getAccessToken();
+      // console.log(accessToken);
+      if (storedToken && accessToken) {
         authCTX.authenticate(storedToken);
       }
       setIsTryingToLogin(false);
