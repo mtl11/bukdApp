@@ -2,11 +2,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "../pages/profileScreens/ProfileScreen";
 import MessageScreen from "../pages/messageScreens/MessageScreen";
 import SearchScreen from "../pages/searchScreens/SearchScreen";
+import ShowScreen from "../pages/showsScreens/ShowScreen";
 import React from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import global from "../styles/global";
-
+import { FontAwesome, Entypo } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 
 export default TabNav = (props) => {
@@ -25,6 +26,10 @@ export default TabNav = (props) => {
           } else if (route.name === "Messages") {
             iconName = focused ? "chatbubble" : "chatbubble-outline";
             return <Ionicons name={iconName} size={28} color={color} />;
+          }
+          else if (route.name === "Shows") {
+            // iconName = focused ? "ios-briefcase-sharp" : "ios-briefcase-outline";
+            return <Entypo name="modern-mic" size={24} color={color} />;
           }
           return <FontAwesome5 name={iconName} size={size} color={color} />;
         },
@@ -46,6 +51,11 @@ export default TabNav = (props) => {
         options={{ headerShown: false, gestureEnabled: false }}
       />
       <Tab.Screen
+        name="Shows"
+        component={ShowScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
         name="Messages"
         component={MessageScreen}
         options={{ headerShown: false }}
@@ -56,6 +66,7 @@ export default TabNav = (props) => {
         component={ProfileScreen}
         options={{ headerShown: false }}
       />
+     
     </Tab.Navigator>
   );
 };

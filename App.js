@@ -23,6 +23,8 @@ import Report from "./pages/searchScreens/Report";
 import ProfileScreen from "./pages/profileScreens/ProfileScreen";
 import AddProfileLink from "./pages/profileScreens/AddProfileLink";
 import { getAccessToken } from "./util/profile";
+import OpenShowDetails from "./pages/showsScreens/OpenShowDetailsScreen";
+import MyShowDetailsScreen from "./pages/showsScreens/MyShowDetailsScreen";
 
 // import * as Sentry from '@sentry/react-native';
 
@@ -46,6 +48,16 @@ function AuthenticatedStack() {
         <Stack.Screen
           name = "Report"
           component={Report}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name = "OpenShowDetails"
+          component={OpenShowDetails}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name = "MyShowDetails"
+          component={MyShowDetailsScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -128,27 +140,27 @@ function AuthenticatedStack() {
   );
 }
 
-function AuthStack() {
-  return (
-    <Stack.Navigator initialRouteName="Start">
-      <Stack.Screen
-        name="Start"
-        component={StartScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="ForgetPass"
-        component={ForgetPasswordScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Signup"
-        component={SignupScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-}
+// function AuthStack() {
+//   return (
+//     <Stack.Navigator initialRouteName="Start">
+//       <Stack.Screen
+//         name="Start"
+//         component={StartScreen}
+//         options={{ headerShown: false }}
+//       />
+//       <Stack.Screen
+//         name="ForgetPass"
+//         component={ForgetPasswordScreen}
+//         options={{ headerShown: false }}
+//       />
+//       <Stack.Screen
+//         name="Signup"
+//         component={SignupScreen}
+//         options={{ headerShown: false }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
 
 function Navigation() {
   const authCTX = useContext(AuthContext);
@@ -164,7 +176,6 @@ function Navigation() {
 
 function Root() {
   const [isTryingToLogin, setIsTryingToLogin] = useState(true);
-
   const authCTX = useContext(AuthContext);
 
   useEffect(() => {

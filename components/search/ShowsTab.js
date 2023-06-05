@@ -3,7 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    FlatList} from "react-native";
+    FlatList
+} from "react-native";
 import global from "../../styles/global";
 import { EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 const ShowsTab = (props) => {
@@ -48,21 +49,21 @@ const ShowsTab = (props) => {
                                     {start} - {end}
                                 </Text>
                             </View>
-                            {props.basicInfo.profileType == "venue" ? 
-                            <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                {performersNeeded ?<MaterialIcons name="event-available" size={24} color={global.color.secondaryColors.placeHolderTextColor} />:
-                                <MaterialIcons name="event-busy" size={24} color={global.color.secondaryColors.placeHolderTextColor} />}
-                                <Text style={styles.smallText}>
-                                    {performersNeeded ? "Performers needed" : "Booked"}
-                                </Text>
-                            </View> :
-                                <View style={{ flexDirection: "row", alignItems: "center" ,width:200, justifyContent:"flex-end"}}>
+                            {props.basicInfo.profileType == "venue" ?
+                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                    {performersNeeded ? <MaterialIcons name="event-available" size={24} color={global.color.secondaryColors.placeHolderTextColor} /> :
+                                        <MaterialIcons name="event-busy" size={24} color={global.color.secondaryColors.placeHolderTextColor} />}
+                                    <Text style={styles.smallText}>
+                                        {performersNeeded ? "Performers needed" : "Booked"}
+                                    </Text>
+                                </View> :
+                                <View style={{ flexDirection: "row", alignItems: "center", width: 200, justifyContent: "flex-end" }}>
                                     <Ionicons
                                         name="location-outline"
                                         size={24}
                                         color={global.color.secondaryColors.placeHolderTextColor}
                                     />
-                                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText, ]} >
+                                    <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText,]} >
                                         {venueName}
                                     </Text>
                                 </View>
@@ -70,11 +71,11 @@ const ShowsTab = (props) => {
                         </View>
                     </View>
                     {description &&
-                    <View style={{ marginVertical:"5%", marginHorizontal: "2%"}}>  
-                        <Text style={{fontFamily:"Rubik-Regular", fontSize: 16, lineHeight: 20}}>
-                            {description}    
-                        </Text>     
-                    </View>
+                        <View style={{ marginVertical: "5%", marginHorizontal: "2%" }}>
+                            <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, lineHeight: 20 }}>
+                                {description}
+                            </Text>
+                        </View>
                     }
                 </View>
             </View>
