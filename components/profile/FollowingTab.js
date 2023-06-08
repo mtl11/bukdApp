@@ -19,7 +19,7 @@ import { getAccessToken, unfollowAccount } from "../../util/profile";
 const FollowingTab = (props) => { 
   const profileCTX = useContext(ProfileContext);
   const [data, setData] = useState(profileCTX.followingList);
-
+  console.log(data);
   async function unfollowHelper(id) {
     const localId = await AsyncStorage.getItem("localId");
     const accessToken = await getAccessToken();

@@ -25,6 +25,7 @@ import AddProfileLink from "./pages/profileScreens/AddProfileLink";
 import { getAccessToken } from "./util/profile";
 import OpenShowDetails from "./pages/showsScreens/OpenShowDetailsScreen";
 import MyShowDetailsScreen from "./pages/showsScreens/MyShowDetailsScreen";
+import MyShowDetailsVenueScreen from "./pages/showsScreens/MyShowDetailsVenueScreen";
 
 // import * as Sentry from '@sentry/react-native';
 
@@ -53,6 +54,11 @@ function AuthenticatedStack() {
         <Stack.Screen
           name = "OpenShowDetails"
           component={OpenShowDetails}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name = "MyShowDetailsVenue"
+          component={MyShowDetailsVenueScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

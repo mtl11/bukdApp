@@ -16,8 +16,8 @@ export const profileCategoriesVenue = [
 export const profileCategoriesArtistEdit = [
   { label: "Band", value: "0" },
   { label: "DJ", value: "1" },
-  { label: "Singer", value: "2" },
-  { label: "Vocalist", value: "3" },
+  { label: "Cover Band", value: "2" },
+  { label: "Singer", value: "3" },
 ];
 
 export const profileCategoriesVenueEdit = [

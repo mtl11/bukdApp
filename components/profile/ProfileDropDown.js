@@ -20,7 +20,7 @@ const ProfileDropDown = (props) => {
       </View>
     );
   };
-  console.log("PlaceHolder: "+props.placeholder)
+
   return (
     <View style={styles.topContainer}>
       <Dropdown
