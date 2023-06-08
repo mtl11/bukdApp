@@ -42,7 +42,7 @@ const VenueSection = (props) => {
                 <Text style={styles.headerText}>My Shows</Text>
             </View>
             <MyShowsListVenue props={props.props}/>
-            <PostShowModal visible={visible} setVisible={setVisible}/>
+            <PostShowModal visible={visible} setVisible={setVisible} username={props.username} userLocation ={props.userLocation}/>
         </View>
     )
 }

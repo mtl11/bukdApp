@@ -14,7 +14,6 @@ import SocialTab from "../../components/profile/SocialProfileTabArtist.js";
 import AvailabilityProfileArtist from "../../components/profile/AvailabilityProfileArtist.js";
 import ShowsTab from "../../components/profile/ShowsTab.js";
 import UnAuthProfile from "../../components/profile/UnAuthProfile.js"
-import AboutTabArtist from "../../components/profile/AboutTabArtist.js";
 import global from "../../styles/global";
 import {
   getProfileInfo,
@@ -30,7 +29,6 @@ import dark from "../../styles/profile/dark/profileScreen.js";
 import light from "../../styles/profile/light/profileScreen.js"
 import FollowingTab from "../../components/profile/FollowingTab.js";
 import { URL } from 'react-native-url-polyfill';
-import { Feather } from '@expo/vector-icons';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const ProfileScreen = (props) => {
@@ -55,10 +53,10 @@ const ProfileScreen = (props) => {
     }
     return array;
   }
-
+  
   async function getProfile() {
     setGettingInfo(true);
-
+    
     const localId = await AsyncStorage.getItem("localId");
     const basicInfo = await getProfileInfo(localId);
     const otherInfo = await getProfileStart(localId);

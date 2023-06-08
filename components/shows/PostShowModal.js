@@ -1,14 +1,19 @@
-import React, { useState } from "react"
-import { View, ViewBase, TouchableOpacity, TextInput, Text, SafeAreaView, StyleSheet } from "react-native"
+import React, { useContext, useState } from "react"
+import { View, TouchableOpacity, TextInput, Text, SafeAreaView, StyleSheet } from "react-native"
 import { Ionicons } from '@expo/vector-icons'
 import global from "../../styles/global"
 import Modal from "react-native-modal";
 import ProfileDropDown from "../profile/ProfileDropDown";
-import { profileCategoriesArtist, profileCategoriesArtistEdit, subCategories } from "../../models/dropdownData";
+import { profileCategoriesArtistEdit, subCategories } from "../../models/dropdownData";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScrollView } from "react-native-gesture-handler";
+import { addShowToGlobalList, addShowToProfile } from "../../util/shows";
+import { ProfileContext } from "../../store/profileContext.js";
+import {getAccessToken} from "../../util/profile";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PostShowModal = (props) => {
+    const profileCTX = useContext(ProfileContext)
     const [description, setDescription] = useState();
     // const [genre, setGenre] = useState(props.data.genreNeeded);
     const [genre, setGenre] = useState();
@@ -19,6 +24,19 @@ const PostShowModal = (props) => {
     const [maxApplicants, setMaxApplicants] = useState();
     const [compensationStart, setCompensationStart] = useState();
     const [compensationEnd, setCompensationEnd] = useState();
+    const [postsExpire, setPostsExpire] = useState(new Date());
+    // console.log(profileCTX);
+    async function addGlobalShow(){
+        const localId = await AsyncStorage.getItem("localId");
+        const accessToken = await getAccessToken();
+        const response = await addShowToGlobalList(props.username, props.userLocation, genre, 
+            typeNeeded, date, startTime, endTime, maxApplicants, compensationStart, 
+            compensationEnd, profileCTX.about.equipment, description, postsExpire, localId, accessToken);
+            console.log(response.name)
+        addShowToProfile(response.name, localId, accessToken)
+            props.setVisible(!props.visible);
+    }
+
     return (
         <Modal
             isVisible={props.visible} avoidKeyboard={true} style={{ backgroundColor: "white" }}>
@@ -34,17 +52,17 @@ const PostShowModal = (props) => {
                     </TouchableOpacity>
 
                 </View>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
 
                     <View style={{ marginHorizontal: "3%" }}>
                         <View style={{ flexDirection: "row", width: "40%", justifyContent: "space-between", marginTop: "5%" }}>
                             <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                                Bens
+                                {props.username}
                             </Text>
                         </View>
                         <View style={{ flexDirection: "row", width: "40%", justifyContent: "space-between", marginTop: "5%" }}>
                             <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                                Tucson
+                                {props.userLocation}
                             </Text>
                         </View>
                         <View style={{ width: "120%", alignSelf: "center", marginTop: "5%" }}>
@@ -256,12 +274,12 @@ const PostShowModal = (props) => {
                             style={{alignSelf:"stretch"}}
                                 themeVariant={"light"}
                                 testID="dateTimePicker"
-                                value={date}
+                                value={postsExpire}
                                 mode={"date"}
                                 is24Hour={true}
                                 onChange={(event, selectedDate) => {
                                     const currentDate = selectedDate;
-                                    setDate(currentDate);
+                                    setPostsExpire(currentDate);
                                 }}
                             />
                         </View>
@@ -278,7 +296,8 @@ const PostShowModal = (props) => {
                             alignSelf: "center",
                         }}
                         onPress={() => {
-                            props.setVisible(!props.visible);
+                            addGlobalShow();
+                            
                         }}
                     >
                         <View style={{ alignSelf: "center", padding: "5%", }}>
@@ -289,7 +308,7 @@ const PostShowModal = (props) => {
                                     fontSize: 18
                                 }}
                             >
-                                Save Details
+                                Post Show
                             </Text>
                         </View>
                     </TouchableOpacity>
