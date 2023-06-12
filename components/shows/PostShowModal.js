@@ -29,11 +29,12 @@ const PostShowModal = (props) => {
     async function addGlobalShow(){
         const localId = await AsyncStorage.getItem("localId");
         const accessToken = await getAccessToken();
-        const response = await addShowToGlobalList(props.username, props.userLocation, genre, 
-            typeNeeded, date, startTime, endTime, maxApplicants, compensationStart, 
-            compensationEnd, profileCTX.about.equipment, description, postsExpire, localId, accessToken);
-            console.log(response.name)
-        addShowToProfile(response.name, localId, accessToken)
+        const datePosted = new Date();
+        const response = await addShowToGlobalList(props.username, props.userLocation, genre, typeNeeded, 
+            date, startTime, endTime, maxApplicants, compensationStart, 
+            compensationEnd, profileCTX.about.equipment, description, postsExpire, datePosted, localId, accessToken, );
+
+            addShowToProfile(response.name, localId, accessToken)
             props.setVisible(!props.visible);
     }
 
@@ -235,7 +236,7 @@ const PostShowModal = (props) => {
                         </View>
                         <View style={{ flexDirection: "row", width: "40%", justifyContent: "space-between", marginTop: "5%" }}>
                             <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                                Equipment
+                                Equipment: {profileCTX.about.equipment}
                             </Text>
                         </View>
                         <View style={{

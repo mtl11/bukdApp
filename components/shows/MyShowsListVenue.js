@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import {
     View,
     Text,
@@ -8,80 +8,29 @@ import {
 } from "react-native";
 import global from "../../styles/global";
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import { ProfileContext } from "../../store/profileContext";
 
 const MyShowsListVenue = (props) => {
-    const data = [
-        {
-            applicants: "2",
-            appliedDate: "June, 2nd 2023",
-            name: "Gentle Bens",
-            date: "May, 15th",
-            start: "10:00 pm",
-            end: "12:00 am",
-            location: "Tucson, AZ",
-            address: "8150 east loftwood ln",
-            type: "Bar",
-            uuid: "6CBblFlY0YTml1qXWdvpMfRgvYG2",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            equipment: "lots of stuff",
-            compensationStart: "50",
-            compensationEnd: "85",
-            typeNeeded: "DJ",
-            genreNeeded: "House",
-            expires: "May, 15th",
-            status: "pending",
-            maxApplicants: "10",
-            profilePic: "https://firebasestorage.googleapis.com/v0/b/bukd-app.appspot.com/o/vLOnJSi62Dh4u6Ul9WDJtJzf0Lw2-profile-pic?alt=media&token=b7674092-b166-4416-b189-29bed24afe81&_gl=1*b960h8*_ga*MTcxNzU0OTM3OC4xNjc5NTQ2ODcx*_ga_CW55HF8NVT*MTY4NTczMDUyMy4zOS4xLjE2ODU3MzA1ODYuMC4wLjA."
-        },
-        {
-            appliedDate: "June, 2nd 2023",
-            applicants: "6",
-            name: "Gentle Bens",
-            date: "May, 15th",
-            start: "10:00 pm",
-            end: "12:00 am",
-            location: "Tucson, AZ",
-            address: "8150 east loftwood ln",
-            type: "Bar",
-            uuid: "6CBblFlY0YTml1qXWdvpMfRgvYG2",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            equipment: "lots of stuff",
-            compensationStart: "50",
-            compensationEnd: "85",
-            typeNeeded: "DJ",
-            genreNeeded: "House",
-            expires: "Never",
-            status: "accepted",
-            maxApplicants: "20",
-            numberOfCanidates: "3",
-            profilePic: "https://firebasestorage.googleapis.com/v0/b/bukd-app.appspot.com/o/vLOnJSi62Dh4u6Ul9WDJtJzf0Lw2-profile-pic?alt=media&token=b7674092-b166-4416-b189-29bed24afe81&_gl=1*b960h8*_ga*MTcxNzU0OTM3OC4xNjc5NTQ2ODcx*_ga_CW55HF8NVT*MTY4NTczMDUyMy4zOS4xLjE2ODU3MzA1ODYuMC4wLjA."
-        },
-        {
-            appliedDate: "June, 2nd 2023",
-            applicants: "12",
-            name: "Gentle Bens",
-            date: "May, 15th",
-            start: "10:00 pm",
-            end: "12:00 am",
-            location: "Tucson, AZ",
-            address: "8150 east loftwood ln",
-            type: "Bar",
-            uuid: "6CBblFlY0YTml1qXWdvpMfRgvYG2",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            equipment: "lots of stuff",
-            compensationStart: "50",
-            compensationEnd: "85",
-            typeNeeded: "DJ",
-            genreNeeded: "House",
-            expires: "May, 10th",
-            status: "denied",
-            maxApplicants: "unlimited",
-            numberOfCanidates: "2",
-            profilePic: "https://firebasestorage.googleapis.com/v0/b/bukd-app.appspot.com/o/vLOnJSi62Dh4u6Ul9WDJtJzf0Lw2-profile-pic?alt=media&token=b7674092-b166-4416-b189-29bed24afe81&_gl=1*b960h8*_ga*MTcxNzU0OTM3OC4xNjc5NTQ2ODcx*_ga_CW55HF8NVT*MTY4NTczMDUyMy4zOS4xLjE2ODU3MzA1ODYuMC4wLjA."
-        }
-    ]
+
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
 
     const renderItem = useCallback(({ item }) => {
+        
+        const start = formatAMPM(new Date(item.startTime));
+        const end = formatAMPM(new Date(item.endTime));
+        const month = new Date(item.date).toLocaleString('default', { month: 'long' });
+        const day = new Date(item.date).getDate();
+        const datePosted = new Date(item.date).toLocaleString('default', {year: 'numeric', month: 'long', day: 'numeric'});
+
         return (
             <TouchableOpacity style={styles.showContainer} onPress={() => {
                 props.props.navigation.navigate("MyShowDetailsVenue", { data: item });
@@ -89,8 +38,8 @@ const MyShowsListVenue = (props) => {
                 <View style={{ padding: "3%", width: "100%" }}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
                         <View style={{ flexDirection: "column" }}>
-                            <View style={{ alignSelf: 'center' }}>
-                                <Text style={styles.dateText}>{item.date}</Text>
+                            <View style={{ alignSelf: "flex-start"}}>
+                                <Text style={styles.dateText}>{month} {day}</Text>
                             </View>
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
                                 <Ionicons name="musical-notes-outline" size={20} color="black" />
@@ -103,7 +52,7 @@ const MyShowsListVenue = (props) => {
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
                                 <EvilIcons name="clock" size={28} color={global.color.secondaryColors.placeHolderTextColor} />
                                 <Text style={styles.smallText}>
-                                    {item.start} - {item.end}
+                                    {start} - {end}
                                 </Text>
                             </View>
 
@@ -111,7 +60,7 @@ const MyShowsListVenue = (props) => {
                     </View>
                     <View >
                         <Text style={styles.smallText}>
-                            Created on {item.appliedDate}
+                            Created on {datePosted}
                         </Text>
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -124,9 +73,11 @@ const MyShowsListVenue = (props) => {
             </TouchableOpacity>
         )
     })
+
+   const profileCTX = useContext(ProfileContext);
     return (
         <FlatList
-            data={data}
+            data={profileCTX.shows}
             renderItem={renderItem}
             contentContainerStyle={{ marginTop: "2.5%" }}
         />

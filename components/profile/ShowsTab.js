@@ -34,6 +34,7 @@ const ShowsTab = () => {
     const [description, setDescription] = useState("");
     const [performersNeeded, setPerformersNeeded] = useState(false);
     const [editSelectedItem, setEditSelectedItem] = useState({});
+
     function formatAMPM(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -44,12 +45,10 @@ const ShowsTab = () => {
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
     }
+
     const [selectedItem, setSelectedItem] = useState("");
-    const sorted = shows.sort(
-        function (a, b) {
-            return new Date(a[1].date) - new Date(b[1].date);
-        });
     const getItem = (item, label) => {
+        // console.log(item);
         const month = new Date(item.date).toLocaleString('default', { month: 'long' });
         const day = new Date(item.date).getDate();
         const start = formatAMPM(new Date(item.startTime));
@@ -210,7 +209,7 @@ const ShowsTab = () => {
                     data={shows}
                     renderItem={
                         ({ item }) => {
-                            return getItem(item[1], item[0])
+                            return getItem(item, 34567)
                         }
                     }
                     ListFooterComponent={() => {

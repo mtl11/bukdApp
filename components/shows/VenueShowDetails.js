@@ -8,7 +8,23 @@ import global from "../../styles/global";
 import EditShowDetailsModal from "./EditShowDetailsModal";
 
 const VenueShowDetails = (props) => {
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
+    console.log(props.data)
     const [visible, setVisible] = useState(false);
+    const start = formatAMPM(new Date(props.data.startTime));
+    const end = formatAMPM(new Date(props.data.endTime));
+    const exiprationDate = new Date(props.data.postsExpire).toLocaleString('default', {year: 'numeric', month: 'long', day: 'numeric'});
+    const date = new Date(props.data.date).toLocaleString('default', {year: 'numeric', month: 'long', day: 'numeric'});
+
     return (
         <View>
             <View style={{
@@ -19,7 +35,7 @@ const VenueShowDetails = (props) => {
                 marginTop: "3%"
             }}>
                 <Text style={{ fontFamily: "Rubik-SemiBold", fontSize: 18 }}>
-                    {props.data.name}
+                    {props.data.venueName}
                 </Text>
             </View>
             <View style={{ flexDirection: "row", marginHorizontal: 30, marginTop: "3%" }}>
@@ -40,12 +56,12 @@ const VenueShowDetails = (props) => {
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Date: {props.data.date}
+                    Date: {date}
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Time: {props.data.start} - {props.data.end}
+                    Time: {start} - {end}
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
@@ -78,7 +94,7 @@ const VenueShowDetails = (props) => {
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Post expires: {props.data.expires}
+                    Post expires: {exiprationDate}
                 </Text>
             </View>
             <TouchableOpacity

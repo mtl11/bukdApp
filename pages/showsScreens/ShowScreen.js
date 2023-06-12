@@ -8,6 +8,7 @@ import VenueSection from "../../components/shows/VenueSection";
 import { getProfileInfo, getProfileStart } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ProfileContext } from "../../store/profileContext";
+import { getShowData } from "../../util/shows";
 
 const ShowScreen = (props) => {
     // const profileCTX = useContext(ProfileContext);
@@ -21,11 +22,22 @@ const ShowScreen = (props) => {
         const localId = await AsyncStorage.getItem("localId");
         if (authCTX.isAuthenticated) {
             const profiletype = await getProfileInfo(localId);
-            
             const otherInfo = await getProfileStart(localId);
             setUsername(profiletype.profileName);
             setUserLocation(otherInfo.about.location);
-            setProfileType(profiletype.profileType)
+            setProfileType(profiletype.profileType);
+            profileCTX.updateAbout(otherInfo.about)
+            if (otherInfo.hasOwnProperty("shows")) {
+                const myShows = [];
+                for (const x in otherInfo.shows){
+                    const response = await getShowData(x, otherInfo.about.location);
+                    myShows.push(response);
+                }
+                
+                profileCTX.changeShow(myShows);
+            } else {
+                profileCTX.updateShows([]);
+            }
 
         }
     }

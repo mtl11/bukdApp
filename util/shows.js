@@ -2,7 +2,7 @@ import firebaseUtil from "./firebaseUtil";
 
 export async function addShowToGlobalList(venueName, location, genreNeeded,
     typeNeeded, date, startTime, endTime, maxApplicants, compensationStart,
-    compensationEnd, equipment, description, postsExpire, localId, accessToken) {
+    compensationEnd, equipment, description, postsExpire, datePosted, localId, accessToken) {
     const response = await firebaseUtil.post(
         "/shows/" + location + ".json?auth=" + accessToken,
         {
@@ -19,7 +19,8 @@ export async function addShowToGlobalList(venueName, location, genreNeeded,
             equipment: equipment,
             description: description,
             postsExpire: postsExpire,
-            venueID: localId
+            venueID: localId,
+            datePosted: datePosted
         }
     );
 
@@ -31,5 +32,10 @@ export async function addShowToProfile(showID, localId, accessToken) {
         showID: showID
     });
 
-    console.log(response.data);
+    // console.log(response.data);
+}
+
+export async function getShowData(showID, location){
+    const response = await firebaseUtil.get("/shows/" + location + "/" + showID + ".json");
+    return response.data;
 }
