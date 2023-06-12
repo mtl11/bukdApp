@@ -9,7 +9,8 @@ import MyShowsListVenue from "./MyShowsListVenue";
 import PostShowModal from "./PostShowModal";
 
 const VenueSection = (props) => {
-    const [visible, setVisible] = useState(false);   
+    const [visible, setVisible] = useState(false); 
+    console.log(props.refreshData)  
      return (
         <View>
             <TouchableOpacity
@@ -41,7 +42,8 @@ const VenueSection = (props) => {
             >
                 <Text style={styles.headerText}>My Shows</Text>
             </View>
-            <MyShowsListVenue props={props.props}/>
+
+            <MyShowsListVenue props={props.props} refreshData={props.refreshData}/>
             <PostShowModal visible={visible} setVisible={setVisible} username={props.username} userLocation ={props.userLocation}/>
         </View>
     )

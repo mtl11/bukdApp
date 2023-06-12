@@ -1,17 +1,24 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    RefreshControl
 } from "react-native";
 import global from "../../styles/global";
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
 import { ProfileContext } from "../../store/profileContext";
 
 const MyShowsListVenue = (props) => {
-
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        props.refreshData();
+        // setTimeout(() => {
+        setRefreshing(false);
+        // }, 1000);
+    }, []);
     function formatAMPM(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -22,15 +29,13 @@ const MyShowsListVenue = (props) => {
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
     }
-
+    const [refreshing, setRefreshing] = useState(false);
     const renderItem = useCallback(({ item }) => {
-        
         const start = formatAMPM(new Date(item.startTime));
         const end = formatAMPM(new Date(item.endTime));
         const month = new Date(item.date).toLocaleString('default', { month: 'long' });
         const day = new Date(item.date).getDate();
-        const datePosted = new Date(item.date).toLocaleString('default', {year: 'numeric', month: 'long', day: 'numeric'});
-
+        const datePosted = new Date(item.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
         return (
             <TouchableOpacity style={styles.showContainer} onPress={() => {
                 props.props.navigation.navigate("MyShowDetailsVenue", { data: item });
@@ -38,7 +43,7 @@ const MyShowsListVenue = (props) => {
                 <View style={{ padding: "3%", width: "100%" }}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
                         <View style={{ flexDirection: "column" }}>
-                            <View style={{ alignSelf: "flex-start"}}>
+                            <View style={{ alignSelf: "flex-start" }}>
                                 <Text style={styles.dateText}>{month} {day}</Text>
                             </View>
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -65,7 +70,7 @@ const MyShowsListVenue = (props) => {
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                         <Ionicons name="person-outline" size={24} color={global.color.secondaryColors.main} />
-                        <Text style={[styles.smallText, {color: global.color.secondaryColors.main}]}>
+                        <Text style={[styles.smallText, { color: global.color.secondaryColors.main }]}>
                             {item.applicants} Applicants
                         </Text>
                     </View>
@@ -74,12 +79,18 @@ const MyShowsListVenue = (props) => {
         )
     })
 
-   const profileCTX = useContext(ProfileContext);
+    const profileCTX = useContext(ProfileContext);
     return (
         <FlatList
             data={profileCTX.shows}
             renderItem={renderItem}
             contentContainerStyle={{ marginTop: "2.5%" }}
+            refreshControl={
+
+                <RefreshControl
+                    refreshing={refreshing} onRefresh={onRefresh}
+                    tintColor={global.color.primaryColors.main} />
+            }
         />
     )
 }

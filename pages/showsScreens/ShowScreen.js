@@ -31,6 +31,7 @@ const ShowScreen = (props) => {
                 const myShows = [];
                 for (const x in otherInfo.shows){
                     const response = await getShowData(x, otherInfo.about.location);
+                    response["showID"] = x;
                     myShows.push(response);
                 }
                 
@@ -54,7 +55,7 @@ const ShowScreen = (props) => {
                 {pType == "performer" &&
                     <PerformersSection props={props} />}
                 {pType == "venue" &&
-                    <VenueSection props={props} userLocation={userLocation} username={username}/>
+                    <VenueSection props={props} userLocation={userLocation} username={username} refreshData={profileType}/>
         }
             </SafeAreaView>
         )

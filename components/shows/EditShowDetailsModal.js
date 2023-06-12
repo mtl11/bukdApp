@@ -7,23 +7,39 @@ import ProfileDropDown from "../profile/ProfileDropDown";
 import { profileCategoriesArtist, profileCategoriesArtistEdit, subCategories } from "../../models/dropdownData";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScrollView } from "react-native-gesture-handler";
+import { editShow } from "../../util/shows";
+import { getAccessToken } from "../../util/profile";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EditShowDetailsModal = (props) => {
     const [description, setDescription] = useState(props.data.description);
     // const [genre, setGenre] = useState(props.data.genreNeeded);
     const [genre, setGenre] = useState(props.data.genreNeeded);
     const [typeNeeded, setTypeNeeded] = useState(props.data.typeNeeded);
-    const [date, setDate] = useState(new Date());
-    const [startTime, setStartTime] = useState(new Date());
-    const [endTime, setEndTime] = useState(new Date());
+    const [date, setDate] = useState(new Date(props.data.date));
+    const [startTime, setStartTime] = useState(new Date(props.data.startTime));
+    const [endTime, setEndTime] = useState(new Date(props.data.endTime));
     const [maxApplicants, setMaxApplicants] = useState(props.data.maxApplicants);
-    const [compensationStart, setCompensationStart] = useState();
-    const [compensationEnd, setCompensationEnd] = useState();
+    const [compensationStart, setCompensationStart] = useState(props.data.compensationStart);
+    const [compensationEnd, setCompensationEnd] = useState(props.data.compensationEnd);
+    const [expirationDate, setExpirationDate] = useState(new Date());
+    // console.log(props.data);
+
+    async function editShowDetails(){
+        const localId = await AsyncStorage.getItem("localId")
+        const accessToken = await getAccessToken();
+        await editShow({venueName: props.data.venueName, location: props.data.location, genreNeeded: genre,
+            typeNeeded: typeNeeded, date:date, startTime:startTime, endTime: endTime, maxApplicants: maxApplicants, 
+            compensationStart: compensationStart, compensationEnd: compensationEnd, equipment: props.data.equipment, 
+            description: description, postsExpire: expirationDate, datePosted: props.data.datePosed, venueID: localId },
+            props.data.showID, props.data.location, accessToken )
+    }
+
     return (
         <Modal
             isVisible={props.visible} avoidKeyboard={true} style={{ backgroundColor: "white" }}>
             <SafeAreaView style={{
-                flex: 1,
+               flex:1,
                 borderRadius: 12,
             }}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -34,12 +50,12 @@ const EditShowDetailsModal = (props) => {
                     </TouchableOpacity>
 
                 </View>
-                <ScrollView>
+                <ScrollView >
 
                     <View style={{ marginHorizontal: "3%" }}>
                         <View style={{ flexDirection: "row", width: "40%", justifyContent: "space-between", marginTop: "5%" }}>
                             <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                                {props.data.name}
+                                {props.data.venueName}
                             </Text>
                         </View>
                         <View style={{ flexDirection: "row", width: "40%", justifyContent: "space-between", marginTop: "5%" }}>
@@ -256,12 +272,12 @@ const EditShowDetailsModal = (props) => {
                             style={{alignSelf:"stretch"}}
                                 themeVariant={"light"}
                                 testID="dateTimePicker"
-                                value={date}
+                                value={expirationDate}
                                 mode={"date"}
                                 is24Hour={true}
                                 onChange={(event, selectedDate) => {
                                     const currentDate = selectedDate;
-                                    setDate(currentDate);
+                                    setExpirationDate(currentDate);
                                 }}
                             />
                         </View>
@@ -273,12 +289,13 @@ const EditShowDetailsModal = (props) => {
                             borderColor: "#FCFCFF",
                             width: "100%",
                             marginTop: "5%",
-                            marginBottom: "20%",
+                            marginBottom: "60%",
                             backgroundColor: global.color.primaryColors.main,
                             alignSelf: "center",
                         }}
                         onPress={() => {
                             props.setVisible(!props.visible);
+                            editShowDetails();
                         }}
                     >
                         <View style={{ alignSelf: "center", padding: "5%", }}>

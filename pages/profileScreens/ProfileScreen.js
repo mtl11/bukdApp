@@ -15,6 +15,7 @@ import AvailabilityProfileArtist from "../../components/profile/AvailabilityProf
 import ShowsTab from "../../components/profile/ShowsTab.js";
 import UnAuthProfile from "../../components/profile/UnAuthProfile.js"
 import global from "../../styles/global";
+import { getShowData } from "../../util/shows.js";
 import {
   getProfileInfo,
   getProfilePic,
@@ -53,10 +54,10 @@ const ProfileScreen = (props) => {
     }
     return array;
   }
-  
+
   async function getProfile() {
     setGettingInfo(true);
-    
+
     const localId = await AsyncStorage.getItem("localId");
     const basicInfo = await getProfileInfo(localId);
     const otherInfo = await getProfileStart(localId);
@@ -96,9 +97,16 @@ const ProfileScreen = (props) => {
       profileCTX.updateProfileLink(otherInfo.profileLink.link);
     }
     if (otherInfo.hasOwnProperty("shows")) {
-      profileCTX.updateShows(otherInfo.shows);
+      const myShows = [];
+      for (const x in otherInfo.shows) {
+        const response = await getShowData(x, otherInfo.about.location);
+        response["showID"] = x;
+        myShows.push(response);
+      }
+
+      profileCTX.changeShow(myShows);
     } else {
-      profileCTX.updateShows([]);
+      profileCTX.changeShow([]);
     }
     if (otherInfo.hasOwnProperty("socials")) {
       profileCTX.updateSocial(otherInfo.socials);
@@ -144,7 +152,7 @@ const ProfileScreen = (props) => {
         return <SocialTab />;
       }
       if (aboutShow == true) {
-        return <ShowsTab />;
+        return <ShowsTab props={props}/>;
       }
       if (profileCTX.basicInfo.profileType == "performer") {
         if (availShow == true) {
@@ -420,24 +428,24 @@ const ProfileScreen = (props) => {
               {getScreenTab()}
             </View>
           )}
-        <Modal visible={isModalVisible} transparent={true}>
-          <TouchableWithoutFeedback onPress={handleImageClick}>
-            <View style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#000000c0',
+          <Modal visible={isModalVisible} transparent={true}>
+            <TouchableWithoutFeedback onPress={handleImageClick}>
+              <View style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#000000c0',
 
-            }}>
-              <View style={{ height: "100%", alignContent:"center", justifyContent:"center" }}>
-                <Image source={{ uri: profileCTX.profilePic }}
-                  style={{
-                    width: 250,
-                    height: 250,
-                    borderRadius: 1000
-                  }} />
+              }}>
+                <View style={{ height: "100%", alignContent: "center", justifyContent: "center" }}>
+                  <Image source={{ uri: profileCTX.profilePic }}
+                    style={{
+                      width: 250,
+                      height: 250,
+                      borderRadius: 1000
+                    }} />
+                </View>
               </View>
-            </View>
-          </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
           </Modal>
         </SafeAreaView>
       </View >

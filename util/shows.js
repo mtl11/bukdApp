@@ -27,6 +27,24 @@ export async function addShowToGlobalList(venueName, location, genreNeeded,
     return response.data;
 }
 
+export async function editShow(data,showID, location, accessToken) {
+    console.log("/shows/" + location + "/"+showID+".json?auth=" + accessToken);
+
+    const response = await firebaseUtil.put(
+        "/shows/" + location + "/"+showID+".json?auth=" + accessToken,
+        data
+    ).catch((error) => {
+        if (error.response) {
+          console.log(error.response.data);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        };});
+
+    // return response.data;
+}
+
 export async function addShowToProfile(showID, localId, accessToken) {
     const response = await firebaseUtil.put("/users/" + localId + "/shows/" + showID + ".json?auth=" + accessToken,{
         showID: showID
