@@ -4,8 +4,20 @@ import { Ionicons } from '@expo/vector-icons'
 import global from "../../styles/global"
 import Modal from "react-native-modal";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { addAppliedShowToProfile, applyToShow } from "../../util/shows";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAccessToken } from "../../util/profile";
+
 const ApplyModal = (props) => {
     const [message, setMessage] = useState("");
+
+    async function apply(){
+        const localId = await AsyncStorage.getItem("localId");
+        const accessToken = await getAccessToken();
+        await applyToShow(message, props.showID, props.location, localId, accessToken);
+        await addAppliedShowToProfile(message, props.showID, localId, accessToken);
+        
+    }
     return (
         <Modal
             isVisible={props.visible} avoidKeyboard={true}>
@@ -65,6 +77,7 @@ const ApplyModal = (props) => {
                         alignSelf: "center",
                     }}
                     onPress={() => {
+                        apply();
                         props.setVisible(!props.visible);
                     }}
                 >

@@ -31,6 +31,7 @@ import light from "../../styles/profile/light/profileScreen.js"
 import FollowingTab from "../../components/profile/FollowingTab.js";
 import { URL } from 'react-native-url-polyfill';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import HighlightsTab from "../../components/profile/Highlights.js";
 
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -97,14 +98,17 @@ const ProfileScreen = (props) => {
       profileCTX.updateProfileLink(otherInfo.profileLink.link);
     }
     if (otherInfo.hasOwnProperty("shows")) {
-      const myShows = [];
-      for (const x in otherInfo.shows) {
-        const response = await getShowData(x, otherInfo.about.location);
-        response["showID"] = x;
-        myShows.push(response);
+      if (basicInfo.profileType == "venue") {
+        const myShows = [];
+        for (const x in otherInfo.shows) {
+          const response = await getShowData(x, otherInfo.about.location);
+          response["showID"] = x;
+          myShows.push(response);
+        }
+        profileCTX.changeShow(myShows);
+      } else {
+        profileCTX.updateShows(otherInfo.shows)
       }
-
-      profileCTX.changeShow(myShows);
     } else {
       profileCTX.changeShow([]);
     }
@@ -146,13 +150,17 @@ const ProfileScreen = (props) => {
   const [aboutShow, setAboutShow] = useState(true);
   const [availShow, setAvailShow] = useState(false);
   const [visible, setVisible] = useState(true);
+
   function getScreenTab() {
     if (profileCTX.basicInfo.profileType != "general") {
       if (socialShow == true) {
         return <SocialTab />;
       }
-      if (aboutShow == true) {
-        return <ShowsTab props={props}/>;
+      if (aboutShow == true && profileCTX.basicInfo.profileType == "venue") {
+        return <ShowsTab props={props} />;
+      }
+      if (aboutShow == true && profileCTX.basicInfo.profileType == "performer") {
+        return <HighlightsTab props={props} />;
       }
       if (profileCTX.basicInfo.profileType == "performer") {
         if (availShow == true) {

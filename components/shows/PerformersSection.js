@@ -14,11 +14,33 @@ import { locations } from "../../models/dropdownData";
 import global from "../../styles/global";
 import LocalList from "../../components/shows/LocalList";
 import MyShowsList from "../../components/shows/MyShowsList";
+import { getShowsDataAtLocation } from "../../util/shows";
 
 const PerformersSection = (props) => {
-    const [location, setLocation] = useState();
+    const [location, setLocation] = useState("Tucson, AZ");
     const [localShows, setLocalShows] = useState(true);
     const [usersShows, setUsersShows] = useState(false);
+    const [showsData, setShowsData] = useState();
+
+    async function getShowsAtLocation(){
+        // console.log(location)
+        const showsData = await getShowsDataAtLocation(location);
+        if (showsData){
+            const data = Object.entries(showsData);
+            const array = [];
+            for (const x in data){
+                const item = data[x][1];
+                item["showID"] = data[x][0];
+                array.push(item);
+                // console.log(item)
+            }
+            setShowsData(array);
+        }
+    }
+
+    useEffect(()=>{
+        getShowsAtLocation();
+    },[])
     return (
         <View>
             <View style={{ alignItems: "center" }}>
@@ -27,7 +49,7 @@ const PerformersSection = (props) => {
                     placeholder={"Tucson, AZ"}
                     data={locations}
                     icon={"ios-location-outline"}
-                    blur={() => { }}
+                    blur={getShowsAtLocation}
                 />
             </View>
             <View
@@ -74,7 +96,7 @@ const PerformersSection = (props) => {
                     </View>
                 </TouchableOpacity>
             </View>
-            {localShows == true && <LocalList props={props.props} />}
+            {localShows == true && <LocalList props={props.props} data={showsData}/>}
             {usersShows == true && <MyShowsList props={props.props} />}
         </View>
     )

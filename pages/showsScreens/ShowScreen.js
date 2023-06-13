@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import {
-    SafeAreaView} from "react-native";
+    SafeAreaView
+} from "react-native";
 import global from "../../styles/global";
 import PerformersSection from "../../components/shows/PerformersSection";
 import { AuthContext } from "../../store/authContext";
@@ -15,7 +16,7 @@ const ShowScreen = (props) => {
     const authCTX = useContext(AuthContext);
     const profileCTX = useContext(ProfileContext);
     const [pType, setProfileType] = useState("");
-    const [userLocation, setUserLocation] =useState("");
+    const [userLocation, setUserLocation] = useState("");
     const [username, setUsername] = useState("")
     // const [location]
     async function profileType() {
@@ -27,24 +28,23 @@ const ShowScreen = (props) => {
             setUserLocation(otherInfo.about.location);
             setProfileType(profiletype.profileType);
             profileCTX.updateAbout(otherInfo.about)
-            if (otherInfo.hasOwnProperty("shows")) {
-                const myShows = [];
-                for (const x in otherInfo.shows){
-                    const response = await getShowData(x, otherInfo.about.location);
-                    response["showID"] = x;
-                    myShows.push(response);
+            if (profiletype.profileType == "venue") {
+                if (otherInfo.hasOwnProperty("shows")) {
+                    const myShows = [];
+                    for (const x in otherInfo.shows) {
+                        const response = await getShowData(x, otherInfo.about.location);
+                        response["showID"] = x;
+                        myShows.push(response);
+                    }
+                    profileCTX.changeShow(myShows);
+                } else {
+                    profileCTX.changeShow([]);
                 }
-                
-                profileCTX.changeShow(myShows);
-            } else {
-                profileCTX.updateShows([]);
             }
-
         }
     }
     useEffect(() => {
         profileType();
-        // if (profileCTX)
     }, [])
     if (authCTX.isAuthenticated) {
         return (
@@ -55,8 +55,8 @@ const ShowScreen = (props) => {
                 {pType == "performer" &&
                     <PerformersSection props={props} />}
                 {pType == "venue" &&
-                    <VenueSection props={props} userLocation={userLocation} username={username} refreshData={profileType}/>
-        }
+                    <VenueSection props={props} userLocation={userLocation} username={username} refreshData={profileType} />
+                }
             </SafeAreaView>
         )
     } else {
