@@ -52,7 +52,8 @@ const MyShowDetailsScreen = (props) => {
                     <TouchableOpacity
                         style={styles.topIconContainer}
                         onPress={() => {
-                            AsyncStorage.setItem("searchID", data.uuid);
+                            // console.log(data.venueID)
+                            AsyncStorage.setItem("searchID", data.venueID);
                             props.navigation.navigate("SearchArtistProfile");
                         }}
                     >

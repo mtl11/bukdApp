@@ -36,7 +36,7 @@ const LocalList = (props) => {
         // console.log("hi")
         return (
             <TouchableOpacity style={styles.showContainer} onPress={() => {
-                props.props.navigation.navigate("OpenShowDetails", { data: item });
+                props.props.navigation.navigate("OpenShowDetails", { data: item, profileType: props.profileType });
             }}>
                 <View style={{ padding: "3%", flexDirection: "row", width: "100%", justifyContent: "space-between", }}>
                     <View style={{ flexDirection: "column" }}>

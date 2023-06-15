@@ -68,12 +68,19 @@ const MyShowsListVenue = (props) => {
                             Created on {datePosted}
                         </Text>
                     </View>
-                    <View style={{ flexDirection: "row", alignItems: "center" }}>
-                        <Ionicons name="person-outline" size={24} color={global.color.secondaryColors.main} />
-                        <Text style={[styles.smallText, { color: global.color.secondaryColors.main }]}>
-                            {item.applicants} Applicants
-                        </Text>
-                    </View>
+                    {item.applicants != null ?
+                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <Ionicons name="person-outline" size={24} color={global.color.secondaryColors.main} />
+                            <Text style={[styles.smallText, { color: global.color.secondaryColors.main }]}>
+                                {Object.values(item.applicants).length} Applicants
+                            </Text>
+                        </View> : <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <Ionicons name="person-outline" size={24} color={global.color.secondaryColors.main} />
+                            <Text style={[styles.smallText, { color: global.color.secondaryColors.main }]}>
+                                0 Applicants
+                            </Text>
+                        </View>}
+
                 </View>
             </TouchableOpacity>
         )

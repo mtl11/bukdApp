@@ -10,7 +10,6 @@ import PostShowModal from "./PostShowModal";
 
 const VenueSection = (props) => {
     const [visible, setVisible] = useState(false); 
-    console.log(props.refreshData)  
      return (
         <View>
             <TouchableOpacity

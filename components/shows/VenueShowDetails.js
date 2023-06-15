@@ -18,7 +18,6 @@ const VenueShowDetails = (props) => {
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
     }
-    // console.log(props.data)
     const [visible, setVisible] = useState(false);
     const start = formatAMPM(new Date(props.data.startTime));
     const end = formatAMPM(new Date(props.data.endTime));
@@ -65,9 +64,12 @@ const VenueShowDetails = (props) => {
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
+                {props.data.applicants != null  ?
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Current Applicants: {props.data.applicants}
-                </Text>
+                    Current Applicants: {Object.values(props.data.applicants).length}
+                </Text>: <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
+                    Current Applicants: 0
+                </Text>}
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>

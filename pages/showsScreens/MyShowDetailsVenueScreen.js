@@ -76,7 +76,7 @@ const MyShowDetailsVenueScreen = (props) => {
             </View>
 
             {details && <VenueShowDetails data={data} />}
-            {applicants && (<ApplicantList />)}
+            {applicants && (<ApplicantList data={data} props={props}/>)}
         </SafeAreaView>
     )
 }

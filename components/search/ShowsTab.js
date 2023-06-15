@@ -31,10 +31,11 @@ const ShowsTab = (props) => {
         const month = new Date(item.date).toLocaleString('default', { month: 'long' });
         const day = new Date(item.date).getDate();
         const datePosted = new Date(item.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
-
+        // console.log(props.pType);
         return (
             <TouchableOpacity style={styles.showContainer} onPress={() => {
-                props.props.navigation.navigate("OpenShowDetails", { data: item });
+
+                props.props.navigation.navigate("OpenShowDetails", { data: item, profileType: props.pType });
             }}>
                 <View style={{ padding: "3%", width: "100%" }}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
@@ -64,12 +65,21 @@ const ShowsTab = (props) => {
                             Created on {datePosted}
                         </Text>
                     </View>
-                    <View style={{ flexDirection: "row", alignItems: "center" }}>
-                        <Ionicons name="person-outline" size={24} color={global.color.secondaryColors.main} />
-                        <Text style={[styles.smallText, { color: global.color.secondaryColors.main }]}>
-                            {item.applicants} Applicants
-                        </Text>
-                    </View>
+                    {item.hasOwnProperty("applicants") ?
+                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <Ionicons name="person-outline" size={24} color={global.color.secondaryColors.main} />
+                            <Text style={[styles.smallText, { color: global.color.secondaryColors.main }]}>
+
+                                {Object.values(item.applicants).length} Applicants
+                            </Text>
+                        </View>
+                        : <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <Ionicons name="person-outline" size={24} color={global.color.secondaryColors.main} />
+                            <Text style={[styles.smallText, { color: global.color.secondaryColors.main }]}>
+                                0 Applicants
+                            </Text>
+                        </View>
+                    }
                 </View>
             </TouchableOpacity>
             // <TouchableOpacity key={label} style={styles.showContainer} onPress={() => {
@@ -158,7 +168,7 @@ const ShowsTab = (props) => {
                 <FlatList
                     contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 100 }}
                     data={shows} renderItem={
-                        ({ item }) => { return getItem( item) }
+                        ({ item }) => { return getItem(item) }
                     }
                 />}
         </View>

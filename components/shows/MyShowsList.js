@@ -32,7 +32,7 @@ const MyShowsList = (props) => {
         const end = formatAMPM(new Date(item.endTime));
         const month = new Date(item.date).toLocaleString('default', { month: 'long' });
         const day = new Date(item.date).getDate();
-        const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         let dayOfWeek = weekday[new Date(item.date).getDay()];
         const datePosted = new Date(item.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
         const appliedDate = new Date(item.appliedToDate).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -107,29 +107,47 @@ const MyShowsList = (props) => {
         )
     })
 
-    async function getMyShows(){
+    async function getMyShows() {
         const localId = await AsyncStorage.getItem("localId");
-        const rawData = Object.values(await getMyShowsData(localId));
-        // console.log(rawData);
-        const flatListData = [];
-        for (const x in rawData){
-            const retrievedData = await getShowData(rawData[x].showID, rawData[x].location);
-            retrievedData["message"] = rawData[x].message;
-            retrievedData["appliedToDate"] = rawData[x].appliedToDate;
-            flatListData.push(retrievedData);
+        const myShows = await getMyShowsData(localId);
+        if (myShows != null) {
+            const rawData = Object.values(myShows);
+            console.log(rawData);
+            const flatListData = [];
+            for (const x in rawData) {
+                const retrievedData = await getShowData(rawData[x].showID, rawData[x].location);
+
+                if (rawData[x].hasOwnProperty("message")) {
+
+                    retrievedData["message"] = rawData[x].message;
+                }
+                if (rawData[x].hasOwnProperty("appliedToDate")) {
+                    retrievedData["appliedToDate"] = rawData[x].appliedToDate;
+                }
+                flatListData.push(retrievedData);
+            }
+            setData(flatListData)
         }
-        setData(flatListData)
     }
     const [data, setData] = useState();
-    useEffect(()=>{
+    useEffect(() => {
         getMyShows();
-    },[])
-    
+    }, [])
+
     return (
         <FlatList
             data={data}
             renderItem={renderItem}
             contentContainerStyle={{ marginTop: "2.5%" }}
+            ListEmptyComponent={()=>{
+            return(
+                <View>
+                    <Text style={{textAlign: "center", fontSize: 18, fontFamily: "Rubik-Regular"}}>
+                        No Applied to Shows !
+                    </Text>
+                </View>
+            )
+        }}
         />
 
     )

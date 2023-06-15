@@ -49,7 +49,7 @@ const ShowScreen = (props) => {
     }
     useEffect(() => {
         profileType();
-    }, [])
+    },[authCTX])
     if (authCTX.isAuthenticated) {
         return (
             <SafeAreaView style={{
@@ -57,12 +57,12 @@ const ShowScreen = (props) => {
                 height: "100%"
             }}>
                 {pType == "performer" &&
-                    <PerformersSection props={props} />}
+                    <PerformersSection props={props} profileType={pType}/>}
                 {pType == "venue" &&
-                    <VenueSection props={props} userLocation={userLocation} username={username} refreshData={profileType} />
+                    <VenueSection props={props} userLocation={userLocation} username={username} refreshData={profileType} profileType={pType}/>
                 }
                 {pType == "general" && 
-                 <NoAuthShowsList props={props} />}
+                 <NoAuthShowsList props={props} profileType={pType}/>}
             </SafeAreaView>
         )
     } else {

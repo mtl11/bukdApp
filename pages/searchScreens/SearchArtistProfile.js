@@ -106,7 +106,7 @@ const ProfileScreen = (props) => {
       return <SocialSearchTab socials={socials} />;
     }
     if (aboutShow == true && basicInfo.profileType == "venue") {
-      return <ShowsTab shows={shows} basicInfo={basicInfo} props={props}/>;
+      return <ShowsTab shows={shows} basicInfo={basicInfo} props={props} pType={profileType}/>;
     }
     if (aboutShow == true && basicInfo.profileType == "performer") {
       return <HighlightsTab shows={shows} basicInfo={basicInfo} />;

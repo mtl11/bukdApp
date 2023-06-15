@@ -34,7 +34,8 @@ const OpenShowDetails = (props) => {
     }
 
     let data = props.route.params.data;
-    // console.log(data)
+    let pType = props.route.params.profileType;
+    console.log(pType)
     const [applyVisible, setApplyVisible] = useState(false);
     const start = formatAMPM(new Date(data.startTime));
     const end = formatAMPM(new Date(data.endTime));
@@ -44,8 +45,9 @@ const OpenShowDetails = (props) => {
     let dayOfWeek = weekday[new Date(data.date).getDay()];
     const date = new Date(data.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
     const [applied, setApplied] = useState(false);
+    // console.log(profileCTX.personalInfo.profileType);
     async function checkIfApplied() {
-        if (profileCTX.personalInfo.profileType == "performer") {
+        if (pType == "performer") {
             const localId = await AsyncStorage.getItem("localId");
             const response = await applicationCheck(localId, data.showID);
             if (response.data == null) {
@@ -60,7 +62,8 @@ const OpenShowDetails = (props) => {
         if (authCTX.isAuthenticated) {
             checkIfApplied();
         }
-    }, [])
+    }, []);
+    // console.log(profileCTX.personalInfo);
     return (
         <SafeAreaView style={{ height: "100%", backgroundColor: "white" }}>
             {/* <View style={{justifyContent:"space-between"}}> */}
@@ -79,10 +82,11 @@ const OpenShowDetails = (props) => {
                         />
                     </TouchableOpacity>
                     <TouchableOpacity
+
                         style={styles.topIconContainer}
                         onPress={() => {
+                            console.log(data.venueID)
                             AsyncStorage.setItem("searchID", data.venueID);
-                            props.navigation.navigate("SearchArtistProfile");
                         }}
                     >
                         <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, color: global.color.primaryColors.main }}>
@@ -142,7 +146,7 @@ const OpenShowDetails = (props) => {
                 </View>
             </View>
 
-            {(applied == false && authCTX.isAuthenticated && profileCTX.personalInfo.profileType == "performer") &&
+            {(applied == false && authCTX.isAuthenticated && pType == "performer") &&
                 <TouchableOpacity
                     style={{
                         alignItems: "center",
@@ -164,7 +168,7 @@ const OpenShowDetails = (props) => {
                         Apply now
                     </Text>
                 </TouchableOpacity>}
-            {(applied == true && authCTX.isAuthenticated && profileCTX.personalInfo.profileType == "performer") &&
+            {(applied == true && authCTX.isAuthenticated && pType == "performer") &&
                 <View
                     style={{
                         alignItems: "center",

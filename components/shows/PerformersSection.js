@@ -96,8 +96,8 @@ const PerformersSection = (props) => {
                     </View>
                 </TouchableOpacity>
             </View>
-            {localShows == true && <LocalList props={props.props} data={showsData}/>}
-            {usersShows == true && <MyShowsList props={props.props} />}
+            {localShows == true && <LocalList props={props.props} data={showsData} profileType={props.profileType}/>}
+            {usersShows == true && <MyShowsList props={props.props} profileType={props.profileType}/>}
         </View>
     )
 }
