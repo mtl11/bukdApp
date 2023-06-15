@@ -16,7 +16,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ApplyModal from "../../components/shows/ApplyModal";
 import { app } from "../../util/firebaseStorage";
 import { applicationCheck } from "../../util/shows";
+import { AuthContext } from "../../store/authContext";
+import { ProfileContext } from "../../store/profileContext";
 const OpenShowDetails = (props) => {
+    const authCTX = useContext(AuthContext);
+    const profileCTX = useContext(ProfileContext);
+
     function formatAMPM(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -29,7 +34,7 @@ const OpenShowDetails = (props) => {
     }
 
     let data = props.route.params.data;
-    console.log(data)
+    // console.log(data)
     const [applyVisible, setApplyVisible] = useState(false);
     const start = formatAMPM(new Date(data.startTime));
     const end = formatAMPM(new Date(data.endTime));
@@ -38,21 +43,24 @@ const OpenShowDetails = (props) => {
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let dayOfWeek = weekday[new Date(data.date).getDay()];
     const date = new Date(data.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
-    const [applied, setApplied]=useState(false);
-    async function checkIfApplied(){
-        
-        const localId = await AsyncStorage.getItem("localId");
-        const response = await applicationCheck(localId, data.showID );
-        if (response.data == null){
-            setApplied(false);
-        }else{
-            setApplied(true);
+    const [applied, setApplied] = useState(false);
+    async function checkIfApplied() {
+        if (profileCTX.personalInfo.profileType == "performer") {
+            const localId = await AsyncStorage.getItem("localId");
+            const response = await applicationCheck(localId, data.showID);
+            if (response.data == null) {
+                setApplied(false);
+            } else {
+                setApplied(true);
+            }
         }
     }
 
-    useEffect(()=>{
-        checkIfApplied()
-    },[])
+    useEffect(() => {
+        if (authCTX.isAuthenticated) {
+            checkIfApplied();
+        }
+    }, [])
     return (
         <SafeAreaView style={{ height: "100%", backgroundColor: "white" }}>
             {/* <View style={{justifyContent:"space-between"}}> */}
@@ -73,7 +81,7 @@ const OpenShowDetails = (props) => {
                     <TouchableOpacity
                         style={styles.topIconContainer}
                         onPress={() => {
-                            AsyncStorage.setItem("searchID", data.uuid);
+                            AsyncStorage.setItem("searchID", data.venueID);
                             props.navigation.navigate("SearchArtistProfile");
                         }}
                     >
@@ -133,49 +141,50 @@ const OpenShowDetails = (props) => {
                     </Text>
                 </View>
             </View>
-            {applied == false && 
-            <TouchableOpacity
-                style={{
-                    alignItems: "center",
-                    padding: 16,
-                    marginHorizontal: "8%",
-                    backgroundColor: global.color.secondaryColors.main,
-                    borderRadius: 12,
-                    marginTop: "7%"
-                }}
-                onPress={() => {
-                    setApplyVisible(!applyVisible)
-                }}
-            >
-                <Text style={{
-                    fontFamily: "Rubik-Medium",
-                    color: "white",
-                    fontSize: 18,
-                }}>
-                    Apply now
-                </Text>
-            </TouchableOpacity>}
-            {applied == true &&
+
+            {(applied == false && authCTX.isAuthenticated && profileCTX.personalInfo.profileType == "performer") &&
+                <TouchableOpacity
+                    style={{
+                        alignItems: "center",
+                        padding: 16,
+                        marginHorizontal: "8%",
+                        backgroundColor: global.color.secondaryColors.main,
+                        borderRadius: 12,
+                        marginTop: "7%"
+                    }}
+                    onPress={() => {
+                        setApplyVisible(!applyVisible)
+                    }}
+                >
+                    <Text style={{
+                        fontFamily: "Rubik-Medium",
+                        color: "white",
+                        fontSize: 18,
+                    }}>
+                        Apply now
+                    </Text>
+                </TouchableOpacity>}
+            {(applied == true && authCTX.isAuthenticated && profileCTX.personalInfo.profileType == "performer") &&
                 <View
-                style={{
-                    alignItems: "center",
-                    padding: 16,
-                    // marginHorizontal: "8%",
-                    // backgroundColor: global.color.secondaryColors.main,
-                    // borderRadius: 12,
-                    // marginTop: "7%"
-                }}
-            >
-                <Text style={{
-                    fontFamily: "Rubik-Medium",
-                    // color: "white",
-                    fontSize: 18,
-                }}>
-                    You have already applied for this position
-                </Text>
-            </View>}
-            
-            <ApplyModal visible={applyVisible} setVisible={setApplyVisible} showID={data.showID} location={data.location}/>
+                    style={{
+                        alignItems: "center",
+                        padding: 16,
+                        // marginHorizontal: "8%",
+                        // backgroundColor: global.color.secondaryColors.main,
+                        // borderRadius: 12,
+                        // marginTop: "7%"
+                    }}
+                >
+                    <Text style={{
+                        fontFamily: "Rubik-Medium",
+                        // color: "white",
+                        fontSize: 18,
+                    }}>
+                        You have already applied for this position
+                    </Text>
+                </View>}
+
+            <ApplyModal visible={applyVisible} setVisible={setApplyVisible} showID={data.showID} location={data.location} />
         </SafeAreaView>
     )
 }

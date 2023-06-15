@@ -18,7 +18,7 @@ const VenueShowDetails = (props) => {
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
     }
-    console.log(props.data)
+    // console.log(props.data)
     const [visible, setVisible] = useState(false);
     const start = formatAMPM(new Date(props.data.startTime));
     const end = formatAMPM(new Date(props.data.endTime));

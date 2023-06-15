@@ -32,6 +32,8 @@ import { unfollowAccount } from "../../util/profile";
 import { URL } from 'react-native-url-polyfill';
 import { Feather } from '@expo/vector-icons';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { getShowData } from "../../util/shows";
+import HighlightsTab from "../../components/search/HighlightsTab";
 
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -81,7 +83,17 @@ const ProfileScreen = (props) => {
     const profileuri = await getProfilePic(searchID);
     setProfileURI(profileuri);
     if (otherInfo.shows != undefined) {
-      setShows(otherInfo.shows);
+      if (basicInfo.profileType == "venue") {
+        const myShows = [];
+        for (const x in otherInfo.shows) {
+          const response = await getShowData(x, otherInfo.about.location);
+          response["showID"] = x;
+          myShows.push(response);
+        }
+        setShows(myShows);
+      } else {
+        setShows(Object.entries(otherInfo.shows));
+      }
     }
     setGettingInfo(false);
   }
@@ -93,8 +105,11 @@ const ProfileScreen = (props) => {
     if (socialShow == true) {
       return <SocialSearchTab socials={socials} />;
     }
-    if (aboutShow == true) {
-      return <ShowsTab shows={shows} basicInfo={basicInfo} />;
+    if (aboutShow == true && basicInfo.profileType == "venue") {
+      return <ShowsTab shows={shows} basicInfo={basicInfo} props={props}/>;
+    }
+    if (aboutShow == true && basicInfo.profileType == "performer") {
+      return <HighlightsTab shows={shows} basicInfo={basicInfo} />;
     }
     if (availShow == true) {
       return <AvailabilitySearch availability={availability} />;
@@ -506,7 +521,7 @@ const ProfileScreen = (props) => {
               backgroundColor: '#000000c0',
 
             }}>
-              <View style={{ height: "100%", alignContent:"center", justifyContent:"center" }}>
+              <View style={{ height: "100%", alignContent: "center", justifyContent: "center" }}>
                 <Image source={{ uri: profileURI }}
                   style={{
                     width: 250,
@@ -525,11 +540,8 @@ const ProfileScreen = (props) => {
 
 const styles = StyleSheet.create({
   bottomNavigationView: {
-    // backgroundColor: '#fff',
     width: '100%',
     height: 150,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   iconColor: "white",
   editProfileText: {

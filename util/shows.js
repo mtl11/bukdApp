@@ -53,10 +53,12 @@ export async function addShowToProfile(showID, localId, accessToken) {
     // console.log(response.data);
 }
 
-export async function addAppliedShowToProfile(message, showID, localId, accessToken) {
+export async function addAppliedShowToProfile(message, showID, location, localId, accessToken) {
     const response = await firebaseUtil.put("/users/" + localId + "/appliedShows/" + showID + ".json?auth=" + accessToken,{
         showID: showID,
-        message: message
+        message: message,
+        appliedToDate: new Date(),
+        location: location
     });
 }
 
@@ -71,15 +73,22 @@ export async function applyToShow(message, showID, location, localId, accessToke
     }
     const response = await firebaseUtil.post("/shows/" + location + "/" + showID + "/applicants.json?auth=" + accessToken,{
         message:message,
-        localId: localId
+        localId: localId,
+        appliedToDate: new Date()
     });
 }
 
 export async function getShowData(showID, location){
-    // if (location == "Tucson, AZ"){
-    //     location = "Tuscon, AZ"
-    // }
+    if (location == "Tucson, AZ"){
+        location = "Tuscon, AZ"
+    }
     const response = await firebaseUtil.get("/shows/" + location + "/" + showID + ".json");
+    return response.data;
+}
+
+export async function getMyShowsData(localId){
+    
+    const response = await firebaseUtil.get("/users/" + localId + "/appliedShows.json")
     return response.data;
 }
 

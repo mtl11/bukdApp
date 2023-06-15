@@ -5,17 +5,38 @@ import {
     SafeAreaView,
     StyleSheet,
     TouchableOpacity,
-    Image,
+    FlatList,
     ActivityIndicator,
-    Button,
-    FlatList
+    Button
 } from "react-native";
+import SearchDropDown from "../../components/search/SearchDropDown";
+import { locations } from "../../models/dropdownData";
 import global from "../../styles/global";
+import LocalList from "../../components/shows/LocalList";
+import MyShowsList from "../../components/shows/MyShowsList";
+import { getShowsDataAtLocation } from "../../util/shows";
 import { EvilIcons, Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { getMyShowsData, getShowData } from "../../util/shows";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+const NoAuthShowsList = (props) => {
+    const [location, setLocation] = useState("Tucson, AZ");
+    const [showsData, setShowsData] = useState();
 
-const MyShowsList = (props) => {
+    async function getShowsAtLocation() {
+        // console.log(location)
+        const showsData = await getShowsDataAtLocation(location);
+        if (showsData) {
+            const data = Object.entries(showsData);
+            const array = [];
+            for (const x in data) {
+                const item = data[x][1];
+                item["showID"] = data[x][0];
+                array.push(item);
+                // console.log(item)
+            }
+            setShowsData(array);
+        }
+    }
+
     function formatAMPM(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -26,24 +47,24 @@ const MyShowsList = (props) => {
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
     }
+
     const renderItem = useCallback(({ item }) => {
-        console.log(item);
         const start = formatAMPM(new Date(item.startTime));
         const end = formatAMPM(new Date(item.endTime));
         const month = new Date(item.date).toLocaleString('default', { month: 'long' });
         const day = new Date(item.date).getDate();
-        const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         let dayOfWeek = weekday[new Date(item.date).getDay()];
         const datePosted = new Date(item.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
-        const appliedDate = new Date(item.appliedToDate).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
+        console.log(item)
         return (
-            <TouchableOpacity style={styles.showContainer} onPress={() => {
-                props.props.navigation.navigate("MyShowDetails", { data: item });
-            }}>
+            <View style={styles.showContainer}>
+
                 <View style={{ padding: "3%", width: "100%" }}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
+
                         <View style={{ flexDirection: "column" }}>
-                            <View style={{ alignSelf: 'center' }}>
+                            <View style={{}}>
                                 <Text style={styles.dateText}>{dayOfWeek}, {month} {day}</Text>
                             </View>
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -72,70 +93,74 @@ const MyShowsList = (props) => {
                             </View>
                         </View>
                     </View>
-                    <View >
-                        <Text style={styles.smallText}>
-                            Applied on {appliedDate}
+                    <TouchableOpacity onPress={()=>{
+                        AsyncStorage.setItem("searchID", item.venueID);
+                        props.props.navigation.navigate("SearchArtistProfile");
+                    }}>
+                        <Text style={{ fontSize: 16, fontFamily: "Rubik-Regular", color: global.color.primaryColors.main }} >
+                            View Profile
                         </Text>
-                    </View>
-                    {/* {item.status == "pending" &&
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-
-                            <Ionicons name="ellipsis-horizontal-circle-outline" size={24} color={global.color.secondaryColors.placeHolderTextColor} />
-                            <Text style={styles.smallText}>
-                                Pending
-                            </Text>
-                        </View>
-                    }
-                    {item.status == "accepted" &&
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Ionicons name="checkmark-circle-outline" size={24} color={global.color.secondaryColors.placeHolderTextColor} />
-                            <Text style={styles.smallText}>
-                                Accepted
-                            </Text>
-                        </View>
-                    }
-                    {item.status == "denied" &&
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Ionicons name="remove-circle-outline" size={24} color={global.color.secondaryColors.placeHolderTextColor} />
-                            <Text style={styles.smallText}>
-                                Denied
-                            </Text>
-                        </View>
-                    } */}
+                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
+            </View>
         )
-    })
+    }, [])
 
-    async function getMyShows(){
-        const localId = await AsyncStorage.getItem("localId");
-        const rawData = Object.values(await getMyShowsData(localId));
-        // console.log(rawData);
-        const flatListData = [];
-        for (const x in rawData){
-            const retrievedData = await getShowData(rawData[x].showID, rawData[x].location);
-            retrievedData["message"] = rawData[x].message;
-            retrievedData["appliedToDate"] = rawData[x].appliedToDate;
-            flatListData.push(retrievedData);
-        }
-        setData(flatListData)
+    const getData = () => {
+        return showsData;
     }
-    const [data, setData] = useState();
-    useEffect(()=>{
-        getMyShows();
-    },[])
-    
-    return (
-        <FlatList
-            data={data}
-            renderItem={renderItem}
-            contentContainerStyle={{ marginTop: "2.5%" }}
-        />
 
+    useEffect(() => {
+        getShowsAtLocation();
+    }, [])
+    return (
+        <View>
+            <View style={{ alignItems: "center" }}>
+                <SearchDropDown
+                    setValue={setLocation}
+                    placeholder={"Tucson, AZ"}
+                    data={locations}
+                    icon={"ios-location-outline"}
+                    blur={getShowsAtLocation}
+                />
+            </View>
+            <FlatList
+                data={getData()}
+                renderItem={renderItem}
+                style={{ height: "95%" }}
+                contentContainerStyle={{ marginTop: "2.5%" }}
+            />
+        </View>
     )
 }
-
 const styles = StyleSheet.create({
+
+    tabView: {
+        borderBottomWidth: 1,
+        marginTop: 10,
+        alignItems: "center",
+        borderColor: global.color.secondaryColors.adjacent,
+    },
+    tabTextContainer: {
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        paddingBottom: 10,
+    },
+    tabContainer: {
+        width: "50%",
+        alignItems: "center",
+    },
+    tabBottomBar: {
+        borderWidth: 2.5,
+        borderRadius: 12,
+        borderColor: global.color.secondaryColors.main,
+        backgroundColor: global.color.secondaryColors.main,
+    },
+    tabText: {
+        color: global.color.secondaryColors.placeHolderTextColor,
+        fontFamily: "Rubik-Regular",
+        fontSize: 16,
+    },
     showContainer: {
         // width: "90%",
         marginHorizontal: "5%",
@@ -171,4 +196,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default MyShowsList;
+export default NoAuthShowsList;

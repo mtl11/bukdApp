@@ -10,6 +10,7 @@ import { getProfileInfo, getProfileStart } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ProfileContext } from "../../store/profileContext";
 import { getShowData } from "../../util/shows";
+import NoAuthShowsList from "../../components/shows/NoAuthShowsList";
 
 const ShowScreen = (props) => {
     // const profileCTX = useContext(ProfileContext);
@@ -24,21 +25,24 @@ const ShowScreen = (props) => {
         if (authCTX.isAuthenticated) {
             const profiletype = await getProfileInfo(localId);
             const otherInfo = await getProfileStart(localId);
-            setUsername(profiletype.profileName);
-            setUserLocation(otherInfo.about.location);
             setProfileType(profiletype.profileType);
-            profileCTX.updateAbout(otherInfo.about)
-            if (profiletype.profileType == "venue") {
-                if (otherInfo.hasOwnProperty("shows")) {
-                    const myShows = [];
-                    for (const x in otherInfo.shows) {
-                        const response = await getShowData(x, otherInfo.about.location);
-                        response["showID"] = x;
-                        myShows.push(response);
+            if (profiletype.profileType != "general") {
+                setUsername(profiletype.profileName);
+                setUserLocation(otherInfo.about.location);
+                
+                profileCTX.updateAbout(otherInfo.about)
+                if (profiletype.profileType == "venue") {
+                    if (otherInfo.hasOwnProperty("shows")) {
+                        const myShows = [];
+                        for (const x in otherInfo.shows) {
+                            const response = await getShowData(x, otherInfo.about.location);
+                            response["showID"] = x;
+                            myShows.push(response);
+                        }
+                        profileCTX.changeShow(myShows);
+                    } else {
+                        profileCTX.changeShow([]);
                     }
-                    profileCTX.changeShow(myShows);
-                } else {
-                    profileCTX.changeShow([]);
                 }
             }
         }
@@ -57,6 +61,8 @@ const ShowScreen = (props) => {
                 {pType == "venue" &&
                     <VenueSection props={props} userLocation={userLocation} username={username} refreshData={profileType} />
                 }
+                {pType == "general" && 
+                 <NoAuthShowsList props={props} />}
             </SafeAreaView>
         )
     } else {
@@ -65,6 +71,7 @@ const ShowScreen = (props) => {
                 backgroundColor: global.color.secondaryColors.background,
                 height: "100%"
             }}>
+                <NoAuthShowsList props={props} />
             </SafeAreaView>
         )
     }

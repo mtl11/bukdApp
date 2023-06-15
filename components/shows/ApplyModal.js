@@ -15,8 +15,7 @@ const ApplyModal = (props) => {
         const localId = await AsyncStorage.getItem("localId");
         const accessToken = await getAccessToken();
         await applyToShow(message, props.showID, props.location, localId, accessToken);
-        await addAppliedShowToProfile(message, props.showID, localId, accessToken);
-        
+        await addAppliedShowToProfile(message, props.showID, props.location, localId, accessToken);
     }
     return (
         <Modal
