@@ -139,15 +139,15 @@ const MyShowsList = (props) => {
             data={data}
             renderItem={renderItem}
             contentContainerStyle={{ marginTop: "2.5%" }}
-            ListEmptyComponent={()=>{
-            return(
-                <View>
-                    <Text style={{textAlign: "center", fontSize: 18, fontFamily: "Rubik-Regular"}}>
-                        No Applied to Shows !
-                    </Text>
-                </View>
-            )
-        }}
+            ListEmptyComponent={() => {
+                return (
+                    <View>
+                        <Text style={{ textAlign: "center", fontSize: 18, fontFamily: "Rubik-Regular" }}>
+                            No Applied to Shows !
+                        </Text>
+                    </View>
+                )
+            }}
         />
 
     )

@@ -28,10 +28,11 @@ const EditShowDetailsModal = (props) => {
     async function editShowDetails(){
         const localId = await AsyncStorage.getItem("localId")
         const accessToken = await getAccessToken();
-        await editShow({venueName: props.data.venueName, location: props.data.location, genreNeeded: genre,
+        console.log(props.data.applicants);
+        await editShow({applicants: props.data.applicants, venueName: props.data.venueName, location: props.data.location, genreNeeded: genre,
             typeNeeded: typeNeeded, date:date, startTime:startTime, endTime: endTime, maxApplicants: maxApplicants, 
             compensationStart: compensationStart, compensationEnd: compensationEnd, equipment: props.data.equipment, 
-            description: description, postsExpire: expirationDate, datePosted: props.data.datePosed, venueID: localId },
+            description: description, postsExpire: expirationDate, datePosted: props.data.datePosted, venueID: localId },
             props.data.showID, props.data.location, accessToken )
     }
 

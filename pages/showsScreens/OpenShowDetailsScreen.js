@@ -188,7 +188,7 @@ const OpenShowDetails = (props) => {
                     </Text>
                 </View>}
 
-            <ApplyModal visible={applyVisible} setVisible={setApplyVisible} showID={data.showID} location={data.location} />
+            <ApplyModal visible={applyVisible} setVisible={setApplyVisible} showID={data.showID} location={data.location} props={props}/>
         </SafeAreaView>
     )
 }

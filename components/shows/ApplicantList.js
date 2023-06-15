@@ -21,11 +21,9 @@ const ApplicantList = (props) => {
 
   const itemHandler = (item) => {
     console.log(item);
-    
-
     return (
       <View style={styles.showContainer} >
-        <View style={{ flexDirection: "row", alignItems:"center"}}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
 
           <TouchableWithoutFeedback onPress={() => {
             AsyncStorage.setItem("searchID", item.applicantID);
@@ -49,7 +47,7 @@ const ApplicantList = (props) => {
           </View>
 
         </View>
-        <View style={{paddingTop: 10}}>
+        <View style={{ paddingTop: 10 }}>
           <Text style={{ fontSize: 16 }}>
             Applicant Message:
           </Text>
@@ -57,12 +55,12 @@ const ApplicantList = (props) => {
             {item.message}
           </Text>
         </View>
-        <View style={{paddingTop: 10}}>
+        <View style={{ paddingTop: 10 }}>
           <Text style={{ fontSize: 16 }}>
             Date applied:
           </Text>
           <Text style={{ fontSize: 14, padding: 5 }}>
-            {new Date(item.appliedToDate).toLocaleString('default', {year: 'numeric', month: 'long', day: 'numeric'})}
+            {new Date(item.appliedToDate).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' })}
           </Text>
         </View>
       </View>
@@ -88,19 +86,36 @@ const ApplicantList = (props) => {
 
   useEffect(() => {
     if (props.data.applicants) {
+      setLoading(true);
       getApplicantsData();
+      setLoading(false);
     }
 
-  }, [])
+  }, []);
+  const [loading, setLoading] = useState(false);
   return (
-    <FlatList
-      contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 250 }}
-      data={data}
-      //   refreshControl={<RefreshControl
-      //     refreshing={refreshing} onRefresh={onRefresh}
-      //     tintColor={global.color.primaryColors.main} />}
-      renderItem={(item) => { return itemHandler(item.item) }}
-    />
+    <View>
+      {loading == false ?
+        <FlatList
+          contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 250 }}
+          data={data}
+          ListEmptyComponent={() => {
+            return (
+              <View>
+                <Text style={{ textAlign: "center", fontSize: 18, fontFamily: "Rubik-Regular" }}>
+                  No Applicants
+                </Text>
+              </View>
+            )
+          }}
+          renderItem={(item) => { return itemHandler(item.item) }}
+        /> : <View>
+          <ActivityIndicator size={"large"} />
+        </View>
+      }
+
+    </View>
+
   )
 }
 

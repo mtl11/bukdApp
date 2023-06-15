@@ -78,6 +78,7 @@ const ApplyModal = (props) => {
                     onPress={() => {
                         apply();
                         props.setVisible(!props.visible);
+                        props.props.navigation.pop();
                     }}
                 >
                     <View style={{ alignSelf: "center", padding: "5%", }}>

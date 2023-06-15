@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import global from "../../styles/global";
 import EditShowDetailsModal from "./EditShowDetailsModal";
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 const VenueShowDetails = (props) => {
     function formatAMPM(date) {
         var hours = date.getHours();
@@ -21,14 +21,14 @@ const VenueShowDetails = (props) => {
     const [visible, setVisible] = useState(false);
     const start = formatAMPM(new Date(props.data.startTime));
     const end = formatAMPM(new Date(props.data.endTime));
-    const exiprationDate = new Date(props.data.postsExpire).toLocaleString('default', {year: 'numeric', month: 'long', day: 'numeric'});
-    const date = new Date(props.data.date).toLocaleString('default', {year: 'numeric', month: 'long', day: 'numeric'});
-
+    const exiprationDate = new Date(props.data.postsExpire).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
+    const date = new Date(props.data.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
+    // console.log(props.data)
     return (
         <View>
             <View style={{
                 flexDirection: "row",
-                width: "40%",
+
                 justifyContent: "space-between",
                 marginHorizontal: 30,
                 marginTop: "3%"
@@ -37,7 +37,8 @@ const VenueShowDetails = (props) => {
                     {props.data.venueName}
                 </Text>
             </View>
-            <View style={{ flexDirection: "row", marginHorizontal: 30, marginTop: "3%" }}>
+            <View style={{ flexDirection: "row", marginHorizontal: 30, marginTop: "3%", alignItems: "center" }}>
+                <MaterialCommunityIcons name="account-search" size={24} color="black" />
                 <Text style={{ fontFamily: "Rubik-SemiBold", fontSize: 18 }}>
                     {props.data.typeNeeded}
                 </Text>
@@ -50,26 +51,26 @@ const VenueShowDetails = (props) => {
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    {props.data.location}
+                    Location: {props.data.location}
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Date: {date}
+                    Show Date: {date}
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Time: {start} - {end}
+                    Show Time: {start} - {end}
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
-                {props.data.applicants != null  ?
-                <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Current Applicants: {Object.values(props.data.applicants).length}
-                </Text>: <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Current Applicants: 0
-                </Text>}
+                {props.data.applicants != null ?
+                    <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
+                        Current Applicants: {Object.values(props.data.applicants).length}
+                    </Text> : <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
+                        Current Applicants: 0
+                    </Text>}
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
@@ -81,14 +82,14 @@ const VenueShowDetails = (props) => {
                     Compensation range: ${props.data.compensationStart} - ${props.data.compensationEnd}
                 </Text>
             </View>
-            <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
+            {/* <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
                     Equipment: {props.data.equipment}
                 </Text>
-            </View>
+            </View> */}
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Description
+                    Description:
                 </Text>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 14 }}>
                     {props.data.description}
