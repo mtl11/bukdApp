@@ -32,6 +32,7 @@ import FollowingTab from "../../components/profile/FollowingTab.js";
 import { URL } from 'react-native-url-polyfill';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import HighlightsTab from "../../components/profile/Highlights.js";
+import * as WebBrowser from "expo-web-browser";
 
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -135,9 +136,14 @@ const ProfileScreen = (props) => {
     profileCTX.updateProfilePic(profileuri);
     setGettingInfo(false);
   }
-
-  const handleLinkPress = () => {
-    Linking.openURL(profileCTX.profileLink);
+  async function openWebPage(uri) {
+    if (uri) {
+      await WebBrowser.openBrowserAsync(uri);
+    }
+  }
+  async function handleLinkPress (){
+    await WebBrowser.openBrowserAsync(profileCTX.profileLink);
+   
   };
 
   const [isModalVisible, setModalVisible] = useState(false);

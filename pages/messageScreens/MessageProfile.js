@@ -31,6 +31,7 @@ import { addToFollowingList } from "../../util/search";
 import { BottomSheet } from 'react-native-btr';
 import { URL } from 'react-native-url-polyfill';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import * as WebBrowser from "expo-web-browser";
 
 const MessageProfile = (props) => {
   const authCTX = useContext(AuthContext);
@@ -76,8 +77,8 @@ const MessageProfile = (props) => {
     setVisibleBottomNav(!visibleBottomNav);
   };
 
-  const handleLinkPress = () => {
-    Linking.openURL(profileLink);
+  async function handleLinkPress (){
+    await WebBrowser.openBrowserAsync(profileLink);
   };
 
   function getScreenTab() {

@@ -34,6 +34,7 @@ import { Feather } from '@expo/vector-icons';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { getShowData } from "../../util/shows";
 import HighlightsTab from "../../components/search/HighlightsTab";
+import * as WebBrowser from "expo-web-browser";
 
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -55,8 +56,8 @@ const ProfileScreen = (props) => {
   const [profileType, setProfileType] = useState("");
   const [profileLink, setProfileLink] = useState();
 
-  const handleLinkPress = () => {
-    Linking.openURL(profileLink);
+  async function handleLinkPress (){
+    await WebBrowser.openBrowserAsync(profileLink);
   };
 
   async function getProfile() {
