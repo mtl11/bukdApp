@@ -11,7 +11,7 @@ import {
     FlatList
 } from "react-native";
 import global from "../../styles/global";
-import { EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { EvilIcons, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ApplyModal from "../../components/shows/ApplyModal";
 import { app } from "../../util/firebaseStorage";
@@ -29,8 +29,8 @@ const MyShowDetailsScreen = (props) => {
     let data = props.route.params.data;
     const start = formatAMPM(new Date(data.startTime));
     const end = formatAMPM(new Date(data.endTime));
-    const exiprationDate = new Date(data.postsExpire).toLocaleString('default', {year: 'numeric', month: 'long', day: 'numeric'});
-    const date = new Date(data.date).toLocaleString('default', {year: 'numeric', month: 'long', day: 'numeric'});
+    const exiprationDate = new Date(data.postsExpire).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
+    const date = new Date(data.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
     console.log(data)
     return (
         <SafeAreaView style={{ height: "100%", backgroundColor: "white" }}>
@@ -73,6 +73,7 @@ const MyShowDetailsScreen = (props) => {
                     </Text>
                 </View>
                 <View style={{ flexDirection: "row", marginHorizontal: 30, marginTop: "3%" }}>
+                    <MaterialCommunityIcons name="account-search" size={24} color="black" />
                     <Text style={{ fontFamily: "Rubik-SemiBold", fontSize: 18 }}>
                         {data.typeNeeded}
                     </Text>
@@ -85,17 +86,17 @@ const MyShowDetailsScreen = (props) => {
                 </View>
                 <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                     <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                        {data.location}
+                        Location: {data.location}
                     </Text>
                 </View>
                 <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                     <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                        {date}
+                        Show Date: {date}
                     </Text>
                 </View>
                 <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                     <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                        {start} - {end}
+                        Show Time: {start} - {end}
                     </Text>
                 </View>
                 <View style={{ marginHorizontal: 30, marginTop: "3%" }}>

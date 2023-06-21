@@ -42,7 +42,6 @@ const ApplyModal = (props) => {
                     marginHorizontal: "8%",
                     marginTop: "5%",
                     backgroundColor: global.color.secondaryColors.adjacent,
-
                     height: "30%"
                 }}>
                     <TextInput
@@ -78,7 +77,8 @@ const ApplyModal = (props) => {
                     onPress={() => {
                         apply();
                         props.setVisible(!props.visible);
-                        props.props.navigation.pop();
+                        props.setApplied(true);
+                        // props.props.navigation.pop();
                     }}
                 >
                     <View style={{ alignSelf: "center", padding: "5%", }}>

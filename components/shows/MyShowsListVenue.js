@@ -85,7 +85,9 @@ const MyShowsListVenue = (props) => {
             </TouchableOpacity>
         )
     })
-
+    // useEffect(()=>{
+    //     props.refreshData();
+    // },[]);
     const profileCTX = useContext(ProfileContext);
     return (
         <FlatList
@@ -93,7 +95,6 @@ const MyShowsListVenue = (props) => {
             renderItem={renderItem}
             contentContainerStyle={{ marginTop: "2.5%" }}
             refreshControl={
-
                 <RefreshControl
                     refreshing={refreshing} onRefresh={onRefresh}
                     tintColor={global.color.primaryColors.main} />

@@ -8,6 +8,7 @@ import global from "../../styles/global";
 import EditShowDetailsModal from "./EditShowDetailsModal";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 const VenueShowDetails = (props) => {
+    const [data, setData] = useState(props.data);
     function formatAMPM(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -19,10 +20,10 @@ const VenueShowDetails = (props) => {
         return strTime;
     }
     const [visible, setVisible] = useState(false);
-    const start = formatAMPM(new Date(props.data.startTime));
-    const end = formatAMPM(new Date(props.data.endTime));
-    const exiprationDate = new Date(props.data.postsExpire).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
-    const date = new Date(props.data.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
+    const start = formatAMPM(new Date(data.startTime));
+    const end = formatAMPM(new Date(data.endTime));
+    const exiprationDate = new Date(data.postsExpire).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
+    const date = new Date(data.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
     // console.log(props.data)
     return (
         <View>
@@ -40,18 +41,18 @@ const VenueShowDetails = (props) => {
             <View style={{ flexDirection: "row", marginHorizontal: 30, marginTop: "3%", alignItems: "center" }}>
                 <MaterialCommunityIcons name="account-search" size={24} color="black" />
                 <Text style={{ fontFamily: "Rubik-SemiBold", fontSize: 18 }}>
-                    {props.data.typeNeeded}
+                    {data.typeNeeded}
                 </Text>
                 <Text style={{ fontFamily: "Rubik-SemiBold", fontSize: 18 }}>
                     {" "}-{" "}
                 </Text>
                 <Text style={{ fontFamily: "Rubik-SemiBold", fontSize: 18 }}>
-                    {props.data.genreNeeded}
+                    {data.genreNeeded}
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Location: {props.data.location}
+                    Location: {data.location}
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
@@ -65,26 +66,26 @@ const VenueShowDetails = (props) => {
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
-                {props.data.applicants != null ?
+                {data.applicants != null ?
                     <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                        Current Applicants: {Object.values(props.data.applicants).length}
+                        Current Applicants: {Object.values(data.applicants).length}
                     </Text> : <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
                         Current Applicants: 0
                     </Text>}
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Max Applicants: {props.data.maxApplicants}
+                    Max Applicants: {data.maxApplicants}
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Compensation range: ${props.data.compensationStart} - ${props.data.compensationEnd}
+                    Compensation range: ${data.compensationStart} - ${data.compensationEnd}
                 </Text>
             </View>
             {/* <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                    Equipment: {props.data.equipment}
+                    Equipment: {data.equipment}
                 </Text>
             </View> */}
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
@@ -92,7 +93,7 @@ const VenueShowDetails = (props) => {
                     Description:
                 </Text>
                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 14 }}>
-                    {props.data.description}
+                    {data.description}
                 </Text>
             </View>
             <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
@@ -121,7 +122,7 @@ const VenueShowDetails = (props) => {
                     Edit Details
                 </Text>
             </TouchableOpacity>
-            <EditShowDetailsModal visible={visible} setVisible={setVisible} data={props.data} />
+            <EditShowDetailsModal visible={visible} setVisible={setVisible} data={data} setData={setData} />
         </View>
     )
 }

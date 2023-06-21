@@ -25,22 +25,30 @@ const EditShowDetailsModal = (props) => {
     const [expirationDate, setExpirationDate] = useState(new Date());
     // console.log(props.data);
 
-    async function editShowDetails(){
+    async function editShowDetails() {
         const localId = await AsyncStorage.getItem("localId")
         const accessToken = await getAccessToken();
-        console.log(props.data.applicants);
-        await editShow({applicants: props.data.applicants, venueName: props.data.venueName, location: props.data.location, genreNeeded: genre,
-            typeNeeded: typeNeeded, date:date, startTime:startTime, endTime: endTime, maxApplicants: maxApplicants, 
-            compensationStart: compensationStart, compensationEnd: compensationEnd, equipment: props.data.equipment, 
-            description: description, postsExpire: expirationDate, datePosted: props.data.datePosted, venueID: localId },
-            props.data.showID, props.data.location, accessToken )
+        // console.log(props.data);
+        props.setData({
+            applicants: props.data.applicants, venueName: props.data.venueName, location: props.data.location, genreNeeded: genre,
+            typeNeeded: typeNeeded, date: date, startTime: startTime, endTime: endTime, maxApplicants: maxApplicants,
+            compensationStart: compensationStart, compensationEnd: compensationEnd, equipment: props.data.equipment,
+            description: description, postsExpire: expirationDate, datePosted: props.data.datePosted, venueID: localId
+        })
+        await editShow({
+            applicants: props.data.applicants, venueName: props.data.venueName, location: props.data.location, genreNeeded: genre,
+            typeNeeded: typeNeeded, date: date, startTime: startTime, endTime: endTime, maxApplicants: maxApplicants,
+            compensationStart: compensationStart, compensationEnd: compensationEnd, equipment: props.data.equipment,
+            description: description, postsExpire: expirationDate, datePosted: props.data.datePosted, venueID: localId
+        },
+            props.data.showID, props.data.location, accessToken)
     }
 
     return (
         <Modal
             isVisible={props.visible} avoidKeyboard={true} style={{ backgroundColor: "white" }}>
             <SafeAreaView style={{
-               flex:1,
+                flex: 1,
                 borderRadius: 12,
             }}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -49,22 +57,23 @@ const EditShowDetailsModal = (props) => {
                     }}>
                         <Ionicons name="close-circle-outline" size={28} color={global.color.primaryColors.main} />
                     </TouchableOpacity>
-
                 </View>
-                <ScrollView >
-
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ marginHorizontal: "3%" }}>
-                        <View style={{ flexDirection: "row", width: "40%", justifyContent: "space-between", marginTop: "5%" }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: "5%" }}>
                             <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                                {props.data.venueName}
+                                Venue Name: {props.data.venueName}
                             </Text>
                         </View>
-                        <View style={{ flexDirection: "row", width: "40%", justifyContent: "space-between", marginTop: "5%" }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: "5%" }}>
                             <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                                {props.data.location}
+                                Location: {props.data.location}
                             </Text>
                         </View>
-                        <View style={{ width: "120%", alignSelf: "center", marginTop: "5%" }}>
+                        <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, marginTop: "5%" }}>
+                            Performer(s) you are looking for...
+                        </Text>
+                        <View style={{ width: "120%", alignSelf: "center" }}>
                             <ProfileDropDown
                                 data={profileCategoriesArtistEdit}
                                 setValue={setTypeNeeded}
@@ -135,7 +144,11 @@ const EditShowDetailsModal = (props) => {
                                 />
                             </View>
                         </View>
-                        <View style={styles.inputContainer}>
+                        <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, marginTop: "5%" }}>
+                            Max Applicants
+                        </Text>
+                        <View style={[styles.inputContainer, { marginTop: 0 }]}>
+
                             <TextInput
                                 style={styles.input}
                                 placeholder={"Max Applicants"}
@@ -148,15 +161,14 @@ const EditShowDetailsModal = (props) => {
                                 keyboardType="decimal-pad"
                             />
                         </View>
-
-                        {/* <Text style={{ fontSize: 16, fontFamily: "Rubik-Regular", padding: 10, }}> 
-                                End Time
-                            </Text>  */}
+                        <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, marginTop: "5%" }}>
+                            Compensation Range
+                        </Text>
                         <View style={{
                             flexDirection: "row",
                             marginHorizontal: 30,
                             justifyContent: "space-between",
-                            marginTop: "5%"
+                            // marginTop: "5%"
                         }}>
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
                                 <Text style={{
@@ -232,15 +244,18 @@ const EditShowDetailsModal = (props) => {
                                 </Text>
                             </View>
                         </View>
-                        <View style={{ flexDirection: "row", width: "40%", justifyContent: "space-between", marginTop: "5%" }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: "5%" }}>
                             <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                                {props.data.equipment}
+                                Equipment: {props.data.equipment}
                             </Text>
                         </View>
+                        <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, marginTop: "5%" }}>
+                            Description
+                        </Text>
                         <View style={{
                             borderRadius: 12,
                             // marginHorizontal: "8%",
-                            marginTop: "5%",
+                            // marginTop: "5%",
                             backgroundColor: global.color.secondaryColors.adjacent,
                             height: "25%"
                         }}>
@@ -267,10 +282,10 @@ const EditShowDetailsModal = (props) => {
                         </View>
                         <View style={{ alignSelf: "flex-start", marginTop: "5%" }}>
                             <Text style={{ fontSize: 16, fontFamily: "Rubik-Regular", padding: 5 }}>
-                                 Expiration Date
+                                Expiration Date
                             </Text>
                             <DateTimePicker
-                            style={{alignSelf:"stretch"}}
+                                style={{ alignSelf: "stretch" }}
                                 themeVariant={"light"}
                                 testID="dateTimePicker"
                                 value={expirationDate}
@@ -295,8 +310,9 @@ const EditShowDetailsModal = (props) => {
                             alignSelf: "center",
                         }}
                         onPress={() => {
-                            props.setVisible(!props.visible);
                             editShowDetails();
+                            props.setVisible(!props.visible);
+
                         }}
                     >
                         <View style={{ alignSelf: "center", padding: "5%", }}>

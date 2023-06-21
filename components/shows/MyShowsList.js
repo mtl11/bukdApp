@@ -72,7 +72,7 @@ const MyShowsList = (props) => {
                             </View>
                         </View>
                     </View>
-                    <View >
+                    <View>
                         <Text style={styles.smallText}>
                             Applied on {appliedDate}
                         </Text>
@@ -128,13 +128,18 @@ const MyShowsList = (props) => {
             }
             setData(flatListData)
         }
+        setGettingShows(false);
     }
     const [data, setData] = useState();
+    const [gettingShows, setGettingShows] = useState(false);
     useEffect(() => {
+        setGettingShows(true);
         getMyShows();
+        
     }, [])
-
+    if (gettingShows == false){
     return (
+        
         <FlatList
             data={data}
             renderItem={renderItem}
@@ -149,8 +154,12 @@ const MyShowsList = (props) => {
                 )
             }}
         />
-
     )
+}else{
+    return(
+        <ActivityIndicator size={"small"}/>
+    )
+}
 }
 
 const styles = StyleSheet.create({

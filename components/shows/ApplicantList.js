@@ -82,13 +82,14 @@ const ApplicantList = (props) => {
       array.push(item);
     }
     setData(array);
+    setLoading(false);
   }
 
   useEffect(() => {
     if (props.data.applicants) {
       setLoading(true);
       getApplicantsData();
-      setLoading(false);
+      
     }
 
   }, []);
@@ -110,7 +111,7 @@ const ApplicantList = (props) => {
           }}
           renderItem={(item) => { return itemHandler(item.item) }}
         /> : <View>
-          <ActivityIndicator size={"large"} />
+          <ActivityIndicator size={"small"} />
         </View>
       }
 

@@ -11,7 +11,7 @@ import {
     FlatList
 } from "react-native";
 import global from "../../styles/global";
-import { EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { EvilIcons, Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ApplyModal from "../../components/shows/ApplyModal";
 import { app } from "../../util/firebaseStorage";
@@ -82,11 +82,11 @@ const OpenShowDetails = (props) => {
                         />
                     </TouchableOpacity>
                     <TouchableOpacity
-
                         style={styles.topIconContainer}
                         onPress={() => {
-                            console.log(data.venueID)
+                            // console.log(data.venueID)
                             AsyncStorage.setItem("searchID", data.venueID);
+                            props.navigation.navigate("SearchArtistProfile");
                         }}
                     >
                         <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, color: global.color.primaryColors.main }}>
@@ -101,6 +101,7 @@ const OpenShowDetails = (props) => {
 
                 </View>
                 <View style={{ flexDirection: "row", marginHorizontal: 30, marginTop: "3%" }}>
+                    <MaterialCommunityIcons name="account-search" size={24} color="black" />
                     <Text style={{ fontFamily: "Rubik-SemiBold", fontSize: 18 }}>
                         {data.typeNeeded}
                     </Text>
@@ -113,17 +114,17 @@ const OpenShowDetails = (props) => {
                 </View>
                 <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                     <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                        {data.location}
+                        Location: {data.location}
                     </Text>
                 </View>
                 <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                     <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                        {dayOfWeek}, {month} {day}
+                        Show Date: {dayOfWeek}, {month} {day}
                     </Text>
                 </View>
                 <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                     <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                        {start} - {end}
+                        Show Time: {start} - {end}
                     </Text>
                 </View>
                 <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
@@ -133,7 +134,7 @@ const OpenShowDetails = (props) => {
                 </View>
                 <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
                     <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                        Equipment: {data.equipment}
+                        Venue's Equipment: {data.equipment}
                     </Text>
                 </View>
                 <View style={{ marginHorizontal: 30, marginTop: "3%" }}>
@@ -188,7 +189,13 @@ const OpenShowDetails = (props) => {
                     </Text>
                 </View>}
 
-            <ApplyModal visible={applyVisible} setVisible={setApplyVisible} showID={data.showID} location={data.location} props={props}/>
+            <ApplyModal
+                visible={applyVisible}
+                setVisible={setApplyVisible}
+                showID={data.showID}
+                location={data.location}
+                setApplied={setApplied}
+                props={props} />
         </SafeAreaView>
     )
 }
