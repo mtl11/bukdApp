@@ -136,11 +136,6 @@ const ProfileScreen = (props) => {
     profileCTX.updateProfilePic(profileuri);
     setGettingInfo(false);
   }
-  async function openWebPage(uri) {
-    if (uri) {
-      await WebBrowser.openBrowserAsync(uri);
-    }
-  }
   async function handleLinkPress (){
     await WebBrowser.openBrowserAsync(profileCTX.profileLink);
    

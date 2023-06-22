@@ -68,9 +68,9 @@ export async function applicationCheck(localId, showID){
 }
 
 export async function applyToShow(message, showID, location, localId, accessToken) {
-    if (location == "Tucson, AZ"){
-        location = "Tuscon, AZ"
-    }
+    // if (location == "Tucson, AZ"){
+    //     location = "Tuscon, AZ"
+    // }
     const response = await firebaseUtil.post("/shows/" + location + "/" + showID + "/applicants.json?auth=" + accessToken,{
         message:message,
         localId: localId,
@@ -79,9 +79,9 @@ export async function applyToShow(message, showID, location, localId, accessToke
 }
 
 export async function getShowData(showID, location){
-    if (location == "Tucson, AZ"){
-        location = "Tuscon, AZ"
-    }
+    // if (location == "Tucson, AZ"){
+    //     location = "Tuscon, AZ"
+    // }
     const response = await firebaseUtil.get("/shows/" + location + "/" + showID + ".json");
     return response.data;
 }
@@ -93,9 +93,9 @@ export async function getMyShowsData(localId){
 }
 
 export async function getShowsDataAtLocation(location){
-    if (location == "Tucson, AZ"){
-        location = "Tuscon, AZ"
-    }
+    // if (location == "Tucson, AZ"){
+    //     location = "Tuscon, AZ"
+    // }
     const response = await firebaseUtil.get("/shows/" + location + ".json");
     return response.data;
 }
