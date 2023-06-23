@@ -114,7 +114,9 @@ export async function getAccessToken(){
     grant_type: "refresh_token",
     refresh_token: refreshToken
   });
-  return response.data.access_token;
+  if (response.data){
+    return response.data.access_token;
+  }
 }
 
 export async function setProfileLink(link, localId, accessToken){

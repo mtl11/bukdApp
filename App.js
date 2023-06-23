@@ -191,6 +191,8 @@ function Root() {
       // console.log(accessToken);
       if (storedToken && accessToken) {
         authCTX.authenticate(storedToken);
+      }else{
+        authCTX.logout();
       }
       setIsTryingToLogin(false);
     }

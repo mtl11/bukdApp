@@ -47,6 +47,7 @@ const ShowScreen = (props) => {
             }
         }
     }
+
     useEffect(() => {
         profileType();
     },[authCTX])

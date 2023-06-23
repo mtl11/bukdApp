@@ -91,6 +91,7 @@ const MyShowsListVenue = (props) => {
     const profileCTX = useContext(ProfileContext);
     return (
         <FlatList
+            style={{ height: "100%" }}
             data={profileCTX.shows}
             renderItem={renderItem}
             contentContainerStyle={{ marginTop: "2.5%" }}
