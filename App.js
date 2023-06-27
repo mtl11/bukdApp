@@ -27,11 +27,11 @@ import OpenShowDetails from "./pages/showsScreens/OpenShowDetailsScreen";
 import MyShowDetailsScreen from "./pages/showsScreens/MyShowDetailsScreen";
 import MyShowDetailsVenueScreen from "./pages/showsScreens/MyShowDetailsVenueScreen";
 
-// import * as Sentry from '@sentry/react-native';
+import * as Sentry from '@sentry/react-native';
 
-// Sentry.init({ 
-//   dsn: 'https://f187626522c448e6b8fab71fc44ad9d7@o4504968974958592.ingest.sentry.io/4504968976269312', 
-// });
+Sentry.init({ 
+  dsn: "https://9c9d44c134ad45cda9c6c74ab4c65274@o4505430259007488.ingest.sentry.io/4505430261825536", 
+});
 
 
 const Stack = createNativeStackNavigator();
@@ -207,7 +207,7 @@ function Root() {
   return <Navigation />;
 }
 
-export default function App() {
+function App() {
   let [fontsLoaded] = useFonts({
     "Rubik-Regular": require("./assets/fonts/Rubik-Regular.ttf"),
     "Rubik-Light": require("./assets/fonts/Rubik-Light.ttf"),
@@ -226,4 +226,4 @@ export default function App() {
   );
 }
 
-// export default Sentry.wrap(App);
+export default Sentry.wrap(App);
