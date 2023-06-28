@@ -1,5 +1,6 @@
 import axios from "axios";
 import firebaseUtil from "./firebaseUtil";
+import { getAccessToken } from "./profile";
 
 export async function sendMessage(chatRoomID, message, senderID, accessToken) {
     const mes = {
@@ -18,12 +19,32 @@ export async function sendMessage(chatRoomID, message, senderID, accessToken) {
     }).catch((error) => {
         console.log(error.response);
     });
+    await firebaseUtil.put("/chatrooms/" + chatRoomID + "/hasBeenChecked/.json?auth=" + accessToken, {
+        senderID: senderID,
+        hasBeenChecked: false
+    }).catch((error) => {
+        console.log(error.response);
+    });
 }
 export async function getMessages(chatRoomID) {
     const response = await firebaseUtil.get("/chatrooms/" + chatRoomID + "/messages/.json");
     return response.data;
 }
+export async function updateHasBeenChecked(chatRoomID){
+    const accessToken = await getAccessToken();
+    const response = await firebaseUtil.get("/chatrooms/" + chatRoomID + "/hasBeenChecked.json");
+    if (response.data != null){
+        console.log(response.data);
+        await firebaseUtil.put("/chatrooms/" + chatRoomID + "/hasBeenChecked.json?auth="+accessToken,{
+            hasBeenChecked: true,
+            senderID: response.data.senderID
+        })
+    }
+    // await firebaseUtil.put("/chatrooms/" + chatRoomID + "/messages/hasBeenChecked.json"){
 
+    // }
+    
+}
 export async function checkIfChatExists(senderID, recieverID) {
     const response = await firebaseUtil.get("/users/" + senderID + "/chatrooms/" + recieverID + "/.json");
     return response.data;

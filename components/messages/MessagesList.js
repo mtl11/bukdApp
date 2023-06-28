@@ -76,6 +76,7 @@ const MessagesLists = (props) => {
   }
 
   const renderItem = (chatroom) => {
+    console.log(chatroom.item);
     return (
       <TouchableHighlight
         id={chatroom.item.chatRoomID}
@@ -100,11 +101,25 @@ const MessagesLists = (props) => {
                 <Text numberOfLines={1} ellipsizeMode="tail" style={styles.lastText}>{chatroom.item.lastMessage.message.text}</Text>
               </View>}
           </View>
+          {Object(chatroom.item.hasBeenChecked).hasOwnProperty("hasBeenChecked") 
+          && chatroom.item.hasBeenChecked.hasBeenChecked == false 
+          && chatroom.item.hasBeenChecked.senderID != chatroom.item.myID &&
+          
+            <View style={{
+              borderWidth: 1,
+              borderColor: global.color.secondaryColors.main,
+              borderRadius: 100,
+              backgroundColor: global.color.secondaryColors.main, height: 15, width: 15
+            }}>
+
+            </View>
+          
+          }
         </View>
       </TouchableHighlight>
     );
   }
-  
+
   const getData = () => {
     if (props.data != {}) {
       if (Array.isArray(props.data)) {
@@ -120,7 +135,7 @@ const MessagesLists = (props) => {
   return (
     <FlatList data={getData()} renderItem={renderItem}
       ListEmptyComponent={<View style={{ marginTop: '50%' }}>
-        <Text style={{fontSize: 16, textAlign: 'center', fontFamily: "Rubik-Regular"}}>
+        <Text style={{ fontSize: 16, textAlign: 'center', fontFamily: "Rubik-Regular" }}>
           No Messages Available
         </Text>
       </View>}
@@ -166,7 +181,7 @@ const styles = StyleSheet.create({
     color: global.color.secondaryColors.text,
     // paddingBottom: "1%",
   },
- 
+
 })
 
 export default MessagesLists;

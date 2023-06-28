@@ -7,8 +7,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getAllMessages, getChatroomIdData, getChatroomRecieverID, getChatroomSenderID, getLastMessage } from "../../util/message";
 import { AuthContext } from "../../store/authContext";
 import { getProfilePic, getProfileInfo } from "../../util/profile";
+import { useIsFocused } from "@react-navigation/native";
 
 const MessageScreen = (props) => {
+  const isFocused = useIsFocused();
   const authCTX = useContext(AuthContext);
   const [data, setData] = useState({});
   const [searchValue, setSearchValue] = useState("");
@@ -21,7 +23,7 @@ const MessageScreen = (props) => {
       const array = [];
       const values = Object.values(messageData);
       for (const x in values) {
-        // const firstUser = await getChatroomSenderID(values[x].chatRoomID);
+        const myID = await AsyncStorage.getItem("localId");
         const data = await getChatroomIdData(values[x].chatRoomID);
         const firstUser = data.firstUser;
         let senderID, recieverName;
@@ -45,7 +47,9 @@ const MessageScreen = (props) => {
           lastMessage: lastMessage,
           recieverID: senderID,
           // profilePicURL: await getProfilePic(senderID),
-          basicInfo: getName
+          basicInfo: getName,
+          hasBeenChecked: data.hasBeenChecked,
+          myID: myID
         })
       }
       array.sort(
@@ -65,7 +69,7 @@ const MessageScreen = (props) => {
     if (authCTX.isAuthenticated) {
       getData();
     }
-  }, [authCTX.isAuthenticated]);
+  }, [isFocused]);
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar setSearchValue={setSearchValue} searchValue={searchValue} />

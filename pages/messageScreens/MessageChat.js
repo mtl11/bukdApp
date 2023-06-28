@@ -12,7 +12,7 @@ import global from "../../styles/global";
 import { GiftedChat, Send, InputToolbar } from "react-native-gifted-chat";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { sendMessage, checkIfChatExists, createNewChatRoom, getMessages } from "../../util/chat";
+import { sendMessage, checkIfChatExists, createNewChatRoom, getMessages, updateHasBeenChecked } from "../../util/chat";
 import { ProfileContext } from "../../store/profileContext";
 import { getAccessToken } from "../../util/profile";
 
@@ -82,6 +82,7 @@ const MessageChat = (props) => {
 
         const response = await getMessages(props.route.params.chatID);
         setMessages(renderMessages(response));
+        await updateHasBeenChecked(props.route.params.chatID);
     }
     useEffect(() => {
         getPreviousMessages()
