@@ -8,54 +8,64 @@ import { useState } from "react";
 const APIKey = "AIzaSyCttFPH3tkX_cN5XObiFHCc9ZXtc8FJWOM";
 
 export async function getProfileInfo(localId) {
-  const response = await firebaseUtil.get("/users/" + localId + "/basicinfo.json");
+  const response = await firebaseUtil.get("/users/" + localId + "/basicinfo.json").catch((error) => {
+    console.log(error.response);
+  });
   return response.data;
 }
 
 export async function setAboutInfo(location, category, genre, bio, localId, accessToken) {
-  const response = await firebaseUtil.put("/users/" + localId + "/about.json?auth="+accessToken, {
+  const response = await firebaseUtil.put("/users/" + localId + "/about.json?auth=" + accessToken, {
     location: location,
     category: category,
     genre: genre,
     bio: bio,
+  }).catch((error) => {
+    console.log(error.response);
   });
 }
 
 export async function addNewShow(startTime, endTime, date, venueName, description, localId, accessToken) {
-  const response = await firebaseUtil.post("/users/" + localId + "/shows.json?auth="+accessToken, {
+  const response = await firebaseUtil.post("/users/" + localId + "/shows.json?auth=" + accessToken, {
     startTime: startTime,
     endTime: endTime,
     date: date,
     venueName: venueName,
     description: description
+  }).catch((error) => {
+    console.log(error.response);
   });
   return response.data;
 }
 
-export async function addNewShowVenue(startTime, endTime, date, performersNeeded,description, localId, accessToken) {
-  const response = await firebaseUtil.post("/users/" + localId + "/shows.json?auth="+accessToken, {
+export async function addNewShowVenue(startTime, endTime, date, performersNeeded, description, localId, accessToken) {
+  const response = await firebaseUtil.post("/users/" + localId + "/shows.json?auth=" + accessToken, {
     startTime: startTime,
     endTime: endTime,
     date: date,
     performersNeeded: performersNeeded,
     description: description,
+  }).catch((error) => {
+    console.log(error.response);
   });
   return response.data;
 }
 
 export async function editShowV(label, startTime, endTime, date, performersNeeded, description, localId, accessToken) {
-  const response = await firebaseUtil.put("/users/" + localId + "/shows/"+label+".json?auth="+accessToken, {
+  const response = await firebaseUtil.put("/users/" + localId + "/shows/" + label + ".json?auth=" + accessToken, {
     startTime: startTime,
     endTime: endTime,
     date: date,
     performersNeeded: performersNeeded,
     description: description,
+  }).catch((error) => {
+    console.log(error.response);
   });
   return response.data;
 }
 
 export async function editShowP(label, startTime, endTime, date, venueName, description, localId, accessToken) {
-  const response = await firebaseUtil.put("/users/" + localId + "/shows/"+label+".json?auth="+accessToken, {
+  const response = await firebaseUtil.put("/users/" + localId + "/shows/" + label + ".json?auth=" + accessToken, {
     startTime: startTime,
     endTime: endTime,
     date: date,
@@ -65,34 +75,40 @@ export async function editShowP(label, startTime, endTime, date, venueName, desc
   return response.data;
 }
 
-export async function deleteSomeShow(localId, item, accessToken){
-  const response = await firebaseUtil.delete("/users/" + localId + "/shows/"+item+".json?auth="+accessToken);
+export async function deleteSomeShow(localId, item, accessToken) {
+  const response = await firebaseUtil.delete("/users/" + localId + "/shows/" + item + ".json?auth=" + accessToken);
 }
 
-export async function unfollowAccount(localId, profileID, accessToken){
-  const response = await firebaseUtil.delete("/users/" + localId + "/following/"+profileID+".json?auth="+accessToken);
+export async function unfollowAccount(localId, profileID, accessToken) {
+  const response = await firebaseUtil.delete("/users/" + localId + "/following/" + profileID + ".json?auth=" + accessToken).catch((error) => {
+    console.log(error.response);
+  });
 }
 
 export async function setVenueAboutInfo(bio, category, location, equipment, localId, accessToken) {
-  const response = await firebaseUtil.put("/users/" + localId + "/about.json?auth="+accessToken, {
+  const response = await firebaseUtil.put("/users/" + localId + "/about.json?auth=" + accessToken, {
     bio: bio,
     category: category,
     location: location,
     equipment: equipment,
+  }).catch((error) => {
+    console.log(error.response);
   });
 }
 
-export async function setGeneralName(firstName, lastName, localId, accessToken){
+export async function setGeneralName(firstName, lastName, localId, accessToken) {
   const email = await AsyncStorage.getItem("email");
   const response = await firebaseUtil.put(
-    "/users/" + localId + "/basicinfo.json?auth="+accessToken,
+    "/users/" + localId + "/basicinfo.json?auth=" + accessToken,
     {
       email: email,
       firstName: firstName,
       lastName: lastName,
       profileType: "general"
     }
-  );
+  ).catch((error) => {
+    console.log(error.response);
+  });
 }
 // export async function getFollowing(localId){
 //   const response = await firebaseUtil.get("/users/" + localId + "/following.json");
@@ -100,38 +116,44 @@ export async function setGeneralName(firstName, lastName, localId, accessToken){
 // }
 export async function setAvailabilityInfo(times, dow, localId, accessToken) {
   const response = await firebaseUtil.put(
-    "/users/" + localId + "/availability.json?auth="+accessToken,
+    "/users/" + localId + "/availability.json?auth=" + accessToken,
     {
       times: times,
       dow: dow,
     }
-  );
+  ).catch((error) => {
+    console.log(error.response);
+  });;
 }
-export async function getAccessToken(){
+export async function getAccessToken() {
   const refreshToken = await AsyncStorage.getItem("refreshToken");
   const tokenUrl = `https://securetoken.googleapis.com/v1/token?key=${APIKey}`;
   const response = await axios.post(tokenUrl, {
     grant_type: "refresh_token",
     refresh_token: refreshToken
+  }).catch((error) => {
+    console.log(error.response);
   });
-  if (response.data){
+  if (response) {
     return response.data.access_token;
   }
 }
 
-export async function setProfileLink(link, localId, accessToken){
+export async function setProfileLink(link, localId, accessToken) {
   const response = await firebaseUtil.put(
-    "/users/" + localId + "/profileLink.json?auth="+accessToken,
+    "/users/" + localId + "/profileLink.json?auth=" + accessToken,
     {
       link: link
     }
-  );
+  ).catch((error) => {
+    console.log(error.response);
+  });
 }
 
-export async function setProfileName(profileType, name, localId,image, accessToken) {
+export async function setProfileName(profileType, name, localId, image, accessToken) {
   const email = await AsyncStorage.getItem("email");
   const post = await firebaseUtil.put(
-    "/users/" + localId + "/basicinfo.json?auth="+accessToken,
+    "/users/" + localId + "/basicinfo.json?auth=" + accessToken,
     {
       email: email,
       profileType: profileType,
@@ -145,22 +167,27 @@ export async function setProfileName(profileType, name, localId,image, accessTok
       console.log(error.request);
     } else {
       console.log("Error", error.message);
-    };})
+    };
+  })
 }
 
 export async function getProfileStart(localId) {
-  const response = await firebaseUtil.get("/users/" + localId + ".json");
+  const response = await firebaseUtil.get("/users/" + localId + ".json").catch((error) => {
+    console.log(error.response);
+  });
   return response.data;
 }
 
-export async function setSocial(type, url, localId, username,accessToken) {
+export async function setSocial(type, url, localId, username, accessToken) {
   const response = await firebaseUtil.put(
-    "/users/" + localId + "/socials/" + type + ".json?auth="+accessToken,
+    "/users/" + localId + "/socials/" + type + ".json?auth=" + accessToken,
     {
       url: url,
       username: username
     }
-  );
+  ).catch((error) => {
+    console.log(error.response);
+  });;
 }
 
 export async function setProfilePic(uri, localId) {
@@ -185,7 +212,7 @@ export async function getProfilePic(localId) {
 
 export async function setPersonalInfo(firstName, lastName, localId, accessToken) {
   const response = await firebaseUtil.put(
-    "/users/" + localId + "/personalInfo.json?auth="+accessToken,
+    "/users/" + localId + "/personalInfo.json?auth=" + accessToken,
     {
       firstName: firstName,
       lastName: lastName,
@@ -198,7 +225,9 @@ export async function setPersonalInfo(firstName, lastName, localId, accessToken)
 export async function getPersonalInfo(localId) {
   const response = await firebaseUtil.get(
     "/users/" + localId + "/personalInfo.json"
-  );
+  ).catch((error) => {
+    console.log(error.response);
+  });
   return response.data;
 }
 
@@ -225,31 +254,35 @@ export async function resetPassword(password, idToken) {
 }
 
 export async function setPerformerInList(location, category, name, uuid, profilePicURL, accessToken) {
-  if (location == "Tucson, AZ"){
+  if (location == "Tucson, AZ") {
     location = "Tuscon, AZ"
   }
   const response = await firebaseUtil.put(
-    "/performers/" + location + "/" + uuid + ".json?auth="+accessToken,
+    "/performers/" + location + "/" + uuid + ".json?auth=" + accessToken,
     {
       category: category,
       name: name,
       uuid: uuid,
       profilePicURL: profilePicURL
     }
-  );
+  ).catch((error) => {
+    console.log(error.response);
+  })
 }
 
 export async function setVenueInList(location, category, name, uuid, profilePicURL, accessToken) {
-  if (location == "Tucson, AZ"){
+  if (location == "Tucson, AZ") {
     location = "Tuscon, AZ"
   }
   const response = await firebaseUtil.put(
-    "/venues/" + location + "/" + uuid + ".json?auth="+accessToken,
+    "/venues/" + location + "/" + uuid + ".json?auth=" + accessToken,
     {
       category: category,
       name: name,
       uuid: uuid,
       profilePicURL: profilePicURL
     }
-  );
+  ).catch((error) => {
+    console.log(error.response);
+  });
 }

@@ -31,6 +31,9 @@ import * as Sentry from '@sentry/react-native';
 
 Sentry.init({ 
   dsn: "https://9c9d44c134ad45cda9c6c74ab4c65274@o4505430259007488.ingest.sentry.io/4505430261825536", 
+  integrations: [new Sentry.ReactNativeTracing()],
+  enableNative: false,
+  tracesSampleRate: 1.0,
 });
 
 

@@ -59,6 +59,12 @@ const PostShowModal = (props) => {
                 compensationEnd, profileCTX.about.equipment, description, postsExpire, datePosted, localId, accessToken,);
             addShowToProfile(response.name, localId, accessToken)
             props.setVisible(!props.visible);
+            setDescription("");
+            setCompensationEnd("");
+            setCompensationStart("");
+            setGenre();
+            setTypeNeeded();
+
        
     }
 

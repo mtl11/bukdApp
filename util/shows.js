@@ -22,48 +22,57 @@ export async function addShowToGlobalList(venueName, location, genreNeeded,
             venueID: localId,
             datePosted: datePosted
         }
-    );
+    ).catch((error) => {
+        console.log(error.response);
+    });
 
     return response.data;
 }
 
-export async function editShow(data,showID, location, accessToken) {
-    console.log("/shows/" + location + "/"+showID+".json?auth=" + accessToken);
+export async function editShow(data, showID, location, accessToken) {
+    console.log("/shows/" + location + "/" + showID + ".json?auth=" + accessToken);
 
     const response = await firebaseUtil.put(
-        "/shows/" + location + "/"+showID+".json?auth=" + accessToken,
+        "/shows/" + location + "/" + showID + ".json?auth=" + accessToken,
         data
     ).catch((error) => {
         if (error.response) {
-          console.log(error.response.data);
+            console.log(error.response.data);
         } else if (error.request) {
-          console.log(error.request);
+            console.log(error.request);
         } else {
-          console.log("Error", error.message);
-        };});
+            console.log("Error", error.message);
+        };
+    });
 
     // return response.data;
 }
 
 export async function addShowToProfile(showID, localId, accessToken) {
-    const response = await firebaseUtil.put("/users/" + localId + "/shows/" + showID + ".json?auth=" + accessToken,{
+    const response = await firebaseUtil.put("/users/" + localId + "/shows/" + showID + ".json?auth=" + accessToken, {
         showID: showID
+    }).catch((error) => {
+        console.log(error.response);
     });
 
     // console.log(response.data);
 }
 
 export async function addAppliedShowToProfile(message, showID, location, localId, accessToken) {
-    const response = await firebaseUtil.put("/users/" + localId + "/appliedShows/" + showID + ".json?auth=" + accessToken,{
+    const response = await firebaseUtil.put("/users/" + localId + "/appliedShows/" + showID + ".json?auth=" + accessToken, {
         showID: showID,
         message: message,
         appliedToDate: new Date(),
         location: location
+    }).catch((error) => {
+        console.log(error.response);
     });
 }
 
-export async function applicationCheck(localId, showID){
-    const response = await firebaseUtil.get("/users/" + localId + "/appliedShows/" + showID + ".json")
+export async function applicationCheck(localId, showID) {
+    const response = await firebaseUtil.get("/users/" + localId + "/appliedShows/" + showID + ".json").catch((error) => {
+        console.log(error.response);
+    });
     return response;
 }
 
@@ -71,31 +80,39 @@ export async function applyToShow(message, showID, location, localId, accessToke
     // if (location == "Tucson, AZ"){
     //     location = "Tuscon, AZ"
     // }
-    const response = await firebaseUtil.post("/shows/" + location + "/" + showID + "/applicants.json?auth=" + accessToken,{
-        message:message,
+    const response = await firebaseUtil.post("/shows/" + location + "/" + showID + "/applicants.json?auth=" + accessToken, {
+        message: message,
         localId: localId,
         appliedToDate: new Date()
+    }).catch((error) => {
+        console.log(error.response);
     });
 }
 
-export async function getShowData(showID, location){
+export async function getShowData(showID, location) {
     // if (location == "Tucson, AZ"){
     //     location = "Tuscon, AZ"
     // }
-    const response = await firebaseUtil.get("/shows/" + location + "/" + showID + ".json");
+    const response = await firebaseUtil.get("/shows/" + location + "/" + showID + ".json").catch((error) => {
+        console.log(error.response);
+    });
     return response.data;
 }
 
-export async function getMyShowsData(localId){
-    
-    const response = await firebaseUtil.get("/users/" + localId + "/appliedShows.json")
+export async function getMyShowsData(localId) {
+
+    const response = await firebaseUtil.get("/users/" + localId + "/appliedShows.json").catch((error) => {
+        console.log(error.response);
+    });
     return response.data;
 }
 
-export async function getShowsDataAtLocation(location){
+export async function getShowsDataAtLocation(location) {
     // if (location == "Tucson, AZ"){
     //     location = "Tuscon, AZ"
     // }
-    const response = await firebaseUtil.get("/shows/" + location + ".json");
+    const response = await firebaseUtil.get("/shows/" + location + ".json").catch((error) => {
+        console.log(error.response);
+    });
     return response.data;
 }

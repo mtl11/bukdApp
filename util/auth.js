@@ -69,7 +69,7 @@ export async function authenticateUser(email, password) {
 
 export async function addAccountFB(email, firstName, lastName, localId, accessToken) {
   // const hash = email.hashCode();
-  console.log("hello");
+  // console.log("hello");
   const response = await firebaseUtil
     .put("/users/" + localId + "/basicinfo.json?auth="+accessToken, {
       email: email,
@@ -83,7 +83,6 @@ export async function addAccountFB(email, firstName, lastName, localId, accessTo
 }
 
 export async function forgotPassword(idToken, password){
-
   const response = await axios
     .post(
       "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" + APIKey,
