@@ -32,6 +32,8 @@ import { BottomSheet } from 'react-native-btr';
 import { URL } from 'react-native-url-polyfill';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import * as WebBrowser from "expo-web-browser";
+import HighlightsTab from "../../components/search/HighlightsTab";
+import { getShowData } from "../../util/shows";
 
 const MessageProfile = (props) => {
   const authCTX = useContext(AuthContext);
@@ -63,7 +65,17 @@ const MessageProfile = (props) => {
     const profileuri = await getProfilePic(searchID);
     setProfileURI(profileuri);
     if (otherInfo.shows != undefined) {
-      setShows(otherInfo.shows);
+      if (basicInfo.profileType == "venue") {
+        const myShows = [];
+        for (const x in otherInfo.shows) {
+          const response = await getShowData(x, otherInfo.about.location);
+          response["showID"] = x;
+          myShows.push(response);
+        }
+        setShows(myShows);
+      } else {
+        setShows(Object.entries(otherInfo.shows));
+      }
     }
     setGettingInfo(false);
   }
@@ -85,8 +97,11 @@ const MessageProfile = (props) => {
     if (socialShow == true) {
       return <SocialSearchTab socials={socials} />;
     }
-    if (aboutShow == true) {
-      return <ShowsTab shows={shows} basicInfo={basicInfo} />;
+    if (aboutShow == true && basicInfo.profileType == "venue") {
+      return <ShowsTab shows={shows} basicInfo={basicInfo} props={props} pType={"performer"}/>;
+    }
+    if (aboutShow == true && basicInfo.profileType == "performer") {
+      return <HighlightsTab shows={shows} basicInfo={basicInfo} />;
     }
     if (availShow == true) {
       return <AvailabilitySearch availability={availability} />;

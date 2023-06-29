@@ -14,7 +14,7 @@ import SearchArtistProfile from "./pages/searchScreens/SearchArtistProfile";
 import AuthContextProvider, { AuthContext } from "./store/authContext";
 import { useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import ProfileContextProvider from "./store/profileContext";
+import ProfileContextProvider, { ProfileContext } from "./store/profileContext";
 import MessageChat from "./pages/messageScreens/MessageChat";
 import SearchChat from "./pages/searchScreens/SearchChat";
 import SocialModalScreen from "./pages/profileScreens/SocialModalScreen";
@@ -26,11 +26,12 @@ import { getAccessToken } from "./util/profile";
 import OpenShowDetails from "./pages/showsScreens/OpenShowDetailsScreen";
 import MyShowDetailsScreen from "./pages/showsScreens/MyShowDetailsScreen";
 import MyShowDetailsVenueScreen from "./pages/showsScreens/MyShowDetailsVenueScreen";
-
+import * as Notifications from 'expo-notifications';
 import * as Sentry from '@sentry/react-native';
+import { pushNotficationTokenToDB } from "./util/auth";
 
-Sentry.init({ 
-  dsn: "https://9c9d44c134ad45cda9c6c74ab4c65274@o4505430259007488.ingest.sentry.io/4505430261825536", 
+Sentry.init({
+  dsn: "https://9c9d44c134ad45cda9c6c74ab4c65274@o4505430259007488.ingest.sentry.io/4505430261825536",
   integrations: [new Sentry.ReactNativeTracing()],
   enableNative: false,
   tracesSampleRate: 1.0,
@@ -38,7 +39,21 @@ Sentry.init({
 
 
 const Stack = createNativeStackNavigator();
-// SplashScreen.preventAutoHideAsync();
+
+Notifications.setNotificationHandler(
+  {
+    handleNotification: async (data) => {
+      const localId = await AsyncStorage.getItem("localId");
+      const retrievedID = data.request.content.data.userID;
+      if (localId == retrievedID) {
+        return {
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+          shouldShowAlert: true
+        }
+      }
+    }
+  })
 
 function AuthenticatedStack() {
   return (
@@ -50,32 +65,32 @@ function AuthenticatedStack() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name = "Report"
+          name="Report"
           component={Report}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name = "OpenShowDetails"
+          name="OpenShowDetails"
           component={OpenShowDetails}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name = "MyShowDetailsVenue"
+          name="MyShowDetailsVenue"
           component={MyShowDetailsVenueScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name = "MyShowDetails"
+          name="MyShowDetails"
           component={MyShowDetailsScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name = "AddProfileLink"
+          name="AddProfileLink"
           component={AddProfileLink}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name = "ProfileScreen"
+          name="ProfileScreen"
           component={ProfileScreen}
           options={{ headerShown: false }}
         />
@@ -84,7 +99,7 @@ function AuthenticatedStack() {
           component={MessageProfile}
           options={{ headerShown: false }}
         />
-        
+
         <Stack.Screen
           name="EditProfileArtistScreen"
           component={EditProfileArtistScreen}
@@ -149,35 +164,37 @@ function AuthenticatedStack() {
   );
 }
 
-// function AuthStack() {
-//   return (
-//     <Stack.Navigator initialRouteName="Start">
-//       <Stack.Screen
-//         name="Start"
-//         component={StartScreen}
-//         options={{ headerShown: false }}
-//       />
-//       <Stack.Screen
-//         name="ForgetPass"
-//         component={ForgetPasswordScreen}
-//         options={{ headerShown: false }}
-//       />
-//       <Stack.Screen
-//         name="Signup"
-//         component={SignupScreen}
-//         options={{ headerShown: false }}
-//       />
-//     </Stack.Navigator>
-//   );
-// }
-
 function Navigation() {
   const authCTX = useContext(AuthContext);
+  const profileCTX = useContext(ProfileContext);
 
+  useEffect(() => {
+    if (authCTX.isAuthenticated) {
+      async function setup() {
+        const { status } = await Notifications.getPermissionsAsync();
+        let finalStatus = status;
+        if (finalStatus !== 'granted') {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status
+        }
+        if (finalStatus !== 'granted') {
+          return;
+        }
+        const pushTokenData = await Notifications.getExpoPushTokenAsync();
+        // await push
+        profileCTX.updateNotificationToken(pushTokenData);
+        const localId = await AsyncStorage.getItem("localId");
+        if (localId != null) {
+          await pushNotficationTokenToDB(localId, pushTokenData);
+        }
+        // console.log(pushTokenData);
+      }
+      setup();
+    }
+
+  }, []);
   return (
     <NavigationContainer>
-      {/* {!authCTX.isAuthenticated && <AuthStack />} */}
-      {/* {authCTX.isAuthenticated && <AuthenticatedStack />} */}
       <AuthenticatedStack />
     </NavigationContainer>
   );
@@ -194,7 +211,7 @@ function Root() {
       // console.log(accessToken);
       if (storedToken && accessToken) {
         authCTX.authenticate(storedToken);
-      }else{
+      } else {
         authCTX.logout();
       }
       setIsTryingToLogin(false);

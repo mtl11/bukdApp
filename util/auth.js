@@ -2,6 +2,7 @@ import axios from "axios";
 import firebaseUtil from "./firebaseUtil";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { app } from "./firebaseStorage";
+import { getAccessToken } from "./profile";
 const APIKey = "AIzaSyCttFPH3tkX_cN5XObiFHCc9ZXtc8FJWOM";
 
 export async function createUser(email, password) {
@@ -27,22 +28,22 @@ export async function createUser(email, password) {
   }
 }
 
-export async function resetPassword(email){
+export async function resetPassword(email) {
   let error = ""
   const response = await axios
-  .post(
-    "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=" +
+    .post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=" +
       APIKey,
-    {
-      email: email,
-      requestType: "PASSWORD_RESET"
-    }
-  )
-  .catch((error) => {
-    return error.response.status;
+      {
+        email: email,
+        requestType: "PASSWORD_RESET"
+      }
+    )
+    .catch((error) => {
+      return error.response.status;
 
-  });
-return response;
+    });
+  return response;
 }
 
 export async function authenticateUser(email, password) {
@@ -51,7 +52,7 @@ export async function authenticateUser(email, password) {
   const response = await axios
     .post(
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
-        APIKey,
+      APIKey,
       {
         email: email,
         password: password,
@@ -62,7 +63,7 @@ export async function authenticateUser(email, password) {
       AsyncStorage.setItem("localId", res.data.localId);
       AsyncStorage.setItem("refreshToken", res.data.refreshToken);
       token = res.data.idToken;
-      console.log("Token: "+res.data.refreshToken);
+      console.log("Token: " + res.data.refreshToken);
     })
   return token;
 }
@@ -71,18 +72,18 @@ export async function addAccountFB(email, firstName, lastName, localId, accessTo
   // const hash = email.hashCode();
   // console.log("hello");
   const response = await firebaseUtil
-    .put("/users/" + localId + "/basicinfo.json?auth="+accessToken, {
+    .put("/users/" + localId + "/basicinfo.json?auth=" + accessToken, {
       email: email,
       firstName: firstName,
       lastName: lastName,
-      profileType : "general"
+      profileType: "general"
     })
     .catch((error) => {
       console.log(error.response);
     });
 }
 
-export async function forgotPassword(idToken, password){
+export async function forgotPassword(idToken, password) {
   const response = await axios
     .post(
       "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" + APIKey,
@@ -103,10 +104,26 @@ export async function submitVerifyRequest(email, profileName, firstName, lastNam
       email: email,
       firstName: firstName,
       lastName: lastName,
-      profileType : accountType,
+      profileType: accountType,
       profileName: profileName
     })
     .catch((error) => {
       console.log(error.response);
     });
+}
+
+export async function pushNotficationTokenToDB(localId, token) {
+  const accessToken = await getAccessToken();
+  await firebaseUtil
+    .put("/users/" + localId + "/notificationToken.json?auth=" + accessToken, {
+      token: token
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+}
+
+export async function getPushNotficationTokenToDB(localId, token) {
+  const reponse = await firebaseUtil.get("/users/" + localId + "/notificationToken.json");
+  return reponse;
 }

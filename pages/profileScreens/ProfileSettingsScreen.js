@@ -15,6 +15,7 @@ import { AuthContext } from "../../store/authContext";
 import dark from "../../styles/profile/dark/settings";
 import light from "../../styles/profile/light/settings";
 import { ProfileContext } from "../../store/profileContext";
+import * as Notifications from 'expo-notifications';
 
 const ProfileSettingsScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -36,12 +37,28 @@ const ProfileSettingsScreen = (props) => {
 
     ]);
   };
-  const [newShowRequests, setNewShowRequests] = useState(authCTX.darkMode);
-  const newShowToggle = () => {
-    setNewShowRequests(!newShowRequests);
-    authCTX.toggleMode();
-  };
+  const [newShowRequests, setNewShowRequests] = useState(false);
+  // async function newShowToggle() {
+  //   setNewShowRequests(!newShowRequests);
+  //   const { permissions } = await Notifications.getPermissionsAsync();
 
+  //   const { status } = await Notifications.requestPermissionsAsync();
+  //   console.log(status);
+  // };
+
+  // async function checkPermissions() {
+  //   const { status } = await Notifications.getPermissionsAsync();
+  //   // console.log(status);
+  //   if (status == 'granted') {
+  //     setNewShowRequests(true);
+  //   }
+  //   // console.log(status);
+
+  // }
+
+  // useEffect(() => {
+  //   checkPermissions();
+  // }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topIconContainer}>
@@ -96,7 +113,7 @@ const ProfileSettingsScreen = (props) => {
           />
         </View>
       </TouchableOpacity>
-      {/* <View style={styles.sectionHeaderContainer}>
+      <View style={styles.sectionHeaderContainer}>
         <Ionicons
           name="ios-settings-outline"
           size={22}
@@ -104,8 +121,8 @@ const ProfileSettingsScreen = (props) => {
         />
         <Text style={styles.sectionHeaderText}>General</Text>
       </View>
-      <View style={styles.labelContainer}>
-        <Text style={styles.labelText}>Dark Mode</Text>
+      {/* <View style={styles.labelContainer}>
+        <Text style={styles.labelText}>Notifications</Text>
         <Switch
           trackColor={{
             false: "#757575",

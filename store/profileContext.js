@@ -11,6 +11,7 @@ export const ProfileContext = createContext({
   shows: [],
   followingList: [],
   profileLink: "",
+  notificationToken: "",
   updateBasic: (basicInfo) => { },
   updateAbout: () => { },
   updateAvailability: () => { },
@@ -25,7 +26,8 @@ export const ProfileContext = createContext({
   addFollow: () => { },
   unfollow: () => {},
   updateProfileLink:()=>{},
-  changeShow:()=>{}
+  changeShow:()=>{},
+  updateNotificationToken: ()=>{}
 });
 
 function ProfileContextProvider({ children }) {
@@ -38,6 +40,12 @@ function ProfileContextProvider({ children }) {
   const [social, setSocial] = useState({});
   const [profilePic, setProfilePic] = useState();
   const [profileLink, setProfileLink] = useState();
+  const [notificationToken, setNotificationToken] = useState();
+
+  function updateNotificationToken(token) {
+    setNotificationToken(token);
+  }
+
   function addShow(newShow) {
     const newShowArrow = [...shows, newShow];
     setShows(newShowArrow);
@@ -111,6 +119,7 @@ function ProfileContextProvider({ children }) {
     setProfilePic();
     setAbout({});
     setFollowingList([]);
+    setNotificationToken();
     setProfileLink();
   }
   const value = {
@@ -123,6 +132,7 @@ function ProfileContextProvider({ children }) {
     profilePic: profilePic,
     personalInfo: personalInfo,
     profileLink: profileLink,
+    notificationToken: notificationToken,
     updateBasic: updateBasic,
     updateAbout: updateAbout,
     updateAvailability: updateAvailability,
@@ -137,7 +147,8 @@ function ProfileContextProvider({ children }) {
     addFollow: addFollow,
     unfollow: unfollow,
     updateProfileLink:updateProfileLink,
-    changeShow:changeShow
+    changeShow:changeShow,
+    updateNotificationToken: updateNotificationToken
   };
 
   return (
