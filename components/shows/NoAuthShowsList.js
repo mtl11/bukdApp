@@ -17,6 +17,8 @@ import MyShowsList from "../../components/shows/MyShowsList";
 import { getShowsDataAtLocation } from "../../util/shows";
 import { EvilIcons, Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import SkeletonContent from 'react-native-skeleton-content';
+
 const NoAuthShowsList = (props) => {
     const [location, setLocation] = useState("Tucson, AZ");
     const [showsData, setShowsData] = useState();
@@ -56,13 +58,11 @@ const NoAuthShowsList = (props) => {
         const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         let dayOfWeek = weekday[new Date(item.date).getDay()];
         const datePosted = new Date(item.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
-        console.log(item)
+        // console.log(item)
         return (
             <View style={styles.showContainer}>
-
                 <View style={{ padding: "3%", width: "100%" }}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
-
                         <View style={{ flexDirection: "column" }}>
                             <View style={{}}>
                                 <Text style={styles.dateText}>{dayOfWeek}, {month} {day}</Text>
@@ -93,7 +93,7 @@ const NoAuthShowsList = (props) => {
                             </View>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={()=>{
+                    <TouchableOpacity onPress={() => {
                         AsyncStorage.setItem("searchID", item.venueID);
                         props.props.navigation.navigate("SearchArtistProfile");
                     }}>
@@ -125,6 +125,7 @@ const NoAuthShowsList = (props) => {
                 />
             </View>
             <FlatList
+                showsVerticalScrollIndicator={false}
                 data={getData()}
                 renderItem={renderItem}
                 style={{ height: "95%" }}

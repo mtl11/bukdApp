@@ -206,7 +206,8 @@ const HighlightsTab = () => {
                 </View>}
             {profileCTX.shows.length != 0 &&
                 <FlatList
-                    contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 100 }}
+                showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ alignItems: "center", marginVertical: "5%" }}
                     data={shows}
                     renderItem={
                         ({ item }) => {
