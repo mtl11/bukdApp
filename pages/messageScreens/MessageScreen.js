@@ -8,8 +8,23 @@ import { getAllMessages, getChatroomIdData, getChatroomRecieverID, getChatroomSe
 import { AuthContext } from "../../store/authContext";
 import { getProfilePic, getProfileInfo } from "../../util/profile";
 import { useIsFocused } from "@react-navigation/native";
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
+
 
 const MessageScreen = (props) => {
+
+  const MyLoader = () => (
+    <ContentLoader viewBox="-20 0 500 900">
+      <Circle cx="40" cy="40" r="40" />
+      <Circle cx="40" cy="140" r="40" />
+      <Circle cx="40" cy="240" r="40" />
+      <Circle cx="40" cy="340" r="40" />
+      <Rect x="100" y="30" rx="12" ry="12" width="330" height="20" />
+      <Rect x="100" y="130" rx="12" ry="12" width="330" height="20" />
+      <Rect x="100" y="230" rx="12" ry="12" width="330" height="20" />
+      <Rect x="100" y="330" rx="12" ry="12" width="330" height="20" />
+    </ContentLoader>
+  )
   const isFocused = useIsFocused();
   const authCTX = useContext(AuthContext);
   const [data, setData] = useState({});
@@ -72,7 +87,7 @@ const MessageScreen = (props) => {
     <SafeAreaView style={styles.container}>
       <SearchBar setSearchValue={setSearchValue} searchValue={searchValue} />
       {gettingInfo && <View style={{ height: "100%", justifyContent: "center" }}>
-        <ActivityIndicator size={"large"} />
+        <MyLoader/>
       </View>}
       {authCTX.isAuthenticated ? (
         <MessagesLists data={data} searchValue={searchValue} props={props} refreshData={getData} />

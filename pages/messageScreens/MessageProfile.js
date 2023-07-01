@@ -35,6 +35,8 @@ import * as WebBrowser from "expo-web-browser";
 import HighlightsTab from "../../components/search/HighlightsTab";
 import { getShowData } from "../../util/shows";
 
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
+
 const MessageProfile = (props) => {
   const authCTX = useContext(AuthContext);
   const profileCTX = useContext(ProfileContext)
@@ -107,6 +109,16 @@ const MessageProfile = (props) => {
       return <AvailabilitySearch availability={availability} />;
     }
   }
+
+  const MyLoader = () => (
+    <ContentLoader viewBox="-20 -20 500 900">
+      <Circle cx="90" cy="90" r="80" />
+      <Rect x="280" y="60" rx="12" ry="12" width="150" height="50" />
+      <Rect x="0" y="200" rx="3" ry="3" width="200" height="20" />
+      <Rect x="0" y="240" rx="3" ry="3" width="280" height="20" />
+    </ContentLoader>
+  )
+
   function checkFollowingList() {
     for (const x in profileCTX.followingList) {
       if (profileCTX.followingList[x].searchID == searchID) {
@@ -180,7 +192,7 @@ const MessageProfile = (props) => {
       <SafeAreaView style={styles.container}>
         {gettingInfo ? (
           <View style={{ height: "100%", justifyContent: "center" }}>
-            <ActivityIndicator size={"large"} />
+            <MyLoader/>
           </View>
         ) : (
           <View style={styles.container}>

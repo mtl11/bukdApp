@@ -33,8 +33,19 @@ import { URL } from 'react-native-url-polyfill';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import HighlightsTab from "../../components/profile/Highlights.js";
 import * as WebBrowser from "expo-web-browser";
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
 
 const ProfileScreen = (props) => {
+
+
+  const MyLoader = () => (
+    <ContentLoader viewBox="-20 -20 500 900">
+      <Circle cx="90" cy="90" r="80" />
+      <Rect x="280" y="60" rx="12" ry="12" width="150" height="50" />
+      <Rect x="0" y="200" rx="3" ry="3" width="200" height="20" />
+      <Rect x="0" y="240" rx="3" ry="3" width="280" height="20" />
+    </ContentLoader>
+  )
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
   const profileCTX = useContext(ProfileContext);
@@ -136,9 +147,9 @@ const ProfileScreen = (props) => {
     profileCTX.updateProfilePic(profileuri);
     setGettingInfo(false);
   }
-  async function handleLinkPress (){
+  async function handleLinkPress() {
     await WebBrowser.openBrowserAsync(profileCTX.profileLink);
-   
+
   };
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -185,8 +196,10 @@ const ProfileScreen = (props) => {
         {/* <SafeAreaView style={{ backgroundColor: global.color.primaryColors.main }} /> */}
         <SafeAreaView style={styles.container}>
           {gettingInfo ? (
-            <View style={{ height: "100%", justifyContent: "center" }}>
-              <ActivityIndicator size={"large"} />
+            <View style={{ height: "100%" }}>
+              {/* <ActivityIndicator size={"small"} /> */}
+              {/* {MyLoader()} */}
+              <MyLoader />
             </View>
           ) : (
             <View style={styles.container}>
