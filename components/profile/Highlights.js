@@ -45,7 +45,7 @@ const HighlightsTab = () => {
         return strTime;
     }
     const [selectedItem, setSelectedItem] = useState("");
-    const sorted = shows.sort(
+    shows.sort(
         function (a, b) {
             return new Date(a[1].date) - new Date(b[1].date);
         });
@@ -185,7 +185,7 @@ const HighlightsTab = () => {
     }, [profileCTX.shows]);
 
     return (
-        <View style={{ flex: 1 }} >
+        <View >
             {profileCTX.shows.length == 0 &&
                 <View style={{ alignItems: "center", marginVertical: "10%" }}>
 
@@ -205,9 +205,12 @@ const HighlightsTab = () => {
                     </TouchableOpacity>
                 </View>}
             {profileCTX.shows.length != 0 &&
+            // <View style={{flex:1}}>
+
                 <FlatList
+                // style={{height: "100%"}}
                 showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ alignItems: "center", marginVertical: "5%" }}
+                    contentContainerStyle={{ alignItems: "center", marginVertical: "5%",}}
                     data={shows}
                     renderItem={
                         ({ item }) => {
@@ -241,7 +244,9 @@ const HighlightsTab = () => {
                     }
                     }
                     ListFooterComponentStyle={{ marginBottom: "10%" }}
-                />}
+                />
+            // </View>    
+            }
 
             <Modal isVisible={visible}>
                 <View style={{

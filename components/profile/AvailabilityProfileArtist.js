@@ -151,7 +151,7 @@ const AvailabilityProfileArtist = () => {
   };
 
   return (
-    <ScrollView style={[styles.container, { marginBottom: 0 }]} showsVerticalScrollIndicator={false}>
+    <ScrollView style={[styles.container,{marginBottom:0}]} showsVerticalScrollIndicator={false}>
       <View style={styles.singleContainer}>
         <View style={styles.headerContainer}>
           <Ionicons
@@ -170,6 +170,7 @@ const AvailabilityProfileArtist = () => {
             size={24}
             color={"black"}
           />
+
           <Text style={styles.headerText}>Preferred Time</Text>
         </View>
         <View style={styles.boxContainer}>{time()}</View>

@@ -87,7 +87,8 @@ const FollowingTab = (props) => {
     <View>
       {data.length != 0 &&
         <FlatList
-          contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 250 }}
+        showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 150 }}
           data={data}
           refreshControl={<RefreshControl
             refreshing={refreshing} onRefresh={onRefresh}

@@ -28,7 +28,7 @@ export default {
         backgroundColor: global.color.secondaryColors.main,
     },
     tabText: {
-        color: global.color.secondaryColors.placeHolderTextColor,
+        color: "black",
         fontFamily: "Rubik-Regular",
         fontSize: 16,
     },
@@ -49,7 +49,8 @@ export default {
     },
     container: {
         backgroundColor: "#FCFCFF",
-        height: "100%",
+        // flex:1
+        // height: "100%",
     },
     iconContainer: {
         justifyContent: "center",

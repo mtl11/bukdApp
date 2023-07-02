@@ -35,7 +35,7 @@ const ShowsTab = (props) => {
 
         return (
             <TouchableOpacity style={styles.showContainer} onPress={() => {
-                props.props.navigation.navigate("MyShowDetailsVenue", { data: item });
+                props.props.props.navigation.navigate("MyShowDetailsVenue", { data: item });
             }}>
                 <View style={{ padding: "3%", width: "100%" }}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
@@ -88,10 +88,9 @@ const ShowsTab = (props) => {
     }, [profileCTX.shows]);
 
     return (
-        <View style={{ flex: 1 }} >
+        <View>
             {profileCTX.shows.length == 0 &&
                 <View style={{ alignItems: "center", marginVertical: "10%" }}>
-
                     <Text
                         style={{
                             fontSize: 22,
@@ -104,6 +103,8 @@ const ShowsTab = (props) => {
                 </View>}
             {profileCTX.shows.length != 0 &&
                 <FlatList
+                
+                showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: "10%" }}
                     data={shows}
                     renderItem={
