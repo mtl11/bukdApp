@@ -82,70 +82,6 @@ const ShowsTab = (props) => {
                     }
                 </View>
             </TouchableOpacity>
-            // <TouchableOpacity key={label} style={styles.showContainer} onPress={() => {
-            //     if (label == selectedItem) {
-            //         setSelectedItem(null);
-            //     } else
-            //         setSelectedItem(label);
-            // }}>
-            //     <View style={{ width: "90%" }}>
-            //         <View style={{ padding: "3%", flexDirection: "row", justifyContent: "space-between", width: "110%" }}>
-            //             <View style={{ alignSelf: 'center' }}>
-            //                 <Text style={styles.dateText}>{month} {day}</Text>
-            //             </View>
-            //             <View style={{ flexDirection: "column", alignItems: "flex-end" }}>
-            //                 <View style={{ flexDirection: "row", alignItems: "center", paddingBottom: 10 }}>
-            //                     <EvilIcons name="clock" size={28} color={global.color.secondaryColors.placeHolderTextColor} />
-            //                     <Text style={styles.smallText}>
-            //                         {start} - {end}
-            //                     </Text>
-            //                 </View>
-            //                 {profileCTX.basicInfo.profileType == "venue" ?
-            //                     <View style={{ flexDirection: "row", alignItems: "center" }}>
-            //                         {performersNeeded ? <MaterialIcons name="event-available" size={24} color={global.color.secondaryColors.placeHolderTextColor} /> :
-            //                             <MaterialIcons name="event-busy" size={24} color={global.color.secondaryColors.placeHolderTextColor} />}
-            //                         <Text style={styles.smallText}>
-            //                             {performersNeeded ? "Performers needed" : "Booked"}
-            //                         </Text>
-            //                     </View> :
-            //                     <View style={{ flexDirection: "row", alignItems: "center", width: 200, justifyContent: "flex-end" }}>
-            //                         <Ionicons
-            //                             name="location-outline"
-            //                             size={24}
-            //                             color={global.color.secondaryColors.placeHolderTextColor}
-            //                         />
-            //                         <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText,]}>
-            //                             {venueName}
-            //                         </Text>
-            //                     </View>}
-
-            //             </View>
-            //         </View>
-            //         {description &&
-            //             <View style={{ marginVertical: "5%", marginHorizontal: "2%" }}>
-            //                 <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, lineHeight: 20 }}>
-            //                     {description}
-            //                 </Text>
-            //             </View>}
-            //         {selectedItem == label &&
-            //             <TouchableWithoutFeedback >
-            //                 <View style={{ flexDirection: "row", justifyContent: "space-evenly", width: "110%", padding: "5%" }}>
-            //                     <TouchableOpacity onPress={() => { setEditSelectedItem(item); editSetVisible(!editVisible) }} style={{ backgroundColor: "white", padding: 12, borderRadius: 12, width: "30%", alignItems: "center", borderWidth: 1, borderColor: global.color.primaryColors.main }}>
-            //                         <Text style={{ color: global.color.primaryColors.main, fontSize: 14, fontFamily: "Rubik-SemiBold" }}>
-            //                             Edit
-            //                         </Text>
-            //                     </TouchableOpacity>
-            //                     <TouchableOpacity onPress={deleteShow} style={{ backgroundColor: global.color.primaryColors.main, padding: 12, borderRadius: 12, width: "30%", alignItems: "center" }}>
-            //                         <Text style={{ color: "white", fontSize: 14, fontFamily: "Rubik-SemiBold" }}>
-            //                             Delete
-            //                         </Text>
-            //                     </TouchableOpacity>
-            //                 </View>
-
-            //             </TouchableWithoutFeedback>
-            //         }
-            //     </View>
-            // </TouchableOpacity>
         )
     }
 
@@ -166,7 +102,8 @@ const ShowsTab = (props) => {
                 </View>}
             {shows.length != 0 &&
                 <FlatList
-                    contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 100 }}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 300 }}
                     data={shows} renderItem={
                         ({ item }) => { return getItem(item) }
                     }
@@ -175,27 +112,6 @@ const ShowsTab = (props) => {
     );
 }
 const styles = StyleSheet.create({
-    // showContainer: {
-    //     borderRadius: 12,
-    //     borderColor: "#D9D9D9",
-    //     flexDirection: "row",
-    //     backgroundColor: "white",
-    //     shadowColor: "#000",
-    //     shadowOffset: {
-    //         width: 0,
-    //         height: 1,
-    //     },
-    //     shadowOpacity: 0.22,
-    //     shadowRadius: 2.22,
-    //     marginBottom: "5%"
-    // },
-    // dateText: {
-    //     fontSize: 20, fontFamily: "Rubik-SemiBold"
-    // }, smallText: {
-    //     color: global.color.secondaryColors.placeHolderTextColor,
-    //     fontFamily: "Rubik-Regular",
-    //     fontSize: 14
-    // },
     showContainer: {
         // width: "90%",
         marginHorizontal: "5%",
@@ -211,13 +127,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
-        // shadowColor: "#000",
-        // shadowOffset: {
-        //     width: 0,
-        //     height: 1,
-        // },
-        // shadowOpacity: 0.2,
-        // shadowRadius: 2.2,
         marginBottom: "5%"
     }, dateTextSmall: {
         fontSize: 16, fontFamily: "Rubik-Regular"

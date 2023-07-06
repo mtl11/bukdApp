@@ -57,11 +57,13 @@ const OpenShowDetails = (props) => {
             }
         }
     }
-
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
+        setLoading(true);
         if (authCTX.isAuthenticated) {
             checkIfApplied();
         }
+        setLoading(false);
     }, []);
     // console.log(profileCTX.personalInfo);
     return (
@@ -146,8 +148,8 @@ const OpenShowDetails = (props) => {
                     </Text>
                 </View>
             </View>
-
-            {(applied == false && authCTX.isAuthenticated && pType == "performer") &&
+            
+            {(applied == false && authCTX.isAuthenticated && pType == "performer" && loading == false) &&
                 <TouchableOpacity
                     style={{
                         alignItems: "center",
@@ -169,7 +171,7 @@ const OpenShowDetails = (props) => {
                         Apply now
                     </Text>
                 </TouchableOpacity>}
-            {(applied == true && authCTX.isAuthenticated && pType == "performer") &&
+            {(applied == true && authCTX.isAuthenticated && pType == "performer"&& loading == false) &&
                 <View
                     style={{
                         alignItems: "center",
@@ -188,6 +190,7 @@ const OpenShowDetails = (props) => {
                         You have already applied for this position
                     </Text>
                 </View>}
+                
 
             <ApplyModal
                 visible={applyVisible}

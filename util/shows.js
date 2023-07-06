@@ -1,11 +1,13 @@
 import firebaseUtil from "./firebaseUtil";
 
-export async function addShowToGlobalList(venueName, location, genreNeeded,
+export async function addShowToGlobalList(profilePic, venueName, location, genreNeeded,
     typeNeeded, date, startTime, endTime, maxApplicants, compensationStart,
     compensationEnd, equipment, description, postsExpire, datePosted, localId, accessToken) {
+        
     const response = await firebaseUtil.post(
         "/shows/" + location + ".json?auth=" + accessToken,
         {
+            uri: profilePic,
             venueName: venueName,
             location: location,
             genreNeeded: genreNeeded,

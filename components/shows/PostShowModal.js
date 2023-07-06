@@ -9,7 +9,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScrollView } from "react-native-gesture-handler";
 import { addShowToGlobalList, addShowToProfile } from "../../util/shows";
 import { ProfileContext } from "../../store/profileContext.js";
-import { getAccessToken } from "../../util/profile";
+import { getAccessToken, getProfilePic } from "../../util/profile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PostShowModal = (props) => {
@@ -54,7 +54,8 @@ const PostShowModal = (props) => {
             const localId = await AsyncStorage.getItem("localId");
             const accessToken = await getAccessToken();
             const datePosted = new Date();
-            const response = await addShowToGlobalList(props.username, props.userLocation, genre, typeNeeded,
+            const profilePic = await getProfilePic(localId);
+            const response = await addShowToGlobalList(profilePic, props.username, props.userLocation, genre, typeNeeded,
                 date, startTime, endTime, maxApplicants, compensationStart,
                 compensationEnd, profileCTX.about.equipment, description, postsExpire, datePosted, localId, accessToken,);
             addShowToProfile(response.name, localId, accessToken)

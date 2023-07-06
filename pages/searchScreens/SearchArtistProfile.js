@@ -36,6 +36,8 @@ import { getShowData } from "../../util/shows";
 import HighlightsTab from "../../components/search/HighlightsTab";
 import * as WebBrowser from "expo-web-browser";
 import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
+import TabViewPerformer from "../../components/search/Tabs/TabViewArtist";
+import TabViewVenue from "../../components/search/Tabs/TabViewVenue";
 
 const ProfileScreen = (props) => {
   const authCTX = useContext(AuthContext);
@@ -57,7 +59,7 @@ const ProfileScreen = (props) => {
   const [profileType, setProfileType] = useState("");
   const [profileLink, setProfileLink] = useState();
 
-  async function handleLinkPress (){
+  async function handleLinkPress() {
     await WebBrowser.openBrowserAsync(profileLink);
   };
 
@@ -73,11 +75,6 @@ const ProfileScreen = (props) => {
       setProfileLink(otherInfo.profileLink.link);
     }
 
-    if (basicInfo.profileType == "performer") {
-      setAvailShow(true);
-    } else {
-      setAboutShow(true);
-    }
     setBasicInfo(basicInfo);
     setAbout(otherInfo.about);
     setAvailability(otherInfo.availability);
@@ -98,24 +95,6 @@ const ProfileScreen = (props) => {
       }
     }
     setGettingInfo(false);
-  }
-  const [socialShow, setSocialShow] = useState(false);
-  const [aboutShow, setAboutShow] = useState(false);
-  const [availShow, setAvailShow] = useState(false);
-
-  function getScreenTab() {
-    if (socialShow == true) {
-      return <SocialSearchTab socials={socials} />;
-    }
-    if (aboutShow == true && basicInfo.profileType == "venue") {
-      return <ShowsTab shows={shows} basicInfo={basicInfo} props={props} pType={profileType}/>;
-    }
-    if (aboutShow == true && basicInfo.profileType == "performer") {
-      return <HighlightsTab shows={shows} basicInfo={basicInfo} />;
-    }
-    if (availShow == true) {
-      return <AvailabilitySearch availability={availability} />;
-    }
   }
   function checkFollowingList() {
     for (const x in profileCTX.followingList) {
@@ -160,6 +139,7 @@ const ProfileScreen = (props) => {
       <Rect x="280" y="60" rx="12" ry="12" width="150" height="50" />
       <Rect x="0" y="200" rx="3" ry="3" width="200" height="20" />
       <Rect x="0" y="240" rx="3" ry="3" width="280" height="20" />
+      <Rect x="0" y="300" rx="10" ry="10" width="440" height="250" />
     </ContentLoader>
   )
   async function addToFollowing() {
@@ -434,7 +414,6 @@ const ProfileScreen = (props) => {
               }
               {about.hasOwnProperty("equipment") &&
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  {/* <FontAwesome5 name="clipboard" size={20} color={global.color.secondaryColors.placeHolderTextColor} /> */}
                   <Text style={{
                     color: global.color.secondaryColors.placeHolderTextColor,
                     fontFamily: "Rubik-Regular",
@@ -456,69 +435,21 @@ const ProfileScreen = (props) => {
             <View
               style={styles.tabView}
             >
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                  width: "90%",
-                }}
-              >
-                {basicInfo.profileType == "performer" &&
-                  <TouchableOpacity
-                    style={styles.tabContainer}
-                    onPress={() => {
-                      setAvailShow(true);
-                      setAboutShow(false);
-                      setSocialShow(false);
-                    }}
-                  >
-                    <View style={{ flexDirection: "column" }}>
-                      <View style={styles.tabTextContainer}>
-                        <Text style={[styles.tabText, availShow && { color: "black" }]}>Availability</Text>
-                      </View>
-                      {availShow && (
-                        <View style={styles.tabBottomBar}></View>
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                }
-                <TouchableOpacity
-                  style={styles.tabContainer}
-                  onPress={() => {
-                    setAboutShow(true);
-                    setAvailShow(false);
-                    setSocialShow(false);
-                  }}
-                >
-                  <View style={{ flexDirection: "column" }}>
-                    <View style={styles.tabTextContainer}>
-                      <Text style={[styles.tabText, aboutShow && { color: "black" }]}>Shows</Text>
-                    </View>
-                    {aboutShow && (
-                      <View style={styles.tabBottomBar}></View>
-                    )}
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.tabContainer}
-                  onPress={() => {
-                    setSocialShow(true);
-                    setAvailShow(false);
-                    setAboutShow(false);
-                  }}
-                >
-                  <View style={{ flexDirection: "column" }}>
-                    <View style={styles.tabTextContainer}>
-                      <Text style={[styles.tabText, socialShow && { color: "black" }]}>Social Media</Text>
-                    </View>
-                    {socialShow && (
-                      <View style={styles.tabBottomBar}></View>
-                    )}
-                  </View>
-                </TouchableOpacity>
-              </View>
+              {basicInfo.profileType == "performer" &&
+                <TabViewPerformer
+                  socials={socials}
+                  shows={shows}
+                  basicInfo={basicInfo}
+                  availability={availability}
+                />
+              }
+              {basicInfo.profileType == "venue" &&
+                <TabViewVenue
+                  shows={shows} basicInfo={basicInfo} props={props} pType={profileType}
+                  socials={socials}
+                />
+              }
             </View>
-            {getScreenTab()}
           </View>
         )}
         <Modal visible={isModalVisible} transparent={true}>
@@ -559,10 +490,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   tabView: {
-    borderBottomWidth: 1,
-    marginTop: 10,
-    alignItems: "center",
-    borderColor: global.color.secondaryColors.adjacent,
+    // borderBottomWidth: 1,
+    // marginTop: 10,
+    // alignItems: "center",
+    // borderColor: global.color.secondaryColors.adjacent,
   },
   tabTextContainer: {
     paddingHorizontal: 15,

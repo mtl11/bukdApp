@@ -29,15 +29,16 @@ const ShowScreen = (props) => {
             if (profiletype.profileType != "general") {
                 setUsername(profiletype.profileName);
                 setUserLocation(otherInfo.about.location);
-                
                 profileCTX.updateAbout(otherInfo.about)
                 if (profiletype.profileType == "venue") {
                     if (otherInfo.hasOwnProperty("shows")) {
                         const myShows = [];
                         for (const x in otherInfo.shows) {
                             const response = await getShowData(x, otherInfo.about.location);
-                            response["showID"] = x;
-                            myShows.push(response);
+                            if (response != null) {
+                                response["showID"] = x;
+                                myShows.push(response);
+                            }
                         }
                         profileCTX.changeShow(myShows);
                     } else {
@@ -50,7 +51,7 @@ const ShowScreen = (props) => {
 
     useEffect(() => {
         profileType();
-    },[authCTX])
+    }, [authCTX])
     if (authCTX.isAuthenticated) {
         return (
             <SafeAreaView style={{
@@ -58,12 +59,12 @@ const ShowScreen = (props) => {
                 height: "100%"
             }}>
                 {pType == "performer" &&
-                    <PerformersSection props={props} profileType={pType}/>}
+                    <PerformersSection props={props} profileType={pType} />}
                 {pType == "venue" &&
-                    <VenueSection props={props} userLocation={userLocation} username={username} refreshData={profileType} profileType={pType}/>
+                    <VenueSection props={props} userLocation={userLocation} username={username} refreshData={profileType} profileType={pType} />
                 }
-                {pType == "general" && 
-                 <NoAuthShowsList props={props} profileType={pType}/>}
+                {pType == "general" &&
+                    <NoAuthShowsList props={props} profileType={pType} />}
             </SafeAreaView>
         )
     } else {

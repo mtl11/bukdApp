@@ -48,6 +48,7 @@ const ProfileScreen = (props) => {
       <Rect x="280" y="60" rx="12" ry="12" width="150" height="50" />
       <Rect x="0" y="200" rx="3" ry="3" width="200" height="20" />
       <Rect x="0" y="240" rx="3" ry="3" width="280" height="20" />
+      <Rect x="0" y="300" rx="10" ry="10" width="440" height="250" />
     </ContentLoader>
   )
   const authCTX = useContext(AuthContext);

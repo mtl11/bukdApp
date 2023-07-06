@@ -1,39 +1,46 @@
-import React, {  } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     View,
+    Text,
+    SafeAreaView,
     TouchableOpacity,
+    Image,
+    ActivityIndicator,
+    Linking,
+    Modal,
     useWindowDimensions,
-    Animated} from "react-native";
+    Animated,
+    StatusBar
+} from "react-native";
 import { TabView, SceneMap } from 'react-native-tab-view';
 import styles from "../../../styles/profile/light/profileScreen";
 import global from "../../../styles/global";
-import SocialTab from "../SocialProfileTabArtist";
-import ShowsTab from "../ShowsTab";
+import HighlightsTab from "../HighlightsTab";
+import AvailabilitySearch from "../AvailabilitySearch";
+import SocialProfileTabArtist from "../SocialSearchTab";
 
-const TabViewVenue = (props) => {
+const TabViewPerformer = (props) => {
     const FirstRoute = () => (
-        <View style={{ paddingBottom: 800 }}>
-            <ShowsTab props={props} />
-
-        </View>
-
+        <AvailabilitySearch availability={props.availability} />
     );
 
     const SecondRoute = () => (
-        <View >
-            <SocialTab props={props} />
-        </View>
+        <HighlightsTab shows={props.shows} basicInfo={props.basicInfo} />
     );
-
+    const ThirdRoute = () => (
+        <SocialProfileTabArtist socials={props.socials} />
+    );
 
     const [index, setIndex] = React.useState(0);
     const renderScene = SceneMap({
         first: FirstRoute,
         second: SecondRoute,
+        third: ThirdRoute
     });
     const routes = [
-        { key: 'first', title: 'Shows' },
-        { key: 'second', title: 'Social' },
+        { key: 'first', title: 'Availability' },
+        { key: 'second', title: 'Shows' },
+        { key: 'third', title: 'Social Media' }
     ];
 
     const layout = useWindowDimensions();
@@ -44,6 +51,7 @@ const TabViewVenue = (props) => {
             <View style={{
                 flexDirection: 'row',
                 borderBottomWidth: 1,
+                // marginTop: 10,
                 borderColor: global.color.secondaryColors.adjacent,
             }}>
                 {props.navigationState.routes.map((route, i) => {
@@ -66,7 +74,7 @@ const TabViewVenue = (props) => {
                             <View style={[styles.tabTextContainer]}>
                                 <Animated.Text style={[styles.tabText, { opacity }]}>{route.title}</Animated.Text>
                             </View>
-                            {index == i && <View style={[styles.tabBottomBar, { width: "60%" }]}></View>}
+                            {index == i && <View style={[styles.tabBottomBar, { width: "90%" }]}></View>}
                         </TouchableOpacity>
                     );
                 })}
@@ -80,10 +88,9 @@ const TabViewVenue = (props) => {
                 navigationState={{ index, routes }}
                 renderScene={renderScene}
                 onIndexChange={setIndex}
-                initialLayout={{ width: "10%" }}
             />
         </View>
     )
 }
 
-export default TabViewVenue;
+export default TabViewPerformer;

@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    Image
 } from "react-native";
 import global from "../../styles/global";
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
@@ -29,49 +30,58 @@ const LocalList = (props) => {
         const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         let dayOfWeek = weekday[new Date(item.date).getDay()];
         const datePosted = new Date(item.datePosted).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
-        console.log(datePosted);
+        // console.log(datePosted);
         return (
             <TouchableOpacity style={styles.showContainer} onPress={() => {
                 props.props.navigation.navigate("OpenShowDetails", { data: item, profileType: props.profileType });
             }}>
-                <View style={{ padding: "3%", width: "100%" }}>
+                <View style={{ padding: "5%", width: "100%", }}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <View style={{ flexDirection: "column" }}>
-                            <View style={{}}>
+                        <View>
+                            <Image
+                                source={{ uri: item.uri }}
+                                style={{ height: 110, width: 110, borderRadius: 100, backgroundColor: global.color.secondaryColors.adjacent }}
+                            />
+                        </View>
+                        <View style={{ alignItems: "flex-end" }}>
+
+                            <View style={{ marginBottom: 5 }}>
                                 <Text style={styles.dateText}>{dayOfWeek}, {month} {day}</Text>
                             </View>
-                            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 5 }}>
                                 <Ionicons name="musical-notes-outline" size={20} color="black" />
                                 <View style={{ alignSelf: 'center' }}>
                                     <Text style={styles.dateTextSmall}>{item.typeNeeded} - {item.genreNeeded}</Text>
                                 </View>
                             </View>
-                        </View>
-                        <View style={{ flexDirection: "column" }}>
-                            <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                <EvilIcons name="clock" size={28} color={global.color.secondaryColors.placeHolderTextColor} />
+
+                            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 5 }}>
+                                <EvilIcons name="clock" size={28} ccolor="black" />
                                 <Text style={styles.smallText}>
                                     {start} - {end}
                                 </Text>
                             </View>
-                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", }}>
                                 <Ionicons
                                     name="location-outline"
                                     size={24}
-                                    color={global.color.secondaryColors.placeHolderTextColor}
+                                    color="black"
                                 />
                                 <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText,]} >
                                     {item.venueName}
                                 </Text>
                             </View>
+
                         </View>
+
                     </View>
-                    {datePosted != "Invalid Date"&&
-                        <View >
-                            <Text style={styles.smallText}>
-                                Posted on {datePosted}
-                            </Text>
-                        </View>}
+                    <Text style={{
+                        alignSelf: "center", marginTop: 5, fontFamily: "Rubik-SemiBold",
+                        fontSize: 16,
+                        color: global.color.primaryColors.main
+                    }} >
+                        View Details
+                    </Text>
                 </View>
 
             </TouchableOpacity>
@@ -79,11 +89,15 @@ const LocalList = (props) => {
     }, [])
 
     const getData = () => {
+        props.data.sort(function (a, b) {
+            return new Date(a.date) - new Date(b.date);
+        })
         return props.data;
     }
 
     return (
         <FlatList
+            showsVerticalScrollIndicator={false}
             data={getData()}
             renderItem={renderItem}
             style={{ height: "85%" }}
@@ -123,9 +137,8 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 18, fontFamily: "Rubik-SemiBold"
     }, smallText: {
-        color: global.color.secondaryColors.placeHolderTextColor,
         fontFamily: "Rubik-Regular",
-        fontSize: 14
+        fontSize: 16
     }
 })
 

@@ -36,6 +36,8 @@ import HighlightsTab from "../../components/search/HighlightsTab";
 import { getShowData } from "../../util/shows";
 
 import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
+import TabViewPerformer from "../../components/search/Tabs/TabViewArtist";
+import TabViewVenue from "../../components/search/Tabs/TabViewVenue";
 
 const MessageProfile = (props) => {
   const authCTX = useContext(AuthContext);
@@ -91,7 +93,7 @@ const MessageProfile = (props) => {
     setVisibleBottomNav(!visibleBottomNav);
   };
 
-  async function handleLinkPress (){
+  async function handleLinkPress() {
     await WebBrowser.openBrowserAsync(profileLink);
   };
 
@@ -100,7 +102,7 @@ const MessageProfile = (props) => {
       return <SocialSearchTab socials={socials} />;
     }
     if (aboutShow == true && basicInfo.profileType == "venue") {
-      return <ShowsTab shows={shows} basicInfo={basicInfo} props={props} pType={"performer"}/>;
+      return <ShowsTab shows={shows} basicInfo={basicInfo} props={props} pType={"performer"} />;
     }
     if (aboutShow == true && basicInfo.profileType == "performer") {
       return <HighlightsTab shows={shows} basicInfo={basicInfo} />;
@@ -116,6 +118,7 @@ const MessageProfile = (props) => {
       <Rect x="280" y="60" rx="12" ry="12" width="150" height="50" />
       <Rect x="0" y="200" rx="3" ry="3" width="200" height="20" />
       <Rect x="0" y="240" rx="3" ry="3" width="280" height="20" />
+      <Rect x="0" y="300" rx="10" ry="10" width="440" height="250" />
     </ContentLoader>
   )
 
@@ -192,7 +195,7 @@ const MessageProfile = (props) => {
       <SafeAreaView style={styles.container}>
         {gettingInfo ? (
           <View style={{ height: "100%", justifyContent: "center" }}>
-            <MyLoader/>
+            <MyLoader />
           </View>
         ) : (
           <View style={styles.container}>
@@ -276,64 +279,31 @@ const MessageProfile = (props) => {
               </View>
             </View>
             <View style={{
-                  flexDirection: "row", justifyContent: "space-between", marginHorizontal: 30,
-                  alignItems: "center", marginBottom: "2%"
-                }}>
-            <TouchableOpacity style={{
-              borderWidth: 3,
-              justifyContent: "center",
-              overflow: "hidden",
-              width: 120,
-              height: 120,
-              borderRadius: 100,
-              borderColor: global.color.primaryColors.main,
-              
-            }}
-            onPress={handleImageClick}
-            >
-              <Image
-                source={{ uri: profileURI }}
-                style={styles.profilePic}
-              />
-            </TouchableOpacity>
-            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              <TouchableOpacity
-                style={{
-                  borderRadius: 12,
-                  paddingHorizontal:10,
-                  marginTop: 20,
-                  marginBottom: 10,
-                  backgroundColor: global.color.primaryColors.main,
-                  alignSelf: "flex-end",
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.22,
-                  shadowRadius: 2.22
-                }}
-                onPress={() => {
-                  props.navigation.pop()
-                }}
-              >
-                <View style={{ alignSelf: "center", padding: 10 }}>
-                  <Text
-                    style={styles.editProfileText}
-                  >
-                    Message
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              flexDirection: "row", justifyContent: "space-between", marginHorizontal: 30,
+              alignItems: "center", marginBottom: "2%"
+            }}>
+              <TouchableOpacity style={{
+                borderWidth: 3,
+                justifyContent: "center",
+                overflow: "hidden",
+                width: 120,
+                height: 120,
+                borderRadius: 100,
+                borderColor: global.color.primaryColors.main,
 
-              {(profileCTX.basicInfo.profileType == "general") || (!authCTX.isAuthenticated) ?
+              }}
+                onPress={handleImageClick}
+              >
+                <Image
+                  source={{ uri: profileURI }}
+                  style={styles.profilePic}
+                />
+              </TouchableOpacity>
+              <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
                 <TouchableOpacity
                   style={{
-                    // justifyContent: "flex-end",
                     borderRadius: 12,
-                    paddingHorizontal:5,
-                    marginLeft: 10,
-                    // width: "15%",
+                    paddingHorizontal: 10,
                     marginTop: 20,
                     marginBottom: 10,
                     backgroundColor: global.color.primaryColors.main,
@@ -347,24 +317,57 @@ const MessageProfile = (props) => {
                     shadowRadius: 2.22
                   }}
                   onPress={() => {
-                    if (checkFollowingList() == true) {
-                      unfollowAlert(basicInfo.profileName, searchID);
-                    } else {
-                      if (authCTX.isAuthenticated == true) {
-                        setIsFollowing(true);
-                        addToFollowing();
-                      } else {
-                        setVisible(true);
-                      }
-                    }
+                    props.navigation.pop()
                   }}
                 >
                   <View style={{ alignSelf: "center", padding: 10 }}>
-                    {isFollowing == true ? <MaterialCommunityIcons name="cards-heart" size={22} color="white" /> :
-                      <MaterialCommunityIcons name="cards-heart-outline" size={22} color="white" />}
+                    <Text
+                      style={styles.editProfileText}
+                    >
+                      Message
+                    </Text>
                   </View>
-                </TouchableOpacity> : <View></View>}
-            </View>
+                </TouchableOpacity>
+
+                {(profileCTX.basicInfo.profileType == "general") || (!authCTX.isAuthenticated) ?
+                  <TouchableOpacity
+                    style={{
+                      // justifyContent: "flex-end",
+                      borderRadius: 12,
+                      paddingHorizontal: 5,
+                      marginLeft: 10,
+                      // width: "15%",
+                      marginTop: 20,
+                      marginBottom: 10,
+                      backgroundColor: global.color.primaryColors.main,
+                      alignSelf: "flex-end",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 1,
+                      },
+                      shadowOpacity: 0.22,
+                      shadowRadius: 2.22
+                    }}
+                    onPress={() => {
+                      if (checkFollowingList() == true) {
+                        unfollowAlert(basicInfo.profileName, searchID);
+                      } else {
+                        if (authCTX.isAuthenticated == true) {
+                          setIsFollowing(true);
+                          addToFollowing();
+                        } else {
+                          setVisible(true);
+                        }
+                      }
+                    }}
+                  >
+                    <View style={{ alignSelf: "center", padding: 10 }}>
+                      {isFollowing == true ? <MaterialCommunityIcons name="cards-heart" size={22} color="white" /> :
+                        <MaterialCommunityIcons name="cards-heart-outline" size={22} color="white" />}
+                    </View>
+                  </TouchableOpacity> : <View></View>}
+              </View>
             </View>
 
             <View style={{ marginHorizontal: 30, flexDirection: "row", justifyContent: "flex-end" }}>
@@ -439,71 +442,23 @@ const MessageProfile = (props) => {
                 </Text>
               </TouchableOpacity>}
             <View
-              style={styles.tabView}
+              // style={styles.tabView}
             >
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                  width: "90%",
-                }}
-              >
-                {basicInfo.profileType == "performer" &&
-                  <TouchableOpacity
-                    style={styles.tabContainer}
-                    onPress={() => {
-                      setAvailShow(true);
-                      setAboutShow(false);
-                      setSocialShow(false);
-                    }}
-                  >
-                    <View style={{ flexDirection: "column" }}>
-                      <View style={styles.tabTextContainer}>
-                        <Text style={[styles.tabText, availShow && { color: "black" }]}>Availability</Text>
-                      </View>
-                      {availShow && (
-                        <View style={styles.tabBottomBar}></View>
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                }
-                <TouchableOpacity
-                  style={styles.tabContainer}
-                  onPress={() => {
-                    setAboutShow(true);
-                    setAvailShow(false);
-                    setSocialShow(false);
-                  }}
-                >
-                  <View style={{ flexDirection: "column" }}>
-                    <View style={styles.tabTextContainer}>
-                      <Text style={[styles.tabText, aboutShow && { color: "black" }]}>Shows</Text>
-                    </View>
-                    {aboutShow && (
-                      <View style={styles.tabBottomBar}></View>
-                    )}
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.tabContainer}
-                  onPress={() => {
-                    setSocialShow(true);
-                    setAvailShow(false);
-                    setAboutShow(false);
-                  }}
-                >
-                  <View style={{ flexDirection: "column" }}>
-                    <View style={styles.tabTextContainer}>
-                      <Text style={[styles.tabText, socialShow && { color: "black" }]}>Social Media</Text>
-                    </View>
-                    {socialShow && (
-                      <View style={styles.tabBottomBar}></View>
-                    )}
-                  </View>
-                </TouchableOpacity>
-              </View>
+              {basicInfo.profileType == "performer" &&
+                <TabViewPerformer
+                  socials={socials}
+                  shows={shows}
+                  basicInfo={basicInfo}
+                  availability={availability}
+                />
+              }
+              {basicInfo.profileType == "venue" &&
+                <TabViewVenue
+                  shows={shows} basicInfo={basicInfo} props={props} pType={"performer"}
+                  socials={socials}
+                />
+              }
             </View>
-            {getScreenTab()}
           </View>
         )}
         <Modal visible={isModalVisible} transparent={true}>
@@ -514,7 +469,7 @@ const MessageProfile = (props) => {
               backgroundColor: '#000000c0',
 
             }}>
-              <View style={{ height: "100%", alignContent:"center", justifyContent:"center" }}>
+              <View style={{ height: "100%", alignContent: "center", justifyContent: "center" }}>
                 <Image source={{ uri: profileURI }}
                   style={{
                     width: 250,
@@ -524,7 +479,7 @@ const MessageProfile = (props) => {
               </View>
             </View>
           </TouchableWithoutFeedback>
-          </Modal>
+        </Modal>
       </SafeAreaView>
     </View >
   );

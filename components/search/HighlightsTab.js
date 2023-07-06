@@ -82,7 +82,7 @@ const HighlightsTab = (props) => {
         )
     }
     return (
-        <View style={{ flex: 1 }} >
+        <View style={{  }} >
             {shows.length == 0 &&
                 <View style={{ alignItems: "center", marginVertical: "10%" }}>
                     <Text
@@ -97,7 +97,8 @@ const HighlightsTab = (props) => {
                 </View>}
             {shows.length != 0 &&
                 <FlatList
-                    contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 100 }}
+                showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ alignItems: "center", marginVertical: "5%", paddingBottom: 300 }}
                     data={shows} renderItem={
                         ({ item }) => { return getItem(item[1], item[0]) }
                     }

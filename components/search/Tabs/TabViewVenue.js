@@ -1,28 +1,27 @@
-import React, {  } from "react";
+import React, { } from "react";
 import {
     View,
     TouchableOpacity,
-    useWindowDimensions,
-    Animated} from "react-native";
+    Animated
+} from "react-native";
 import { TabView, SceneMap } from 'react-native-tab-view';
 import styles from "../../../styles/profile/light/profileScreen";
 import global from "../../../styles/global";
-import SocialTab from "../SocialProfileTabArtist";
+import SocialProfileTabArtist from "../SocialSearchTab";
 import ShowsTab from "../ShowsTab";
 
 const TabViewVenue = (props) => {
     const FirstRoute = () => (
-        <View style={{ paddingBottom: 800 }}>
-            <ShowsTab props={props} />
-
-        </View>
-
+        <ShowsTab
+            shows={props.shows}
+            basicInfo={props.basicInfo}
+            props={props.props}
+            pType={props.profileType}
+        />
     );
 
     const SecondRoute = () => (
-        <View >
-            <SocialTab props={props} />
-        </View>
+        <SocialProfileTabArtist socials={props.socials} />
     );
 
 
@@ -35,8 +34,6 @@ const TabViewVenue = (props) => {
         { key: 'first', title: 'Shows' },
         { key: 'second', title: 'Social' },
     ];
-
-    const layout = useWindowDimensions();
 
     const renderTabBar = (props) => {
         const inputRange = props.navigationState.routes.map((x, i) => i);
@@ -53,7 +50,6 @@ const TabViewVenue = (props) => {
                             inputIndex === i ? 1 : 0.5
                         ),
                     });
-
                     return (
                         <TouchableOpacity
                             key={i}
