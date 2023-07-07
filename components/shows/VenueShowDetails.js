@@ -2,13 +2,31 @@ import React, { useState } from "react";
 import {
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from "react-native";
 import global from "../../styles/global";
 import EditShowDetailsModal from "./EditShowDetailsModal";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 const VenueShowDetails = (props) => {
     const [data, setData] = useState(props.data);
+
+    const deleteAlert = () => {
+        Alert.alert("Are you sure you want to delete this show?", "", [
+          {
+            text: "Cancel",
+            onPress: () => {},
+            style: "destructive",
+          },
+          {
+            text: "Delete",
+            onPress: () => { props.navigation.pop(); },
+            style: "destructive",
+          },
+    
+        ]);
+      };
+
     function formatAMPM(date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -120,6 +138,30 @@ const VenueShowDetails = (props) => {
                     fontSize: 18,
                 }}>
                     Edit Details
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={{
+                    alignItems: "center",
+                    padding: 16,
+                    marginHorizontal: "8%",
+                    backgroundColor: "white",
+                    borderRadius: 12,
+                    marginTop: "7%",
+                    borderWidth: 1.5,
+                    borderColor: global.color.secondaryColors.main
+                }}
+                onPress={() => {
+                    deleteAlert();
+                    // setVisible(!visible)
+                }}
+            >
+                <Text style={{
+                    fontFamily: "Rubik-Medium",
+                    color: global.color.secondaryColors.main,
+                    fontSize: 18,
+                }}>
+                    Delete
                 </Text>
             </TouchableOpacity>
             <EditShowDetailsModal visible={visible} setVisible={setVisible} data={data} setData={setData} />

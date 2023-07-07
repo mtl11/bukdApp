@@ -25,48 +25,48 @@ const PostShowModal = (props) => {
     const [compensationStart, setCompensationStart] = useState("");
     const [compensationEnd, setCompensationEnd] = useState("");
     const [postsExpire, setPostsExpire] = useState(new Date());
-    // console.log(profileCTX);
+    // (profileCTX);
     const [errorMessage, setErrorMessage] = useState();
-    
+
     function check() {
         if (typeNeeded == undefined) {
             setErrorMessage("Please Select a Performer Type");
-        }else if(genre == undefined){
+        } else if (genre == undefined) {
             setErrorMessage("Please Select a Genre");
-        }else if(maxApplicants == ""){
+        } else if (maxApplicants == "") {
             setErrorMessage("Please Add Number of Max Applicants");
-        }else if(compensationStart == ""){
+        } else if (compensationStart == "") {
             setErrorMessage("Please Add Starting Compensation");
-        }else if(compensationEnd == ""){
+        } else if (compensationEnd == "") {
             setErrorMessage("Please Add Ending Compensation");
         }
-        else if(description == ""){
+        else if (description == "") {
             setErrorMessage("Please Add a Description");
         }
-        else{
+        else {
             setErrorMessage();
             return true;
         }
-        // console.log(genre);
+        // (genre);
         return false;
     }
     async function addGlobalShow() {
-            const localId = await AsyncStorage.getItem("localId");
-            const accessToken = await getAccessToken();
-            const datePosted = new Date();
-            const profilePic = await getProfilePic(localId);
-            const response = await addShowToGlobalList(profilePic, props.username, props.userLocation, genre, typeNeeded,
-                date, startTime, endTime, maxApplicants, compensationStart,
-                compensationEnd, profileCTX.about.equipment, description, postsExpire, datePosted, localId, accessToken,);
-            addShowToProfile(response.name, localId, accessToken)
-            props.setVisible(!props.visible);
-            setDescription("");
-            setCompensationEnd("");
-            setCompensationStart("");
-            setGenre();
-            setTypeNeeded();
+        const localId = await AsyncStorage.getItem("localId");
+        const accessToken = await getAccessToken();
+        const datePosted = new Date();
+        const profilePic = await getProfilePic(localId);
+        const response = await addShowToGlobalList(profilePic, props.username, props.userLocation, genre, typeNeeded,
+            date, startTime, endTime, maxApplicants, compensationStart,
+            compensationEnd, profileCTX.about.equipment, description, postsExpire, datePosted, localId, accessToken,);
+        addShowToProfile(response.name, localId, accessToken)
+        props.setVisible(!props.visible);
+        setDescription("");
+        setCompensationEnd("");
+        setCompensationStart("");
+        setGenre();
+        setTypeNeeded();
 
-       
+
     }
 
     return (
@@ -82,19 +82,17 @@ const PostShowModal = (props) => {
                     }}>
                         <Ionicons name="close-circle-outline" size={28} color={global.color.primaryColors.main} />
                     </TouchableOpacity>
-
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}>
-
                     <View style={{ marginHorizontal: "3%" }}>
-                        <View style={{ flexDirection: "row",  justifyContent: "space-between", marginTop: "5%" }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: "5%" }}>
                             <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                            Venue Name: {props.username}
+                                Venue Name: {props.username}
                             </Text>
                         </View>
-                        <View style={{ flexDirection: "row",  justifyContent: "space-between", marginTop: "5%" }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: "5%" }}>
                             <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>
-                            Location: {props.userLocation}
+                                Location: {props.userLocation}
                             </Text>
                         </View>
                         <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, marginTop: "5%" }}>
@@ -174,7 +172,7 @@ const PostShowModal = (props) => {
                         <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, marginTop: "5%" }}>
                             Max Applicants
                         </Text>
-                        <View style={[styles.inputContainer, {marginTop: 0}]}>
+                        <View style={[styles.inputContainer, { marginTop: 0 }]}>
                             <TextInput
                                 style={styles.input}
                                 placeholder={"100 Applicants"}
@@ -191,7 +189,7 @@ const PostShowModal = (props) => {
                         {/* <Text style={{ fontSize: 16, fontFamily: "Rubik-Regular", padding: 10, }}> 
                                 End Time
                             </Text>  */}
-                            <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, marginTop: "5%" }}>
+                        <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, marginTop: "5%" }}>
                             Compensation Range
                         </Text>
                         <View style={{
@@ -207,7 +205,7 @@ const PostShowModal = (props) => {
                                 }}>
                                     $
                                 </Text>
-                                
+
                                 <View style={[styles.inputContainer, { margin: 0, },]}>
                                     <TextInput
                                         style={styles.input}
@@ -346,7 +344,7 @@ const PostShowModal = (props) => {
                             alignSelf: "center",
                         }}
                         onPress={() => {
-                            if(check()){
+                            if (check()) {
                                 addGlobalShow()
                             }
                         }}

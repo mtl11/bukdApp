@@ -32,7 +32,6 @@ export async function addShowToGlobalList(profilePic, venueName, location, genre
 }
 
 export async function editShow(data, showID, location, accessToken) {
-    console.log("/shows/" + location + "/" + showID + ".json?auth=" + accessToken);
 
     const response = await firebaseUtil.put(
         "/shows/" + location + "/" + showID + ".json?auth=" + accessToken,

@@ -27,7 +27,7 @@ const UnAuthSearch = (props) => {
     async function authenticateHandler() {
         try {
             const token = await authenticateUser(email, password);
-            console.log("test");
+            ("test");
             setPasswordDontMatch(false);
             AsyncStorage.setItem("email", email);
             authCTX.authenticate(token);

@@ -76,7 +76,6 @@ const MessagesLists = (props) => {
   }
 
   const renderItem = (chatroom) => {
-    console.log(chatroom.item);
     return (
       <TouchableHighlight
         id={chatroom.item.chatRoomID}

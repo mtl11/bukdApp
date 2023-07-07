@@ -187,7 +187,7 @@ function Navigation() {
         if (localId != null) {
           await pushNotficationTokenToDB(localId, pushTokenData);
         }
-        // console.log(pushTokenData);
+        // (pushTokenData);
       }
       setup();
     }
@@ -208,7 +208,7 @@ function Root() {
     async function fetchToken() {
       const storedToken = await AsyncStorage.getItem("token");
       const accessToken = await getAccessToken();
-      // console.log(accessToken);
+      // (accessToken);
       if (storedToken && accessToken) {
         authCTX.authenticate(storedToken);
       } else {

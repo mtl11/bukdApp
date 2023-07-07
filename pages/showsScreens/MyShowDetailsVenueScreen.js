@@ -75,7 +75,7 @@ const MyShowDetailsVenueScreen = (props) => {
                 </TouchableOpacity>
             </View>
 
-            {details && <VenueShowDetails data={data} />}
+            {details && <VenueShowDetails data={data} navigation={props.navigation}/>}
             {applicants && (<ApplicantList data={data} props={props}/>)}
         </SafeAreaView>
     )

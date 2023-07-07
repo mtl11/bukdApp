@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity} from "react-native";
+    TouchableOpacity
+} from "react-native";
 import global from "../../styles/global";
 import MyShowsListVenue from "./MyShowsListVenue";
 import PostShowModal from "./PostShowModal";
+import { ProfileContext } from "../../store/profileContext";
 
 const VenueSection = (props) => {
-    const [visible, setVisible] = useState(false); 
-     return (
+    const [visible, setVisible] = useState(false);
+    const profileCTX = useContext(ProfileContext);
+    return (
         <View>
             <TouchableOpacity
+                disabled={profileCTX.shows.length >=5}
                 style={{
+                    opacity: profileCTX.shows.length >=5 && .5,
                     alignItems: "center",
                     padding: 16,
                     marginHorizontal: "8%",
@@ -32,6 +37,12 @@ const VenueSection = (props) => {
                     Post a show
                 </Text>
             </TouchableOpacity>
+            <View style={{ alignItems: "center", marginTop:"2.5%" }}>
+                <Text style={{ fontSize: 14, fontFamily: "Rubik-Regular", color: global.color.secondaryColors.placeHolderTextColor }}>
+                    Maximum Shows: 5
+                </Text>
+            </View>
+            {/* <Style */}
             <View
                 style={{
                     flexDirection: "row",
@@ -42,10 +53,11 @@ const VenueSection = (props) => {
                 <Text style={styles.headerText}>My Shows</Text>
             </View>
 
-            <MyShowsListVenue props={props.props} refreshData={props.refreshData}/>
-            <PostShowModal visible={visible} setVisible={setVisible} username={props.username} userLocation ={props.userLocation}/>
+            <MyShowsListVenue props={props.props} refreshData={props.refreshData} />
+            <PostShowModal visible={visible} setVisible={setVisible} username={props.username} userLocation={props.userLocation} refreshData={props.refreshData}/>
         </View>
     )
+
 }
 const styles = StyleSheet.create({
 

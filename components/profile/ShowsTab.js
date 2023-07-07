@@ -26,7 +26,6 @@ const ShowsTab = (props) => {
     }
 
     const getItem = (item) => {
-        console.log(item);
         const start = formatAMPM(new Date(item.startTime));
         const end = formatAMPM(new Date(item.endTime));
         const month = new Date(item.date).toLocaleString('default', { month: 'long' });

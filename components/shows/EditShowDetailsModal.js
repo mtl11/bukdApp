@@ -23,12 +23,12 @@ const EditShowDetailsModal = (props) => {
     const [compensationStart, setCompensationStart] = useState(props.data.compensationStart);
     const [compensationEnd, setCompensationEnd] = useState(props.data.compensationEnd);
     const [expirationDate, setExpirationDate] = useState(new Date());
-    // console.log(props.data);
+    // (props.data);
 
     async function editShowDetails() {
         const localId = await AsyncStorage.getItem("localId")
         const accessToken = await getAccessToken();
-        // console.log(props.data);
+        // (props.data);
         props.setData({
             applicants: props.data.applicants, venueName: props.data.venueName, location: props.data.location, genreNeeded: genre,
             typeNeeded: typeNeeded, date: date, startTime: startTime, endTime: endTime, maxApplicants: maxApplicants,

@@ -30,7 +30,7 @@ const LocalList = (props) => {
         const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         let dayOfWeek = weekday[new Date(item.date).getDay()];
         const datePosted = new Date(item.datePosted).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
-        // console.log(datePosted);
+        // (datePosted);
         return (
             <TouchableOpacity style={styles.showContainer} onPress={() => {
                 props.props.navigation.navigate("OpenShowDetails", { data: item, profileType: props.profileType });
@@ -40,7 +40,7 @@ const LocalList = (props) => {
                         <View>
                             <Image
                                 source={{ uri: item.uri }}
-                                style={{ height: 110, width: 110, borderRadius: 100, backgroundColor: global.color.secondaryColors.adjacent }}
+                                style={{ height: 110, width: 110, borderRadius: 12, backgroundColor: global.color.secondaryColors.adjacent }}
                             />
                         </View>
                         <View style={{ alignItems: "flex-end" }}>
@@ -71,16 +71,14 @@ const LocalList = (props) => {
                                     {item.venueName}
                                 </Text>
                             </View>
-
                         </View>
-
                     </View>
                     <Text style={{
-                        alignSelf: "center", marginTop: 5, fontFamily: "Rubik-SemiBold",
+                        alignSelf: "center", marginTop: 5, fontFamily: "Rubik-Regular",
                         fontSize: 16,
                         color: global.color.primaryColors.main
                     }} >
-                        View Details
+                        More Info
                     </Text>
                 </View>
 
@@ -89,9 +87,10 @@ const LocalList = (props) => {
     }, [])
 
     const getData = () => {
+        if (props.data) {
         props.data.sort(function (a, b) {
             return new Date(a.date) - new Date(b.date);
-        })
+        })}
         return props.data;
     }
 
@@ -100,7 +99,7 @@ const LocalList = (props) => {
             showsVerticalScrollIndicator={false}
             data={getData()}
             renderItem={renderItem}
-            style={{ height: "85%" }}
+            style={{height:"87.5%" }}
             contentContainerStyle={{ marginTop: "2.5%" }}
         />
 

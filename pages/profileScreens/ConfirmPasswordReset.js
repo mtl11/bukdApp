@@ -51,7 +51,7 @@ const ConfirmPasswordReset = (props) => {
 
   async function reset(password, token) {
     const response = await resetPassword(password, token);
-    console.log(response);
+    (response);
   }
   const dismissKeyboard = () => {
     Keyboard.dismiss();

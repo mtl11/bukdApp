@@ -11,8 +11,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ProfileContext } from "../../store/profileContext";
 import { getShowData } from "../../util/shows";
 import NoAuthShowsList from "../../components/shows/NoAuthShowsList";
+import { useIsFocused } from "@react-navigation/native";
 
 const ShowScreen = (props) => {
+    const isFocused = useIsFocused();
     // const profileCTX = useContext(ProfileContext);
     const authCTX = useContext(AuthContext);
     const profileCTX = useContext(ProfileContext);
@@ -51,7 +53,7 @@ const ShowScreen = (props) => {
 
     useEffect(() => {
         profileType();
-    }, [authCTX])
+    }, [authCTX, isFocused])
     if (authCTX.isAuthenticated) {
         return (
             <SafeAreaView style={{

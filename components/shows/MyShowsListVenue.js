@@ -10,9 +10,12 @@ import {
 import global from "../../styles/global";
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
 import { ProfileContext } from "../../store/profileContext";
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
+import { useIsFocused } from "@react-navigation/native";
 const MyShowsListVenue = (props) => {
     const onRefresh = React.useCallback(() => {
+        console.log("hi")
         setRefreshing(true);
         props.refreshData();
         // setTimeout(() => {
@@ -79,8 +82,8 @@ const MyShowsListVenue = (props) => {
                             <Text style={[styles.smallText, { color: global.color.secondaryColors.main }]}>
                                 0 Applicants
                             </Text>
-                        </View>}
-
+                        </View>
+                    }
                 </View>
             </TouchableOpacity>
         )
@@ -91,14 +94,15 @@ const MyShowsListVenue = (props) => {
     const profileCTX = useContext(ProfileContext);
     return (
         <FlatList
-            style={{ height: "100%" }}
+            showsVerticalScrollIndicator={false}
+            style={{ height: "84%" }}
             data={profileCTX.shows}
             renderItem={renderItem}
-            contentContainerStyle={{ marginTop: "2.5%" }}
+            contentContainerStyle={{  paddingBottom: "5%"}}
             refreshControl={
                 <RefreshControl
                     refreshing={refreshing} onRefresh={onRefresh}
-                    tintColor={global.color.primaryColors.main} />
+                />
             }
         />
     )
@@ -127,7 +131,7 @@ const styles = StyleSheet.create({
         // },
         // shadowOpacity: 0.2,
         // shadowRadius: 2.2,
-        marginBottom: "5%"
+        marginVertical: "2.5%"
     }, dateTextSmall: {
         fontSize: 16, fontFamily: "Rubik-Regular"
     },

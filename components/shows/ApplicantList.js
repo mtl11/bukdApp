@@ -20,7 +20,7 @@ const ApplicantList = (props) => {
   const [data, setData] = useState("");
 
   const itemHandler = (item) => {
-    console.log(item);
+    (item);
     return (
       <View style={styles.showContainer} >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -68,7 +68,7 @@ const ApplicantList = (props) => {
   }
   async function getApplicantsData() {
     const rawData = Object.values(props.data.applicants);
-    console.log(rawData)
+    (rawData)
     const array = [];
     for (const x in rawData) {
       const singleData = await getProfileInfo(rawData[x].localId);

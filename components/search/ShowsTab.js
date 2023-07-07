@@ -25,13 +25,13 @@ const ShowsTab = (props) => {
 
     const [selectedItem, setSelectedItem] = useState("");
     const getItem = (item) => {
-        // console.log(item);
+        // (item);
         const start = formatAMPM(new Date(item.startTime));
         const end = formatAMPM(new Date(item.endTime));
         const month = new Date(item.date).toLocaleString('default', { month: 'long' });
         const day = new Date(item.date).getDate();
         const datePosted = new Date(item.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
-        // console.log(props.pType);
+        // (props.pType);
         return (
             <TouchableOpacity style={styles.showContainer} onPress={() => {
 

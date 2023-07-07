@@ -79,7 +79,7 @@ const AvailabilitySearch = (props) => {
         };
         return order[a] - order[b];
       });
-      // console.log(sortedDays);
+      // (sortedDays);
 
 
       for (const x in sortedDays) {
@@ -145,7 +145,7 @@ const AvailabilitySearch = (props) => {
         </View>
       );
     }
-    // console.log()
+    // ()
 
     return array;
   };

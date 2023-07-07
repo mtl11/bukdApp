@@ -17,7 +17,7 @@ const VenueList = (props) => {
   const authCTX = useContext(AuthContext);
   async function check(uuid) {
     const localId = await AsyncStorage.getItem("localId");
-    console.log(localId);
+    (localId);
     if (uuid == localId) {
       props.props.navigation.navigate("ProfileScreen", { search: true });
     } else {

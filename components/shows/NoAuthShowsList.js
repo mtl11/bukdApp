@@ -24,7 +24,7 @@ const NoAuthShowsList = (props) => {
     const [showsData, setShowsData] = useState();
 
     async function getShowsAtLocation() {
-        // console.log(location)
+        // (location)
         const showsData = await getShowsDataAtLocation(location);
         if (showsData) {
             const data = Object.entries(showsData);
@@ -33,7 +33,7 @@ const NoAuthShowsList = (props) => {
                 const item = data[x][1];
                 item["showID"] = data[x][0];
                 array.push(item);
-                // console.log(item)
+                // (item)
             }
             setShowsData(array);
         }
@@ -58,7 +58,7 @@ const NoAuthShowsList = (props) => {
         const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         let dayOfWeek = weekday[new Date(item.date).getDay()];
         const datePosted = new Date(item.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
-        // console.log(item)
+        // (item)
         return (
             <View style={styles.showContainer}>
                 <View style={{ padding: "3%", width: "100%" }}>

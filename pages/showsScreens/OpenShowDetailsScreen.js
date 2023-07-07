@@ -35,7 +35,7 @@ const OpenShowDetails = (props) => {
 
     let data = props.route.params.data;
     let pType = props.route.params.profileType;
-    console.log(pType)
+    (pType)
     const [applyVisible, setApplyVisible] = useState(false);
     const start = formatAMPM(new Date(data.startTime));
     const end = formatAMPM(new Date(data.endTime));
@@ -45,7 +45,7 @@ const OpenShowDetails = (props) => {
     let dayOfWeek = weekday[new Date(data.date).getDay()];
     const date = new Date(data.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
     const [applied, setApplied] = useState(false);
-    // console.log(profileCTX.personalInfo.profileType);
+    // (profileCTX.personalInfo.profileType);
     async function checkIfApplied() {
         if (pType == "performer") {
             const localId = await AsyncStorage.getItem("localId");
@@ -65,7 +65,7 @@ const OpenShowDetails = (props) => {
         }
         setLoading(false);
     }, []);
-    // console.log(profileCTX.personalInfo);
+    // (profileCTX.personalInfo);
     return (
         <SafeAreaView style={{ height: "100%", backgroundColor: "white" }}>
             {/* <View style={{justifyContent:"space-between"}}> */}
@@ -86,7 +86,7 @@ const OpenShowDetails = (props) => {
                     <TouchableOpacity
                         style={styles.topIconContainer}
                         onPress={() => {
-                            // console.log(data.venueID)
+                            // (data.venueID)
                             AsyncStorage.setItem("searchID", data.venueID);
                             props.navigation.navigate("SearchArtistProfile");
                         }}

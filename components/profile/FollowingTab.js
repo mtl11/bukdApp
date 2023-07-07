@@ -19,7 +19,6 @@ import { getAccessToken, unfollowAccount } from "../../util/profile";
 const FollowingTab = (props) => { 
   const profileCTX = useContext(ProfileContext);
   const [data, setData] = useState(profileCTX.followingList);
-  console.log(data);
   async function unfollowHelper(id) {
     const localId = await AsyncStorage.getItem("localId");
     const accessToken = await getAccessToken();
@@ -29,7 +28,7 @@ const FollowingTab = (props) => {
     Alert.alert("Are you sure you want to unfollow "+name+"?", "", [
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
+        onPress: () => ("Cancel Pressed"),
         style: "cancel",
       },
       {
@@ -72,7 +71,6 @@ const FollowingTab = (props) => {
   }
   const dataHelper =()=>{
     setData(profileCTX.followingList)
-    console.log()
   }
   useEffect(() => { 
     dataHelper()

@@ -23,7 +23,7 @@ const PerformersSection = (props) => {
     const [showsData, setShowsData] = useState();
 
     async function getShowsAtLocation(){
-        // console.log(location)
+        // (location)
         const showsData = await getShowsDataAtLocation(location);
         if (showsData){
             const data = Object.entries(showsData);
@@ -32,7 +32,7 @@ const PerformersSection = (props) => {
                 const item = data[x][1];
                 item["showID"] = data[x][0];
                 array.push(item);
-                // console.log(item)
+                // (item)
             }
             setShowsData(array);
         }

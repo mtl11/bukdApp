@@ -1,17 +1,15 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
     View,
     Text,
-    SafeAreaView,
     StyleSheet,
     TouchableOpacity,
-    Image,
     ActivityIndicator,
-    Button,
-    FlatList
+    FlatList,
+    Image
 } from "react-native";
 import global from "../../styles/global";
-import { EvilIcons, Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { EvilIcons, Ionicons } from '@expo/vector-icons';
 import { getMyShowsData, getShowData } from "../../util/shows";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -27,7 +25,6 @@ const MyShowsList = (props) => {
         return strTime;
     }
     const renderItem = useCallback(({ item }) => {
-        console.log(item);
         const start = formatAMPM(new Date(item.startTime));
         const end = formatAMPM(new Date(item.endTime));
         const month = new Date(item.date).toLocaleString('default', { month: 'long' });
@@ -40,31 +37,35 @@ const MyShowsList = (props) => {
             <TouchableOpacity style={styles.showContainer} onPress={() => {
                 props.props.navigation.navigate("MyShowDetails", { data: item });
             }}>
-                <View style={{ padding: "3%", width: "100%" }}>
+                <View style={{ padding: "5%", width: "100%", }}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <View style={{ flexDirection: "column" }}>
-                            <View style={{ alignSelf: 'center' }}>
+                        <View>
+                            <Image
+                                source={{ uri: item.uri }}
+                                style={{ height: 110, width: 110, borderRadius: 12, backgroundColor: global.color.secondaryColors.adjacent }}
+                            />
+                        </View>
+                        <View style={{ alignItems: "flex-end" }}>
+                            <View style={{ marginBottom: 5 }}>
                                 <Text style={styles.dateText}>{dayOfWeek}, {month} {day}</Text>
                             </View>
-                            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 5 }}>
                                 <Ionicons name="musical-notes-outline" size={20} color="black" />
                                 <View style={{ alignSelf: 'center' }}>
                                     <Text style={styles.dateTextSmall}>{item.typeNeeded} - {item.genreNeeded}</Text>
                                 </View>
                             </View>
-                        </View>
-                        <View style={{ flexDirection: "column" }}>
-                            <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                <EvilIcons name="clock" size={28} color={global.color.secondaryColors.placeHolderTextColor} />
+                            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 5 }}>
+                                <EvilIcons name="clock" size={28} ccolor="black" />
                                 <Text style={styles.smallText}>
                                     {start} - {end}
                                 </Text>
                             </View>
-                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", }}>
                                 <Ionicons
                                     name="location-outline"
                                     size={24}
-                                    color={global.color.secondaryColors.placeHolderTextColor}
+                                    color="black"
                                 />
                                 <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText,]} >
                                     {item.venueName}
@@ -72,38 +73,63 @@ const MyShowsList = (props) => {
                             </View>
                         </View>
                     </View>
-                    <View>
-                        <Text style={styles.smallText}>
+                    <View style={{marginVertical: "3%"}}>
+                        <Text style={[styles.smallText,{color: global.color.secondaryColors.placeHolderTextColor}]}>
                             Applied on {appliedDate}
                         </Text>
-                    </View>
-                    {/* {item.status == "pending" &&
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-
-                            <Ionicons name="ellipsis-horizontal-circle-outline" size={24} color={global.color.secondaryColors.placeHolderTextColor} />
-                            <Text style={styles.smallText}>
-                                Pending
-                            </Text>
-                        </View>
-                    }
-                    {item.status == "accepted" &&
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Ionicons name="checkmark-circle-outline" size={24} color={global.color.secondaryColors.placeHolderTextColor} />
-                            <Text style={styles.smallText}>
-                                Accepted
-                            </Text>
-                        </View>
-                    }
-                    {item.status == "denied" &&
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Ionicons name="remove-circle-outline" size={24} color={global.color.secondaryColors.placeHolderTextColor} />
-                            <Text style={styles.smallText}>
-                                Denied
-                            </Text>
-                        </View>
-                    } */}
+                    </View> 
+                    <Text style={{
+                        alignSelf: "center", marginTop: 5, fontFamily: "Rubik-Regular",
+                        fontSize: 16,
+                        color: global.color.primaryColors.main
+                    }} >
+                        View Details
+                    </Text>
                 </View>
             </TouchableOpacity>
+            /*<TouchableOpacity style={styles.showContainer} onPress={() => {
+            //     props.props.navigation.navigate("MyShowDetails", { data: item });
+            // }}>
+            //     <View style={{ padding: "3%", width: "100%" }}>
+            //         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            //             <View style={{ flexDirection: "column" }}>
+            //                 <View style={{ alignSelf: 'center' }}>
+            //                     <Text style={styles.dateText}>{dayOfWeek}, {month} {day}</Text>
+            //                 </View>
+            //                 <View style={{ flexDirection: "row", alignItems: "center" }}>
+            //                     <Ionicons name="musical-notes-outline" size={20} color="black" />
+            //                     <View style={{ alignSelf: 'center' }}>
+            //                         <Text style={styles.dateTextSmall}>{item.typeNeeded} - {item.genreNeeded}</Text>
+            //                     </View>
+            //                 </View>
+            //             </View>
+            //             <View style={{ flexDirection: "column" }}>
+            //                 <View style={{ flexDirection: "row", alignItems: "center" }}>
+            //                     <EvilIcons name="clock" size={28} color={global.color.secondaryColors.placeHolderTextColor} />
+            //                     <Text style={styles.smallText}>
+            //                         {start} - {end}
+            //                     </Text>
+            //                 </View>
+            //                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
+            //                     <Ionicons
+            //                         name="location-outline"
+            //                         size={24}
+            //                         color={global.color.secondaryColors.placeHolderTextColor}
+            //                     />
+            //                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText,]} >
+            //                         {item.venueName}
+            //                     </Text>
+            //                 </View>
+            //             </View>
+            //         </View>
+            //         {/* <View>
+            //             <Text style={styles.smallText}>
+            //                 Applied on {appliedDate}
+            //             </Text>
+            //         </View> */
+            //     </View>
+            // </TouchableOpacity>
+            // *\}
         )
     })
 
@@ -112,7 +138,7 @@ const MyShowsList = (props) => {
         const myShows = await getMyShowsData(localId);
         if (myShows != null) {
             const rawData = Object.values(myShows);
-            console.log(rawData);
+            (rawData);
             const flatListData = [];
             for (const x in rawData) {
                 const retrievedData = await getShowData(rawData[x].showID, rawData[x].location);
@@ -192,7 +218,7 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 18, fontFamily: "Rubik-SemiBold"
     }, smallText: {
-        color: global.color.secondaryColors.placeHolderTextColor,
+        color: "black",
         fontFamily: "Rubik-Regular",
         fontSize: 14
     }

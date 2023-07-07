@@ -107,7 +107,7 @@ const SearchChat = (props) => {
         }
     }
     async function getPreviousMessages(chatRoomID) {
-        console.log(chatRoomID);
+        (chatRoomID);
         const response = await getMessages(chatRoomID);
         setMessages(renderMessages(response));
     }

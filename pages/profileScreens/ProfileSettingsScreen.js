@@ -113,14 +113,14 @@ const ProfileSettingsScreen = (props) => {
           />
         </View>
       </TouchableOpacity>
-      <View style={styles.sectionHeaderContainer}>
+      {/* <View style={styles.sectionHeaderContainer}>
         <Ionicons
           name="ios-settings-outline"
           size={22}
           color={styles.iconColor}
         />
         <Text style={styles.sectionHeaderText}>General</Text>
-      </View>
+      </View> */}
       {/* <View style={styles.labelContainer}>
         <Text style={styles.labelText}>Notifications</Text>
         <Switch
@@ -145,7 +145,7 @@ const ProfileSettingsScreen = (props) => {
         />
       </TouchableOpacity>
       <View style={styles.infoContainer}>
-        <Text style={styles.smallerText}>Bukd v1.1.1</Text>
+        <Text style={styles.smallerText}>Bukd v1.0.0</Text>
         <View style={styles.copyrightContainer}>
           <FontAwesome5
             name="copyright"
@@ -155,7 +155,7 @@ const ProfileSettingsScreen = (props) => {
           <Text
             style={[styles.smallerText, { paddingBottom: 10, paddingLeft: 5 }]}
           >
-            2023 Bukd App, LLC
+            2023 Bukd App LLC
           </Text>
         </View>
       </View>

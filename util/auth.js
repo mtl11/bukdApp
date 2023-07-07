@@ -63,7 +63,7 @@ export async function authenticateUser(email, password) {
       AsyncStorage.setItem("localId", res.data.localId);
       AsyncStorage.setItem("refreshToken", res.data.refreshToken);
       token = res.data.idToken;
-      console.log("Token: " + res.data.refreshToken);
+      ("Token: " + res.data.refreshToken);
     })
   return token;
 }
