@@ -76,7 +76,8 @@ export async function editShowP(label, startTime, endTime, date, venueName, desc
 }
 
 export async function deleteSomeShow(localId, item, accessToken) {
-  const response = await firebaseUtil.delete("/users/" + localId + "/shows/" + item + ".json?auth=" + accessToken);
+  const response = await firebaseUtil.delete("/users/" + localId + "/shows/" + item + ".json?auth=" + accessToken).catch((error) => {
+    console.log(error.response);});
 }
 
 export async function unfollowAccount(localId, profileID, accessToken) {

@@ -15,12 +15,36 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { sendMessage, checkIfChatExists, createNewChatRoom, getMessages } from "../../util/chat";
 import { ProfileContext } from "../../store/profileContext";
 import { getAccessToken } from "../../util/profile";
+import { getPushNotficationTokenToDB } from "../../util/auth";
+
 const SearchChat = (props) => {
     const profileCTX = useContext(ProfileContext);
     const [chatRoomID, setChatRoomID] = useState();
     const [senderID, setSenderID] = useState();
     const [recieverID, setRecieverID] = useState();
     const [messages, setMessages] = useState([]);
+    async function sendMessageNotification() {
+        const id = await AsyncStorage.getItem("searchID");
+        const response = await getPushNotficationTokenToDB(id);
+        if (response != null) {
+            fetch('https://exp.host/--/api/v2/push/send', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    to: response.data.token.data,
+                    title: "Bukd",
+                    body: "Someone sent you a message",
+                    data: { userID: id },
+                }),
+                // data: "test"
+
+            })
+        }
+
+    }
+
     async function send(message) {
         const accessToken = await getAccessToken();
         if (chatRoomID == null) {
@@ -35,8 +59,10 @@ const SearchChat = (props) => {
                 props.route.params.displayName, accessToken);
             setChatRoomID(newChat);
             await sendMessage(newChat, message, senderID, accessToken);
+            sendMessageNotification();
         } else {
             await sendMessage(chatRoomID, message, senderID, accessToken);
+            sendMessageNotification();
         }
     }
 

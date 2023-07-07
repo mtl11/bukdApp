@@ -73,11 +73,11 @@ const MyShowsList = (props) => {
                             </View>
                         </View>
                     </View>
-                    <View style={{marginVertical: "3%"}}>
-                        <Text style={[styles.smallText,{color: global.color.secondaryColors.placeHolderTextColor}]}>
+                    <View style={{ marginVertical: "3%" }}>
+                        <Text style={[styles.smallText, { color: global.color.secondaryColors.placeHolderTextColor }]}>
                             Applied on {appliedDate}
                         </Text>
-                    </View> 
+                    </View>
                     <Text style={{
                         alignSelf: "center", marginTop: 5, fontFamily: "Rubik-Regular",
                         fontSize: 16,
@@ -142,15 +142,18 @@ const MyShowsList = (props) => {
             const flatListData = [];
             for (const x in rawData) {
                 const retrievedData = await getShowData(rawData[x].showID, rawData[x].location);
+                console.log(retrievedData);
+                if (retrievedData != null) {
+                    if (rawData[x].hasOwnProperty("message")) {
 
-                if (rawData[x].hasOwnProperty("message")) {
-
-                    retrievedData["message"] = rawData[x].message;
-                }
-                if (rawData[x].hasOwnProperty("appliedToDate")) {
-                    retrievedData["appliedToDate"] = rawData[x].appliedToDate;
-                }
+                        retrievedData["message"] = rawData[x].message;
+                    }
+                    if (rawData[x].hasOwnProperty("appliedToDate")) {
+                        retrievedData["appliedToDate"] = rawData[x].appliedToDate;
+                    }
+               
                 flatListData.push(retrievedData);
+            }
             }
             setData(flatListData)
         }
@@ -166,10 +169,11 @@ const MyShowsList = (props) => {
     if (gettingShows == false) {
         return (
             <FlatList
-                style={{ height: "100%" }}
+                // style={{ height: "100%" }}
+                showsVerticalScrollIndicator={false}
                 data={data}
                 renderItem={renderItem}
-                contentContainerStyle={{ marginTop: "2.5%" }}
+                contentContainerStyle={{ marginTop: "2.5%", paddingBottom: 100 }}
                 ListEmptyComponent={() => {
                     return (
                         <View>

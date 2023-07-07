@@ -7,15 +7,41 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { addAppliedShowToProfile, applyToShow } from "../../util/shows";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getAccessToken } from "../../util/profile";
-
+ 
+import { getPushNotficationTokenToDB } from "../../util/auth";
 const ApplyModal = (props) => {
     const [message, setMessage] = useState("");
 
+    async function sendMessageNotification(id) {
+        // const id = await AsyncStorage.getItem("searchID");
+        const response = await getPushNotficationTokenToDB(id);
+        // console.log(response.data);
+        if (response != null) {
+            fetch('https://exp.host/--/api/v2/push/send', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    to: response.data.token.data,
+                    title: "Bukd",
+                    body: "Someone applied to your show !",
+                    data: { userID: id },
+                }),
+                // data: "test"
+
+            })
+        }
+
+    }
+    // console.log(props)
     async function apply(){
+        // console.log(props.venueID)
         const localId = await AsyncStorage.getItem("localId");
         const accessToken = await getAccessToken();
         await applyToShow(message, props.showID, props.location, localId, accessToken);
         await addAppliedShowToProfile(message, props.showID, props.location, localId, accessToken);
+        sendMessageNotification(props.venueID);
     }
     return (
         <Modal

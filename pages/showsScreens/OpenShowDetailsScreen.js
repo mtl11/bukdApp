@@ -196,6 +196,7 @@ const OpenShowDetails = (props) => {
                 visible={applyVisible}
                 setVisible={setApplyVisible}
                 showID={data.showID}
+                venueID={data.venueID}
                 location={data.location}
                 setApplied={setApplied}
                 props={props} />

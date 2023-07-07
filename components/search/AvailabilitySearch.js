@@ -151,7 +151,7 @@ const AvailabilitySearch = (props) => {
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 250}}>
       <View style={styles.singleContainer}>
         <View style={styles.headerContainer}>
           <Ionicons

@@ -8,8 +8,17 @@ import {
 import global from "../../styles/global";
 import EditShowDetailsModal from "./EditShowDetailsModal";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAccessToken } from "../../util/profile";
+import { deleteShow } from "../../util/shows";
 const VenueShowDetails = (props) => {
     const [data, setData] = useState(props.data);
+
+    async function deleteShowHelper(){
+        const localId = await AsyncStorage.getItem("localId");
+        const accessToken = await getAccessToken();
+        deleteShow(props.data.showID, props.data.location, localId, accessToken)
+    }
 
     const deleteAlert = () => {
         Alert.alert("Are you sure you want to delete this show?", "", [
@@ -20,7 +29,7 @@ const VenueShowDetails = (props) => {
           },
           {
             text: "Delete",
-            onPress: () => { props.navigation.pop(); },
+            onPress: () => { deleteShowHelper(), props.navigation.pop(); },
             style: "destructive",
           },
     
