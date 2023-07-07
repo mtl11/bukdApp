@@ -31,10 +31,8 @@ const MyShowDetailsScreen = (props) => {
     const end = formatAMPM(new Date(data.endTime));
     const exiprationDate = new Date(data.postsExpire).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
     const date = new Date(data.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
-    (data)
     return (
         <SafeAreaView style={{ height: "100%", backgroundColor: "white" }}>
-            {/* <View style={{justifyContent:"space-between"}}> */}
             <View>
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <TouchableOpacity
@@ -52,7 +50,6 @@ const MyShowDetailsScreen = (props) => {
                     <TouchableOpacity
                         style={styles.topIconContainer}
                         onPress={() => {
-                            // (data.venueID)
                             AsyncStorage.setItem("searchID", data.venueID);
                             props.navigation.navigate("SearchArtistProfile");
                         }}

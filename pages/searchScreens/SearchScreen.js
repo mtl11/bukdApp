@@ -62,7 +62,6 @@ const SearchScreen = (props) => {
     } else {
       const profiletype = await getProfileInfo(localId);
       await AsyncStorage.setItem("profileType", profiletype.profileType);
-      (profiletype);
       getPerformers("Tucson, AZ");
       getVenues("Tucson, AZ");
     }

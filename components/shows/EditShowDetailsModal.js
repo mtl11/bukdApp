@@ -30,12 +30,14 @@ const EditShowDetailsModal = (props) => {
         const accessToken = await getAccessToken();
         // (props.data);
         props.setData({
+            uri: props.data.uri,
             applicants: props.data.applicants, venueName: props.data.venueName, location: props.data.location, genreNeeded: genre,
             typeNeeded: typeNeeded, date: date, startTime: startTime, endTime: endTime, maxApplicants: maxApplicants,
             compensationStart: compensationStart, compensationEnd: compensationEnd, equipment: props.data.equipment,
             description: description, postsExpire: expirationDate, datePosted: props.data.datePosted, venueID: localId
         })
         await editShow({
+            uri: props.data.uri,
             applicants: props.data.applicants, venueName: props.data.venueName, location: props.data.location, genreNeeded: genre,
             typeNeeded: typeNeeded, date: date, startTime: startTime, endTime: endTime, maxApplicants: maxApplicants,
             compensationStart: compensationStart, compensationEnd: compensationEnd, equipment: props.data.equipment,
@@ -48,17 +50,16 @@ const EditShowDetailsModal = (props) => {
         <Modal
             isVisible={props.visible} avoidKeyboard={true} style={{ backgroundColor: "white" }}>
             <SafeAreaView style={{
-                flex: 1,
                 borderRadius: 12,
             }}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{ flexDirection: "row" }}>
                     <TouchableOpacity style={{ justifyContent: "flex-end" }} onPress={() => {
                         props.setVisible(!props.visible)
                     }}>
                         <Ionicons name="close-circle-outline" size={28} color={global.color.primaryColors.main} />
                     </TouchableOpacity>
                 </View>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:50}}>
                     <View style={{ marginHorizontal: "3%" }}>
                         <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: "5%" }}>
                             <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16 }}>

@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     FlatList,
     ActivityIndicator,
-    Button
+    Button,
+    Image
 } from "react-native";
 import SearchDropDown from "../../components/search/SearchDropDown";
 import { locations } from "../../models/dropdownData";
@@ -60,32 +61,38 @@ const NoAuthShowsList = (props) => {
         const datePosted = new Date(item.date).toLocaleString('default', { year: 'numeric', month: 'long', day: 'numeric' });
         // (item)
         return (
-            <View style={styles.showContainer}>
-                <View style={{ padding: "3%", width: "100%" }}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
-                        <View style={{ flexDirection: "column" }}>
-                            <View style={{}}>
+            <View style={styles.showContainer} >
+                <View style={{ padding: "5%", width: "100%", }}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                        <View>
+                            <Image
+                                source={{ uri: item.uri }}
+                                style={{ height: 110, width: 110, borderRadius: 12, backgroundColor: global.color.secondaryColors.adjacent }}
+                            />
+                        </View>
+                        <View style={{ alignItems: "flex-end" }}>
+
+                            <View style={{ marginBottom: 5 }}>
                                 <Text style={styles.dateText}>{dayOfWeek}, {month} {day}</Text>
                             </View>
-                            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 5 }}>
                                 <Ionicons name="musical-notes-outline" size={20} color="black" />
                                 <View style={{ alignSelf: 'center' }}>
                                     <Text style={styles.dateTextSmall}>{item.typeNeeded} - {item.genreNeeded}</Text>
                                 </View>
                             </View>
-                        </View>
-                        <View style={{ flexDirection: "column" }}>
-                            <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                <EvilIcons name="clock" size={28} color={global.color.secondaryColors.placeHolderTextColor} />
+
+                            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 5 }}>
+                                <EvilIcons name="clock" size={28} ccolor="black" />
                                 <Text style={styles.smallText}>
                                     {start} - {end}
                                 </Text>
                             </View>
-                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", }}>
                                 <Ionicons
                                     name="location-outline"
                                     size={24}
-                                    color={global.color.secondaryColors.placeHolderTextColor}
+                                    color="black"
                                 />
                                 <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText,]} >
                                     {item.venueName}
@@ -93,16 +100,63 @@ const NoAuthShowsList = (props) => {
                             </View>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={() => {
+                    <TouchableOpacity onPress={()=>{
                         AsyncStorage.setItem("searchID", item.venueID);
-                        props.props.navigation.navigate("SearchArtistProfile");
-                    }}>
-                        <Text style={{ fontSize: 16, fontFamily: "Rubik-Regular", color: global.color.primaryColors.main }} >
-                            View Profile
-                        </Text>
+                        props.props.navigation.navigate("SearchArtistProfile");}}>
+                    <Text style={{
+                        alignSelf: "center", marginTop: 5, fontFamily: "Rubik-Regular",
+                        fontSize: 16,
+                        color: global.color.primaryColors.main
+                    }} >
+                        View Profile
+                    </Text>
                     </TouchableOpacity>
                 </View>
+
             </View>
+            // <View style={styles.showContainer}>
+            //     <View style={{ padding: "3%", width: "100%" }}>
+            //         <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
+            //             <View style={{ flexDirection: "column" }}>
+            //                 <View style={{}}>
+            //                     <Text style={styles.dateText}>{dayOfWeek}, {month} {day}</Text>
+            //                 </View>
+            //                 <View style={{ flexDirection: "row", alignItems: "center" }}>
+            //                     <Ionicons name="musical-notes-outline" size={20} color="black" />
+            //                     <View style={{ alignSelf: 'center' }}>
+            //                         <Text style={styles.dateTextSmall}>{item.typeNeeded} - {item.genreNeeded}</Text>
+            //                     </View>
+            //                 </View>
+            //             </View>
+            //             <View style={{ flexDirection: "column" }}>
+            //                 <View style={{ flexDirection: "row", alignItems: "center" }}>
+            //                     <EvilIcons name="clock" size={28} color={global.color.secondaryColors.placeHolderTextColor} />
+            //                     <Text style={styles.smallText}>
+            //                         {start} - {end}
+            //                     </Text>
+            //                 </View>
+            //                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
+            //                     <Ionicons
+            //                         name="location-outline"
+            //                         size={24}
+            //                         color={global.color.secondaryColors.placeHolderTextColor}
+            //                     />
+            //                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText,]} >
+            //                         {item.venueName}
+            //                     </Text>
+            //                 </View>
+            //             </View>
+            //         </View>
+            //         <TouchableOpacity onPress={() => {
+            //             AsyncStorage.setItem("searchID", item.venueID);
+            //             props.props.navigation.navigate("SearchArtistProfile");
+            //         }}>
+            //             <Text style={{ fontSize: 16, fontFamily: "Rubik-Regular", color: global.color.primaryColors.main }} >
+            //                 View Profile
+            //             </Text>
+            //         </TouchableOpacity>
+            //     </View>
+            // </View>
         )
     }, [])
 
@@ -124,11 +178,21 @@ const NoAuthShowsList = (props) => {
                     blur={getShowsAtLocation}
                 />
             </View>
+            <View
+                style={{
+                    flexDirection: "row",
+                    marginHorizontal: "5%",
+                    marginTop: "2.5%",
+                }}
+            >
+                <Text style={styles.headerText}>Shows Near Me</Text>
+            </View>
             <FlatList
                 showsVerticalScrollIndicator={false}
+                
                 data={getData()}
                 renderItem={renderItem}
-                style={{ height: "95%" }}
+                style={{ height: "90%" }}
                 contentContainerStyle={{ marginTop: "2.5%" }}
             />
         </View>
@@ -191,10 +255,14 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 18, fontFamily: "Rubik-SemiBold"
     }, smallText: {
-        color: global.color.secondaryColors.placeHolderTextColor,
+        color: "black",
         fontFamily: "Rubik-Regular",
         fontSize: 14
-    }
+    },
+    headerText: {
+        fontFamily: "Rubik-SemiBold",
+        fontSize: 20,
+    },
 })
 
 export default NoAuthShowsList;
