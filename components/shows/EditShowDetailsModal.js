@@ -22,8 +22,8 @@ const EditShowDetailsModal = (props) => {
     const [maxApplicants, setMaxApplicants] = useState(props.data.maxApplicants);
     const [compensationStart, setCompensationStart] = useState(props.data.compensationStart);
     const [compensationEnd, setCompensationEnd] = useState(props.data.compensationEnd);
-    const [expirationDate, setExpirationDate] = useState(new Date());
-    // (props.data);
+    const [expirationDate, setExpirationDate] = useState(new Date(props.data.postsExpire));
+    console.log(props.data);
 
     async function editShowDetails() {
         const localId = await AsyncStorage.getItem("localId")
@@ -95,6 +95,7 @@ const EditShowDetailsModal = (props) => {
                                 Date
                             </Text>
                             <DateTimePicker
+                                style={{ alignSelf: "stretch" }}
                                 themeVariant={"light"}
                                 testID="dateTimePicker"
                                 value={date}
@@ -108,7 +109,6 @@ const EditShowDetailsModal = (props) => {
                         </View>
                         <View style={{
                             flexDirection: "row",
-                            marginHorizontal: 30,
                             justifyContent: "space-between",
                             marginTop: "5%"
                         }}>
@@ -148,11 +148,10 @@ const EditShowDetailsModal = (props) => {
                         <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, marginTop: "5%" }}>
                             Max Applicants
                         </Text>
-                        <View style={[styles.inputContainer, { marginTop: 0 }]}>
-
+                        <View style={[styles.inputContainer, { marginTop: 0, alignSelf:"flex-start" }]}>
                             <TextInput
                                 style={styles.input}
-                                placeholder={"Max Applicants"}
+                                placeholder={"100"}
                                 placeholderTextColor={global.color.secondaryColors.placeHolderTextColor}
                                 onChangeText={setMaxApplicants}
                                 value={maxApplicants}
@@ -167,7 +166,6 @@ const EditShowDetailsModal = (props) => {
                         </Text>
                         <View style={{
                             flexDirection: "row",
-                            marginHorizontal: 30,
                             justifyContent: "space-between",
                             // marginTop: "5%"
                         }}>

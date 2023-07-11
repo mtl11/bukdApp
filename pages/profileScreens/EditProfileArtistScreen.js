@@ -199,7 +199,6 @@ const EditProfileArtistScreen = (props) => {
     if (profileCTX.social != undefined) {
       if (profileCTX.social[pType] != undefined) {
         if (profileCTX.social[pType].username != undefined) {
-          console.log(profileCTX.social[pType].username);
           return profileCTX.social[pType].username;
         } else {
           return ""

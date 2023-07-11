@@ -29,7 +29,8 @@ export default TabNav = (props) => {
           }
           else if (route.name === "Shows") {
             // iconName = focused ? "ios-briefcase-sharp" : "ios-briefcase-outline";
-            return <Entypo name="modern-mic" size={24} color={color} />;
+            iconName = focused ? "musical-notes-sharp" : "musical-notes-outline";
+            return <Ionicons name={iconName} size={30} color={color} />;
           }
           return <FontAwesome5 name={iconName} size={size} color={color} />;
         },

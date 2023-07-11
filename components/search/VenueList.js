@@ -7,6 +7,7 @@ import {
   ImageBackground,
   FlatList,
   ActivityIndicator,
+  RefreshControl
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
@@ -24,13 +25,19 @@ const VenueList = (props) => {
       props.props.navigation.navigate("SearchArtistProfile");
     }
   }
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    props.getVenues(props.location);
+    setRefreshing(false);
+  }, []);
 
+  const [refreshing, setRefreshing] = useState(false);
   const renderItem = useCallback(({ item }) => {
     return (
       <TouchableOpacity
         style={styles.individualContainer}
         onPress={() => {
-          check(item.uuid)
+          check(item.uuid);
         }
         }
       >
@@ -62,10 +69,15 @@ const VenueList = (props) => {
     }
   }
   return (
-    <View>
+    <View style={{height:"100%"}}>
       <FlatList
         maxToRenderPerBatch={8}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing} onRefresh={onRefresh}
+          />
+        }
         ListEmptyComponent={
           <View style={{ alignItems: "center", marginTop: "40%" }}>
             <Ionicons
@@ -79,15 +91,11 @@ const VenueList = (props) => {
                 { color: global.color.primaryColors.adjacent },
               ]}
             >
-              {props.venues == undefined ? "Please Select a Location" : "No Results"}
+              {/* {props.venues == undefined ? "Please Select a Location" : "No Results"} */}
+              No Results
             </Text>
           </View>
         }
-        // ListHeaderComponent={props.venues && <View style={{ marginBottom: "5%", marginHorizontal: "2.5%" }}>
-        //   <Text style={{ fontSize: 18, fontFamily: "Rubik-Medium" }}>
-        //     New Venues To Bukd
-        //   </Text>
-        // </View>}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         numColumns={2}
         style={styles.list}
@@ -130,7 +138,7 @@ const styles = StyleSheet.create({
   list: {
     marginHorizontal: "2.5%",
     marginTop: 10,
-    marginBottom: "65%",
+    marginBottom: 300,
   },
   individualContainer: {
     width: 165,

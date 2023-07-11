@@ -24,7 +24,7 @@ import CategorySelector from "../../components/search/CategorySelector";
 import PerformerCategorySelector from "../../components/search/PerformerCategorySelector";
 import PerformerList from "../../components/search/PerformerList";
 const SearchScreen = (props) => {
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState("Tucson, AZ");
   const [performerCategory, setPerformerCategory] = useState("All Categories");
   const [venueCategory, setVenueCategory] = useState("All Categories");
   const [venues, setVenues] = useState(null);
@@ -41,6 +41,8 @@ const SearchScreen = (props) => {
     } else {
       setVenues(venues);
     }
+
+    await getPerformers(location);
   }
 
   async function getPerformers(location) {
@@ -50,6 +52,7 @@ const SearchScreen = (props) => {
     } else {
       setPerformers(performers);
     }
+    await getVenues(location);
   }
 
   async function profileType() {
@@ -145,9 +148,9 @@ const SearchScreen = (props) => {
             </TouchableOpacity>
           </View>
           {venuesShow == false ? (
-            <PerformerList venues={performers} category={performerCategory} props={props}  />
+            <PerformerList venues={performers} category={performerCategory} props={props}  getPerformers={getPerformers} location={location}/>
           ) : (
-            <VenueList venues={venues} category={venueCategory} props={props}  />
+            <VenueList venues={venues} category={venueCategory} props={props}  getVenues={getVenues} location={location}/>
           )}
         </View>
       ) : (

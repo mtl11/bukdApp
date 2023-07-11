@@ -1,22 +1,24 @@
 export const profileCategoriesArtist = [
   { label: "All Categories", value: "0" },
   { label: "Band", value: "1" },
-  { label: "DJ", value: "2" },
-  { label: "Singer", value: "3" },
-  { label: "Cover Band", value: "4" },
+  { label: "Cover Band", value: "2" },
+  { label: "DJ", value: "3" },
+  { label: "Singer", value: "4" },
+ 
 ];
 
 export const profileCategoriesVenue = [
   { label: "All Categories", value: "0" },
   { label: "Bar", value: "1" },
-  { label: "Restaurant", value: "2" },
+  { label: "Brewery", value: "4" },
   { label: "Night Club", value: "3" },
+  { label: "Restaurant", value: "2" },
 ];
 
 export const profileCategoriesArtistEdit = [
   { label: "Band", value: "0" },
-  { label: "DJ", value: "1" },
   { label: "Cover Band", value: "2" },
+  { label: "DJ", value: "1" },
   { label: "Singer", value: "3" },
 ];
 
@@ -27,13 +29,19 @@ export const profileCategoriesVenueEdit = [
 ];
 
 export const locations = [
-  { label: "Tucson, AZ", value: "1" },
-  // { label: "Denver, CO", value: "2",disabled: true },
-  // { label: "Las Vegas, NV", value: "3" },
-  // { label: "Los Angeles, CA", value: "4" },
-  // { label: "Miami, FL", value: "5" },
-  // { label: "San Francsico, CA", value: "6" },
-  // { label: "Seattle, WA", value: "7" },
+  { label: "Flagstaff, AZ", value: "1" },
+  { label: "Phoenix, AZ", value: "2" },
+  { label: "Prescott, AZ", value: "3" },
+  { label: "Scottsdale, AZ", value: "4" },
+  { label: "Tempe, AZ", value: "5" },
+  { label: "Tucson, AZ", value: "6" },
+  { label: "Anaheim, CA", value: "7" },
+  { label: "Huntington Beach, CA", value: "8" },
+  { label: "Irvine, CA", value: "9" },
+  { label: "Orange, CA", value: "10" },
+  { label: "Newport Beach, CA", value: "11" },
+  { label: "Santa Ana, CA", value: "12" },
+  
 ];
 
 export const subCategories = [

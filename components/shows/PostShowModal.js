@@ -132,7 +132,6 @@ const PostShowModal = (props) => {
                         </View>
                         <View style={{
                             flexDirection: "row",
-                            marginHorizontal: 30,
                             justifyContent: "space-between",
                             marginTop: "5%"
                         }}>
@@ -172,10 +171,10 @@ const PostShowModal = (props) => {
                         <Text style={{ fontFamily: "Rubik-Regular", fontSize: 16, marginTop: "5%" }}>
                             Max Applicants
                         </Text>
-                        <View style={[styles.inputContainer, { marginTop: 0 }]}>
+                        <View style={[styles.inputContainer, { marginTop: 0, alignSelf:"flex-start",}]}>
                             <TextInput
                                 style={styles.input}
-                                placeholder={"100 Applicants"}
+                                placeholder={"100"}
                                 placeholderTextColor={global.color.secondaryColors.placeHolderTextColor}
                                 onChangeText={setMaxApplicants}
                                 value={maxApplicants}
@@ -194,7 +193,6 @@ const PostShowModal = (props) => {
                         </Text>
                         <View style={{
                             flexDirection: "row",
-                            marginHorizontal: 30,
                             justifyContent: "space-between",
                         }}>
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -205,7 +203,7 @@ const PostShowModal = (props) => {
                                 }}>
                                     $
                                 </Text>
-
+ 
                                 <View style={[styles.inputContainer, { margin: 0, },]}>
                                     <TextInput
                                         style={styles.input}

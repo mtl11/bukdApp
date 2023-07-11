@@ -15,7 +15,6 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useIsFocused } from "@react-navigation/native";
 const MyShowsListVenue = (props) => {
     const onRefresh = React.useCallback(() => {
-        console.log("hi")
         setRefreshing(true);
         props.refreshData();
         // setTimeout(() => {

@@ -7,11 +7,13 @@ import {
   ImageBackground,
   FlatList,
   ActivityIndicator,
+  RefreshControl
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../store/authContext";
+import { useIsFocused } from "@react-navigation/native";
 
 const VenueList = (props) => {
   const authCTX = useContext(AuthContext);
@@ -25,6 +27,16 @@ const VenueList = (props) => {
       props.props.navigation.navigate("SearchArtistProfile");
     }
   }
+
+  const onRefresh = React.useCallback(() => {
+    console.log(location);
+    setRefreshing(true);
+    props.getPerformers(props.location);
+    setRefreshing(false);
+  }, [props]);
+
+  const [refreshing, setRefreshing] = useState(false);
+
   const renderItem = useCallback(({ item }) => {
     return (
       <TouchableOpacity
@@ -63,10 +75,15 @@ const VenueList = (props) => {
   }
 
   return (
-    <View>
+    <View style={{height:"100%"}}>
       <FlatList
         maxToRenderPerBatch={8}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing} onRefresh={onRefresh}
+          />
+        }
         ListEmptyComponent={
           <View style={{ alignItems: "center", marginTop: "40%" }}>
             <Ionicons
@@ -80,15 +97,10 @@ const VenueList = (props) => {
                 { color: global.color.primaryColors.adjacent },
               ]}
             >
-              {props.venues == undefined ? "Please Select a Location" : "No Results"}
+              {"No Results"}
             </Text>
           </View>
         }
-        // ListHeaderComponent={props.venues && <View style={{ marginBottom: "5%", marginHorizontal: "2.5%" }}>
-        //   <Text style={{ fontSize: 18, fontFamily: "Rubik-Medium" }}>
-        //     New Performers To Bukd
-        //   </Text>
-        // </View>}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         numColumns={2}
         style={styles.list}
@@ -102,16 +114,13 @@ const VenueList = (props) => {
 
 const styles = StyleSheet.create({
   textContainer: {
-    // backgroundColor: "rgba(0,0,0,0.6)",
     height: "100%",
     borderRadius: 10,
     justifyContent: "flex-end",
     textAlign: "center"
   },
   bigText: {
-    // alignSelf: "center",
     paddingHorizontal: 10,
-    // justifyContent:"center",
     textAlign: "center",
     fontFamily: "Rubik-SemiBold",
     fontSize: 16,
@@ -131,7 +140,8 @@ const styles = StyleSheet.create({
   list: {
     marginHorizontal: "2.5%",
     marginTop: 10,
-    marginBottom: "65%",
+    marginBottom: 300,
+    flexGrow:1
   },
   individualContainer: {
     width: 165,
