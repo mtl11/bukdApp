@@ -15,13 +15,11 @@ import { useIsFocused } from "@react-navigation/native";
 
 const ShowScreen = (props) => {
     const isFocused = useIsFocused();
-    // const profileCTX = useContext(ProfileContext);
     const authCTX = useContext(AuthContext);
     const profileCTX = useContext(ProfileContext);
     const [pType, setProfileType] = useState("");
     const [userLocation, setUserLocation] = useState("");
-    const [username, setUsername] = useState("")
-    // const [location]
+    const [username, setUsername] = useState("");
     async function profileType() {
         const localId = await AsyncStorage.getItem("localId");
         if (authCTX.isAuthenticated) {
@@ -53,7 +51,7 @@ const ShowScreen = (props) => {
 
     useEffect(() => {
         profileType();
-    }, [authCTX, isFocused])
+    }, [authCTX, isFocused]);
     if (authCTX.isAuthenticated) {
         return (
             <SafeAreaView style={{

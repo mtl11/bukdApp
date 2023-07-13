@@ -16,9 +16,9 @@ const VenueSection = (props) => {
     return (
         <View>
             <TouchableOpacity
-                disabled={profileCTX.shows.length >=5}
+                disabled={profileCTX.shows.length >=3}
                 style={{
-                    opacity: profileCTX.shows.length >=5 && .5,
+                    opacity: profileCTX.shows.length >=3 && .5,
                     alignItems: "center",
                     padding: 16,
                     marginHorizontal: "8%",
@@ -39,7 +39,7 @@ const VenueSection = (props) => {
             </TouchableOpacity>
             <View style={{ alignItems: "center", marginTop:"2.5%" }}>
                 <Text style={{ fontSize: 14, fontFamily: "Rubik-Regular", color: global.color.secondaryColors.placeHolderTextColor }}>
-                    Maximum Shows: 5
+                    Maximum Shows: 3
                 </Text>
             </View>
             {/* <Style */}

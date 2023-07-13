@@ -14,7 +14,7 @@ import { deleteShow } from "../../util/shows";
 const VenueShowDetails = (props) => {
     const [data, setData] = useState(props.data);
 
-    async function deleteShowHelper(){
+    async function deleteShowHelper() {
         const localId = await AsyncStorage.getItem("localId");
         const accessToken = await getAccessToken();
         deleteShow(props.data.showID, props.data.location, localId, accessToken)
@@ -22,19 +22,19 @@ const VenueShowDetails = (props) => {
 
     const deleteAlert = () => {
         Alert.alert("Are you sure you want to delete this show?", "", [
-          {
-            text: "Cancel",
-            onPress: () => {},
-            style: "destructive",
-          },
-          {
-            text: "Delete",
-            onPress: () => { deleteShowHelper(), props.navigation.pop(); },
-            style: "destructive",
-          },
-    
+            {
+                text: "Cancel",
+                onPress: () => { },
+                style: "destructive",
+            },
+            {
+                text: "Delete",
+                onPress: () => { deleteShowHelper(), props.navigation.pop(); },
+                style: "destructive",
+            },
+
         ]);
-      };
+    };
 
     function formatAMPM(date) {
         var hours = date.getHours();

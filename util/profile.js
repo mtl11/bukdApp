@@ -287,3 +287,13 @@ export async function setVenueInList(location, category, name, uuid, profilePicU
     console.log(error.response);
   });
 }
+
+export async function removePreviousLocation(location, uuid, accessToken) {
+  if (location == "Tucson, AZ") {
+    location = "Tuscon, AZ"
+  }
+  const response = await firebaseUtil.delete("/performers/" + location + "/" + uuid + ".json?auth=" + accessToken,
+  ).catch((error) => {
+    console.log(error.response);
+  });
+}

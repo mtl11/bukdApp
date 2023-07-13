@@ -120,8 +120,11 @@ const ProfileScreen = (props) => {
         const myShows = [];
         for (const x in otherInfo.shows) {
           const response = await getShowData(x, otherInfo.about.location);
-          response["showID"] = x;
+          if (response != null) {
+            response["showID"] = x;
           myShows.push(response);
+
+        }
         }
         profileCTX.changeShow(myShows);
       } else {

@@ -1,15 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
-  Image,
-  ActivityIndicator,
-  Button
-} from "react-native";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+  ActivityIndicator} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
 import { TextInput } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";

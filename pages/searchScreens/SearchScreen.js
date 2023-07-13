@@ -42,7 +42,7 @@ const SearchScreen = (props) => {
       setVenues(venues);
     }
 
-    await getPerformers(location);
+    // await getPerformers(location);
   }
 
   async function getPerformers(location) {
@@ -52,7 +52,7 @@ const SearchScreen = (props) => {
     } else {
       setPerformers(performers);
     }
-    await getVenues(location);
+    // await getVenues(location);
   }
 
   async function profileType() {
@@ -72,7 +72,7 @@ const SearchScreen = (props) => {
 
   const [performersShow, setPerformersShow] = useState(true);
   const [venuesShow, setVenuesShow] = useState(false);
-
+  console.log(location);
   useEffect(() => {
     setAuth(false);
     profileType();
@@ -89,7 +89,8 @@ const SearchScreen = (props) => {
                 placeholder={"Tucson, AZ"}
                 data={locations}
                 icon={"ios-location-outline"}
-                blur={getPerformers}
+                getPerformers={getPerformers}
+                getVenues={getVenues}
               />
             ) : (
               <SearchDropDown
@@ -97,7 +98,8 @@ const SearchScreen = (props) => {
                 placeholder={"Tucson, AZ"}
                 data={locations}
                 icon={"ios-location-outline"}
-                blur={getVenues}
+                getPerformers={getPerformers}
+                getVenues={getVenues}
               />
             )}
             {venuesShow == false ?

@@ -16,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import {
   getAccessToken,
   getProfilePic,
+  removePreviousLocation,
   setAboutInfo,
   setAvailabilityInfo,
   setPerformerInList,
@@ -45,7 +46,6 @@ const EditProfileArtistScreen = (props) => {
   const profileCTX = useContext(ProfileContext);
   const authCTX = useContext(AuthContext);
   const styles = authCTX.mode === "light" ? light : dark;
-
   async function update() {
     const localId = await AsyncStorage.getItem("localId");
     const accessToken = await getAccessToken();
@@ -91,6 +91,12 @@ const EditProfileArtistScreen = (props) => {
       await setPerformerInList(location, category, profilename, localId, profilePic, accessToken);
     } else {
       await setVenueInList(location, category, profilename, localId, profilePic, accessToken);
+    }
+
+    if (profileCTX.basicInfo.profileType == "performer") {
+      if (location != profileCTX.about.location) {
+        await removePreviousLocation(profileCTX.about.location, localId, accessToken);
+      }
     }
   }
 
@@ -307,9 +313,9 @@ const EditProfileArtistScreen = (props) => {
             marginHorizontal: "10%",
             marginTop: "5%"
           }}
-          onPress={()=>{
-            props.navigation.navigate("AddProfileLink");
-          }}
+            onPress={() => {
+              props.navigation.navigate("AddProfileLink");
+            }}
           >
             <Text style={{ color: global.color.primaryColors.main, fontSize: 16, fontFamily: "Rubik-Medium" }}>
               Add General Link
@@ -343,12 +349,18 @@ const EditProfileArtistScreen = (props) => {
 
           {/* {about ? ( */}
           <View>
-            <ProfileDropDown
-              data={locations}
-              setValue={setLocation}
-              value={profileCTX.about.location}
-              placeholder={locationPlaceholder()}
-            />
+            {profileCTX.basicInfo.profileType == "performer" ?
+              <ProfileDropDown
+                data={locations}
+                setValue={setLocation}
+                value={profileCTX.about.location}
+                placeholder={locationPlaceholder()}
+              /> :
+              <View style={{ marginHorizontal: "8%" }}>
+                <Text style={[styles.headerText, { fontSize: 16 }]}>
+                  {profileCTX.about.location}
+                </Text>
+              </View>}
             {profileCTX.basicInfo.profileType == "performer" ? (
               <ProfileDropDown
                 data={profileCategoriesArtistEdit}

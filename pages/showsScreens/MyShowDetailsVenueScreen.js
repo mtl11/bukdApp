@@ -10,6 +10,7 @@ import global from "../../styles/global";
 import { Ionicons } from '@expo/vector-icons';
 import VenueShowDetails from "../../components/shows/VenueShowDetails";
 import ApplicantList from "../../components/shows/ApplicantList";
+import TabViewVenue from "../../components/shows/TabVenueSection";
 const MyShowDetailsVenueScreen = (props) => {
     let data = props.route.params.data;
     const [details, setDetails] = useState(true);
@@ -17,7 +18,7 @@ const MyShowDetailsVenueScreen = (props) => {
 
     return (
         <SafeAreaView style={{ height: "100%", backgroundColor: "white" }}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <TouchableOpacity
                     style={styles.topIconContainer}
                     onPress={() => {
@@ -73,10 +74,12 @@ const MyShowDetailsVenueScreen = (props) => {
                         )}
                     </View>
                 </TouchableOpacity>
-            </View>
-
-            {details && <VenueShowDetails data={data} navigation={props.navigation}/>}
-            {applicants && (<ApplicantList data={data} props={props}/>)}
+            </View> */}
+            <TabViewVenue
+                data={data}
+                navigation={props.navigation}
+                props={props}
+            />
         </SafeAreaView>
     )
 }

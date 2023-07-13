@@ -81,7 +81,8 @@ const SearchDropDown = (props) => {
       onChange={(item) => {
         props.setValue(item.label);
         setValue(item.value);
-        props.blur(item.label);
+        props.getVenues(item.label);
+        props.getPerformers(item.label);
       }}
     />
   );

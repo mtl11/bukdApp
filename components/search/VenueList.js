@@ -73,11 +73,11 @@ const VenueList = (props) => {
       <FlatList
         maxToRenderPerBatch={8}
         showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing} onRefresh={onRefresh}
-          />
-        }
+        // refreshControl={
+        //   <RefreshControl
+        //     refreshing={refreshing} onRefresh={onRefresh}
+        //   />
+        // }
         ListEmptyComponent={
           <View style={{ alignItems: "center", marginTop: "40%" }}>
             <Ionicons
