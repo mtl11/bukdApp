@@ -119,6 +119,7 @@ const PostShowModal = (props) => {
                                 Date
                             </Text>
                             <DateTimePicker
+                                minimumDate={new Date()}
                                 themeVariant={"light"}
                                 testID="dateTimePicker"
                                 value={date}

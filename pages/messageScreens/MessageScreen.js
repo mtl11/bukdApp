@@ -30,8 +30,12 @@ const MessageScreen = (props) => {
   const [data, setData] = useState({});
   const [searchValue, setSearchValue] = useState("");
   const [gettingInfo, setGettingInfo] = useState(false);
+  const [profileType, setProfileType] = useState();
   async function getData() {
     setGettingInfo(true);
+    const ptype = await getProfileInfo(await AsyncStorage.getItem("localId"));
+    setProfileType(ptype.profileType);
+    if (ptype.profileType != "general"){
     const messageData = await getAllMessages(await AsyncStorage.getItem("localId"));
     if (messageData != null) {
       const array = [];
@@ -74,7 +78,7 @@ const MessageScreen = (props) => {
       setData(array);
     } else {
       setData(messageData);
-    }
+    }}
     setGettingInfo(false);
   }
 
@@ -86,19 +90,20 @@ const MessageScreen = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar setSearchValue={setSearchValue} searchValue={searchValue} />
-      {gettingInfo && <View style={{ height: "100%", justifyContent: "center" }}>
-        <MyLoader/>
-      </View>}
-      {authCTX.isAuthenticated ? (
+      {/* {gettingInfo && 
+      <View style={{ marginTop: "40%", justifyContent: "center" }}>
+        {/* <MyLoader/> 
+        {/* <ActivityIndicator size={"small"}/> 
+      </View>
+      } */}
+      {authCTX.isAuthenticated && profileType != "general"? (
         <MessagesLists data={data} searchValue={searchValue} props={props} refreshData={getData} />
       ) :
         <View style={{ alignItems: "center", marginTop: "5%" }}>
-          <Text style={{ fontFamily: "Rubik-Medium", fontSize: 20 }}>
-            Login or Sign up to Message
+          <Text style={{ fontFamily: "Rubik-Medium", fontSize: 18 }}>
+            Please login with a performer or venue profile
           </Text>
         </View>}
-
-
     </SafeAreaView>
   );
 };

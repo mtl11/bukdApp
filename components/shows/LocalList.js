@@ -101,6 +101,12 @@ const LocalList = (props) => {
             renderItem={renderItem}
             style={{height:"87.5%" }}
             contentContainerStyle={{ marginTop: "2.5%" }}
+            ListEmptyComponent={
+                <View style={{ marginTop: '50%' }}>
+                    <Text style={{ fontSize: 16, textAlign: 'center', fontFamily: "Rubik-Regular" }}>
+                        No shows in this area
+                    </Text>
+                </View>}
         />
 
     )

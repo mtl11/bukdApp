@@ -95,6 +95,7 @@ const EditShowDetailsModal = (props) => {
                                 Date
                             </Text>
                             <DateTimePicker
+                                // minimumDate={date}
                                 style={{ alignSelf: "stretch" }}
                                 themeVariant={"light"}
                                 testID="dateTimePicker"

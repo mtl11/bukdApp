@@ -22,8 +22,7 @@ const PerformersSection = (props) => {
     const [usersShows, setUsersShows] = useState(false);
     const [showsData, setShowsData] = useState();
 
-    async function getShowsAtLocation(){
-        // (location)
+    async function getShowsAtLocation(location){
         const showsData = await getShowsDataAtLocation(location);
         if (showsData){
             const data = Object.entries(showsData);
@@ -35,11 +34,13 @@ const PerformersSection = (props) => {
                 // (item)
             }
             setShowsData(array);
+        }else{
+            setShowsData([]);
         }
     }
 
     useEffect(()=>{
-        getShowsAtLocation();
+        getShowsAtLocation(location);
     },[])
     return (
         <View>

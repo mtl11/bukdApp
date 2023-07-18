@@ -18,7 +18,7 @@ const MyShowDetailsVenueScreen = (props) => {
 
     return (
         <SafeAreaView style={{ height: "100%", backgroundColor: "white" }}>
-            {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
+             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <TouchableOpacity
                     style={styles.topIconContainer}
                     onPress={() => {
@@ -32,6 +32,7 @@ const MyShowDetailsVenueScreen = (props) => {
                     />
                 </TouchableOpacity>
             </View>
+            {/*
             <View
                 style={{
                     flexDirection: "row",

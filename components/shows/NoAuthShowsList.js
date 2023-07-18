@@ -24,9 +24,10 @@ const NoAuthShowsList = (props) => {
     const [location, setLocation] = useState("Tucson, AZ");
     const [showsData, setShowsData] = useState();
 
-    async function getShowsAtLocation() {
-        // (location)
+    async function getShowsAtLocation(location) {
+        console.log(location)
         const showsData = await getShowsDataAtLocation(location);
+        console.log(showsData);
         if (showsData) {
             const data = Object.entries(showsData);
             const array = [];
@@ -37,6 +38,8 @@ const NoAuthShowsList = (props) => {
                 // (item)
             }
             setShowsData(array);
+        } else {
+            setShowsData([]);
         }
     }
 
@@ -100,72 +103,29 @@ const NoAuthShowsList = (props) => {
                             </View>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={()=>{
+                    <TouchableOpacity onPress={() => {
                         AsyncStorage.setItem("searchID", item.venueID);
-                        props.props.navigation.navigate("SearchArtistProfile");}}>
-                    <Text style={{
-                        alignSelf: "center", marginTop: 5, fontFamily: "Rubik-Regular",
-                        fontSize: 16,
-                        color: global.color.primaryColors.main
-                    }} >
-                        View Profile
-                    </Text>
+                        props.props.navigation.navigate("SearchArtistProfile");
+                    }}>
+                        <Text style={{
+                            alignSelf: "center", marginTop: 5, fontFamily: "Rubik-Regular",
+                            fontSize: 16,
+                            color: global.color.primaryColors.main
+                        }} >
+                            View Profile
+                        </Text>
                     </TouchableOpacity>
                 </View>
-
             </View>
-            // <View style={styles.showContainer}>
-            //     <View style={{ padding: "3%", width: "100%" }}>
-            //         <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
-            //             <View style={{ flexDirection: "column" }}>
-            //                 <View style={{}}>
-            //                     <Text style={styles.dateText}>{dayOfWeek}, {month} {day}</Text>
-            //                 </View>
-            //                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-            //                     <Ionicons name="musical-notes-outline" size={20} color="black" />
-            //                     <View style={{ alignSelf: 'center' }}>
-            //                         <Text style={styles.dateTextSmall}>{item.typeNeeded} - {item.genreNeeded}</Text>
-            //                     </View>
-            //                 </View>
-            //             </View>
-            //             <View style={{ flexDirection: "column" }}>
-            //                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-            //                     <EvilIcons name="clock" size={28} color={global.color.secondaryColors.placeHolderTextColor} />
-            //                     <Text style={styles.smallText}>
-            //                         {start} - {end}
-            //                     </Text>
-            //                 </View>
-            //                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
-            //                     <Ionicons
-            //                         name="location-outline"
-            //                         size={24}
-            //                         color={global.color.secondaryColors.placeHolderTextColor}
-            //                     />
-            //                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText,]} >
-            //                         {item.venueName}
-            //                     </Text>
-            //                 </View>
-            //             </View>
-            //         </View>
-            //         <TouchableOpacity onPress={() => {
-            //             AsyncStorage.setItem("searchID", item.venueID);
-            //             props.props.navigation.navigate("SearchArtistProfile");
-            //         }}>
-            //             <Text style={{ fontSize: 16, fontFamily: "Rubik-Regular", color: global.color.primaryColors.main }} >
-            //                 View Profile
-            //             </Text>
-            //         </TouchableOpacity>
-            //     </View>
-            // </View>
         )
     }, [])
 
-    const getData = () => {
-        return showsData;
-    }
+    // const getData = () => {
+    //     return showsData;
+    // }
 
     useEffect(() => {
-        getShowsAtLocation();
+        getShowsAtLocation(location);
     }, [])
     return (
         <View>
@@ -189,8 +149,13 @@ const NoAuthShowsList = (props) => {
             </View>
             <FlatList
                 showsVerticalScrollIndicator={false}
-                
-                data={getData()}
+                ListEmptyComponent={
+                    <View style={{ marginTop: '50%' }}>
+                        <Text style={{ fontSize: 16, textAlign: 'center', fontFamily: "Rubik-Regular" }}>
+                            No shows in this area
+                        </Text>
+                    </View>}
+                data={showsData}
                 renderItem={renderItem}
                 style={{ height: "90%" }}
                 contentContainerStyle={{ marginTop: "2.5%" }}
