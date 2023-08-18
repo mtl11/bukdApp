@@ -27,8 +27,8 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "12",
-      "supportsTablet": true,
+      "buildNumber": "14",
+      "supportsTablet": false,
       "bundleIdentifier": "com.bukdapp.bukd"
     },
     "android": {

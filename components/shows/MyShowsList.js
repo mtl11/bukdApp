@@ -87,49 +87,6 @@ const MyShowsList = (props) => {
                     </Text>
                 </View>
             </TouchableOpacity>
-            /*<TouchableOpacity style={styles.showContainer} onPress={() => {
-            //     props.props.navigation.navigate("MyShowDetails", { data: item });
-            // }}>
-            //     <View style={{ padding: "3%", width: "100%" }}>
-            //         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            //             <View style={{ flexDirection: "column" }}>
-            //                 <View style={{ alignSelf: 'center' }}>
-            //                     <Text style={styles.dateText}>{dayOfWeek}, {month} {day}</Text>
-            //                 </View>
-            //                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-            //                     <Ionicons name="musical-notes-outline" size={20} color="black" />
-            //                     <View style={{ alignSelf: 'center' }}>
-            //                         <Text style={styles.dateTextSmall}>{item.typeNeeded} - {item.genreNeeded}</Text>
-            //                     </View>
-            //                 </View>
-            //             </View>
-            //             <View style={{ flexDirection: "column" }}>
-            //                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-            //                     <EvilIcons name="clock" size={28} color={global.color.secondaryColors.placeHolderTextColor} />
-            //                     <Text style={styles.smallText}>
-            //                         {start} - {end}
-            //                     </Text>
-            //                 </View>
-            //                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
-            //                     <Ionicons
-            //                         name="location-outline"
-            //                         size={24}
-            //                         color={global.color.secondaryColors.placeHolderTextColor}
-            //                     />
-            //                     <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.smallText,]} >
-            //                         {item.venueName}
-            //                     </Text>
-            //                 </View>
-            //             </View>
-            //         </View>
-            //         {/* <View>
-            //             <Text style={styles.smallText}>
-            //                 Applied on {appliedDate}
-            //             </Text>
-            //         </View> */
-            //     </View>
-            // </TouchableOpacity>
-            // *\}
         )
     })
 
@@ -169,7 +126,6 @@ const MyShowsList = (props) => {
     if (gettingShows == false) {
         return (
             <FlatList
-                // style={{ height: "100%" }}
                 showsVerticalScrollIndicator={false}
                 data={data}
                 renderItem={renderItem}

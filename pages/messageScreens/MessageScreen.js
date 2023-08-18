@@ -1,18 +1,29 @@
 import React, { useEffect, useState, useContext } from "react";
-import { SafeAreaView, StyleSheet, RefreshControl, View, Text, ActivityIndicator } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  RefreshControl,
+  View,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import global from "../../styles/global";
 import SearchBar from "../../components/messages/SearchBar";
 import MessagesLists from "../../components/messages/MessagesList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getAllMessages, getChatroomIdData, getChatroomRecieverID, getChatroomSenderID, getLastMessage } from "../../util/message";
+import {
+  getAllMessages,
+  getChatroomIdData,
+  getChatroomRecieverID,
+  getChatroomSenderID,
+  getLastMessage,
+} from "../../util/message";
 import { AuthContext } from "../../store/authContext";
 import { getProfilePic, getProfileInfo } from "../../util/profile";
 import { useIsFocused } from "@react-navigation/native";
-import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
-
+import ContentLoader, { Rect, Circle } from "react-content-loader/native";
 
 const MessageScreen = (props) => {
-
   const MyLoader = () => (
     <ContentLoader viewBox="-20 0 500 900">
       <Circle cx="40" cy="40" r="40" />
@@ -24,7 +35,7 @@ const MessageScreen = (props) => {
       <Rect x="100" y="230" rx="12" ry="12" width="330" height="20" />
       <Rect x="100" y="330" rx="12" ry="12" width="330" height="20" />
     </ContentLoader>
-  )
+  );
   const isFocused = useIsFocused();
   const authCTX = useContext(AuthContext);
   const [data, setData] = useState({});
@@ -35,50 +46,53 @@ const MessageScreen = (props) => {
     setGettingInfo(true);
     const ptype = await getProfileInfo(await AsyncStorage.getItem("localId"));
     setProfileType(ptype.profileType);
-    if (ptype.profileType != "general"){
-    const messageData = await getAllMessages(await AsyncStorage.getItem("localId"));
-    if (messageData != null) {
-      const array = [];
-      const values = Object.values(messageData);
-      for (const x in values) {
-        const myID = await AsyncStorage.getItem("localId");
-        const data = await getChatroomIdData(values[x].chatRoomID);
-        const firstUser = data.firstUser;
-        let senderID, recieverName;
-        if (firstUser == await AsyncStorage.getItem("localId")) {
-          senderID = data.secondUser;
-        } else {
-          senderID = firstUser;
-        }
-        const getName = await getProfileInfo(senderID);
+    // if (ptype.profileType != "general") {
+      const messageData = await getAllMessages(
+        await AsyncStorage.getItem("localId")
+      );
+      if (messageData != null) {
+        const array = [];
+        const values = Object.values(messageData);
+        for (const x in values) {
+          const myID = await AsyncStorage.getItem("localId");
+          const data = await getChatroomIdData(values[x].chatRoomID);
+          const firstUser = data.firstUser;
+          let senderID, recieverName;
+          if (firstUser == (await AsyncStorage.getItem("localId"))) {
+            senderID = data.secondUser;
+          } else {
+            senderID = firstUser;
+          }
+          const getName = await getProfileInfo(senderID);
 
-        if (getName.profileType == "general") {
-          recieverName = getName.firstName + " " + getName.lastName;
-        } else {
-          recieverName = getName.profileName
+          if (getName.profileType == "general") {
+            recieverName = getName.firstName + " " + getName.lastName;
+          } else {
+            recieverName = getName.profileName;
+          }
+          const lastMessage = data.lastMessage;
+          array.push({
+            chatRoomID: values[x].chatRoomID,
+            recieverName: recieverName,
+            lastMessage: lastMessage,
+            recieverID: senderID,
+            basicInfo: getName,
+            hasBeenChecked: data.hasBeenChecked,
+            myID: myID,
+          });
         }
-        const lastMessage = data.lastMessage;
-        array.push({
-          chatRoomID:
-            values[x].chatRoomID,
-          recieverName: recieverName,
-          lastMessage: lastMessage,
-          recieverID: senderID,
-          basicInfo: getName,
-          hasBeenChecked: data.hasBeenChecked,
-          myID: myID
-        })
-      }
-      array.sort(
-        function (a, b) {
+        array.sort(function (a, b) {
           if (a.lastMessage != null && b.lastMessage != null) {
-            return new Date(b.lastMessage.message.createdAt) - new Date(a.lastMessage.message.createdAt);
+            return (
+              new Date(b.lastMessage.message.createdAt) -
+              new Date(a.lastMessage.message.createdAt)
+            );
           }
         });
-      setData(array);
-    } else {
-      setData(messageData);
-    }}
+        setData(array);
+      } else {
+        setData(messageData);
+      }
     setGettingInfo(false);
   }
 
@@ -96,14 +110,20 @@ const MessageScreen = (props) => {
         {/* <ActivityIndicator size={"small"}/> 
       </View>
       } */}
-      {authCTX.isAuthenticated && profileType != "general"? (
-        <MessagesLists data={data} searchValue={searchValue} props={props} refreshData={getData} />
-      ) :
+      {authCTX.isAuthenticated ? (
+        <MessagesLists
+          data={data}
+          searchValue={searchValue}
+          props={props}
+          refreshData={getData}
+        />
+      ) : (
         <View style={{ alignItems: "center", marginTop: "5%" }}>
           <Text style={{ fontFamily: "Rubik-Medium", fontSize: 18 }}>
             Please login with a performer or venue profile
           </Text>
-        </View>}
+        </View>
+      )}
     </SafeAreaView>
   );
 };
