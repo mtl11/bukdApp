@@ -23,7 +23,7 @@ const SearchBarMessages = (props) => {
 }
 const styles = StyleSheet.create({
     headerText: {
-        fontSize: 20,
+        fontSize: 18,
         fontFamily: "Rubik-Regular",
         color: global.color.secondaryColors.text,
         // marginBottom: 10

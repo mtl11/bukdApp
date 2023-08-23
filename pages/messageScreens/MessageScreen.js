@@ -22,23 +22,14 @@ import { AuthContext } from "../../store/authContext";
 import { getProfilePic, getProfileInfo } from "../../util/profile";
 import { useIsFocused } from "@react-navigation/native";
 import ContentLoader, { Rect, Circle } from "react-content-loader/native";
+import UnAuthProfile from "../../components/profile/UnAuthProfile";
 
 const MessageScreen = (props) => {
-  const MyLoader = () => (
-    <ContentLoader viewBox="-20 0 500 900">
-      <Circle cx="40" cy="40" r="40" />
-      <Circle cx="40" cy="140" r="40" />
-      <Circle cx="40" cy="240" r="40" />
-      <Circle cx="40" cy="340" r="40" />
-      <Rect x="100" y="30" rx="12" ry="12" width="330" height="20" />
-      <Rect x="100" y="130" rx="12" ry="12" width="330" height="20" />
-      <Rect x="100" y="230" rx="12" ry="12" width="330" height="20" />
-      <Rect x="100" y="330" rx="12" ry="12" width="330" height="20" />
-    </ContentLoader>
-  );
   const isFocused = useIsFocused();
   const authCTX = useContext(AuthContext);
   const [data, setData] = useState({});
+
+  const [visible, setVisible] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [gettingInfo, setGettingInfo] = useState(false);
   const [profileType, setProfileType] = useState();
@@ -99,17 +90,13 @@ const MessageScreen = (props) => {
   useEffect(() => {
     if (authCTX.isAuthenticated) {
       getData();
+    }else{
+      setVisible(true);
     }
   }, [isFocused]);
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar setSearchValue={setSearchValue} searchValue={searchValue} />
-      {/* {gettingInfo && 
-      <View style={{ marginTop: "40%", justifyContent: "center" }}>
-        {/* <MyLoader/> 
-        {/* <ActivityIndicator size={"small"}/> 
-      </View>
-      } */}
       {authCTX.isAuthenticated ? (
         <MessagesLists
           data={data}
@@ -119,9 +106,10 @@ const MessageScreen = (props) => {
         />
       ) : (
         <View style={{ alignItems: "center", marginTop: "5%" }}>
-          <Text style={{ fontFamily: "Rubik-Medium", fontSize: 18 }}>
+          <UnAuthProfile props={props} visible={visible} setVisible={setVisible} />
+          {/* <Text style={{ fontFamily: "Rubik-Regular", fontSize: 14 }}>
             Please login with a performer or venue profile
-          </Text>
+          </Text> */}
         </View>
       )}
     </SafeAreaView>
