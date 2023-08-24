@@ -36,7 +36,10 @@ const SocialModalScreen = (props) => {
     setIsAuth(true);
     const header = props.route.params.profileType;
     const usernameURL = props.route.params.url + username;
-    const newSocial = profileCTX.social;
+    let newSocial = profileCTX.social;
+    if (newSocial == undefined){
+      newSocial = {};
+    }
     const type = props.route.params.profileType;
     newSocial[type] = { url: usernameURL, username: username };
     profileCTX.updateSocial(newSocial);

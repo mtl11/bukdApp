@@ -28,11 +28,11 @@ const VenueList = (props) => {
     }
   }
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    props.getPerformers(props.location);
-    setRefreshing(false);
-  }, []);
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   props.getPerformers(props.location);
+  //   setRefreshing(false);
+  // }, []);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   list: {
     marginHorizontal: "2.5%",
     marginTop: 10,
-    marginBottom: 300,
+    // marginBottom: 300,
     flexGrow:1
   },
   individualContainer: {

@@ -6,7 +6,8 @@ import {
   View,
   ActivityIndicator,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Button,
 } from "react-native";
 import VenueList from "../../components/search/VenueList";
 import global from "../../styles/global";
@@ -23,56 +24,112 @@ import { AuthContext } from "../../store/authContext";
 import CategorySelector from "../../components/search/CategorySelector";
 import PerformerCategorySelector from "../../components/search/PerformerCategorySelector";
 import PerformerList from "../../components/search/PerformerList";
+import { Ionicons } from "@expo/vector-icons";
+import FilterModal from "./FilterModal";
+import {
+  getPerformersListByLocation,
+  getVenueListByLocation,
+} from "../../util/search";
 const SearchScreen = (props) => {
-  const [location, setLocation] = useState("Tucson, AZ");
+  const [location, setLocation] = useState("All Locations");
   const [performerCategory, setPerformerCategory] = useState("All Categories");
   const [venueCategory, setVenueCategory] = useState("All Categories");
   const [venues, setVenues] = useState(null);
   const [performers, setPerformers] = useState(null);
   const [auth, setAuth] = useState(false);
   const [pt, setPT] = useState(null);
-
+  const [text, setText] = useState("Welcome To Bukd");
   const authCTX = useContext(AuthContext);
 
-  async function getVenues(location) {
-    const venues = await getVenueList(location);
-    if (venues != null) {
-      setVenues(Object.values(venues));
-    } else {
-      setVenues(venues);
+  async function getVenues() {
+    const venues = await getVenueList();
+    let cols = [];
+    for (const x in venues) {
+      cols = cols.concat(Object.values(venues[x]));
     }
-
-    // await getPerformers(location);
+    setPerformers(cols);
   }
 
-  async function getPerformers(location) {
-    const performers = await getPerformersList(location);
-    if (performers != null) {
-      setPerformers(Object.values(performers));
-    } else {
-      setPerformers(performers);
+  async function getPerformers() {
+    const performers = await getPerformersList();
+    let cols = [];
+    for (const x in performers) {
+      cols = cols.concat(Object.values(performers[x]));
     }
-    // await getVenues(location);
+    setPerformers(cols);
+  }
+
+  async function getVenuesByLocation(searchLocation) {
+    if (searchLocation) {
+      const venues = await getVenueListByLocation(searchLocation);
+      if (venues != null) {
+        setPerformers(Object.values(venues));
+      } else {
+        setPerformers(venues);
+      }
+    }
+  }
+
+  async function getPerformersByLocation(searchLocation) {
+    if (searchLocation) {
+      const performers = await getPerformersListByLocation(searchLocation);
+      if (performers != null) {
+        setPerformers(Object.values(performers));
+      } else {
+        setPerformers(performers);
+      }
+    }
   }
 
   async function profileType() {
     const localId = await AsyncStorage.getItem("localId");
-    
     if (!authCTX.isAuthenticated) {
-      getPerformers("Tucson, AZ");
-      getVenues("Tucson, AZ");
       authCTX.logout();
     } else {
       const profiletype = await getProfileInfo(localId);
       await AsyncStorage.setItem("profileType", profiletype.profileType);
-      getPerformers("Tucson, AZ");
-      getVenues("Tucson, AZ");
     }
+    getPerformers();
   }
 
   const [performersShow, setPerformersShow] = useState(true);
   const [venuesShow, setVenuesShow] = useState(false);
-  console.log(location);
+  const [filterModal, setFilterModal] = useState(false);
+  const [searchFor, setSearchFor] = useState("Performer");
+
+  useEffect(() => {
+    if (location.label == "All Locations") {
+      if (searchFor == "Performer") {
+        getPerformers();
+      }
+      if (searchFor == "Venue") {
+        getVenues();
+      }
+    } else {
+      if (searchFor == "Performer") {
+        getPerformersByLocation(location.label);
+      }
+      if (searchFor == "Venue") {
+        getVenuesByLocation(location.label);
+      }
+    }
+  }, [searchFor, location]);
+
+  useEffect(() => {
+    if (location.label == "All Locations" || location.label == undefined) {
+      if(performerCategory == "All Categories")
+      setText(performerCategory +" in All Locations");
+      else
+      setText(performerCategory + "s in All Locations");
+    }else{
+      
+      if(performerCategory == "All Categories")
+      setText(performerCategory + " in "+location.label);
+      else
+      setText(performerCategory + "s in "+location.label);
+    }
+  }, [searchFor, location, performerCategory]);
+
   useEffect(() => {
     setAuth(false);
     profileType();
@@ -82,84 +139,86 @@ const SearchScreen = (props) => {
     <SafeAreaView style={styles.container}>
       {auth ? (
         <View>
+          <View style={{ marginHorizontal: "5%", paddingVertical: 8 }}>
+            <Text style={styles.titleText}>{text}</Text>
+          </View>
           <View style={styles.topContainer}>
-            {venuesShow == false ? (
-              <SearchDropDown
-                setValue={setLocation}
-                placeholder={"Tucson, AZ"}
-                data={locations}
-                icon={"ios-location-outline"}
-                getPerformers={getPerformers}
-                getVenues={getVenues}
-              />
-            ) : (
-              <SearchDropDown
-                setValue={setLocation}
-                placeholder={"Tucson, AZ"}
-                data={locations}
-                icon={"ios-location-outline"}
-                getPerformers={getPerformers}
-                getVenues={getVenues}
-              />
-            )}
-            {venuesShow == false ?
-              <PerformerCategorySelector data={profileCategoriesArtist} setValue={setPerformerCategory} value={performerCategory} /> :
-              <CategorySelector data={profileCategoriesVenue} setValue={setVenueCategory} value={venueCategory} />}
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              width: "90%",
-              alignSelf: "center"
-            }}
-          >
             <TouchableOpacity
-              style={styles.tabContainer}
-              onPress={() => {
-                setPerformersShow(true);
-                setVenuesShow(false);
-
+              style={{
+                borderBottomLeftRadius: 12,
+                borderTopLeftRadius: 12,
+                marginLeft: "5%",
+                backgroundColor: global.color.secondaryColors.adjacent,
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: "2.5%",
+                width: "75%",
               }}
             >
-              <View style={{ flexDirection: "column" }}>
-                <View style={styles.tabTextContainer}>
-                  <Text style={[styles.tabText, performersShow && { color: "black" }]}>Performers</Text>
-                </View>
-                {performersShow && (
-                  <View style={styles.tabBottomBar}></View>
-                )}
-              </View>
+              <Ionicons
+                name="search"
+                size={20}
+                color="black"
+                style={{ opacity: 0.6 }}
+              />
+              <Text
+                style={{
+                  padding: 14,
+                  fontSize: 16,
+                  fontFamily: "Rubik-Regular",
+                  color: global.color.secondaryColors.text,
+                  opacity: 0.6,
+                }}
+              >
+                {searchFor} Search
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.tabContainer}
+              style={{
+                borderTopRightRadius: 12,
+                borderBottomRightRadius: 12,
+                backgroundColor: global.color.secondaryColors.adjacent,
+                width: "15%",
+                justifyContent: "center",
+              }}
               onPress={() => {
-                setPerformersShow(false);
-                setVenuesShow(true);
-
+                setFilterModal(!filterModal);
               }}
             >
-              <View style={{ flexDirection: "column" }}>
-                <View style={styles.tabTextContainer}>
-                  <Text style={[styles.tabText, venuesShow && { color: "black" }]}>Venues</Text>
-                </View>
-                {venuesShow && (
-                  <View style={styles.tabBottomBar}></View>
-                )}
+              <View
+                style={{
+                  alignItems: "center",
+                }}
+              >
+                <Ionicons
+                  name="ios-filter-outline"
+                  size={24}
+                  color={global.color.primaryColors.main}
+                />
               </View>
             </TouchableOpacity>
           </View>
-          {venuesShow == false ? (
-            <PerformerList venues={performers} category={performerCategory} props={props}  getPerformers={getPerformers} location={location}/>
-          ) : (
-            <VenueList venues={venues} category={venueCategory} props={props}  getVenues={getVenues} location={location}/>
-          )}
+
+          <PerformerList
+            venues={performers}
+            category={performerCategory}
+            props={props}
+            getPerformers={getPerformers}
+            location={location}
+          />
         </View>
       ) : (
         <View style={{ height: "100%", justifyContent: "center" }}>
           <ActivityIndicator size={"large"} />
         </View>
       )}
+      <FilterModal
+        visible={filterModal}
+        setVisible={setFilterModal}
+        setSearchFor={setSearchFor}
+        setCategory={setPerformerCategory}
+        setLocation={setLocation}
+      />
     </SafeAreaView>
   );
 };
@@ -183,10 +242,15 @@ const styles = StyleSheet.create({
     padding: 20,
     fontFamily: "Rubik-Regular",
   },
+  titleText: {
+    fontFamily: "Rubik-Regular",
+    fontSize: 20,
+  },
   topContainer: {
     width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: "row",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   container: {
     backgroundColor: "#FCFCFF",

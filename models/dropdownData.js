@@ -3,29 +3,49 @@ export const profileCategoriesArtist = [
   { label: "Band", value: "1" },
   { label: "Cover Band", value: "2" },
   { label: "DJ", value: "3" },
+  { label: "Instrumental", value: "9" },
+  { label: "Rapper", value: "6" },
   { label: "Singer", value: "4" },
- 
+  { label: "Solo Artist", value: "5" },
+  { label: "Traditional", value: "7" },
+  { label: "Undefinable", value: "8" },
 ];
 
 export const profileCategoriesVenue = [
   { label: "All Categories", value: "0" },
   { label: "Bar", value: "1" },
   { label: "Brewery", value: "4" },
+  { label: "Cafes", value: "5" },
+  { label: "Community Space", value: "8" },
   { label: "Night Club", value: "3" },
+  { label: "Festival", value: "6" },
   { label: "Restaurant", value: "2" },
+  { label: "School/University", value: "9" },
+  { label: "Theater", value: "7" },
 ];
 
 export const profileCategoriesArtistEdit = [
-  { label: "Band", value: "0" },
+  { label: "Band", value: "1" },
   { label: "Cover Band", value: "2" },
-  { label: "DJ", value: "1" },
-  { label: "Singer", value: "3" },
+  { label: "DJ", value: "3" },
+  { label: "Instrumental", value: "9" },
+  { label: "Rapper", value: "6" },
+  { label: "Singer", value: "4" },
+  { label: "Solo Artist", value: "5" },
+  { label: "Traditional", value: "7" },
+  { label: "Undefinable", value: "8" },
 ];
 
 export const profileCategoriesVenueEdit = [
-  { label: "Bar", value: "0" },
-  { label: "Club", value: "1" },
-  { label: "Night Club", value: "2" },
+  { label: "Bar", value: "1" },
+  { label: "Brewery", value: "4" },
+  { label: "Cafes", value: "5" },
+  { label: "Community Space", value: "8" },
+  { label: "Night Club", value: "3" },
+  { label: "Festival", value: "6" },
+  { label: "Restaurant", value: "2" },
+  { label: "Schools/University", value: "9" },
+  { label: "Theater", value: "7" },
 ];
 
 export const locations = [
@@ -41,16 +61,46 @@ export const locations = [
   { label: "Orange, CA", value: "10" },
   { label: "Newport Beach, CA", value: "11" },
   { label: "Santa Ana, CA", value: "12" },
-  
 ];
-
+export const locationsDropDown = [
+  {label: "All Locations", value: "0"},
+  { label: "Flagstaff, AZ", value: "1" },
+  { label: "Phoenix, AZ", value: "2" },
+  { label: "Prescott, AZ", value: "3" },
+  { label: "Scottsdale, AZ", value: "4" },
+  { label: "Tempe, AZ", value: "5" },
+  { label: "Tucson, AZ", value: "6" },
+  { label: "Anaheim, CA", value: "7" },
+  { label: "Huntington Beach, CA", value: "8" },
+  { label: "Irvine, CA", value: "9" },
+  { label: "Orange, CA", value: "10" },
+  { label: "Newport Beach, CA", value: "11" },
+  { label: "Santa Ana, CA", value: "12" },
+];
 export const subCategories = [
-  { label: "Alternative", value: "1" },
-  { label: "Alt Rock", value: "2" },
-  { label: "Dubstep", value: "3" },
-  { label: "EDM", value: "4" },
-  { label: "House", value: "5" },
-  { label: "Indie", value: "6" },
-  { label: "Rock", value: "7" },
-  { label: "Techno", value: "8" },
+  { label: "Alternative", value: "25" },
+  { label: "Blues", value: "11" },
+  { label: "Classical", value: "9" },
+  { label: "Country", value: "6" },
+  { label: "Dance", value: "16" },
+  { label: "Electronic", value: "4" },
+  { label: "Folk", value: "12" },
+  { label: "Funk", value: "19" },
+  { label: "Gospel", value: "17" },
+  { label: "Hip-Hop/Rap", value: "3" },
+  { label: "House", value: "21" },
+  { label: "Indie", value: "13" },
+  { label: "Jazz", value: "10" },
+  { label: "K-Pop", value: "23" },
+  { label: "Latin", value: "7" },
+  { label: "Metal", value: "14" },
+  { label: "Pop", value: "1" },
+  { label: "Punk", value: "15" },
+  { label: "R&B", value: "5" },
+  { label: "Reggae", value: "8" },
+  { label: "Reggaeton", value: "20" },
+  { label: "Rock", value: "2" },
+  { label: "Soul", value: "18" },
+  { label: "Techno", value: "22" },
+  { label: "Trap", value: "24" },
 ];

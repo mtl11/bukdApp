@@ -5,23 +5,15 @@ import { Ionicons } from "@expo/vector-icons";
 import global from "../../styles/global";
 
 const SearchDropDown = (props) => {
-  const [value, setValue] = useState("Tucson, AZ");
+  const [value, setValue] = useState(props.location);
   const renderItem = (item) => {
-    // if (item.label == "Tuscon, AZ") {
+    
     return (
       <View style={styles.item}>
         <Text style={styles.textItem}>{item.label}</Text>
       </View>
     );
-    // } else {
-    //   return (
-    //     <View style={[styles.item, { flexDirection: "row", justifyContent: "space-between" }]}>
-    //       <Text style={[styles.textItem, { color: global.color.primaryColors.background }]}>{item.label}</Text>
-    //       <Text style={[styles.textItem, { color: global.color.primaryColors.background }]}>{"Coming Soon"}</Text>
-    //     </View>
-    //   );
-    // }
-
+    
   };
   const [pressed, setPressed] = useState(false);
   return (
@@ -43,7 +35,6 @@ const SearchDropDown = (props) => {
           />
         );
       }}
-
       renderRightIcon={() => {
         if (pressed == false) {
           return (
@@ -64,9 +55,11 @@ const SearchDropDown = (props) => {
         }
       }}
       onFocus={() => {
-        setPressed(true)
+        setPressed(true);
       }}
-      onBlur={() => { setPressed(false) }}
+      onBlur={() => {
+        setPressed(false);
+      }}
       autoScroll={false}
       data={props.data}
       search
@@ -79,17 +72,9 @@ const SearchDropDown = (props) => {
       value={value}
       containerStyle={styles.dropContainer}
       onChange={(item) => {
-        props.setValue(item.label);
-        setValue(item.value);
-        if (props.hasOwnProperty("getVenues")){
-          props.getVenues(item.label);
-          props.getPerformers(item.label);
-        }else{
-          console.log(item.label);
-          props.blur(item.label);
-        }
-       
-       
+        // console.log(item);
+        props.setValue(item);
+        setValue(item);
       }}
     />
   );
@@ -102,7 +87,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   item: {
-    backgroundColor: global.color.secondaryColors.adjacent
+    backgroundColor: global.color.secondaryColors.adjacent,
   },
   textItem: {
     color: "black",

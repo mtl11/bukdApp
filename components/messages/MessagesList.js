@@ -9,11 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const MessagesLists = (props) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
-    // setRefreshing(true);
     props.refreshData();
-    // setTimeout(() => {
-    // setRefreshing(false);
-    // }, 1000);
   }, []);
   const formatter = new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',

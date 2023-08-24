@@ -20,7 +20,7 @@ const VenueSection = (props) => {
                 style={{
                     opacity: profileCTX.shows.length >=3 && .5,
                     alignItems: "center",
-                    padding: 16,
+                    padding: 12,
                     marginHorizontal: "8%",
                     backgroundColor: global.color.secondaryColors.main,
                     borderRadius: 12,
