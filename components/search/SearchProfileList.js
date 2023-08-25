@@ -6,13 +6,12 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  Keyboard
+  Keyboard,
 } from "react-native";
 import global from "../../styles/global";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const SearchProfileList = (props) => {
-    
   async function check(uuid) {
     const localId = await AsyncStorage.getItem("localId");
     if (uuid == localId) {
@@ -21,7 +20,6 @@ const SearchProfileList = (props) => {
       AsyncStorage.setItem("searchID", uuid);
       props.props.navigation.navigate("SearchArtistProfile");
     }
-   
   }
   const renderItem = (index) => {
     const item = index.item;
@@ -29,10 +27,10 @@ const SearchProfileList = (props) => {
       <View>
         <TouchableOpacity
           style={{ padding: 12, flexDirection: "row", alignItems: "center" }}
-            onPress={()=>{
-                Keyboard.dismiss();
-                check(item.uuid);
-            }}
+          onPress={() => {
+            check(item.uuid);
+            // Keyboard.dismiss();
+          }}
         >
           <Image
             source={{ uri: item.profilePicURL }}

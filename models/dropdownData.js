@@ -16,12 +16,13 @@ export const profileCategoriesVenue = [
   { label: "Bar", value: "1" },
   { label: "Brewery", value: "4" },
   { label: "Cafes", value: "5" },
-  { label: "Community Space", value: "8" },
+  
   { label: "Night Club", value: "3" },
   { label: "Festival", value: "6" },
   { label: "Restaurant", value: "2" },
-  { label: "School/University", value: "9" },
   { label: "Theater", value: "7" },
+  { label: "Community Space", value: "8" },
+  { label: "School/University", value: "9" },
 ];
 
 export const profileCategoriesArtistEdit = [

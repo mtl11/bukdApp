@@ -17,6 +17,7 @@ import {
   profileCategoriesArtist,
   locationsDropDown,
 } from "../../models/dropdownData";
+import { color } from "react-native-elements/dist/helpers";
 
 const FilterModal = (props) => {
   const [selectedExp, setSelectedExp] = useState("Performer");
@@ -32,7 +33,7 @@ const FilterModal = (props) => {
   }
   const [performerCategory, setPerformerCategory] = useState("All Categories");
   const [venueCategory, setVenueCategory] = useState("All Categories");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState(props.location);
 
   return (
     <Modal visible={props.visible}>
@@ -48,12 +49,18 @@ const FilterModal = (props) => {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <TouchableOpacity
-              style={{ marginHorizontal: 30 }}
+              style={{ marginHorizontal: 16 }}
               onPress={() => {
                 props.setVisible(false);
               }}
             >
-              <Text style={{ fontSize: 16, fontFamily: "Rubik-Medium" }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: "Rubik-Medium",
+                  color: global.color.secondaryColors.main,
+                }}
+              >
                 Cancel
               </Text>
             </TouchableOpacity>
@@ -174,7 +181,7 @@ const FilterModal = (props) => {
                 fontSize: 18,
               }}
             >
-              Save Changes
+              Apply Filters
             </Text>
           </TouchableOpacity>
         </View>
@@ -201,7 +208,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-    minWidth: 75,
+    minWidth: 125,
     alignItems: "center",
   },
   buttonText: {

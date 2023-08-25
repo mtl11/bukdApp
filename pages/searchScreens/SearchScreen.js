@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   Button,
+  Keyboard,
 } from "react-native";
 import VenueList from "../../components/search/VenueList";
 import global from "../../styles/global";
@@ -33,13 +34,13 @@ import {
 } from "../../util/search";
 import SearchProfileList from "../../components/search/SearchProfileList";
 const SearchScreen = (props) => {
-  const [location, setLocation] = useState("All Locations");
+  const [location, setLocation] = useState({
+    label: "All Locations",
+    value: "0",
+  });
   const [performerCategory, setPerformerCategory] = useState("All Categories");
-  const [venueCategory, setVenueCategory] = useState("All Categories");
-  const [venues, setVenues] = useState(null);
   const [performers, setPerformers] = useState(null);
   const [auth, setAuth] = useState(false);
-  const [pt, setPT] = useState(null);
   const [text, setText] = useState("Welcome To Bukd");
   const [data, setData] = useState([]);
   const authCTX = useContext(AuthContext);
@@ -51,6 +52,7 @@ const SearchScreen = (props) => {
       cols = cols.concat(Object.values(venues[x]));
     }
     setPerformers(cols);
+    setData(cols);
   }
 
   async function getPerformers() {
@@ -95,9 +97,6 @@ const SearchScreen = (props) => {
     }
     getPerformers();
   }
-
-  const [performersShow, setPerformersShow] = useState(true);
-  const [venuesShow, setVenuesShow] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
   const [searchFor, setSearchFor] = useState("Performer");
 
@@ -143,23 +142,43 @@ const SearchScreen = (props) => {
     <SafeAreaView style={styles.container}>
       {auth ? (
         <View>
-          <View style={{ marginHorizontal: "5%", paddingBottom: 5 }}>
-            <Text style={styles.titleText}>{text}</Text>
-          </View>
+          {showSearchList ? (
+            <TouchableOpacity
+              onPress={() => {
+                setShowSearchList(false);
+                Keyboard.dismiss();
+              }}
+            >
+              <Text
+                style={{
+                  paddingHorizontal: 16,
+                  paddingBottom: 5,
+                  fontFamily: "Rubik-Medium",
+                  fontSize: 18,
+                  color: global.color.secondaryColors.main,
+                }}
+              >
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={{ marginHorizontal: "5%", paddingBottom: 5 }}>
+              <Text style={styles.titleText}>{text}</Text>
+            </View>
+          )}
           <View style={styles.topContainer}>
             <SearchBar
-            autoCorrect={false}
-            
+              autoCorrect={false}
               onFocus={() => {
                 setShowSearchList(true);
               }}
               onBlur={() => {
-                setShowSearchList(false);
+                // setShowSearchList(false);
               }}
               onChangeText={setSearchValue}
               value={searchValue}
               containerStyle={{
-                width: "80%",
+                width: !showSearchList ? "80%" : "93%",
                 marginLeft: "3%",
                 padding: 0,
                 borderBottomWidth: 0,
@@ -169,8 +188,7 @@ const SearchScreen = (props) => {
               inputContainerStyle={{
                 backgroundColor: global.color.secondaryColors.adjacent,
                 borderColor: "blue",
-                borderBottomLeftRadius: 12,
-                borderTopLeftRadius: 12,
+                borderRadius: 12,
               }}
               inputStyle={{
                 fontSize: 16,
@@ -179,11 +197,12 @@ const SearchScreen = (props) => {
               }}
               placeholder={"Search " + searchFor + "s"}
             />
+            {!showSearchList &&
             <TouchableOpacity
               style={{
                 borderTopRightRadius: 12,
                 borderBottomRightRadius: 12,
-                backgroundColor: global.color.secondaryColors.adjacent,
+                // backgroundColor: global.color.secondaryColors.adjacent,
                 width: "15%",
                 justifyContent: "center",
               }}
@@ -203,9 +222,15 @@ const SearchScreen = (props) => {
                 />
               </View>
             </TouchableOpacity>
+            }
           </View>
           {showSearchList && (
-            <SearchProfileList data={data} searchValue={searchValue} props={props} setShowSearchList={setShowSearchList}/>
+            <SearchProfileList
+              data={data}
+              searchValue={searchValue}
+              props={props}
+              setShowSearchList={setShowSearchList}
+            />
           )}
           <PerformerList
             venues={performers}
@@ -226,6 +251,7 @@ const SearchScreen = (props) => {
         setSearchFor={setSearchFor}
         setCategory={setPerformerCategory}
         setLocation={setLocation}
+        location={location}
       />
     </SafeAreaView>
   );

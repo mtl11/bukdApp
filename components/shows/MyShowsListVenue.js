@@ -103,6 +103,17 @@ const MyShowsListVenue = (props) => {
                     refreshing={refreshing} onRefresh={onRefresh}
                 />
             }
+            ListEmptyComponent={<View style={{ marginTop: "40%" }}>
+            <Text
+              style={{
+                fontSize: 16,
+                textAlign: "center",
+                fontFamily: "Rubik-Regular",
+              }}
+            >
+              No posted shows available
+            </Text>
+          </View>}
         />
     )
 }
