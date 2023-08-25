@@ -13,7 +13,6 @@ const SearchDropDown = (props) => {
         <Text style={styles.textItem}>{item.label}</Text>
       </View>
     );
-    
   };
   const [pressed, setPressed] = useState(false);
   return (

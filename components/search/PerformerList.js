@@ -19,7 +19,6 @@ const VenueList = (props) => {
   const authCTX = useContext(AuthContext);
   async function check(uuid) {
     const localId = await AsyncStorage.getItem("localId");
-    (localId);
     if (uuid == localId) {
       props.props.navigation.navigate("ProfileScreen", { search: true });
     } else {
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
   list: {
     marginHorizontal: "2.5%",
     marginTop: 10,
-    // marginBottom: 300,
+    marginBottom: 150,
     flexGrow:1
   },
   individualContainer: {

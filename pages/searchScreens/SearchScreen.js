@@ -26,10 +26,12 @@ import PerformerCategorySelector from "../../components/search/PerformerCategory
 import PerformerList from "../../components/search/PerformerList";
 import { Ionicons } from "@expo/vector-icons";
 import FilterModal from "./FilterModal";
+import { SearchBar } from "react-native-elements";
 import {
   getPerformersListByLocation,
   getVenueListByLocation,
 } from "../../util/search";
+import SearchProfileList from "../../components/search/SearchProfileList";
 const SearchScreen = (props) => {
   const [location, setLocation] = useState("All Locations");
   const [performerCategory, setPerformerCategory] = useState("All Categories");
@@ -39,6 +41,7 @@ const SearchScreen = (props) => {
   const [auth, setAuth] = useState(false);
   const [pt, setPT] = useState(null);
   const [text, setText] = useState("Welcome To Bukd");
+  const [data, setData] = useState([]);
   const authCTX = useContext(AuthContext);
 
   async function getVenues() {
@@ -57,6 +60,7 @@ const SearchScreen = (props) => {
       cols = cols.concat(Object.values(performers[x]));
     }
     setPerformers(cols);
+    setData(cols);
   }
 
   async function getVenuesByLocation(searchLocation) {
@@ -117,16 +121,13 @@ const SearchScreen = (props) => {
 
   useEffect(() => {
     if (location.label == "All Locations" || location.label == undefined) {
-      if(performerCategory == "All Categories")
-      setText(performerCategory +" in All Locations");
-      else
-      setText(performerCategory + "s in All Locations");
-    }else{
-      
-      if(performerCategory == "All Categories")
-      setText(performerCategory + " in "+location.label);
-      else
-      setText(performerCategory + "s in "+location.label);
+      if (performerCategory == "All Categories")
+        setText(performerCategory + " in All Locations");
+      else setText(performerCategory + "s in All Locations");
+    } else {
+      if (performerCategory == "All Categories")
+        setText(performerCategory + " in " + location.label);
+      else setText(performerCategory + "s in " + location.label);
     }
   }, [searchFor, location, performerCategory]);
 
@@ -135,44 +136,49 @@ const SearchScreen = (props) => {
     profileType();
     setAuth(true);
   }, [authCTX.isAuthenticated]);
+
+  const [searchValue, setSearchValue] = useState("");
+  const [showSearchList, setShowSearchList] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
       {auth ? (
         <View>
-          <View style={{ marginHorizontal: "5%", paddingVertical: 8 }}>
+          <View style={{ marginHorizontal: "5%", paddingBottom: 5 }}>
             <Text style={styles.titleText}>{text}</Text>
           </View>
           <View style={styles.topContainer}>
-            <TouchableOpacity
-              style={{
+            <SearchBar
+            autoCorrect={false}
+            
+              onFocus={() => {
+                setShowSearchList(true);
+              }}
+              onBlur={() => {
+                setShowSearchList(false);
+              }}
+              onChangeText={setSearchValue}
+              value={searchValue}
+              containerStyle={{
+                width: "80%",
+                marginLeft: "3%",
+                padding: 0,
+                borderBottomWidth: 0,
+                borderTopWidth: 0,
+                backgroundColor: global.color.secondaryColors.background,
+              }}
+              inputContainerStyle={{
+                backgroundColor: global.color.secondaryColors.adjacent,
+                borderColor: "blue",
                 borderBottomLeftRadius: 12,
                 borderTopLeftRadius: 12,
-                marginLeft: "5%",
-                backgroundColor: global.color.secondaryColors.adjacent,
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: "2.5%",
-                width: "75%",
               }}
-            >
-              <Ionicons
-                name="search"
-                size={20}
-                color="black"
-                style={{ opacity: 0.6 }}
-              />
-              <Text
-                style={{
-                  padding: 14,
-                  fontSize: 16,
-                  fontFamily: "Rubik-Regular",
-                  color: global.color.secondaryColors.text,
-                  opacity: 0.6,
-                }}
-              >
-                {searchFor} Search
-              </Text>
-            </TouchableOpacity>
+              inputStyle={{
+                fontSize: 16,
+                color: global.color.secondaryColors.text,
+                fontFamily: "Rubik-Regular",
+              }}
+              placeholder={"Search " + searchFor + "s"}
+            />
             <TouchableOpacity
               style={{
                 borderTopRightRadius: 12,
@@ -198,7 +204,9 @@ const SearchScreen = (props) => {
               </View>
             </TouchableOpacity>
           </View>
-
+          {showSearchList && (
+            <SearchProfileList data={data} searchValue={searchValue} props={props} setShowSearchList={setShowSearchList}/>
+          )}
           <PerformerList
             venues={performers}
             category={performerCategory}
@@ -244,7 +252,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontFamily: "Rubik-Regular",
-    fontSize: 20,
+    fontSize: 18,
   },
   topContainer: {
     width: "100%",
