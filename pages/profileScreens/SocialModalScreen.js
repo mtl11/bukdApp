@@ -8,7 +8,8 @@ import {
   Text,
   TextInput,
   ActivityIndicator,
-  Keyboard, TouchableWithoutFeedback
+  Keyboard, TouchableWithoutFeedback,
+  Alert
 } from "react-native";
 import colors from "../../styles/global";
 import { SocialLinks } from "social-links";
@@ -30,6 +31,16 @@ const SocialModalScreen = (props) => {
   const [username, setUsername] = useState(props.route.params.username);
   const [valid, setValid] = useState(false);
 
+  const confirmation = () => {
+    Alert.alert("Success!", "", [
+      {
+        text: "OK",
+        onPress: () => props.navigation.pop(),
+        style: "default",
+      },
+    ]);
+  };
+
   async function updateSocial() {
     const localId = await AsyncStorage.getItem("localId");
     const accessToken = await getAccessToken();
@@ -46,7 +57,8 @@ const SocialModalScreen = (props) => {
 
     await setSocial(header, usernameURL, localId, username, accessToken);
     setIsAuth(false);
-    props.navigation.pop();
+    confirmation();
+    // props.navigation.pop();
   }
   const dismissKeyboard = () => {
     Keyboard.dismiss();
