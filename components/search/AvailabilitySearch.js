@@ -19,8 +19,6 @@ const AvailabilitySearch = (props) => {
   //   }
   // };
 
-
-
   const getHour = (time) => {
     if (time == "after") {
       return "Afternoon";
@@ -67,7 +65,7 @@ const AvailabilitySearch = (props) => {
       if (props.availability.hasOwnProperty("times")) {
         const entries = Object.entries(props.availability.times);
         for (const entry in entries) {
-          unSortedArray.push(entries[entry][0])
+          unSortedArray.push(entries[entry][0]);
         }
       }
       const sortedDays = unSortedArray.sort((a, b) => {
@@ -80,7 +78,6 @@ const AvailabilitySearch = (props) => {
         return order[a] - order[b];
       });
       // (sortedDays);
-
 
       for (const x in sortedDays) {
         const item = (
@@ -111,9 +108,11 @@ const AvailabilitySearch = (props) => {
     if (props.availability != null) {
       const unSortedArray = [];
       if (props.availability.hasOwnProperty("dow")) {
-        const entries = Object.entries(props.availability.dow);
-        for (const entry in entries) {
-          unSortedArray.push(entries[entry][0])
+        if (props.availability.dow != null) {
+          const entries = Object.entries(props.availability.dow);
+          for (const entry in entries) {
+            unSortedArray.push(entries[entry][0]);
+          }
         }
       }
       const sortedDays = unSortedArray.sort((a, b) => {
@@ -124,7 +123,7 @@ const AvailabilitySearch = (props) => {
           thu: 4,
           fri: 5,
           sat: 6,
-          sun: 7
+          sun: 7,
         };
         return order[a] - order[b];
       });
@@ -132,7 +131,9 @@ const AvailabilitySearch = (props) => {
       for (const x in sortedDays) {
         const item = (
           <View key={x}>
-            <Text style={[styles.bigText, { marginTop: "5%" }]}>{getDow(sortedDays[x])}</Text>
+            <Text style={[styles.bigText, { marginTop: "5%" }]}>
+              {getDow(sortedDays[x])}
+            </Text>
           </View>
         );
         array.push(item);
@@ -151,30 +152,25 @@ const AvailabilitySearch = (props) => {
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 250}}>
+    <ScrollView
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 250 }}
+    >
       <View style={styles.singleContainer}>
         <View style={styles.headerContainer}>
-          <Ionicons
-            name="ios-calendar-outline"
-            size={24}
-            color={"black"}
-          />
+          <Ionicons name="ios-calendar-outline" size={24} color={"black"} />
           <Text style={styles.headerText}>Preferred Days</Text>
         </View>
         <View style={styles.boxContainer}>{dow()}</View>
       </View>
       <View style={[styles.singleContainer, { marginBottom: "8%" }]}>
         <View style={styles.headerContainer}>
-          <Ionicons
-            name="ios-alarm-outline"
-            size={24}
-            color={"black"}
-          />
+          <Ionicons name="ios-alarm-outline" size={24} color={"black"} />
           <Text style={styles.headerText}>Preferred Time</Text>
         </View>
         <View style={styles.boxContainer}>{time()}</View>
       </View>
-
     </ScrollView>
   );
 };
@@ -194,7 +190,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     marginHorizontal: "8%",
-
   },
   headerContainer: {
     flexDirection: "row",
@@ -231,6 +226,6 @@ const styles = StyleSheet.create({
     fontFamily: "Rubik-Regular",
     fontSize: 16,
     color: global.color.secondaryColors.text,
-  }
+  },
 });
 export default AvailabilitySearch;

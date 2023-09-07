@@ -70,10 +70,13 @@ const AvailabilityProfileArtist = () => {
     const array = [];
     const unSortedArray = [];
     if (profileCTX.availabilty.hasOwnProperty("times")) {
+      // if ()
+      if (profileCTX.availabilty.times != null) {
       const entries = Object.entries(profileCTX.availabilty.times);
       for (const entry in entries) {
-        unSortedArray.push(entries[entry][0])
+        unSortedArray.push(entries[entry][0]);
       }
+    }
     }
     const sortedDays = unSortedArray.sort((a, b) => {
       const order = {
@@ -106,17 +109,17 @@ const AvailabilityProfileArtist = () => {
       );
     }
     return array;
-
-
   };
 
   const dow = () => {
     const array = [];
     const unSortedArray = [];
     if (profileCTX.availabilty.hasOwnProperty("dow")) {
-      const entries = Object.entries(profileCTX.availabilty.dow);
-      for (const entry in entries) {
-        unSortedArray.push(entries[entry][0])
+      if (profileCTX.availabilty.dow != null) {
+        const entries = Object.entries(profileCTX.availabilty.dow);
+        for (const entry in entries) {
+          unSortedArray.push(entries[entry][0]);
+        }
       }
     }
     const sortedDays = unSortedArray.sort((a, b) => {
@@ -127,7 +130,7 @@ const AvailabilityProfileArtist = () => {
         thu: 4,
         fri: 5,
         sat: 6,
-        sun: 7
+        sun: 7,
       };
       return order[a] - order[b];
     });
@@ -135,7 +138,9 @@ const AvailabilityProfileArtist = () => {
     for (const x in sortedDays) {
       const item = (
         <View key={x}>
-          <Text style={[styles.bigText, { marginTop: "5%" }]}>{getDow(sortedDays[x])}</Text>
+          <Text style={[styles.bigText, { marginTop: "5%" }]}>
+            {getDow(sortedDays[x])}
+          </Text>
         </View>
       );
       array.push(item);
@@ -151,25 +156,20 @@ const AvailabilityProfileArtist = () => {
   };
 
   return (
-    <ScrollView style={[styles.container,{marginBottom:0}]} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={[styles.container, { marginBottom: 0 }]}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.singleContainer}>
         <View style={styles.headerContainer}>
-          <Ionicons
-            name="ios-calendar-outline"
-            size={24}
-            color={"black"}
-          />
+          <Ionicons name="ios-calendar-outline" size={24} color={"black"} />
           <Text style={styles.headerText}>Preferred Days</Text>
         </View>
         <View style={styles.boxContainer}>{dow()}</View>
       </View>
       <View style={[styles.singleContainer, { marginBottom: "8%" }]}>
         <View style={styles.headerContainer}>
-          <Ionicons
-            name="ios-alarm-outline"
-            size={24}
-            color={"black"}
-          />
+          <Ionicons name="ios-alarm-outline" size={24} color={"black"} />
 
           <Text style={styles.headerText}>Preferred Time</Text>
         </View>
