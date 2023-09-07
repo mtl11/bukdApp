@@ -145,7 +145,7 @@ const ProfileSettingsScreen = (props) => {
         />
       </TouchableOpacity>
       <View style={styles.infoContainer}>
-        <Text style={styles.smallerText}>Bukd v1.0.0</Text>
+        <Text style={styles.smallerText}>bukd 1.0.3</Text>
         <View style={styles.copyrightContainer}>
           <FontAwesome5
             name="copyright"
@@ -155,7 +155,7 @@ const ProfileSettingsScreen = (props) => {
           <Text
             style={[styles.smallerText, { paddingBottom: 10, paddingLeft: 5 }]}
           >
-            2023 Bukd App LLC
+            2023 bukd LLC
           </Text>
         </View>
       </View>
